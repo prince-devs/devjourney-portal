@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dev Journey — Python Training Portal</title>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --green:       #1b4d3e;
+  --green-mid:   #2d7a5f;
+  --green-pale:  #eaf5f0;
+  --green-border:#b2dece;
+  --text:        #1a1a1a;
+  --text-2:      #6b7280;
+  --text-3:      #9ca3af;
+  --border:      #e5e7eb;
+  --bg:          #f7f8f9;
+  --white:       #ffffff;
+  --danger:      #dc2626;
+  --danger-bg:   #fef2f2;
+  --danger-bd:   #fecaca;
+  --amber:       #b45309;
+  --amber-bg:    #fffbeb;
+  --amber-bd:    #fde68a;
+  --radius:      12px;
+  --radius-sm:   8px;
+  --shadow:      0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px; color: var(--text); background: var(--bg);
+  min-height: 100vh; line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+#root { max-width: 700px; margin: 0 auto; padding: 1rem; min-height: 100vh; }
+
+/* ===== TYPOGRAPHY ===== */
+h1 { font-size: 22px; font-weight: 600; }
+h2 { font-size: 18px; font-weight: 500; }
+h3 { font-size: 16px; font-weight: 500; }
+
+/* ===== FORMS ===== */
+label { display: block; font-size: 13px; color: var(--text-2); margin-bottom: 5px; font-weight: 500; }
+input, textarea, select {
+  width: 100%; padding: 10px 14px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 14px; color: var(--text);
+  background: var(--white); outline: none; transition: border-color .15s;
+}
+input:focus, textarea:focus { border-color: var(--green-mid); box-shadow: 0 0 0 3px rgba(45,122,95,.1); }
+textarea { resize: vertical; }
+.form-group { margin-bottom: 1rem; }
+.error-msg { color: var(--danger); font-size: 13px; margin-top: 8px; display:none; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 9px 18px; border-radius: var(--radius-sm); border: none;
+  font-family: inherit; font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: all .15s; text-decoration: none;
+}
+.btn-primary { background: var(--green); color: white; }
+.btn-primary:hover { background: var(--green-mid); }
+.btn-outline { background: white; color: var(--text); border: 1px solid var(--border); }
+.btn-outline:hover { border-color: var(--green-mid); color: var(--green); }
+.btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-bd); }
+.btn-danger:hover { background: var(--danger-bd); }
+.btn-sm { padding: 6px 12px; font-size: 13px; }
+.btn-full { width: 100%; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow);
+}
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex; border-bottom: 1px solid var(--border);
+  margin-bottom: 1.25rem; overflow-x: auto;
+  scrollbar-width: none; -ms-overflow-style: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  padding: 10px 16px; font-size: 14px; color: var(--text-2);
+  border: none; border-bottom: 2px solid transparent;
+  background: none; cursor: pointer; font-family: inherit;
+  white-space: nowrap; transition: all .15s; flex-shrink: 0;
+}
+.tab.active { color: var(--green); border-bottom-color: var(--green); font-weight: 500; }
+.tab:hover:not(.active) { color: var(--text); }
+
+/* ===== HEADER ===== */
+.portal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 0 1.25rem; border-bottom: 1px solid var(--border);
+  margin-bottom: 1.25rem;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark {
+  width: 38px; height: 38px; background: var(--green);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 13px; font-weight: 700;
+  font-family: 'DM Mono', monospace; flex-shrink: 0;
+}
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--green); color: white;
+  padding: 10px 22px; border-radius: 22px;
+  font-size: 14px; font-weight: 500; z-index: 999;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  white-space: nowrap; pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.error { background: var(--danger); }
+
+/* ===== AUTH ===== */
+.auth-wrap { max-width: 420px; margin: 2.5rem auto; }
+.auth-logo { text-align: center; margin-bottom: 2rem; }
+.auth-logo .logo { justify-content: center; margin-bottom: .75rem; }
+.auth-toggle {
+  display: flex; background: var(--bg); border-radius: var(--radius-sm);
+  padding: 4px; margin-bottom: 1.5rem;
+}
+.auth-toggle button {
+  flex: 1; padding: 8px; border: none; background: none;
+  border-radius: 6px; font-family: inherit; font-size: 14px;
+  cursor: pointer; color: var(--text-2); transition: all .15s;
+}
+.auth-toggle button.active {
+  background: white; color: var(--text); font-weight: 500;
+  box-shadow: var(--shadow);
+}
+
+/* ===== STATS ===== */
+.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.25rem; }
+.stat-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: .875rem 1rem;
+}
+.stat-label { font-size: 12px; color: var(--text-2); margin-bottom: 4px; }
+.stat-value { font-size: 26px; font-weight: 600; color: var(--green); line-height: 1; }
+
+/* ===== BADGES ===== */
+.badge {
+  display: inline-block; padding: 3px 10px; border-radius: 20px;
+  font-size: 12px; font-weight: 500; white-space: nowrap;
+}
+.bg-green  { background: var(--green-pale); color: var(--green); border: 1px solid var(--green-border); }
+.bg-amber  { background: var(--amber-bg);   color: var(--amber); border: 1px solid var(--amber-bd); }
+.bg-danger { background: var(--danger-bg);  color: var(--danger); border: 1px solid var(--danger-bd); }
+.bg-gray   { background: #f3f4f6; color: var(--text-2); border: 1px solid var(--border); }
+
+/* ===== LIST ===== */
+.list-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.list-item:last-child { border-bottom: none; }
+
+/* ===== PROGRESS ===== */
+.progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin: 8px 0; }
+.progress-fill { height: 100%; background: var(--green); border-radius: 4px; transition: width .4s; }
+
+/* ===== CHAPTER ===== */
+.chapter-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); cursor: pointer;
+  transition: all .15s; margin-bottom: 8px; background: white;
+}
+.chapter-item:hover:not(.done) { border-color: var(--green-mid); }
+.chapter-item.done { background: var(--green-pale); border-color: var(--green-border); }
+.checkbox {
+  width: 20px; height: 20px; border-radius: 5px;
+  border: 1.5px solid var(--border); display: flex;
+  align-items: center; justify-content: center;
+  flex-shrink: 0; background: white; transition: all .15s;
+  font-size: 11px; font-weight: 700; color: transparent;
+}
+.chapter-item.done .checkbox { background: var(--green); border-color: var(--green); color: white; }
+
+/* ===== EXERCISES ===== */
+.exercise-card {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: white; padding: 1.25rem; margin-bottom: 10px;
+  cursor: pointer; transition: all .15s; box-shadow: var(--shadow);
+}
+.exercise-card:hover { border-color: var(--green-mid); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+
+/* ===== STUDENTS ===== */
+.student-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.student-row:last-child { border-bottom: none; }
+.avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--green-pale); display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; color: var(--green); flex-shrink: 0;
+  border: 1px solid var(--green-border);
+}
+
+/* ===== ANNOUNCEMENTS ===== */
+.ann-item {
+  padding: 12px 14px; background: var(--bg);
+  border-radius: var(--radius-sm); border-left: 3px solid var(--green); margin-bottom: 8px;
+}
+
+/* ===== SUBMISSIONS ===== */
+.sub-item {
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 1rem; margin-bottom: 10px; background: white;
+}
+.sub-answer {
+  background: var(--bg); padding: 10px; border-radius: var(--radius-sm);
+  font-size: 13px; font-family: 'DM Mono', monospace; line-height: 1.6;
+  white-space: pre-wrap; word-break: break-word; margin: 8px 0;
+}
+
+/* ===== SCHEDULE ===== */
+.session-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.session-row:last-child { border-bottom: none; }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; padding: 1rem;
+}
+.modal {
+  background: white; border-radius: var(--radius); padding: 1.5rem;
+  width: 100%; max-width: 520px; max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0,0,0,.15);
+}
+.modal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; gap: 12px; }
+.close-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-2); line-height: 1; padding: 0 4px; flex-shrink: 0; }
+.close-btn:hover { color: var(--text); }
+
+/* ===== EBOOK ===== */
+.ebook-frame { width: 100%; height: 580px; border: 1px solid var(--border); border-radius: var(--radius); }
+
+/* ===== LOADING ===== */
+.loading-screen {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; height: 70vh; gap: 14px;
+  color: var(--text-2); font-size: 14px;
+}
+.spinner {
+  width: 30px; height: 30px;
+  border: 2.5px solid var(--border); border-top-color: var(--green);
+  border-radius: 50%; animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== EMPTY ===== */
+.empty-state {
+  text-align: center; padding: 3rem 1rem;
+  color: var(--text-2); font-size: 14px; line-height: 1.8;
+}
+
+/* ===== UTILS ===== */
+.mt-1 { margin-top: .5rem; }  .mt-2 { margin-top: 1rem; }  .mt-3 { margin-top: 1.5rem; }
+.mb-1 { margin-bottom: .5rem; } .mb-2 { margin-bottom: 1rem; } .mb-3 { margin-bottom: 1.5rem; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.flex-center  { display: flex; align-items: center; gap: 8px; }
+.text-sm   { font-size: 13px; }
+.text-muted{ color: var(--text-2); }
+.text-danger { color: var(--danger); }
+.banned-banner {
+  background: var(--danger-bg); border: 1px solid var(--danger-bd);
+  border-radius: var(--radius-sm); padding: 1rem; text-align: center;
+  color: var(--danger); font-size: 14px; margin-bottom: 1rem;
+}
+code { font-family: 'DM Mono', monospace; font-size: 12px; background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
+
+@media (max-width: 480px) {
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  #root { padding: .75rem; }
+  .portal-header h2 { display: none; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================================================================
+   CONFIGURATION — YOU MUST FILL THESE IN BEFORE GOING LIVE
+   ================================================================ */
+const FIREBASE_CONFIG = {
+  apiKey:            "PASTE_YOUR_API_KEY_HERE",
+  authDomain:        "PASTE_YOUR_AUTH_DOMAIN_HERE",
+  projectId:         "PASTE_YOUR_PROJECT_ID_HERE",
+  storageBucket:     "PASTE_YOUR_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID_HERE",
+  appId:             "PASTE_YOUR_APP_ID_HERE"
+};
+// Your email — this account automatically gets admin access
+const ADMIN_EMAIL = "PASTE_YOUR_EMAIL_HERE";
+/* ================================================================ */
+
+firebase.initializeApp(FIREBASE_CONFIG);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+
+/* ===== CONSTANTS ===== */
+const CHAPTERS = [
+  "How computers think",
+  "Variables & data types",
+  "Operators & user input",
+  "Control flow — if/else",
+  "Loops",
+  "Functions",
+  "Lists, dictionaries & final project"
+];
+
+const SCHEDULE = [
+  { week:1, sessions:[{n:"Session 1",topic:"How computers think + setting up Replit"},{n:"Session 2",topic:"Variables, data types & your first program"}]},
+  { week:2, sessions:[{n:"Session 3",topic:"Operators, input & user interaction"},{n:"Session 4",topic:"Making decisions with if/else"}]},
+  { week:3, sessions:[{n:"Session 5",topic:"Loops — making the computer repeat things"},{n:"Session 6",topic:"Functions — writing reusable code"}]},
+  { week:4, sessions:[{n:"Session 7",topic:"Lists & dictionaries"},{n:"Session 8",topic:"Final project: Student Grading System"}]}
+];
+
+/* ===== STATE ===== */
+const S = {
+  user: null, profile: null,
+  tab: 'home', authMode: 'login',
+  announcements: [], exercises: [], submissions: [],
+  students: [],
+  settings: { ebookUrl:'', bookTitle:'Python for Absolute Beginners — Book 1', cohortName:'Python Cohort 1' },
+  progress: Array(7).fill(false),
+  loading: true, modal: null,
+  listeners: []
+};
+
+/* ===== TOAST ===== */
+function toast(msg, isError=false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast' + (isError ? ' error' : '') + ' show';
+  setTimeout(() => { el.className = 'toast' + (isError ? ' error' : ''); }, 2600);
+}
+
+/* ===== RENDER ===== */
+function render() {
+  const root = document.getElementById('root');
+  if (S.loading) {
+    root.innerHTML = `<div class="loading-screen"><div class="spinner"></div><p>Loading portal...</p></div>`;
+    return;
+  }
+  if (!S.user) {
+    root.innerHTML = renderAuth();
+  } else if (S.profile?.isAdmin) {
+    root.innerHTML = renderAdmin();
+  } else {
+    root.innerHTML = renderStudent();
+  }
+  if (S.modal) {
+    root.insertAdjacentHTML('beforeend', renderModal());
+  }
+}
+
+/* ===================================================================
+   AUTH SCREEN
+   =================================================================== */
+function renderAuth() {
+  const isLogin = S.authMode === 'login';
+  return `
+  <div class="auth-wrap">
+    <div class="auth-logo">
+      <div class="logo" style="justify-content:center;margin-bottom:.75rem">
+        <div class="logo-mark">DJ</div>
+        <h1 style="font-size:20px">Dev Journey Portal</h1>
+      </div>
+      <p class="text-sm text-muted">Python training — ${S.settings.cohortName}</p>
+    </div>
+    <div class="card">
+      <div class="auth-toggle">
+        <button class="${isLogin?'active':''}" onclick="setAuthMode('login')">Log in</button>
+        <button class="${!isLogin?'active':''}" onclick="setAuthMode('register')">Create account</button>
+      </div>
+      ${!isLogin ? `<div class="form-group"><label>Your full name</label><input id="a-name" type="text" placeholder="e.g. Kofi Mensah" autocomplete="name" /></div>` : ''}
+      <div class="form-group"><label>Email address</label><input id="a-email" type="email" placeholder="you@example.com" autocomplete="email" /></div>
+      <div class="form-group"><label>Password</label><input id="a-pass" type="password" placeholder="${isLogin?'Your password':'At least 6 characters'}" autocomplete="${isLogin?'current-password':'new-password'}" onkeydown="if(event.key==='Enter')${isLogin?'doLogin()':'doRegister()'}" /></div>
+      <p class="error-msg" id="auth-err"></p>
+      <button class="btn btn-primary btn-full mt-1" onclick="${isLogin?'doLogin()':'doRegister()'}">
+        ${isLogin ? 'Log in' : 'Create account'}
+      </button>
+    </div>
+    <p class="text-sm text-muted mt-2" style="text-align:center;line-height:1.7">
+      Your instructor (Prince) will share the link to this portal.<br>Register with your email to get started.
+    </p>
+  </div>`;
+}
+
+/* ===================================================================
+   STUDENT DASHBOARD
+   =================================================================== */
+function renderStudent() {
+  const done = S.progress.filter(Boolean).length;
+  const pct  = Math.round((done/7)*100);
+  const tabs = ['home','ebook','schedule','progress','exercises'];
+  return `
+  <div class="portal-header">
+    <div class="logo">
+      <div class="logo-mark">DJ</div>
+      <div>
+        <div style="font-weight:600;font-size:15px">Dev Journey Portal</div>
+        <div class="text-sm text-muted">${S.profile?.name || 'Student'}</div>
+      </div>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="doSignOut()">Sign out</button>
+  </div>
+  <div class="tabs">
+    ${tabs.map(t => `<button class="tab${S.tab===t?' active':''}" onclick="setTab('${t}')">${t.charAt(0).toUpperCase()+t.slice(1)}</button>`).join('')}
+  </div>
+  <div id="tab-content">
+    ${S.tab==='home'      ? renderStudentHome(done,pct) : ''}
+    ${S.tab==='ebook'     ? renderEbook()               : ''}
+    ${S.tab==='schedule'  ? renderSchedule()             : ''}
+    ${S.tab==='progress'  ? renderProgress(done,pct)     : ''}
+    ${S.tab==='exercises' ? renderStudentExercises()      : ''}
+  </div>`;
+}
+
+function renderStudentHome(done, pct) {
+  return `
+  <div class="card mb-2" style="border-left:3px solid var(--green)">
+    <div class="flex-between">
+      <div>
+        <p style="font-weight:500;margin-bottom:4px">Your progress</p>
+        <p class="text-sm text-muted">${done} of 7 chapters done</p>
+      </div>
+      <div style="font-size:26px;font-weight:600;color:var(--green)">${pct}%</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+  </div>
+  <h3 class="mb-1">Announcements</h3>
+  ${S.announcements.length === 0
+    ? `<div class="empty-state">No announcements yet.<br>Check back after your first session.</div>`
+    : S.announcements.map(a => `
+      <div class="ann-item">
+        <p style="font-size:14px;margin-bottom:4px;line-height:1.6">${escHtml(a.text)}</p>
+        <p class="text-sm text-muted">${a.date}</p>
+      </div>`).join('')}`;
+}
+
+function renderEbook() {
+  if (!S.settings.ebookUrl) return `
+    <div class="empty-state">
+      <p style="font-size:15px;font-weight:500;margin-bottom:8px">Ebook coming soon</p>
+      <p>Your instructor hasn't uploaded the book yet.<br>Check back after your first session.</p>
+    </div>`;
+  return `
+  <p class="text-sm text-muted mb-1">${escHtml(S.settings.bookTitle)}</p>
+  <iframe class="ebook-frame" src="${S.settings.ebookUrl}" title="Ebook — read only" allowfullscreen></iframe>
+  <p class="text-sm text-muted mt-1" style="text-align:center">This book is view-only. Download is not available.</p>`;
+}
+
+function renderSchedule() {
+  return SCHEDULE.map(w => `
+    <div class="card mb-2">
+      <h3 class="mb-1" style="color:var(--green)">Week ${w.week}</h3>
+      ${w.sessions.map(s => `
+        <div class="session-row">
+          <span class="badge bg-green" style="flex-shrink:0">${s.n}</span>
+          <span style="font-size:14px;padding-top:2px">${s.topic}</span>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function renderProgress(done, pct) {
+  return `
+  <p class="text-sm text-muted mb-2">Tap a chapter to mark it as done when you finish it.</p>
+  ${CHAPTERS.map((ch, i) => `
+    <div class="chapter-item${S.progress[i]?' done':''}" onclick="toggleChapter(${i})">
+      <div class="checkbox">${S.progress[i]?'✓':''}</div>
+      <div>
+        <span style="font-size:14px">Chapter ${i+1}</span>
+        <span style="font-size:13px;color:var(--text-2);margin-left:6px">${ch}</span>
+      </div>
+    </div>`).join('')}
+  <div class="card mt-2" style="background:var(--bg)">
+    <p class="text-sm${done===7?' ':'  text-muted'}" style="${done===7?'color:var(--green);font-weight:500':''}">
+      ${done===7 ? '🎉 Amazing — you finished Book 1! Ask your instructor about Book 2.' : `${7-done} chapter${7-done!==1?'s':''} left`}
+    </p>
+  </div>`;
+}
+
+function renderStudentExercises() {
+  if (S.exercises.length === 0) return `<div class="empty-state">No exercises yet.<br>Your instructor will post them during training.</div>`;
+  return S.exercises.map(ex => {
+    const sub = S.submissions.find(s => s.exerciseId===ex.id && s.studentId===S.user.uid);
+    let badge = `<span class="badge bg-gray">Not submitted</span>`;
+    if (sub) badge = sub.grade
+      ? `<span class="badge bg-green">${escHtml(sub.grade)}</span>`
+      : `<span class="badge bg-amber">Submitted — awaiting review</span>`;
+    return `
+    <div class="exercise-card" onclick="openExercise('${ex.id}')">
+      <div class="flex-between mb-1">
+        <h3 style="font-size:15px;flex:1">${escHtml(ex.title)}</h3>
+        ${badge}
+      </div>
+      <p class="text-sm text-muted" style="line-height:1.6">${escHtml(ex.description.length>110?ex.description.slice(0,110)+'…':ex.description)}</p>
+      ${ex.dueDate ? `<p class="text-sm text-muted mt-1">Due: ${escHtml(ex.dueDate)}</p>` : ''}
+    </div>`;
+  }).join('');
+}
+
+/* ===================================================================
+   ADMIN DASHBOARD
+   =================================================================== */
+function renderAdmin() {
+  const ungraded = S.submissions.filter(s => !s.grade).length;
+  const tabs = ['students','announcements','ebook','exercises','submissions'];
+  return `
+  <div class="portal-header">
+    <div class="logo">
+      <div class="logo-mark">DJ</div>
+      <div>
+        <div style="font-weight:600;font-size:15px">Admin Panel</div>
+        <div class="text-sm text-muted">Dev Journey Portal</div>
+      </div>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="doSignOut()">Sign out</button>
+  </div>
+  <div class="stat-grid">
+    <div class="stat-card"><p class="stat-label">Students</p><p class="stat-value">${S.students.length}</p></div>
+    <div class="stat-card"><p class="stat-label">Exercises</p><p class="stat-value">${S.exercises.length}</p></div>
+    <div class="stat-card"><p class="stat-label">To review</p><p class="stat-value" style="${ungraded>0?'color:var(--amber)':''}">${ungraded}</p></div>
+  </div>
+  <div class="tabs">
+    ${tabs.map(t => `<button class="tab${S.tab===t?' active':''}" onclick="setTab('${t}')">${t.charAt(0).toUpperCase()+t.slice(1)}${t==='submissions'&&ungraded>0?` <span class="badge bg-amber" style="font-size:11px;padding:1px 7px">${ungraded}</span>`:''}</button>`).join('')}
+  </div>
+  <div id="tab-content">
+    ${S.tab==='students'      ? renderAdminStudents()      : ''}
+    ${S.tab==='announcements' ? renderAdminAnnouncements() : ''}
+    ${S.tab==='ebook'         ? renderAdminEbook()         : ''}
+    ${S.tab==='exercises'     ? renderAdminExercises()     : ''}
+    ${S.tab==='submissions'   ? renderAdminSubmissions()   : ''}
+  </div>`;
+}
+
+function renderAdminStudents() {
+  return `
+  <div class="card">
+    <div class="flex-between mb-2">
+      <h3>Enrolled students (${S.students.length})</h3>
+      <span class="text-sm text-muted">Share your portal link to invite students</span>
+    </div>
+    ${S.students.length === 0
+      ? `<p class="text-sm text-muted">No students yet. Share the portal link so they can register.</p>`
+      : S.students.map(s => `
+        <div class="student-row">
+          <div class="flex-center">
+            <div class="avatar">${s.name.slice(0,2).toUpperCase()}</div>
+            <div>
+              <p style="font-size:14px;font-weight:500">${escHtml(s.name)}</p>
+              <p class="text-sm text-muted">${escHtml(s.email)}</p>
+            </div>
+          </div>
+          <div class="flex-center">
+            <span class="text-sm text-muted">${s.joined||''}</span>
+            <button class="btn btn-danger btn-sm" onclick="confirmDeleteStudent('${s.id}','${escAttr(s.name)}')">Remove</button>
+          </div>
+        </div>`).join('')}
+  </div>`;
+}
+
+function renderAdminAnnouncements() {
+  return `
+  <div class="card mb-2">
+    <h3 class="mb-2">Post announcement</h3>
+    <div class="form-group">
+      <textarea id="ann-text" rows="3" placeholder="Write a message for your learners..."></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="postAnnouncement()">Post announcement</button>
+  </div>
+  <div class="card">
+    <h3 class="mb-2">Posted (${S.announcements.length})</h3>
+    ${S.announcements.length === 0
+      ? `<p class="text-sm text-muted">Nothing posted yet.</p>`
+      : S.announcements.map(a => `
+        <div class="list-item">
+          <div style="flex:1">
+            <p style="font-size:14px;line-height:1.6">${escHtml(a.text)}</p>
+            <p class="text-sm text-muted mt-1">${a.date}</p>
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="deleteAnnouncement('${a.id}')">Delete</button>
+        </div>`).join('')}
+  </div>`;
+}
+
+function renderAdminEbook() {
+  return `
+  <div class="card mb-2">
+    <h3 class="mb-1">Upload ebook</h3>
+    <p class="text-sm text-muted mb-2" style="line-height:1.7">
+      Paste a Google Drive link <code>/preview</code> or any PDF URL. Students will see it
+      embedded and <strong>cannot download</strong> it.
+    </p>
+    ${S.settings.ebookUrl ? `<p class="text-sm" style="color:var(--green);margin-bottom:10px">✓ Ebook is currently set. Paste a new URL below to update it.</p>` : ''}
+    <div class="form-group">
+      <label>Book URL (Google Drive /preview or direct PDF link)</label>
+      <input id="ebook-url" type="url" placeholder="https://drive.google.com/file/d/FILE_ID/preview" value="${escAttr(S.settings.ebookUrl)}" />
+    </div>
+    <div class="form-group">
+      <label>Book title shown to students</label>
+      <input id="ebook-title" type="text" placeholder="Python for Absolute Beginners — Book 1" value="${escAttr(S.settings.bookTitle)}" />
+    </div>
+    <button class="btn btn-primary" onclick="saveEbook()">Save ebook</button>
+  </div>
+  <div class="card">
+    <h3 class="mb-2">How to get the Google Drive link</h3>
+    <ol style="font-size:13px;color:var(--text-2);line-height:2.2;padding-left:1.2rem">
+      <li>Upload your PDF to Google Drive</li>
+      <li>Right-click the file → <strong>Share</strong> → set to <strong>"Anyone with the link"</strong></li>
+      <li>Click <strong>Copy link</strong> — it ends in <code>/view?usp=sharing</code></li>
+      <li>Change <code>/view?usp=sharing</code> → <code>/preview</code></li>
+      <li>Paste the updated URL above and click Save</li>
+    </ol>
+    <p class="text-sm text-muted mt-1">When you have Book 2 ready, just paste the new URL and students will see it automatically.</p>
+  </div>`;
+}
+
+function renderAdminExercises() {
+  return `
+  <div class="card mb-2">
+    <h3 class="mb-2">Create new exercise</h3>
+    <div class="form-group">
+      <label>Title</label>
+      <input id="ex-title" type="text" placeholder="e.g. Write a loop that prints numbers 1 to 10" />
+    </div>
+    <div class="form-group">
+      <label>Instructions</label>
+      <textarea id="ex-desc" rows="5" placeholder="Describe what students need to do. You can include example code, hints, or any context."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Due date (optional)</label>
+      <input id="ex-due" type="text" placeholder="e.g. Friday 18th April 2025" />
+    </div>
+    <button class="btn btn-primary" onclick="createExercise()">Post exercise</button>
+  </div>
+  ${S.exercises.length > 0 ? `
+  <div class="card">
+    <h3 class="mb-2">Posted exercises (${S.exercises.length})</h3>
+    ${S.exercises.map(ex => {
+      const subCount = S.submissions.filter(s => s.exerciseId===ex.id).length;
+      return `
+      <div class="list-item">
+        <div style="flex:1">
+          <p style="font-size:14px;font-weight:500">${escHtml(ex.title)}</p>
+          <p class="text-sm text-muted">${subCount} submission${subCount!==1?'s':''}${ex.dueDate?' · Due: '+escHtml(ex.dueDate):''}</p>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="deleteExercise('${ex.id}')">Delete</button>
+      </div>`;}).join('')}
+  </div>` : ''}`;
+}
+
+function renderAdminSubmissions() {
+  if (S.submissions.length === 0) return `<div class="empty-state">No submissions yet.<br>Students submit from the Exercises tab.</div>`;
+  const pending = S.submissions.filter(s => !s.grade);
+  const graded  = S.submissions.filter(s => s.grade);
+  return `
+  ${pending.length > 0 ? `
+  <h3 class="mb-1">Needs marking (${pending.length})</h3>
+  ${pending.map(s => renderSubItem(s, false)).join('')}` : ''}
+  ${graded.length > 0 ? `
+  <h3 class="mb-1 mt-2">Marked (${graded.length})</h3>
+  ${graded.map(s => renderSubItem(s, true)).join('')}` : ''}`;
+}
+
+function renderSubItem(s, isMarked) {
+  const ex = S.exercises.find(e => e.id===s.exerciseId);
+  return `
+  <div class="sub-item">
+    <div class="flex-between mb-1">
+      <div>
+        <p style="font-size:14px;font-weight:500">${escHtml(s.studentName)}</p>
+        <p class="text-sm text-muted">${ex ? escHtml(ex.title) : 'Exercise'} · ${s.submittedAt}</p>
+      </div>
+      ${isMarked ? `<span class="badge bg-green">${escHtml(s.grade)}</span>` : `<span class="badge bg-amber">Pending</span>`}
+    </div>
+    <div class="sub-answer">${escHtml(s.answer)}</div>
+    ${s.replitLink ? `<a href="${escAttr(s.replitLink)}" target="_blank" rel="noopener" class="text-sm" style="color:var(--green);text-decoration:none">View on Replit →</a>` : ''}
+    ${isMarked ? `
+      ${s.feedback ? `<p class="text-sm text-muted mt-1" style="font-style:italic">Your feedback: ${escHtml(s.feedback)}</p>` : ''}` : `
+    <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-top:10px">
+      <div style="flex:1;min-width:120px">
+        <label style="font-size:12px">Grade</label>
+        <input id="gr-${s.id}" type="text" placeholder="e.g. A, 85%, Well done" style="height:36px" />
+      </div>
+      <div style="flex:2;min-width:180px">
+        <label style="font-size:12px">Feedback (optional)</label>
+        <input id="fb-${s.id}" type="text" placeholder="Great work! Fix..." style="height:36px" />
+      </div>
+      <button class="btn btn-primary btn-sm" style="height:36px;flex-shrink:0" onclick="gradeSubmission('${s.id}')">Mark</button>
+    </div>`}
+  </div>`;
+}
+
+/* ===================================================================
+   MODAL
+   =================================================================== */
+function renderModal() {
+  const m = S.modal;
+
+  if (m.type === 'exercise') {
+    const ex  = m.data;
+    const sub = S.submissions.find(s => s.exerciseId===ex.id && s.studentId===S.user.uid);
+    return `
+    <div class="modal-overlay" onclick="overlayClose(event)">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 style="line-height:1.4">${escHtml(ex.title)}</h3>
+          <button class="close-btn" onclick="closeModal()">×</button>
+        </div>
+        ${ex.dueDate ? `<p class="text-sm text-muted mb-1">Due: ${escHtml(ex.dueDate)}</p>` : ''}
+        <div style="background:var(--bg);padding:12px;border-radius:var(--radius-sm);margin-bottom:1.25rem">
+          <p style="font-size:14px;line-height:1.7;white-space:pre-wrap">${escHtml(ex.description)}</p>
+        </div>
+        ${sub ? `
+          <div style="background:var(--green-pale);border:1px solid var(--green-border);border-radius:var(--radius-sm);padding:12px">
+            <p class="text-sm" style="font-weight:500;margin-bottom:6px">Your submission</p>
+            <div class="sub-answer">${escHtml(sub.answer)}</div>
+            ${sub.replitLink ? `<a href="${escAttr(sub.replitLink)}" target="_blank" rel="noopener" class="text-sm" style="color:var(--green)">View on Replit →</a>` : ''}
+            ${sub.grade
+              ? `<p class="text-sm mt-1" style="color:var(--green);font-weight:500">Grade: ${escHtml(sub.grade)}</p>
+                 ${sub.feedback ? `<p class="text-sm mt-1" style="font-style:italic">Feedback: ${escHtml(sub.feedback)}</p>` : ''}`
+              : `<p class="text-sm text-muted mt-1">Awaiting review from your instructor.</p>`}
+          </div>` : `
+          <div>
+            <div class="form-group">
+              <label>Your answer</label>
+              <textarea id="sub-ans" rows="5" placeholder="Type your Python code or explanation here..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Replit link (optional)</label>
+              <input id="sub-rep" type="url" placeholder="https://replit.com/@yourname/project" />
+            </div>
+            <button class="btn btn-primary" onclick="submitExercise('${ex.id}')">Submit answer</button>
+          </div>`}
+      </div>
+    </div>`;
+  }
+
+  if (m.type === 'del-student') {
+    return `
+    <div class="modal-overlay" onclick="overlayClose(event)">
+      <div class="modal" style="max-width:360px">
+        <div class="modal-header">
+          <h3>Remove student?</h3>
+          <button class="close-btn" onclick="closeModal()">×</button>
+        </div>
+        <p class="text-sm text-muted mb-3" style="line-height:1.7">
+          This will ban <strong>${escHtml(m.data.name)}</strong> from the portal.
+          They will be signed out and won't be able to log in again.
+        </p>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-danger" onclick="deleteStudent('${m.data.id}')">Yes, remove them</button>
+          <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+        </div>
+      </div>
+    </div>`;
+  }
+  return '';
+}
+
+/* ===================================================================
+   ACTIONS
+   =================================================================== */
+function setTab(t)           { S.tab = t; render(); }
+function setAuthMode(m)      { S.authMode = m; render(); }
+function closeModal()        { S.modal = null; render(); }
+function overlayClose(e)     { if (e.target.classList.contains('modal-overlay')) closeModal(); }
+function openExercise(id)    { const ex = S.exercises.find(e=>e.id===id); if(ex){ S.modal={type:'exercise',data:ex}; render(); } }
+function confirmDeleteStudent(id,name) { S.modal={type:'del-student',data:{id,name}}; render(); }
+
+function showAuthErr(msg) {
+  const el = document.getElementById('auth-err');
+  if (el) { el.textContent = msg; el.style.display = 'block'; }
+}
+
+async function doLogin() {
+  const email = document.getElementById('a-email')?.value?.trim();
+  const pass  = document.getElementById('a-pass')?.value;
+  if (!email||!pass) { showAuthErr('Please fill in all fields'); return; }
+  try { await auth.signInWithEmailAndPassword(email, pass); }
+  catch(e) {
+    const map = {'auth/user-not-found':'No account with that email.','auth/wrong-password':'Wrong password.','auth/invalid-email':'Invalid email format.','auth/invalid-credential':'Email or password is incorrect.'};
+    showAuthErr(map[e.code]||'Login failed. Please try again.');
+  }
+}
+
+async function doRegister() {
+  const name  = document.getElementById('a-name')?.value?.trim();
+  const email = document.getElementById('a-email')?.value?.trim();
+  const pass  = document.getElementById('a-pass')?.value;
+  if (!name||!email||!pass) { showAuthErr('Please fill in all fields'); return; }
+  if (pass.length < 6)      { showAuthErr('Password must be at least 6 characters'); return; }
+  try {
+    const cred = await auth.createUserWithEmailAndPassword(email, pass);
+    const isAdmin = email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+    await db.collection('users').doc(cred.user.uid).set({
+      name, email, isAdmin, banned: false,
+      joined: new Date().toLocaleDateString('en-GB'),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  } catch(e) {
+    const map = {'auth/email-already-in-use':'An account with that email already exists.','auth/invalid-email':'Invalid email.','auth/weak-password':'Password is too weak.'};
+    showAuthErr(map[e.code]||'Registration failed. Please try again.');
+  }
+}
+
+async function doSignOut() {
+  S.listeners.forEach(u => u()); S.listeners = [];
+  await auth.signOut();
+  S.user=null; S.profile=null; S.tab='home';
+  S.announcements=[]; S.exercises=[]; S.submissions=[]; S.students=[];
+  S.progress=Array(7).fill(false);
+  render();
+}
+
+async function toggleChapter(i) {
+  const p = [...S.progress]; p[i] = !p[i]; S.progress = p; render();
+  await db.collection('progress').doc(S.user.uid).set(
+    { chapters: p, updatedAt: firebase.firestore.FieldValue.serverTimestamp() },
+    { merge: true }
+  );
+}
+
+async function postAnnouncement() {
+  const text = document.getElementById('ann-text')?.value?.trim();
+  if (!text) { toast('Please write something first', true); return; }
+  try {
+    await db.collection('announcements').add({
+      text, date: new Date().toLocaleDateString('en-GB'),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    toast('Announcement posted');
+  } catch(e) { toast('Failed to post', true); }
+}
+
+async function deleteAnnouncement(id) {
+  try { await db.collection('announcements').doc(id).delete(); toast('Deleted'); }
+  catch(e) { toast('Failed to delete', true); }
+}
+
+async function saveEbook() {
+  const url   = document.getElementById('ebook-url')?.value?.trim();
+  const title = document.getElementById('ebook-title')?.value?.trim();
+  if (!url) { toast('Please paste a URL first', true); return; }
+  try {
+    const data = { ebookUrl: url };
+    if (title) data.bookTitle = title;
+    await db.collection('settings').doc('main').set(data, { merge: true });
+    toast('Ebook saved ✓');
+  } catch(e) { toast('Failed to save', true); }
+}
+
+async function createExercise() {
+  const title = document.getElementById('ex-title')?.value?.trim();
+  const desc  = document.getElementById('ex-desc')?.value?.trim();
+  const due   = document.getElementById('ex-due')?.value?.trim();
+  if (!title||!desc) { toast('Title and instructions are required', true); return; }
+  try {
+    await db.collection('exercises').add({
+      title, description: desc, dueDate: due||'',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    toast('Exercise posted');
+  } catch(e) { toast('Failed to post', true); }
+}
+
+async function deleteExercise(id) {
+  try { await db.collection('exercises').doc(id).delete(); toast('Exercise deleted'); }
+  catch(e) { toast('Failed to delete', true); }
+}
+
+async function submitExercise(exId) {
+  const answer = document.getElementById('sub-ans')?.value?.trim();
+  const replit = document.getElementById('sub-rep')?.value?.trim();
+  if (!answer) { toast('Please write your answer first', true); return; }
+  try {
+    await db.collection('submissions').add({
+      exerciseId: exId, studentId: S.user.uid,
+      studentName: S.profile?.name || 'Student',
+      answer, replitLink: replit||'', grade: '', feedback: '',
+      submittedAt: new Date().toLocaleDateString('en-GB'),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    S.modal = null; toast('Submitted! 🎉');
+  } catch(e) { toast('Failed to submit', true); }
+}
+
+async function gradeSubmission(id) {
+  const grade = document.getElementById(`gr-${id}`)?.value?.trim();
+  const fb    = document.getElementById(`fb-${id}`)?.value?.trim();
+  if (!grade) { toast('Please enter a grade', true); return; }
+  try {
+    await db.collection('submissions').doc(id).update({ grade, feedback: fb||'' });
+    toast('Marked ✓');
+  } catch(e) { toast('Failed to mark', true); }
+}
+
+async function deleteStudent(id) {
+  try {
+    await db.collection('users').doc(id).update({ banned: true });
+    S.modal = null; toast('Student removed from portal');
+  } catch(e) { toast('Failed to remove', true); }
+}
+
+/* ===================================================================
+   FIREBASE LISTENERS
+   =================================================================== */
+auth.onAuthStateChanged(async (user) => {
+  // Clear old listeners
+  S.listeners.forEach(u => u()); S.listeners = [];
+
+  if (!user) { S.user=null; S.profile=null; S.loading=false; render(); return; }
+
+  S.user = user;
+
+  // Load profile
+  const profileSnap = await db.collection('users').doc(user.uid).get();
+  if (!profileSnap.exists) { S.loading=false; render(); return; }
+
+  const profile = profileSnap.data();
+
+  // Check ban
+  if (profile.banned && !profile.isAdmin) {
+    await auth.signOut(); return;
+  }
+
+  S.profile = profile;
+
+  // Load settings
+  const settSnap = await db.collection('settings').doc('main').get();
+  if (settSnap.exists) S.settings = { ...S.settings, ...settSnap.data() };
+
+  // Load progress for student
+  if (!profile.isAdmin) {
+    const progSnap = await db.collection('progress').doc(user.uid).get();
+    if (progSnap.exists) S.progress = progSnap.data().chapters || Array(7).fill(false);
+  }
+
+  S.loading = false; render();
+
+  // Real-time: announcements
+  S.listeners.push(
+    db.collection('announcements').orderBy('createdAt','desc').onSnapshot(snap => {
+      S.announcements = snap.docs.map(d => ({id:d.id,...d.data()})); render();
+    })
+  );
+
+  // Real-time: exercises
+  S.listeners.push(
+    db.collection('exercises').orderBy('createdAt','desc').onSnapshot(snap => {
+      S.exercises = snap.docs.map(d => ({id:d.id,...d.data()})); render();
+    })
+  );
+
+  // Real-time: settings
+  S.listeners.push(
+    db.collection('settings').doc('main').onSnapshot(snap => {
+      if (snap.exists) { S.settings = {...S.settings,...snap.data()}; render(); }
+    })
+  );
+
+  if (profile.isAdmin) {
+    // Admin: all non-banned students
+    S.listeners.push(
+      db.collection('users').onSnapshot(snap => {
+        S.students = snap.docs.map(d=>({id:d.id,...d.data()})).filter(u=>!u.isAdmin && !u.banned);
+        render();
+      })
+    );
+    // Admin: all submissions
+    S.listeners.push(
+      db.collection('submissions').orderBy('createdAt','desc').onSnapshot(snap => {
+        S.submissions = snap.docs.map(d=>({id:d.id,...d.data()})); render();
+      })
+    );
+  } else {
+    // Student: only their own submissions
+    S.listeners.push(
+      db.collection('submissions').where('studentId','==',user.uid).onSnapshot(snap => {
+        S.submissions = snap.docs.map(d=>({id:d.id,...d.data()})); render();
+      })
+    );
+  }
+});
+
+/* ===================================================================
+   UTILS
+   =================================================================== */
+function escHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escAttr(s) { return escHtml(s); }
+
+// Initial render
+render();
+</script>
+</body>
+</html>
