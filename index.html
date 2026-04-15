@@ -1,1483 +1,1438 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Dev Journey — Python Training Portal</title>
-
-
-
-<!-- Firebase SDKs -->
-
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
-
-
-
-<!-- Fonts -->
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-
-
-<style>
-
-/* ===== DESIGN TOKENS ===== */
-
-:root {
-
-  --green:       #1b4d3e;
-
-  --green-mid:   #2d7a5f;
-
-  --green-pale:  #eaf5f0;
-
-  --green-border:#b2dece;
-
-  --text:        #1a1a1a;
-
-  --text-2:      #6b7280;
-
-  --text-3:      #9ca3af;
-
-  --border:      #e5e7eb;
-
-  --bg:          #f7f8f9;
-
-  --white:       #ffffff;
-
-  --danger:      #dc2626;
-
-  --danger-bg:   #fef2f2;
-
-  --danger-bd:   #fecaca;
-
-  --amber:       #b45309;
-
-  --amber-bg:    #fffbeb;
-
-  --amber-bd:    #fde68a;
-
-  --radius:      12px;
-
-  --radius-sm:   8px;
-
-  --shadow:      0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
-
-}
-
-
-
-/* ===== RESET ===== */
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-
-  font-size: 15px; color: var(--text); background: var(--bg);
-
-  min-height: 100vh; line-height: 1.6; -webkit-font-smoothing: antialiased;
-
-}
-
-#root { max-width: 700px; margin: 0 auto; padding: 1rem; min-height: 100vh; }
-
-
-
-/* ===== TYPOGRAPHY ===== */
-
-h1 { font-size: 22px; font-weight: 600; }
-
-h2 { font-size: 18px; font-weight: 500; }
-
-h3 { font-size: 16px; font-weight: 500; }
-
-
-
-/* ===== FORMS ===== */
-
-label { display: block; font-size: 13px; color: var(--text-2); margin-bottom: 5px; font-weight: 500; }
-
-input, textarea, select {
-
-  width: 100%; padding: 10px 14px;
-
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-
-  font-family: inherit; font-size: 14px; color: var(--text);
-
-  background: var(--white); outline: none; transition: border-color .15s;
-
-}
-
-input:focus, textarea:focus { border-color: var(--green-mid); box-shadow: 0 0 0 3px rgba(45,122,95,.1); }
-
-textarea { resize: vertical; }
-
-.form-group { margin-bottom: 1rem; }
-
-.error-msg { color: var(--danger); font-size: 13px; margin-top: 8px; display:none; }
-
-
-
-/* ===== BUTTONS ===== */
-
-.btn {
-
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-
-  padding: 9px 18px; border-radius: var(--radius-sm); border: none;
-
-  font-family: inherit; font-size: 14px; font-weight: 500;
-
-  cursor: pointer; transition: all .15s; text-decoration: none;
-
-}
-
-.btn-primary { background: var(--green); color: white; }
-
-.btn-primary:hover { background: var(--green-mid); }
-
-.btn-outline { background: white; color: var(--text); border: 1px solid var(--border); }
-
-.btn-outline:hover { border-color: var(--green-mid); color: var(--green); }
-
-.btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-bd); }
-
-.btn-danger:hover { background: var(--danger-bd); }
-
-.btn-sm { padding: 6px 12px; font-size: 13px; }
-
-.btn-full { width: 100%; }
-
-.btn:disabled { opacity: .5; cursor: not-allowed; }
-
-
-
-/* ===== CARDS ===== */
-
-.card {
-
-  background: var(--white); border: 1px solid var(--border);
-
-  border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow);
-
-}
-
-
-
-/* ===== TABS ===== */
-
-.tabs {
-
-  display: flex; border-bottom: 1px solid var(--border);
-
-  margin-bottom: 1.25rem; overflow-x: auto;
-
-  scrollbar-width: none; -ms-overflow-style: none;
-
-}
-
-.tabs::-webkit-scrollbar { display: none; }
-
-.tab {
-
-  padding: 10px 16px; font-size: 14px; color: var(--text-2);
-
-  border: none; border-bottom: 2px solid transparent;
-
-  background: none; cursor: pointer; font-family: inherit;
-
-  white-space: nowrap; transition: all .15s; flex-shrink: 0;
-
-}
-
-.tab.active { color: var(--green); border-bottom-color: var(--green); font-weight: 500; }
-
-.tab:hover:not(.active) { color: var(--text); }
-
-
-
-/* ===== HEADER ===== */
-
-.portal-header {
-
-  display: flex; align-items: center; justify-content: space-between;
-
-  padding: 1rem 0 1.25rem; border-bottom: 1px solid var(--border);
-
-  margin-bottom: 1.25rem;
-
-}
-
-.logo { display: flex; align-items: center; gap: 10px; }
-
-.logo-mark {
-
-  width: 38px; height: 38px; background: var(--green);
-
-  border-radius: 10px; display: flex; align-items: center; justify-content: center;
-
-  color: white; font-size: 13px; font-weight: 700;
-
-  font-family: 'DM Mono', monospace; flex-shrink: 0;
-
-}
-
-
-
-/* ===== TOAST ===== */
-
-.toast {
-
-  position: fixed; bottom: 24px; left: 50%;
-
-  transform: translateX(-50%) translateY(80px);
-
-  background: var(--green); color: white;
-
-  padding: 10px 22px; border-radius: 22px;
-
-  font-size: 14px; font-weight: 500; z-index: 999;
-
-  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
-
-  white-space: nowrap; pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,.15);
-
-}
-
-.toast.show { transform: translateX(-50%) translateY(0); }
-
-.toast.error { background: var(--danger); }
-
-
-
-/* ===== AUTH ===== */
-
-.auth-wrap { max-width: 420px; margin: 2.5rem auto; }
-
-.auth-logo { text-align: center; margin-bottom: 2rem; }
-
-.auth-logo .logo { justify-content: center; margin-bottom: .75rem; }
-
-.auth-toggle {
-
-  display: flex; background: var(--bg); border-radius: var(--radius-sm);
-
-  padding: 4px; margin-bottom: 1.5rem;
-
-}
-
-.auth-toggle button {
-
-  flex: 1; padding: 8px; border: none; background: none;
-
-  border-radius: 6px; font-family: inherit; font-size: 14px;
-
-  cursor: pointer; color: var(--text-2); transition: all .15s;
-
-}
-
-.auth-toggle button.active {
-
-  background: white; color: var(--text); font-weight: 500;
-
-  box-shadow: var(--shadow);
-
-}
-
-
-
-/* ===== STATS ===== */
-
-.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.25rem; }
-
-.stat-card {
-
-  background: white; border: 1px solid var(--border);
-
-  border-radius: var(--radius-sm); padding: .875rem 1rem;
-
-}
-
-.stat-label { font-size: 12px; color: var(--text-2); margin-bottom: 4px; }
-
-.stat-value { font-size: 26px; font-weight: 600; color: var(--green); line-height: 1; }
-
-
-
-/* ===== BADGES ===== */
-
-.badge {
-
-  display: inline-block; padding: 3px 10px; border-radius: 20px;
-
-  font-size: 12px; font-weight: 500; white-space: nowrap;
-
-}
-
-.bg-green  { background: var(--green-pale); color: var(--green); border: 1px solid var(--green-border); }
-
-.bg-amber  { background: var(--amber-bg);   color: var(--amber); border: 1px solid var(--amber-bd); }
-
-.bg-danger { background: var(--danger-bg);  color: var(--danger); border: 1px solid var(--danger-bd); }
-
-.bg-gray   { background: #f3f4f6; color: var(--text-2); border: 1px solid var(--border); }
-
-
-
-/* ===== LIST ===== */
-
-.list-item {
-
-  display: flex; align-items: flex-start; gap: 12px;
-
-  padding: 12px 0; border-bottom: 1px solid var(--border);
-
-}
-
-.list-item:last-child { border-bottom: none; }
-
-
-
-/* ===== PROGRESS ===== */
-
-.progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin: 8px 0; }
-
-.progress-fill { height: 100%; background: var(--green); border-radius: 4px; transition: width .4s; }
-
-
-
-/* ===== CHAPTER ===== */
-
-.chapter-item {
-
-  display: flex; align-items: center; gap: 12px;
-
-  padding: 12px 14px; border: 1px solid var(--border);
-
-  border-radius: var(--radius-sm); cursor: pointer;
-
-  transition: all .15s; margin-bottom: 8px; background: white;
-
-}
-
-.chapter-item:hover:not(.done) { border-color: var(--green-mid); }
-
-.chapter-item.done { background: var(--green-pale); border-color: var(--green-border); }
-
-.checkbox {
-
-  width: 20px; height: 20px; border-radius: 5px;
-
-  border: 1.5px solid var(--border); display: flex;
-
-  align-items: center; justify-content: center;
-
-  flex-shrink: 0; background: white; transition: all .15s;
-
-  font-size: 11px; font-weight: 700; color: transparent;
-
-}
-
-.chapter-item.done .checkbox { background: var(--green); border-color: var(--green); color: white; }
-
-
-
-/* ===== EXERCISES ===== */
-
-.exercise-card {
-
-  border: 1px solid var(--border); border-radius: var(--radius);
-
-  background: white; padding: 1.25rem; margin-bottom: 10px;
-
-  cursor: pointer; transition: all .15s; box-shadow: var(--shadow);
-
-}
-
-.exercise-card:hover { border-color: var(--green-mid); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.08); }
-
-
-
-/* ===== STUDENTS ===== */
-
-.student-row {
-
-  display: flex; align-items: center; justify-content: space-between;
-
-  padding: 10px 0; border-bottom: 1px solid var(--border);
-
-}
-
-.student-row:last-child { border-bottom: none; }
-
-.avatar {
-
-  width: 34px; height: 34px; border-radius: 50%;
-
-  background: var(--green-pale); display: flex; align-items: center; justify-content: center;
-
-  font-size: 12px; font-weight: 600; color: var(--green); flex-shrink: 0;
-
-  border: 1px solid var(--green-border);
-
-}
-
-
-
-/* ===== ANNOUNCEMENTS ===== */
-
-.ann-item {
-
-  padding: 12px 14px; background: var(--bg);
-
-  border-radius: var(--radius-sm); border-left: 3px solid var(--green); margin-bottom: 8px;
-
-}
-
-
-
-/* ===== SUBMISSIONS ===== */
-
-.sub-item {
-
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-
-  padding: 1rem; margin-bottom: 10px; background: white;
-
-}
-
-.sub-answer {
-
-  background: var(--bg); padding: 10px; border-radius: var(--radius-sm);
-
-  font-size: 13px; font-family: 'DM Mono', monospace; line-height: 1.6;
-
-  white-space: pre-wrap; word-break: break-word; margin: 8px 0;
-
-}
-
-
-
-/* ===== SCHEDULE ===== */
-
-.session-row {
-
-  display: flex; align-items: flex-start; gap: 10px;
-
-  padding: 10px 0; border-bottom: 1px solid var(--border);
-
-}
-
-.session-row:last-child { border-bottom: none; }
-
-
-
-/* ===== MODAL ===== */
-
-.modal-overlay {
-
-  position: fixed; inset: 0; background: rgba(0,0,0,.5);
-
-  display: flex; align-items: center; justify-content: center;
-
-  z-index: 100; padding: 1rem;
-
-}
-
-.modal {
-
-  background: white; border-radius: var(--radius); padding: 1.5rem;
-
-  width: 100%; max-width: 520px; max-height: 85vh; overflow-y: auto;
-
-  box-shadow: 0 20px 40px rgba(0,0,0,.15);
-
-}
-
-.modal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; gap: 12px; }
-
-.close-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-2); line-height: 1; padding: 0 4px; flex-shrink: 0; }
-
-.close-btn:hover { color: var(--text); }
-
-
-
-/* ===== EBOOK ===== */
-
-.ebook-frame { width: 100%; height: 580px; border: 1px solid var(--border); border-radius: var(--radius); }
-
-
-
-/* ===== LOADING ===== */
-
-.loading-screen {
-
-  display: flex; flex-direction: column; align-items: center;
-
-  justify-content: center; height: 70vh; gap: 14px;
-
-  color: var(--text-2); font-size: 14px;
-
-}
-
-.spinner {
-
-  width: 30px; height: 30px;
-
-  border: 2.5px solid var(--border); border-top-color: var(--green);
-
-  border-radius: 50%; animation: spin .8s linear infinite;
-
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-
-
-/* ===== EMPTY ===== */
-
-.empty-state {
-
-  text-align: center; padding: 3rem 1rem;
-
-  color: var(--text-2); font-size: 14px; line-height: 1.8;
-
-}
-
-
-
-/* ===== UTILS ===== */
-
-.mt-1 { margin-top: .5rem; }  .mt-2 { margin-top: 1rem; }  .mt-3 { margin-top: 1.5rem; }
-
-.mb-1 { margin-bottom: .5rem; } .mb-2 { margin-bottom: 1rem; } .mb-3 { margin-bottom: 1.5rem; }
-
-.flex-between { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-
-.flex-center  { display: flex; align-items: center; gap: 8px; }
-
-.text-sm   { font-size: 13px; }
-
-.text-muted{ color: var(--text-2); }
-
-.text-danger { color: var(--danger); }
-
-.banned-banner {
-
-  background: var(--danger-bg); border: 1px solid var(--danger-bd);
-
-  border-radius: var(--radius-sm); padding: 1rem; text-align: center;
-
-  color: var(--danger); font-size: 14px; margin-bottom: 1rem;
-
-}
-
-code { font-family: 'DM Mono', monospace; font-size: 12px; background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
-
-
-
-@media (max-width: 480px) {
-
-  .stat-grid { grid-template-columns: repeat(2, 1fr); }
-
-  #root { padding: .75rem; }
-
-  .portal-header h2 { display: none; }
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div id="root"></div>
-
-<div class="toast" id="toast"></div>
-
-
-
-<script>
-
-/* ================================================================
-
-   CONFIGURATION — YOU MUST FILL THESE IN BEFORE GOING LIVE
-
-   ================================================================ */
-
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PyLearn — Python Learning Platform</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+
+<!-- ████████████████████████████████████████
+     STEP 1: PASTE YOUR FIREBASE CONFIG HERE
+     Go to Firebase Console → Project Settings
+     → Your Apps → Web App → SDK setup
+     Replace the object below with your own.
+████████████████████████████████████████ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword,
+         signInWithEmailAndPassword, signOut,
+         onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc,
+         collection, addDoc, getDocs, updateDoc,
+         deleteDoc, query, orderBy, onSnapshot,
+         serverTimestamp, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getStorage, ref, uploadString,
+         getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+// ── YOUR FIREBASE CONFIG ──────────────────
 const FIREBASE_CONFIG = {
 
   apiKey: "AIzaSyBflRvtpP2DnKnoWCslON6CWIMgX34RvnQ",
-
   authDomain: "devjourney-portal.firebaseapp.com",
-
   projectId: "devjourney-portal",
-
   storageBucket: "devjourney-portal.firebasestorage.app",
-
   messagingSenderId: "837161815919",
-
   appId: "1:837161815919:web:5beaaa88b865bd8c60e29a"
 
 };
 
-// Your email — this account automatically gets admin access
+// ─────────────────────────────────────────
 
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+// ── ADMIN EMAIL — change to your own email ──
 const ADMIN_EMAIL = "devjourney2006@gmail.com";
 
-/* ================================================================ */
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+const $ = id => document.getElementById(id);
+let _user = null, _profile = null;
 
+function toast(msg, err = false) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.style.borderColor = err ? 'var(--warn)' : 'var(--accent)';
+  t.style.color = err ? 'var(--warn)' : 'var(--accent)';
+  t.classList.add('show');
+  clearTimeout(window._tt);
+  window._tt = setTimeout(() => t.classList.remove('show'), 3000);
+}
 
+function empty(icon, msg) {
+  return `<div class="empty-state"><div class="ei">${icon}</div><p>${msg}</p></div>`;
+}
 
-firebase.initializeApp(FIREBASE_CONFIG);
+function fmtDate(ts) {
+  if (!ts) return '—';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+}
+function fmtDT(ts) {
+  if (!ts) return '—';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleString('en-GB', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+}
 
-const auth = firebase.auth();
+function fileToB64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
 
-const db   = firebase.firestore();
+function dlB64(b64, name) {
+  const a = document.createElement('a');
+  a.href = b64; a.download = name;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+}
 
+function loading(el, msg = '⏳ Loading…') {
+  el.innerHTML = `<div class="empty-state"><div class="ei">⏳</div><p>${msg}</p></div>`;
+}
 
+// ══════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════
+let authMode = 'login';
 
-/* ===== CONSTANTS ===== */
-
-const CHAPTERS = [
-
-  "How computers think",
-
-  "Variables & data types",
-
-  "Operators & user input",
-
-  "Control flow — if/else",
-
-  "Loops",
-
-  "Functions",
-
-  "Lists, dictionaries & final project"
-
-];
-
-
-
-const SCHEDULE = [
-
-  { week:1, sessions:[{n:"Session 1",topic:"How computers think + setting up Replit"},{n:"Session 2",topic:"Variables, data types & your first program"}]},
-
-  { week:2, sessions:[{n:"Session 3",topic:"Operators, input & user interaction"},{n:"Session 4",topic:"Making decisions with if/else"}]},
-
-  { week:3, sessions:[{n:"Session 5",topic:"Loops — making the computer repeat things"},{n:"Session 6",topic:"Functions — writing reusable code"}]},
-
-  { week:4, sessions:[{n:"Session 7",topic:"Lists & dictionaries"},{n:"Session 8",topic:"Final project: Student Grading System"}]}
-
-];
-
-
-
-/* ===== STATE ===== */
-
-const S = {
-
-  user: null, profile: null,
-
-  tab: 'home', authMode: 'login',
-
-  announcements: [], exercises: [], submissions: [],
-
-  students: [],
-
-  settings: { ebookUrl:'', bookTitle:'Python for Absolute Beginners — Book 1', cohortName:'Python Cohort 1' },
-
-  progress: Array(7).fill(false),
-
-  loading: true, modal: null,
-
-  listeners: []
-
+window.switchTab = mode => {
+  authMode = mode;
+  $('tab-login').classList.toggle('active', mode === 'login');
+  $('tab-signup').classList.toggle('active', mode === 'signup');
+  $('auth-btn').textContent = mode === 'login' ? 'Login' : 'Create Account';
+  $('name-field').style.display = mode === 'signup' ? 'flex' : 'none';
+  $('auth-note').innerHTML = mode === 'login'
+    ? `No account? <span onclick="switchTab('signup')">Sign up free</span>`
+    : `Have account? <span onclick="switchTab('login')">Login</span>`;
+  $('auth-err').style.display = 'none';
 };
 
+window.handleAuth = async () => {
+  const email = $('inp-email').value.trim();
+  const pass = $('inp-pass').value;
+  const btn = $('auth-btn');
 
+  if (!email || !pass) { showErr('Fill in all fields.'); return; }
 
-/* ===== TOAST ===== */
+  btn.textContent = '⏳'; btn.disabled = true;
 
-function toast(msg, isError=false) {
+  try {
+    if (authMode === 'login') {
+      await signInWithEmailAndPassword(auth, email, pass);
+    } else {
+      const name = $('inp-name').value.trim();
+      if (!name) { showErr('Enter your name.'); btn.textContent='Create Account'; btn.disabled=false; return; }
+      const cred = await createUserWithEmailAndPassword(auth, email, pass);
+      await setDoc(doc(db, 'users', cred.user.uid), {
+        name, email, role: 'student',
+        joinedAt: serverTimestamp()
+      });
+    }
+  } catch(e) {
+    let msg = e.message;
+    if (e.code === 'auth/email-already-in-use') msg = 'Email already registered.';
+    if (e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found') msg = 'Wrong email or password.';
+    if (e.code === 'auth/weak-password') msg = 'Password must be at least 6 characters.';
+    showErr(msg);
+    btn.textContent = authMode === 'login' ? 'Login' : 'Create Account';
+    btn.disabled = false;
+  }
+};
 
-  const el = document.getElementById('toast');
-
-  el.textContent = msg;
-
-  el.className = 'toast' + (isError ? ' error' : '') + ' show';
-
-  setTimeout(() => { el.className = 'toast' + (isError ? ' error' : ''); }, 2600);
-
+function showErr(msg) {
+  const e = $('auth-err');
+  e.textContent = msg; e.style.display = 'block';
 }
 
+window.logout = async () => {
+  await signOut(auth);
+  $('app-screen').classList.remove('active');
+  $('auth-screen').classList.add('active');
+  closeSidebar();
+};
 
+// Auth state listener
+onAuthStateChanged(auth, async user => {
+  if (user) {
+    _user = user;
+    // Fetch or create profile
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    if (snap.exists()) {
+      _profile = snap.data();
+    } else {
+      // Admin created via Firebase console
+      _profile = { name: 'Admin', email: user.email, role: 'admin' };
+      await setDoc(doc(db, 'users', user.uid), { ..._profile, joinedAt: serverTimestamp() });
+    }
+    // Override role for admin email
+    if (user.email === ADMIN_EMAIL) _profile.role = 'admin';
 
-/* ===== RENDER ===== */
-
-function render() {
-
-  const root = document.getElementById('root');
-
-  if (S.loading) {
-
-    root.innerHTML = `<div class="loading-screen"><div class="spinner"></div><p>Loading portal...</p></div>`;
-
-    return;
-
+    $('auth-screen').classList.remove('active');
+    $('app-screen').classList.add('active');
+    setupShell();
   }
+});
 
-  if (!S.user) {
+// Enter key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && $('auth-screen').classList.contains('active')) handleAuth();
+});
 
-    root.innerHTML = renderAuth();
+// ══════════════════════════════════════════
+// SHELL
+// ══════════════════════════════════════════
+function setupShell() {
+  const initials = (_profile.name || 'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  $('sidebar-avatar').textContent = initials;
+  $('topbar-avatar').textContent = initials;
+  $('sidebar-name').textContent = _profile.name;
+  $('sidebar-role').textContent = _profile.role === 'admin' ? '⚙️ Admin' : '🎓 Student';
 
-  } else if (S.profile?.isAdmin) {
-
-    root.innerHTML = renderAdmin();
-
+  if (_profile.role === 'admin') {
+    $('student-nav').style.display = 'none';
+    $('admin-nav').style.display = 'block';
+    $('mob-student').style.display = 'none';
+    $('mob-admin').style.display = 'flex';
+    showPage('admin-dashboard');
   } else {
+    $('student-nav').style.display = 'block';
+    $('admin-nav').style.display = 'none';
+    $('mob-student').style.display = 'flex';
+    $('mob-admin').style.display = 'none';
+    showPage('dashboard');
+  }
+}
 
-    root.innerHTML = renderStudent();
+// ══════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════
+const PAGES = {
+  'dashboard': renderDashboard,
+  'books': renderBooks,
+  'exercises': renderExercises,
+  'my-submissions': renderMySubmissions,
+  'my-progress': renderMyProgress,
+  'qa': renderQA,
+  'admin-dashboard': renderAdminDashboard,
+  'admin-books': renderAdminBooks,
+  'admin-exercises': renderAdminExercises,
+  'admin-submissions': renderAdminSubmissions,
+  'admin-progress': renderAdminProgress,
+  'admin-schedule': renderAdminSchedule,
+  'admin-qa': renderAdminQA,
+};
 
+window.showPage = pid => {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const pg = $('page-'+pid);
+  if (pg) pg.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === pid));
+  document.querySelectorAll('.mob-item').forEach(n => n.classList.toggle('active', n.dataset.page === pid));
+  if (PAGES[pid]) PAGES[pid]();
+  closeSidebar();
+};
+
+window.openSidebar = () => { $('sidebar').classList.add('open'); $('sb-overlay').classList.add('open'); document.body.style.overflow='hidden'; };
+window.closeSidebar = () => { $('sidebar').classList.remove('open'); $('sb-overlay').classList.remove('open'); document.body.style.overflow=''; };
+
+window.openModal = (title, html) => { $('modal-title').textContent=title; $('modal-body').innerHTML=html; $('modal-overlay').classList.add('open'); };
+window.closeModal = () => $('modal-overlay').classList.remove('open');
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+// ══════════════════════════════════════════
+// STUDENT: DASHBOARD
+// ══════════════════════════════════════════
+async function renderDashboard() {
+  $('dash-name').textContent = (_profile.name||'').split(' ')[0];
+  const [bSnap, eSnap, sSnap, qSnap] = await Promise.all([
+    getDocs(collection(db,'books')),
+    getDocs(collection(db,'exercises')),
+    getDocs(query(collection(db,'submissions'), where('userId','==',_user.uid))),
+    getDocs(query(collection(db,'questions'), where('userId','==',_user.uid)))
+  ]);
+  const bCount = bSnap.size, eCount = eSnap.size;
+  const subExIds = new Set(sSnap.docs.map(d=>d.data().exerciseId));
+  const unanswered = qSnap.docs.filter(d=>!d.data().answer).length;
+
+  $('dash-stats').innerHTML = `
+    <div class="stat-card"><div class="stat-label">Books</div><div class="stat-value">${bCount}</div><div class="stat-sub">available</div></div>
+    <div class="stat-card"><div class="stat-label">Exercises Done</div><div class="stat-value blue">${subExIds.size}/${eCount}</div><div class="stat-sub">submitted</div></div>
+    <div class="stat-card"><div class="stat-label">My Questions</div><div class="stat-value yellow">${qSnap.size}</div><div class="stat-sub">${unanswered} pending</div></div>
+  `;
+
+  // Books quick list
+  const bl = $('dash-books');
+  if (!bCount) { bl.innerHTML = empty('📭','No books yet.'); }
+  else {
+    const emojis = ['🐍','📘','🚀','💡','⚡','🔥'];
+    bl.innerHTML = bSnap.docs.slice(0,3).map((d,i)=>{
+      const b = d.data();
+      return `<div class="dash-row">
+        <span style="font-size:22px">${emojis[i%emojis.length]}</span>
+        <div style="flex:1;min-width:0"><div class="dash-row-title">${b.title}</div><div class="dash-row-sub">Book ${b.order||i+1}</div></div>
+        <button class="btn-sm-acc" onclick="dlBook('${d.id}','${b.title.replace(/'/g,"\\'")}','${b.fileName||'book.pdf'}')">↓ PDF</button>
+      </div>`;
+    }).join('');
   }
 
-  if (S.modal) {
-
-    root.insertAdjacentHTML('beforeend', renderModal());
-
+  // Pending exercises
+  const el = $('dash-ex');
+  const pending = eSnap.docs.filter(d=>!subExIds.has(d.id));
+  if (!pending.length) { el.innerHTML = empty('🎉','All done!'); }
+  else {
+    el.innerHTML = pending.slice(0,4).map(d=>{
+      const e=d.data();
+      return `<div class="dash-row">
+        <span style="font-size:20px">${e.type==='project'?'🚀':'✏️'}</span>
+        <div style="flex:1;font-size:13px;font-weight:600">${e.title}</div>
+        <span class="badge ${e.type==='project'?'badge-blue':'badge-green'}">${e.type}</span>
+      </div>`;
+    }).join('');
   }
 
+  // Schedule widget
+  renderScheduleWidget();
 }
 
-
-
-/* ===================================================================
-
-   AUTH SCREEN
-
-   =================================================================== */
-
-function renderAuth() {
-
-  const isLogin = S.authMode === 'login';
-
-  return `
-
-  <div class="auth-wrap">
-
-    <div class="auth-logo">
-
-      <div class="logo" style="justify-content:center;margin-bottom:.75rem">
-
-        <div class="logo-mark">DJ</div>
-
-        <h1 style="font-size:20px">Dev Journey Portal</h1>
-
-      </div>
-
-      <p class="text-sm text-muted">Python training — ${S.settings.cohortName}</p>
-
-    </div>
-
-    <div class="card">
-
-      <div class="auth-toggle">
-
-        <button class="${isLogin?'active':''}" onclick="setAuthMode('login')">Log in</button>
-
-        <button class="${!isLogin?'active':''}" onclick="setAuthMode('register')">Create account</button>
-
-      </div>
-
-      ${!isLogin ? `<div class="form-group"><label>Your full name</label><input id="a-name" type="text" placeholder="e.g. Kofi Mensah" autocomplete="name" /></div>` : ''}
-
-      <div class="form-group"><label>Email address</label><input id="a-email" type="email" placeholder="you@example.com" autocomplete="email" /></div>
-
-      <div class="form-group"><label>Password</label><input id="a-pass" type="password" placeholder="${isLogin?'Your password':'At least 6 characters'}" autocomplete="${isLogin?'current-password':'new-password'}" onkeydown="if(event.key==='Enter')${isLogin?'doLogin()':'doRegister()'}" /></div>
-
-      <p class="error-msg" id="auth-err"></p>
-
-      <button class="btn btn-primary btn-full mt-1" onclick="${isLogin?'doLogin()':'doRegister()'}">
-
-        ${isLogin ? 'Log in' : 'Create account'}
-
-      </button>
-
-    </div>
-
-    <p class="text-sm text-muted mt-2" style="text-align:center;line-height:1.7">
-
-      Your instructor (Prince) will share the link to this portal.<br>Register with your email to get started.
-
-    </p>
-
-  </div>`;
-
-}
-
-
-
-/* ===================================================================
-
-   STUDENT DASHBOARD
-
-   =================================================================== */
-
-function renderStudent() {
-
-  const done = S.progress.filter(Boolean).length;
-
-  const pct  = Math.round((done/7)*100);
-
-  const tabs = ['home','ebook','schedule','progress','exercises'];
-
-  return `
-
-  <div class="portal-header">
-
-    <div class="logo">
-
-      <div class="logo-mark">DJ</div>
-
-      <div>
-
-        <div style="font-weight:600;font-size:15px">Dev Journey Portal</div>
-
-        <div class="text-sm text-muted">${S.profile?.name || 'Student'}</div>
-
-      </div>
-
-    </div>
-
-    <button class="btn btn-outline btn-sm" onclick="doSignOut()">Sign out</button>
-
-  </div>
-
-  <div class="tabs">
-
-    ${tabs.map(t => `<button class="tab${S.tab===t?' active':''}" onclick="setTab('${t}')">${t.charAt(0).toUpperCase()+t.slice(1)}</button>`).join('')}
-
-  </div>
-
-  <div id="tab-content">
-
-    ${S.tab==='home'      ? renderStudentHome(done,pct) : ''}
-
-    ${S.tab==='ebook'     ? renderEbook()               : ''}
-
-    ${S.tab==='schedule'  ? renderSchedule()             : ''}
-
-    ${S.tab==='progress'  ? renderProgress(done,pct)     : ''}
-
-    ${S.tab==='exercises' ? renderStudentExercises()      : ''}
-
-  </div>`;
-
-}
-
-
-
-function renderStudentHome(done, pct) {
-
-  return `
-
-  <div class="card mb-2" style="border-left:3px solid var(--green)">
-
-    <div class="flex-between">
-
-      <div>
-
-        <p style="font-weight:500;margin-bottom:4px">Your progress</p>
-
-        <p class="text-sm text-muted">${done} of 7 chapters done</p>
-
-      </div>
-
-      <div style="font-size:26px;font-weight:600;color:var(--green)">${pct}%</div>
-
-    </div>
-
-    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-
-  </div>
-
-  <h3 class="mb-1">Announcements</h3>
-
-  ${S.announcements.length === 0
-
-    ? `<div class="empty-state">No announcements yet.<br>Check back after your first session.</div>`
-
-    : S.announcements.map(a => `
-
-      <div class="ann-item">
-
-        <p style="font-size:14px;margin-bottom:4px;line-height:1.6">${escHtml(a.text)}</p>
-
-        <p class="text-sm text-muted">${a.date}</p>
-
-      </div>`).join('')}`;
-
-}
-
-
-
-function renderEbook() {
-
-  if (!S.settings.ebookUrl) return `
-
-    <div class="empty-state">
-
-      <p style="font-size:15px;font-weight:500;margin-bottom:8px">Ebook coming soon</p>
-
-      <p>Your instructor hasn't uploaded the book yet.<br>Check back after your first session.</p>
-
+async function renderScheduleWidget() {
+  const snap = await getDoc(doc(db,'settings','schedule'));
+  const el = $('dash-schedule');
+  if (!snap.exists()) { el.innerHTML='<p class="text-muted" style="font-size:13px">Schedule not set up yet.</p>'; return; }
+  const cfg = snap.data();
+  if (!cfg.totalWeeks || !cfg.startDate) { el.innerHTML='<p class="text-muted" style="font-size:13px">Schedule coming soon!</p>'; return; }
+  const start = new Date(cfg.startDate), today = new Date();
+  let html='';
+  for(let w=1;w<=cfg.totalWeeks;w++){
+    const ws=new Date(start); ws.setDate(start.getDate()+(w-1)*7);
+    const we=new Date(ws); we.setDate(ws.getDate()+6);
+    const isCur=today>=ws&&today<=we, isDone=today>we;
+    const topic=cfg.weekTopics?.[w]||`Week ${w}`;
+    html+=`<div class="week-row">
+      <div class="week-num ${isDone?'done':isCur?'current':''}">${w}</div>
+      <div class="week-topic">${topic}${isCur?' <span class="badge badge-green" style="font-size:10px">Now</span>':''}</div>
+      <div class="week-dates">${ws.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}–${we.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}</div>
     </div>`;
-
-  return `
-
-  <p class="text-sm text-muted mb-1">${escHtml(S.settings.bookTitle)}</p>
-
-  <iframe class="ebook-frame" src="${S.settings.ebookUrl}" title="Ebook — read only" allowfullscreen></iframe>
-
-  <p class="text-sm text-muted mt-1" style="text-align:center">This book is view-only. Download is not available.</p>`;
-
+  }
+  el.innerHTML=html;
 }
 
-
-
-function renderSchedule() {
-
-  return SCHEDULE.map(w => `
-
-    <div class="card mb-2">
-
-      <h3 class="mb-1" style="color:var(--green)">Week ${w.week}</h3>
-
-      ${w.sessions.map(s => `
-
-        <div class="session-row">
-
-          <span class="badge bg-green" style="flex-shrink:0">${s.n}</span>
-
-          <span style="font-size:14px;padding-top:2px">${s.topic}</span>
-
-        </div>`).join('')}
-
-    </div>`).join('');
-
-}
-
-
-
-function renderProgress(done, pct) {
-
-  return `
-
-  <p class="text-sm text-muted mb-2">Tap a chapter to mark it as done when you finish it.</p>
-
-  ${CHAPTERS.map((ch, i) => `
-
-    <div class="chapter-item${S.progress[i]?' done':''}" onclick="toggleChapter(${i})">
-
-      <div class="checkbox">${S.progress[i]?'✓':''}</div>
-
-      <div>
-
-        <span style="font-size:14px">Chapter ${i+1}</span>
-
-        <span style="font-size:13px;color:var(--text-2);margin-left:6px">${ch}</span>
-
+// ══════════════════════════════════════════
+// STUDENT: BOOKS
+// ══════════════════════════════════════════
+async function renderBooks() {
+  const el=document.getElementById('books-grid');
+  loading(el);
+  const snap=await getDocs(query(collection(db,'books'),orderBy('order')));
+  if(!snap.size){el.innerHTML=`<div style="grid-column:1/-1">${empty('📭','No books yet.')}</div>`;return;}
+  const emojis=['🐍','📘','🚀','💡','⚡','🔥','🎯','📗'];
+  el.innerHTML=snap.docs.map((d,i)=>{
+    const b=d.data();
+    return `<div class="book-card">
+      <div class="book-cover">${emojis[i%emojis.length]}</div>
+      <div class="book-body">
+        <div class="book-title">${b.title}</div>
+        <div class="book-meta">Book ${b.order||i+1} · PDF</div>
+        <button class="btn-acc" style="margin-top:10px" onclick="dlBook('${d.id}','${b.title.replace(/'/g,"\\'")}','${b.fileName||'book.pdf'}')">📥 Download PDF</button>
       </div>
-
-    </div>`).join('')}
-
-  <div class="card mt-2" style="background:var(--bg)">
-
-    <p class="text-sm${done===7?' ':'  text-muted'}" style="${done===7?'color:var(--green);font-weight:500':''}">
-
-      ${done===7 ? '🎉 Amazing — you finished Book 1! Ask your instructor about Book 2.' : `${7-done} chapter${7-done!==1?'s':''} left`}
-
-    </p>
-
-  </div>`;
-
-}
-
-
-
-function renderStudentExercises() {
-
-  if (S.exercises.length === 0) return `<div class="empty-state">No exercises yet.<br>Your instructor will post them during training.</div>`;
-
-  return S.exercises.map(ex => {
-
-    const sub = S.submissions.find(s => s.exerciseId===ex.id && s.studentId===S.user.uid);
-
-    let badge = `<span class="badge bg-gray">Not submitted</span>`;
-
-    if (sub) badge = sub.grade
-
-      ? `<span class="badge bg-green">${escHtml(sub.grade)}</span>`
-
-      : `<span class="badge bg-amber">Submitted — awaiting review</span>`;
-
-    return `
-
-    <div class="exercise-card" onclick="openExercise('${ex.id}')">
-
-      <div class="flex-between mb-1">
-
-        <h3 style="font-size:15px;flex:1">${escHtml(ex.title)}</h3>
-
-        ${badge}
-
-      </div>
-
-      <p class="text-sm text-muted" style="line-height:1.6">${escHtml(ex.description.length>110?ex.description.slice(0,110)+'…':ex.description)}</p>
-
-      ${ex.dueDate ? `<p class="text-sm text-muted mt-1">Due: ${escHtml(ex.dueDate)}</p>` : ''}
-
     </div>`;
-
   }).join('');
-
 }
 
+window.dlBook = async (bookId, title, fileName) => {
+  toast('📥 Preparing download…');
+  try {
+    const snap = await getDoc(doc(db,'books',bookId));
+    const url = snap.data()?.fileURL;
+    if (!url) { toast('File not available.', true); return; }
+    const a = document.createElement('a');
+    a.href = url; a.download = fileName; a.target='_blank';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    toast('📥 Downloaded: ' + title);
+  } catch { toast('Download failed.', true); }
+};
 
-
-/* ===================================================================
-
-   ADMIN DASHBOARD
-
-   =================================================================== */
-
-function renderAdmin() {
-
-  const ungraded = S.submissions.filter(s => !s.grade).length;
-
-  const tabs = ['students','announcements','ebook','exercises','submissions'];
-
-  return `
-
-  <div class="portal-header">
-
-    <div class="logo">
-
-      <div class="logo-mark">DJ</div>
-
-      <div>
-
-        <div style="font-weight:600;font-size:15px">Admin Panel</div>
-
-        <div class="text-sm text-muted">Dev Journey Portal</div>
-
+// ══════════════════════════════════════════
+// STUDENT: EXERCISES
+// ══════════════════════════════════════════
+async function renderExercises() {
+  const el=$('exercises-list'); loading(el);
+  const [eSnap,sSnap]=await Promise.all([
+    getDocs(query(collection(db,'exercises'),orderBy('createdAt'))),
+    getDocs(query(collection(db,'submissions'),where('userId','==',_user.uid)))
+  ]);
+  if(!eSnap.size){el.innerHTML=`<div class="card">${empty('📭','No exercises yet.')}</div>`;return;}
+  const submitted=new Set(sSnap.docs.map(d=>d.data().exerciseId));
+  el.innerHTML=eSnap.docs.map(d=>{
+    const e=d.data(),done=submitted.has(d.id);
+    return `<div class="ex-card">
+      <div class="ex-header">
+        <div>
+          <div class="ex-title">${e.type==='project'?'🚀':'✏️'} ${e.title}</div>
+          ${e.week?`<div class="ex-week">📅 Week ${e.week}</div>`:''}
+        </div>
+        <span class="badge ${e.type==='project'?'badge-blue':'badge-green'}">${e.type}</span>
       </div>
-
-    </div>
-
-    <button class="btn btn-outline btn-sm" onclick="doSignOut()">Sign out</button>
-
-  </div>
-
-  <div class="stat-grid">
-
-    <div class="stat-card"><p class="stat-label">Students</p><p class="stat-value">${S.students.length}</p></div>
-
-    <div class="stat-card"><p class="stat-label">Exercises</p><p class="stat-value">${S.exercises.length}</p></div>
-
-    <div class="stat-card"><p class="stat-label">To review</p><p class="stat-value" style="${ungraded>0?'color:var(--amber)':''}">${ungraded}</p></div>
-
-  </div>
-
-  <div class="tabs">
-
-    ${tabs.map(t => `<button class="tab${S.tab===t?' active':''}" onclick="setTab('${t}')">${t.charAt(0).toUpperCase()+t.slice(1)}${t==='submissions'&&ungraded>0?` <span class="badge bg-amber" style="font-size:11px;padding:1px 7px">${ungraded}</span>`:''}</button>`).join('')}
-
-  </div>
-
-  <div id="tab-content">
-
-    ${S.tab==='students'      ? renderAdminStudents()      : ''}
-
-    ${S.tab==='announcements' ? renderAdminAnnouncements() : ''}
-
-    ${S.tab==='ebook'         ? renderAdminEbook()         : ''}
-
-    ${S.tab==='exercises'     ? renderAdminExercises()     : ''}
-
-    ${S.tab==='submissions'   ? renderAdminSubmissions()   : ''}
-
-  </div>`;
-
+      <div class="ex-desc">${e.description}</div>
+      ${e.fileURL?`<button class="btn-acc secondary btn-sm" style="margin-bottom:10px" onclick="dlExFile('${e.fileURL}','${e.title.replace(/'/g,"\\'")}')">📥 Download Exercise PDF</button>`:''}
+      ${done
+        ? `<div class="sub-done">✅ Submitted — awaiting review</div>`
+        : `<div class="upload-zone" id="uz-${d.id}" onclick="document.getElementById('sf-${d.id}').click()">
+             <span style="font-size:28px">📤</span>
+             <p>Click to upload your solution (PDF / .py / .zip)</p>
+             <input type="file" id="sf-${d.id}" accept=".pdf,.py,.zip,.txt" style="display:none"
+               onchange="submitEx(this,'${d.id}','${e.title.replace(/'/g,"\\'")}')"/>
+           </div>`
+      }
+    </div>`;
+  }).join('');
 }
 
+window.dlExFile = (url, title) => {
+  const a=document.createElement('a'); a.href=url; a.download=title+'.pdf'; a.target='_blank';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+};
 
+window.submitEx = async (input, exId, exTitle) => {
+  const file=input.files[0]; if(!file)return;
+  const uz=$('uz-'+exId); uz.querySelector('p').textContent='⏳ Uploading…';
+  try {
+    const b64=await fileToB64(file);
+    const storRef=ref(storage,`submissions/${_user.uid}/${exId}/${file.name}`);
+    await uploadString(storRef,b64,'data_url');
+    const url=await getDownloadURL(storRef);
+    await addDoc(collection(db,'submissions'),{
+      userId:_user.uid, userName:_profile.name,
+      exerciseId:exId, exerciseTitle:exTitle,
+      fileName:file.name, fileURL:url,
+      submittedAt:serverTimestamp()
+    });
+    toast('✅ Submitted!');
+    renderExercises();
+  } catch { toast('Upload failed. Try a smaller file.',true); uz.querySelector('p').textContent='Click to upload your solution'; }
+};
 
-function renderAdminStudents() {
-
-  return `
-
-  <div class="card">
-
-    <div class="flex-between mb-2">
-
-      <h3>Enrolled students (${S.students.length})</h3>
-
-      <span class="text-sm text-muted">Share your portal link to invite students</span>
-
-    </div>
-
-    ${S.students.length === 0
-
-      ? `<p class="text-sm text-muted">No students yet. Share the portal link so they can register.</p>`
-
-      : S.students.map(s => `
-
-        <div class="student-row">
-
-          <div class="flex-center">
-
-            <div class="avatar">${s.name.slice(0,2).toUpperCase()}</div>
-
-            <div>
-
-              <p style="font-size:14px;font-weight:500">${escHtml(s.name)}</p>
-
-              <p class="text-sm text-muted">${escHtml(s.email)}</p>
-
-            </div>
-
-          </div>
-
-          <div class="flex-center">
-
-            <span class="text-sm text-muted">${s.joined||''}</span>
-
-            <button class="btn btn-danger btn-sm" onclick="confirmDeleteStudent('${s.id}','${escAttr(s.name)}')">Remove</button>
-
-          </div>
-
-        </div>`).join('')}
-
-  </div>`;
-
+// ══════════════════════════════════════════
+// STUDENT: MY SUBMISSIONS
+// ══════════════════════════════════════════
+async function renderMySubmissions() {
+  const el=$('my-subs'); loading(el);
+  const snap=await getDocs(query(collection(db,'submissions'),where('userId','==',_user.uid),orderBy('submittedAt','desc')));
+  if(!snap.size){el.innerHTML=empty('📭','No submissions yet.');return;}
+  el.innerHTML=`<div class="tbl-wrap"><table class="dtable">
+    <thead><tr><th>Exercise</th><th>File</th><th>Submitted</th><th></th></tr></thead>
+    <tbody>${snap.docs.map(d=>{const s=d.data();return`<tr>
+      <td><strong>${s.exerciseTitle}</strong></td>
+      <td class="mono" style="font-size:12px;color:var(--muted2)">${s.fileName||'—'}</td>
+      <td style="font-size:12px;color:var(--muted)">${fmtDT(s.submittedAt)}</td>
+      <td><a href="${s.fileURL}" target="_blank" class="btn-acc secondary btn-sm">↓ View</a></td>
+    </tr>`;}).join('')}</tbody>
+  </table></div>`;
 }
 
+// ══════════════════════════════════════════
+// STUDENT: MY PROGRESS
+// ══════════════════════════════════════════
+async function renderMyProgress() {
+  const el=$('my-progress'); loading(el);
+  const [schedSnap,eSnap,sSnap]=await Promise.all([
+    getDoc(doc(db,'settings','schedule')),
+    getDocs(collection(db,'exercises')),
+    getDocs(query(collection(db,'submissions'),where('userId','==',_user.uid)))
+  ]);
+  const cfg=schedSnap.exists()?schedSnap.data():{};
+  const exs=eSnap.docs.map(d=>({id:d.id,...d.data()}));
+  const submitted=new Set(sSnap.docs.map(d=>d.data().exerciseId));
+  const n=cfg.totalWeeks||0;
 
+  if(!n){el.innerHTML=`<div class="card">${empty('📅','Schedule not set up yet.')}</div>`;return;}
 
-function renderAdminAnnouncements() {
+  const start=cfg.startDate?new Date(cfg.startDate):null, today=new Date();
+  let html=`<div class="stats-row" style="margin-bottom:16px">
+    <div class="stat-card"><div class="stat-label">Total Weeks</div><div class="stat-value">${n}</div></div>
+    <div class="stat-card"><div class="stat-label">Exercises</div><div class="stat-value blue">${submitted.size}/${exs.length}</div></div>
+  </div><div class="card"><div class="card-title">📅 Week-by-Week</div>`;
 
-  return `
+  for(let w=1;w<=n;w++){
+    let ws=null,we=null,status='upcoming';
+    if(start){ws=new Date(start);ws.setDate(start.getDate()+(w-1)*7);we=new Date(ws);we.setDate(ws.getDate()+6);
+      if(today>we)status='done'; else if(today>=ws)status='current';}
+    const wExs=exs.filter(e=>String(e.week)===String(w));
+    const wDone=wExs.filter(e=>submitted.has(e.id)).length;
+    const pct=wExs.length?Math.round(wDone/wExs.length*100):0;
+    const topic=cfg.weekTopics?.[w]||`Week ${w}`;
+    html+=`<div class="week-row">
+      <div class="week-num ${status==='done'?'done':status==='current'?'current':''}">${w}</div>
+      <div style="flex:1"><div class="week-topic">${topic}${status==='current'?' <span class="badge badge-green" style="font-size:10px">Now</span>':''}</div>
+        ${ws?`<div class="week-dates">${ws.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}–${we.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}</div>`:''}
+      </div>
+      <div style="text-align:right">${wExs.length?`<div style="font-size:12px;color:var(--muted2)">${wDone}/${wExs.length}</div>
+        <div class="prog-bar" style="margin-top:4px"><div class="prog-fill" style="width:${pct}%"></div></div>
+        `:`<span style="font-size:11px;color:var(--muted)">No exercises</span>`}
+      </div>
+    </div>`;
+  }
+  html+='</div>';
+  el.innerHTML=html;
+}
 
-  <div class="card mb-2">
+// ══════════════════════════════════════════
+// STUDENT: Q&A
+// ══════════════════════════════════════════
+async function renderQA() {
+  const el=$('qa-list'); loading(el);
+  const snap=await getDocs(query(collection(db,'questions'),where('userId','==',_user.uid),orderBy('askedAt','desc')));
 
-    <h3 class="mb-2">Post announcement</h3>
-
-    <div class="form-group">
-
-      <textarea id="ann-text" rows="3" placeholder="Write a message for your learners..."></textarea>
-
+  let html=`<div class="card" style="margin-bottom:16px">
+    <div class="card-title">💬 Ask a Question</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <textarea id="q-inp" class="form-inp" placeholder="Type your Python question here…" style="min-height:90px"></textarea>
+      <button class="btn-acc" onclick="submitQuestion()">📨 Send Question</button>
     </div>
-
-    <button class="btn btn-primary" onclick="postAnnouncement()">Post announcement</button>
-
   </div>
+  <div class="card"><div class="card-title">📬 My Questions</div>`;
 
-  <div class="card">
-
-    <h3 class="mb-2">Posted (${S.announcements.length})</h3>
-
-    ${S.announcements.length === 0
-
-      ? `<p class="text-sm text-muted">Nothing posted yet.</p>`
-
-      : S.announcements.map(a => `
-
-        <div class="list-item">
-
+  if(!snap.size){html+=empty('💬','No questions yet. Ask away!');}
+  else {
+    html+=snap.docs.map(d=>{
+      const q=d.data();
+      return `<div class="qa-item">
+        <div class="qa-question">
+          <span class="qa-avatar">👤</span>
           <div style="flex:1">
-
-            <p style="font-size:14px;line-height:1.6">${escHtml(a.text)}</p>
-
-            <p class="text-sm text-muted mt-1">${a.date}</p>
-
+            <div class="qa-text">${q.question}</div>
+            <div class="qa-meta">${fmtDT(q.askedAt)}</div>
           </div>
-
-          <button class="btn btn-danger btn-sm" onclick="deleteAnnouncement('${a.id}')">Delete</button>
-
-        </div>`).join('')}
-
-  </div>`;
-
+        </div>
+        ${q.answer?`<div class="qa-answer">
+          <span class="qa-avatar admin">🐍</span>
+          <div style="flex:1">
+            <div class="qa-text">${q.answer}</div>
+            <div class="qa-meta">Admin · ${fmtDT(q.answeredAt)}</div>
+          </div>
+        </div>`:`<div class="qa-pending">⏳ Waiting for admin answer…</div>`}
+      </div>`;
+    }).join('');
+  }
+  html+='</div>';
+  el.innerHTML=html;
 }
 
+window.submitQuestion = async () => {
+  const text=$('q-inp').value.trim();
+  if(!text){toast('Type a question first.',true);return;}
+  try {
+    await addDoc(collection(db,'questions'),{
+      userId:_user.uid, userName:_profile.name,
+      question:text, answer:null, answeredAt:null,
+      askedAt:serverTimestamp()
+    });
+    toast('📨 Question sent!');
+    $('q-inp').value='';
+    renderQA();
+  } catch { toast('Failed to send.',true); }
+};
 
+// ══════════════════════════════════════════
+// ADMIN: DASHBOARD
+// ══════════════════════════════════════════
+async function renderAdminDashboard() {
+  const [uSnap,bSnap,eSnap,sSnap,qSnap]=await Promise.all([
+    getDocs(query(collection(db,'users'),where('role','==','student'))),
+    getDocs(collection(db,'books')),
+    getDocs(collection(db,'exercises')),
+    getDocs(collection(db,'submissions')),
+    getDocs(query(collection(db,'questions'),where('answer','==',null)))
+  ]);
+  $('adm-stats').innerHTML=`
+    <div class="stat-card"><div class="stat-label">Students</div><div class="stat-value">${uSnap.size}</div><div class="stat-sub">registered</div></div>
+    <div class="stat-card"><div class="stat-label">Books</div><div class="stat-value blue">${bSnap.size}</div><div class="stat-sub">published</div></div>
+    <div class="stat-card"><div class="stat-label">Exercises</div><div class="stat-value white">${eSnap.size}</div></div>
+    <div class="stat-card"><div class="stat-label">Submissions</div><div class="stat-value yellow">${sSnap.size}</div></div>
+    <div class="stat-card"><div class="stat-label">Unanswered Qs</div><div class="stat-value" style="color:var(--warn)">${qSnap.size}</div><div class="stat-sub">need reply</div></div>
+  `;
+  const el=$('adm-recent');
+  if(!uSnap.size){el.innerHTML=empty('👥','No students yet.');return;}
+  el.innerHTML=`<div class="tbl-wrap"><table class="dtable">
+    <thead><tr><th>Name</th><th>Email</th><th>Joined</th></tr></thead>
+    <tbody>${uSnap.docs.slice(0,10).map(d=>{const u=d.data();return`<tr>
+      <td><strong>${u.name}</strong></td>
+      <td style="color:var(--muted2)">${u.email}</td>
+      <td style="font-size:12px;color:var(--muted)">${fmtDate(u.joinedAt)}</td>
+    </tr>`;}).join('')}</tbody>
+  </table></div>`;
+}
 
-function renderAdminEbook() {
+// ══════════════════════════════════════════
+// ADMIN: BOOKS
+// ══════════════════════════════════════════
+async function renderAdminBooks() {
+  const el=$('adm-books-list'); loading(el);
+  const snap=await getDocs(query(collection(db,'books'),orderBy('order')));
+  if(!snap.size){el.innerHTML=empty('📭','No books yet.');return;}
+  el.innerHTML=`<div class="tbl-wrap"><table class="dtable">
+    <thead><tr><th>#</th><th>Title</th><th>File</th><th>Actions</th></tr></thead>
+    <tbody>${snap.docs.map(d=>{const b=d.data();return`<tr>
+      <td class="mono text-acc">${b.order}</td>
+      <td><strong>${b.title}</strong></td>
+      <td>${b.fileURL?'<span class="badge badge-green">✓ PDF</span>':'<span class="badge badge-red">No file</span>'}</td>
+      <td style="display:flex;gap:6px;flex-wrap:wrap">
+        ${b.fileURL?`<a href="${b.fileURL}" target="_blank" class="btn-acc secondary btn-sm">👁 Preview</a>`:''}
+        <button class="btn-acc danger btn-sm" onclick="deleteBook('${d.id}','${b.storagePath||''}')">🗑 Delete</button>
+      </td>
+    </tr>`;}).join('')}</tbody>
+  </table></div>`;
+}
 
-  return `
+window.onBookFile=input=>{
+  const l=$('bk-file-label');
+  if(input.files[0]){l.textContent='✓ '+input.files[0].name;$('book-drop').classList.add('has-file');}
+};
 
-  <div class="card mb-2">
+window.addBook=async()=>{
+  const title=$('bk-title').value.trim(),order=parseInt($('bk-order').value)||1;
+  const fileEl=$('bk-file');
+  if(!title){toast('Enter a title.',true);return;}
+  if(!fileEl.files[0]){toast('Select a PDF.',true);return;}
+  const btn=$('#adm-books-upload .btn-acc');
+  btn.textContent='⏳ Uploading…';btn.disabled=true;
+  try {
+    const file=fileEl.files[0];
+    const b64=await fileToB64(file);
+    const path=`books/${Date.now()}_${file.name}`;
+    const storRef=ref(storage,path);
+    await uploadString(storRef,b64,'data_url');
+    const url=await getDownloadURL(storRef);
+    await addDoc(collection(db,'books'),{title,order,fileURL:url,storagePath:path,fileName:file.name,addedAt:serverTimestamp()});
+    $('bk-title').value='';$('bk-order').value='';fileEl.value='';
+    $('bk-file-label').textContent='Click to select PDF';$('book-drop').classList.remove('has-file');
+    toast('📚 Book published!');renderAdminBooks();
+  } catch(e){toast('Upload failed: '+e.message,true);}
+  finally{btn.textContent='📤 Publish Book';btn.disabled=false;}
+};
 
-    <h3 class="mb-1">Upload ebook</h3>
+window.deleteBook=async(bookId,storagePath)=>{
+  if(!confirm('Delete this book?'))return;
+  await deleteDoc(doc(db,'books',bookId));
+  if(storagePath){try{await deleteObject(ref(storage,storagePath));}catch{}}
+  toast('🗑️ Deleted.');renderAdminBooks();
+};
 
-    <p class="text-sm text-muted mb-2" style="line-height:1.7">
+// ══════════════════════════════════════════
+// ADMIN: EXERCISES
+// ══════════════════════════════════════════
+async function renderAdminExercises() {
+  const el=$('adm-ex-list'); loading(el);
+  const snap=await getDocs(query(collection(db,'exercises'),orderBy('createdAt')));
+  if(!snap.size){el.innerHTML=empty('📭','No exercises yet.');return;}
+  el.innerHTML=snap.docs.map(d=>{
+    const e=d.data();
+    const subQ=getDocs(query(collection(db,'submissions'),where('exerciseId','==',d.id)));
+    return `<div class="dash-row" style="align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border)">
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;margin-bottom:4px">
+          ${e.type==='project'?'🚀':'✏️'} ${e.title}
+          <span class="badge ${e.type==='project'?'badge-blue':'badge-green'}" style="margin-left:6px">${e.type}</span>
+          ${e.week?`<span class="badge badge-yellow" style="margin-left:4px">Wk ${e.week}</span>`:''}
+        </div>
+        <div style="font-size:13px;color:var(--muted2);margin-bottom:6px">${e.description.slice(0,80)}${e.description.length>80?'…':''}</div>
+        ${e.fileURL?`<a href="${e.fileURL}" target="_blank" class="badge badge-green" style="text-decoration:none">✓ PDF attached</a>`:'<span class="badge badge-red">No PDF</span>'}
+      </div>
+      <button class="btn-acc danger btn-sm" onclick="deleteExercise('${d.id}','${e.storagePath||''}')">🗑</button>
+    </div>`;
+  }).join('');
+}
 
-      Paste a Google Drive link <code>/preview</code> or any PDF URL. Students will see it
+window.onExFile=input=>{
+  if(input.files[0]){$('ex-file-label').textContent='✓ '+input.files[0].name;$('ex-drop').classList.add('has-file');}
+};
 
-      embedded and <strong>cannot download</strong> it.
+window.addExercise=async()=>{
+  const title=$('ex-title').value.trim(),desc=$('ex-desc').value.trim();
+  const type=$('ex-type').value,week=$('ex-week').value||null;
+  const fileEl=$('ex-file');
+  if(!title||!desc){toast('Fill in title and description.',true);return;}
+  const btn=document.querySelector('#adm-ex-upload .btn-acc');
+  btn.textContent='⏳ Saving…';btn.disabled=true;
+  try {
+    let fileURL=null,storagePath=null,fileName=null;
+    if(fileEl.files[0]){
+      const file=fileEl.files[0];
+      const b64=await fileToB64(file);
+      storagePath=`exercises/${Date.now()}_${file.name}`;
+      const storRef=ref(storage,storagePath);
+      await uploadString(storRef,b64,'data_url');
+      fileURL=await getDownloadURL(storRef);
+      fileName=file.name;
+    }
+    await addDoc(collection(db,'exercises'),{title,description:desc,type,week,fileURL,storagePath,fileName,createdAt:serverTimestamp()});
+    $('ex-title').value='';$('ex-desc').value='';$('ex-week').value='';fileEl.value='';
+    $('ex-file-label').textContent='Attach exercise PDF (optional)';$('ex-drop').classList.remove('has-file');
+    toast('✏️ Exercise created!');renderAdminExercises();
+  } catch(e){toast('Failed: '+e.message,true);}
+  finally{btn.textContent='✏️ Create Exercise';btn.disabled=false;}
+};
 
-    </p>
+window.deleteExercise=async(exId,storagePath)=>{
+  if(!confirm('Delete this exercise?'))return;
+  await deleteDoc(doc(db,'exercises',exId));
+  if(storagePath){try{await deleteObject(ref(storage,storagePath));}catch{}}
+  toast('🗑️ Deleted.');renderAdminExercises();
+};
 
-    ${S.settings.ebookUrl ? `<p class="text-sm" style="color:var(--green);margin-bottom:10px">✓ Ebook is currently set. Paste a new URL below to update it.</p>` : ''}
+// ══════════════════════════════════════════
+// ADMIN: SUBMISSIONS
+// ══════════════════════════════════════════
+async function renderAdminSubmissions() {
+  const el=$('adm-subs'); loading(el);
+  const snap=await getDocs(query(collection(db,'submissions'),orderBy('submittedAt','desc')));
+  if(!snap.size){el.innerHTML=empty('📭','No submissions yet.');return;}
+  el.innerHTML=`<div class="tbl-wrap"><table class="dtable">
+    <thead><tr><th>Student</th><th>Exercise</th><th>File</th><th>Date</th><th></th></tr></thead>
+    <tbody>${snap.docs.map(d=>{const s=d.data();return`<tr>
+      <td><strong>${s.userName}</strong></td>
+      <td>${s.exerciseTitle}</td>
+      <td class="mono" style="font-size:11px;color:var(--muted2)">${s.fileName||'—'}</td>
+      <td style="font-size:12px;color:var(--muted)">${fmtDT(s.submittedAt)}</td>
+      <td><a href="${s.fileURL}" target="_blank" class="btn-acc secondary btn-sm">↓ Download</a></td>
+    </tr>`;}).join('')}</tbody>
+  </table></div>`;
+}
 
-    <div class="form-group">
+// ══════════════════════════════════════════
+// ADMIN: PROGRESS
+// ══════════════════════════════════════════
+async function renderAdminProgress() {
+  const el=$('adm-progress'); loading(el);
+  const [uSnap,eSnap,sSnap,schedSnap]=await Promise.all([
+    getDocs(query(collection(db,'users'),where('role','==','student'))),
+    getDocs(collection(db,'exercises')),
+    getDocs(collection(db,'submissions')),
+    getDoc(doc(db,'settings','schedule'))
+  ]);
+  const cfg=schedSnap.exists()?schedSnap.data():{};
+  const exs=eSnap.docs.map(d=>({id:d.id,...d.data()}));
+  const students=uSnap.docs.map(d=>({id:d.id,...d.data()}));
 
-      <label>Book URL (Google Drive /preview or direct PDF link)</label>
+  if(!students.length){el.innerHTML=`<div class="card">${empty('👥','No students yet.')}</div>`;return;}
 
-      <input id="ebook-url" type="url" placeholder="https://drive.google.com/file/d/FILE_ID/preview" value="${escAttr(S.settings.ebookUrl)}" />
+  // Build submission map: userId → Set of exerciseIds
+  const subMap={};
+  sSnap.docs.forEach(d=>{
+    const s=d.data();
+    if(!subMap[s.userId])subMap[s.userId]=new Set();
+    subMap[s.userId].add(s.exerciseId);
+  });
 
+  let html=`<div class="card"><div class="card-title">📈 Student Overview</div>
+    <div class="tbl-wrap"><table class="dtable">
+      <thead><tr><th>Student</th><th>Progress</th><th>Exercises</th><th>Joined</th></tr></thead>
+      <tbody>${students.map(s=>{
+        const done=(subMap[s.id]||new Set()).size;
+        const pct=exs.length?Math.round(done/exs.length*100):0;
+        return`<tr>
+          <td><strong>${s.name}</strong><br><span style="font-size:11px;color:var(--muted2)">${s.email}</span></td>
+          <td><div style="display:flex;align-items:center;gap:8px">
+            <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+            <span class="mono" style="font-size:11px;color:var(--accent)">${pct}%</span>
+          </div></td>
+          <td><span class="mono text-acc">${done}</span>/${exs.length}</td>
+          <td style="font-size:12px;color:var(--muted)">${fmtDate(s.joinedAt)}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table></div>
+  </div>`;
+
+  // Week breakdown
+  if(cfg.totalWeeks){
+    html+=`<div class="card" style="margin-top:16px"><div class="card-title">📅 Week-by-Week</div>
+      <div class="tbl-wrap"><table class="dtable">
+        <thead><tr><th>Week</th><th>Topic</th><th>Exercises</th>${students.map(s=>`<th style="max-width:90px">${s.name.split(' ')[0]}</th>`).join('')}</tr></thead>
+        <tbody>${Array.from({length:cfg.totalWeeks},(_,i)=>i+1).map(w=>{
+          const topic=cfg.weekTopics?.[w]||`Week ${w}`;
+          const wExs=exs.filter(e=>String(e.week)===String(w));
+          return`<tr>
+            <td class="mono text-acc">${w}</td>
+            <td>${topic}</td>
+            <td>${wExs.length}</td>
+            ${students.map(s=>{
+              const done=wExs.filter(e=>(subMap[s.id]||new Set()).has(e.id)).length;
+              const pct=wExs.length?Math.round(done/wExs.length*100):0;
+              return`<td><span class="mono" style="font-size:12px;color:${pct===100?'var(--accent)':pct>0?'var(--yellow)':'var(--muted)'}">${done}/${wExs.length}</span></td>`;
+            }).join('')}
+          </tr>`;
+        }).join('')}</tbody>
+      </table></div>
+    </div>`;
+  }
+  el.innerHTML=html;
+}
+
+// ══════════════════════════════════════════
+// ADMIN: SCHEDULE
+// ══════════════════════════════════════════
+async function renderAdminSchedule() {
+  const snap=await getDoc(doc(db,'settings','schedule'));
+  const cfg=snap.exists()?snap.data():{};
+  $('total-weeks-inp').value=cfg.totalWeeks||'';
+  $('start-date-inp').value=cfg.startDate||'';
+  renderWeeksEditor(cfg);
+}
+
+function renderWeeksEditor(cfg){
+  const n=parseInt($('total-weeks-inp').value)||0;
+  const el=$('weeks-editor');
+  if(!n){el.innerHTML='<p style="font-size:13px;color:var(--muted)">Set total weeks above first.</p>';return;}
+  el.innerHTML=Array.from({length:n},(_,i)=>i+1).map(w=>`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <div style="width:28px;text-align:center;font-family:var(--font-m);font-size:13px;color:var(--accent)">${w}</div>
+      <input class="form-inp" id="wt-${w}" placeholder="Week ${w} topic…" value="${cfg.weekTopics?.[w]||''}"/>
+    </div>`).join('');
+}
+
+window.saveSchedule=async()=>{
+  const weeks=parseInt($('total-weeks-inp').value),start=$('start-date-inp').value;
+  if(!weeks||weeks<1){toast('Enter valid week count.',true);return;}
+  await setDoc(doc(db,'settings','schedule'),{totalWeeks:weeks,startDate:start},{ merge:true });
+  renderWeeksEditor({totalWeeks:weeks});
+  toast('✅ Settings saved!');
+};
+
+window.saveWeekTopics=async()=>{
+  const snap=await getDoc(doc(db,'settings','schedule'));
+  const cfg=snap.exists()?snap.data():{};
+  const n=cfg.totalWeeks||0;
+  const topics={};
+  for(let w=1;w<=n;w++){const inp=$('wt-'+w);if(inp)topics[w]=inp.value.trim()||`Week ${w}`;}
+  await updateDoc(doc(db,'settings','schedule'),{weekTopics:topics});
+  toast('📅 Week topics saved!');
+};
+
+// Refresh weeks editor when input changes
+document.addEventListener('input',e=>{
+  if(e.target.id==='total-weeks-inp'){
+    const snap=getDoc(doc(db,'settings','schedule')).then(s=>renderWeeksEditor(s.exists()?s.data():{}));
+  }
+});
+
+// ══════════════════════════════════════════
+// ADMIN: Q&A
+// ══════════════════════════════════════════
+async function renderAdminQA() {
+  const el=$('admin-qa-list'); loading(el);
+  const snap=await getDocs(query(collection(db,'questions'),orderBy('askedAt','desc')));
+  if(!snap.size){el.innerHTML=`<div class="card">${empty('💬','No questions yet.')}</div>`;return;}
+
+  const unanswered=snap.docs.filter(d=>!d.data().answer);
+  const answered =snap.docs.filter(d=>!!d.data().answer);
+
+  let html='';
+  if(unanswered.length){
+    html+=`<div class="card" style="margin-bottom:16px"><div class="card-title">🔴 Needs Answer (${unanswered.length})</div>`;
+    html+=unanswered.map(d=>{
+      const q=d.data();
+      return`<div class="qa-item">
+        <div class="qa-question">
+          <div class="qa-avatar">👤</div>
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:700;color:var(--accent2);margin-bottom:2px">${q.userName}</div>
+            <div class="qa-text">${q.question}</div>
+            <div class="qa-meta">${fmtDT(q.askedAt)}</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+          <textarea class="form-inp" id="ans-${d.id}" placeholder="Type your answer…" style="min-height:70px"></textarea>
+          <button class="btn-acc" onclick="submitAnswer('${d.id}')">📨 Send Answer</button>
+        </div>
+      </div>`;
+    }).join('');
+    html+='</div>';
+  }
+
+  if(answered.length){
+    html+=`<div class="card"><div class="card-title">✅ Answered (${answered.length})</div>`;
+    html+=answered.map(d=>{
+      const q=d.data();
+      return`<div class="qa-item">
+        <div class="qa-question">
+          <div class="qa-avatar">👤</div>
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:700;color:var(--accent2);margin-bottom:2px">${q.userName}</div>
+            <div class="qa-text">${q.question}</div>
+            <div class="qa-meta">${fmtDT(q.askedAt)}</div>
+          </div>
+        </div>
+        <div class="qa-answer">
+          <div class="qa-avatar admin">🐍</div>
+          <div style="flex:1"><div class="qa-text">${q.answer}</div><div class="qa-meta">${fmtDT(q.answeredAt)}</div></div>
+        </div>
+      </div>`;
+    }).join('');
+    html+='</div>';
+  }
+
+  el.innerHTML=html;
+}
+
+window.submitAnswer=async(qId)=>{
+  const text=$('ans-'+qId)?.value.trim();
+  if(!text){toast('Type an answer first.',true);return;}
+  try {
+    await updateDoc(doc(db,'questions',qId),{answer:text,answeredAt:serverTimestamp()});
+    toast('✅ Answer sent!');renderAdminQA();
+  } catch{toast('Failed.',true);}
+};
+
+</script>
+
+<style>
+/* ══════════════════════════════════════════
+   VARIABLES & RESET
+══════════════════════════════════════════ */
+:root{
+  --bg:#07090e; --surface:#0e1117; --card:#141a23;
+  --border:#1c2535; --border2:#253040;
+  --accent:#00d4aa; --accent2:#4f8ef7;
+  --warn:#ff5f5f; --yellow:#f5c518;
+  --text:#dde6f0; --muted:#4e6070; --muted2:#7a8fa0;
+  --font-d:'Syne',sans-serif; --font-m:'Space Mono',monospace;
+  --r:12px; --r-sm:8px; --shadow:0 4px 24px rgba(0,0,0,.45);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;}
+body{font-family:var(--font-d);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--surface);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,170,.3)}50%{box-shadow:0 0 0 10px rgba(0,212,170,0)}}
+
+/* ══════════════════════════════════════════
+   SCREEN SYSTEM
+══════════════════════════════════════════ */
+.screen{display:none;}
+.screen.active{display:flex;}
+
+/* ══════════════════════════════════════════
+   AUTH
+══════════════════════════════════════════ */
+#auth-screen{
+  min-height:100vh;align-items:center;justify-content:center;padding:24px;
+  position:relative;overflow:hidden;
+  background:radial-gradient(ellipse at 15% 60%,rgba(0,212,170,.1) 0%,transparent 55%),
+             radial-gradient(ellipse at 85% 15%,rgba(79,142,247,.08) 0%,transparent 50%),var(--bg);
+  animation:fadeIn .3s ease;
+}
+.auth-shapes{position:absolute;inset:0;pointer-events:none;}
+.auth-shapes span{position:absolute;border-radius:50%;border:1px solid rgba(0,212,170,.06);}
+.auth-shapes span:nth-child(1){width:500px;height:500px;top:-200px;left:-150px;}
+.auth-shapes span:nth-child(2){width:300px;height:300px;bottom:-100px;right:-80px;border-color:rgba(79,142,247,.06);}
+.auth-box{
+  position:relative;z-index:1;width:100%;max-width:420px;
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:20px;padding:40px 36px;box-shadow:var(--shadow);
+  animation:fadeUp .5s ease;
+}
+.auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.auth-tag{font-size:13px;color:var(--muted);margin-bottom:26px;font-family:var(--font-m);}
+.auth-tabs{display:flex;gap:4px;background:var(--card);border-radius:10px;padding:4px;margin-bottom:22px;}
+.auth-tab{flex:1;padding:9px;border:none;background:transparent;color:var(--muted);font-family:var(--font-d);font-weight:700;font-size:14px;border-radius:8px;cursor:pointer;transition:all .2s;}
+.auth-tab.active{background:var(--accent);color:#000;}
+.auth-form{display:flex;flex-direction:column;gap:13px;}
+.field{display:flex;flex-direction:column;gap:6px;}
+.field label{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.form-inp,.field input,.field textarea,.field select{
+  width:100%;padding:11px 14px;background:var(--card);border:1px solid var(--border2);
+  border-radius:var(--r-sm);color:var(--text);font-family:var(--font-d);font-size:14px;
+  transition:border-color .2s,box-shadow .2s;outline:none;
+}
+.form-inp:focus,.field input:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,.1);}
+textarea.form-inp{resize:vertical;font-family:var(--font-m);font-size:13px;}
+.err-msg{color:var(--warn);font-size:13px;padding:10px 14px;background:rgba(255,95,95,.08);border:1px solid rgba(255,95,95,.2);border-radius:var(--r-sm);margin-bottom:8px;display:none;}
+.auth-note{text-align:center;font-size:13px;color:var(--muted);margin-top:14px;}
+.auth-note span{color:var(--accent);cursor:pointer;text-decoration:underline;}
+.demo-hint{margin-top:12px;padding:10px 14px;background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.12);border-radius:var(--r-sm);font-family:var(--font-m);font-size:11px;color:var(--muted2);text-align:center;}
+.demo-hint b{color:var(--accent2);}
+
+/* ══════════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════════ */
+.btn-primary{padding:13px;background:var(--accent);color:#000;border:none;border-radius:var(--r-sm);font-family:var(--font-d);font-weight:800;font-size:15px;cursor:pointer;transition:transform .15s,opacity .15s;animation:pulse 2.5s infinite;width:100%;}
+.btn-primary:hover{transform:translateY(-2px);opacity:.9;}
+.btn-acc{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;background:var(--accent);color:#000;border:none;border-radius:var(--r-sm);font-family:var(--font-d);font-weight:700;font-size:13px;cursor:pointer;transition:transform .15s,opacity .15s;text-decoration:none;}
+.btn-acc:hover{transform:translateY(-1px);opacity:.88;}
+.btn-acc.secondary{background:var(--accent2);color:#fff;}
+.btn-acc.danger{background:rgba(255,95,95,.12);color:var(--warn);border:1px solid rgba(255,95,95,.2);}
+.btn-acc.danger:hover{background:rgba(255,95,95,.22);}
+.btn-sm{padding:6px 12px;font-size:12px;}
+.btn-sm-acc{display:inline-flex;align-items:center;padding:6px 12px;background:rgba(0,212,170,.12);color:var(--accent);border:1px solid rgba(0,212,170,.2);border-radius:var(--r-sm);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--font-d);}
+.btn-sm-acc:hover{background:rgba(0,212,170,.22);}
+
+/* FILE DROP */
+.file-drop{border:2px dashed var(--border2);border-radius:var(--r);padding:22px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.file-drop:hover{border-color:var(--accent);background:rgba(0,212,170,.04);}
+.file-drop.has-file{border-color:var(--accent);background:rgba(0,212,170,.05);border-style:solid;}
+.file-drop-icon{font-size:28px;}
+.file-drop-label{font-size:13px;color:var(--muted2);font-family:var(--font-m);}
+
+/* ══════════════════════════════════════════
+   APP SHELL
+══════════════════════════════════════════ */
+#app-screen{min-height:100vh;flex-direction:row;}
+.sidebar{
+  width:240px;min-height:100vh;background:var(--surface);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;padding:20px 12px;
+  position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0;
+  transition:transform .3s ease;z-index:200;
+}
+.sidebar-top{display:flex;align-items:center;justify-content:space-between;padding:0 8px;margin-bottom:30px;}
+.sb-close{display:none;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;}
+.sidebar-nav{flex:1;}
+.nav-group{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:0 12px;margin-bottom:8px;margin-top:4px;}
+.nav-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;margin-bottom:2px;border:none;background:transparent;color:var(--muted2);font-family:var(--font-d);font-size:14px;font-weight:600;border-radius:10px;cursor:pointer;transition:all .2s;text-align:left;}
+.nav-item:hover{background:var(--card);color:var(--text);}
+.nav-item.active{background:rgba(0,212,170,.12);color:var(--accent);}
+.nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0;}
+.sidebar-footer{margin-top:auto;padding-top:16px;border-top:1px solid var(--border);}
+.user-chip{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--card);border-radius:var(--r);}
+.user-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;}
+.user-avatar.sm{width:28px;height:28px;font-size:11px;}
+.user-info{flex:1;min-width:0;}
+.user-name{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.user-role{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+.logout-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:4px;transition:color .2s;flex-shrink:0;}
+.logout-btn:hover{color:var(--warn);}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:150;}
+.app-body{flex:1;display:flex;flex-direction:column;min-width:0;}
+.topbar{display:none;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.hamburger{background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:4px;}
+.topbar-logo{display:flex;align-items:center;gap:8px;}
+.topbar-right{display:flex;align-items:center;}
+.main-content{flex:1;padding:32px;overflow-y:auto;}
+
+/* ══════════════════════════════════════════
+   LOGO
+══════════════════════════════════════════ */
+.logo-icon{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-weight:700;color:#000;font-size:15px;flex-shrink:0;}
+.logo-icon.sm{width:30px;height:30px;font-size:12px;border-radius:8px;}
+.logo-word{font-size:21px;font-weight:800;}
+.logo-word span{color:var(--accent);}
+
+/* ══════════════════════════════════════════
+   PAGES
+══════════════════════════════════════════ */
+.page{display:none;animation:fadeUp .3s ease;}
+.page.active{display:block;}
+.page-hdr{margin-bottom:26px;}
+.page-title{font-size:25px;font-weight:800;line-height:1.2;}
+.page-sub{font-size:14px;color:var(--muted2);margin-top:4px;}
+.text-acc{color:var(--accent);}
+.text-muted{color:var(--muted2);}
+.mono{font-family:var(--font-m);}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;}
+.card-title{font-size:14px;font-weight:700;margin-bottom:16px;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;margin-bottom:20px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;}
+.stat-label{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.stat-value{font-size:28px;font-weight:800;font-family:var(--font-m);color:var(--accent);}
+.stat-value.blue{color:var(--accent2);}
+.stat-value.white{color:var(--text);}
+.stat-value.yellow{color:var(--yellow);}
+.stat-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+
+/* GRID */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.books-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;}
+
+/* BOOK CARD */
+.book-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:transform .2s,border-color .2s;}
+.book-card:hover{transform:translateY(-4px);border-color:var(--accent);}
+.book-cover{height:120px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,rgba(0,212,170,.12),rgba(79,142,247,.12));}
+.book-body{padding:14px;}
+.book-title{font-size:14px;font-weight:700;margin-bottom:3px;line-height:1.3;}
+.book-meta{font-size:11px;color:var(--muted);}
+
+/* EXERCISE CARD */
+.ex-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:14px;}
+.ex-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px;}
+.ex-title{font-size:15px;font-weight:700;}
+.ex-week{font-size:11px;color:var(--muted);font-family:var(--font-m);margin-top:2px;}
+.ex-desc{font-size:13px;color:var(--muted2);line-height:1.7;margin-bottom:12px;}
+.upload-zone{border:2px dashed var(--border2);border-radius:var(--r-sm);padding:16px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.upload-zone:hover{border-color:var(--accent2);background:rgba(79,142,247,.04);}
+.upload-zone p{font-size:12px;color:var(--muted2);font-family:var(--font-m);}
+.sub-done{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.18);border-radius:var(--r-sm);font-size:13px;color:var(--accent);font-weight:700;}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;}
+.badge-green{background:rgba(0,212,170,.12);color:var(--accent);}
+.badge-blue{background:rgba(79,142,247,.12);color:var(--accent2);}
+.badge-red{background:rgba(255,95,95,.12);color:var(--warn);}
+.badge-yellow{background:rgba(245,197,24,.12);color:var(--yellow);}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;}
+table.dtable{width:100%;border-collapse:collapse;font-size:13px;min-width:480px;}
+table.dtable th{text-align:left;padding:10px 14px;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);}
+table.dtable td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:middle;}
+table.dtable tr:last-child td{border-bottom:none;}
+table.dtable tr:hover td{background:rgba(255,255,255,.02);}
+
+/* PROGRESS */
+.prog-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;width:80px;display:inline-block;vertical-align:middle;}
+.prog-fill{height:100%;background:var(--accent);border-radius:3px;}
+
+/* DASH ROW */
+.dash-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.dash-row:last-child{border-bottom:none;}
+.dash-row-title{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dash-row-sub{font-size:11px;color:var(--muted);}
+
+/* WEEK SCHEDULE */
+.week-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.week-row:last-child{border-bottom:none;}
+.week-num{width:34px;height:34px;border-radius:8px;background:rgba(0,212,170,.1);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-size:12px;font-weight:700;flex-shrink:0;}
+.week-num.done{background:rgba(0,212,170,.18);}
+.week-num.current{background:var(--accent);color:#000;animation:pulse 2s infinite;}
+.week-topic{flex:1;font-size:14px;font-weight:600;}
+.week-dates{font-size:11px;color:var(--muted);font-family:var(--font-m);white-space:nowrap;}
+
+/* Q&A */
+.qa-item{padding:16px 0;border-bottom:1px solid var(--border);}
+.qa-item:last-child{border-bottom:none;}
+.qa-question{display:flex;gap:12px;align-items:flex-start;}
+.qa-answer{display:flex;gap:12px;align-items:flex-start;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+.qa-avatar{width:34px;height:34px;border-radius:50%;background:rgba(79,142,247,.2);color:var(--accent2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.qa-avatar.admin{background:rgba(0,212,170,.15);color:var(--accent);}
+.qa-text{font-size:14px;line-height:1.6;color:var(--text);}
+.qa-meta{font-size:11px;color:var(--muted);margin-top:4px;font-family:var(--font-m);}
+.qa-pending{margin-top:8px;padding:8px 12px;background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.15);border-radius:var(--r-sm);font-size:12px;color:var(--yellow);}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:36px 20px;color:var(--muted);}
+.ei{font-size:38px;margin-bottom:10px;}
+.empty-state p{font-size:14px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--surface);border:1px solid var(--accent);color:var(--accent);padding:10px 22px;border-radius:30px;font-size:13px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;pointer-events:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,212,170,.2);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:500;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal-box{width:100%;max-width:600px;max-height:86vh;background:var(--surface);border:1px solid var(--border2);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;animation:fadeUp .3s ease;box-shadow:var(--shadow);}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);}
+.modal-title{font-size:15px;font-weight:700;}
+.modal-body{padding:20px;overflow-y:auto;font-size:14px;line-height:1.7;color:var(--muted2);}
+.close-btn{width:30px;height:30px;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:8px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
+.close-btn:hover{background:var(--border);}
+
+/* MOBILE NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);padding:6px 0 10px;z-index:100;justify-content:space-around;}
+.mob-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;color:var(--muted);cursor:pointer;padding:4px 10px;font-weight:600;border:none;background:none;transition:color .2s;}
+.mob-item.active,.mob-item:hover{color:var(--accent);}
+.mob-item .mi{font-size:19px;}
+
+/* FORM STACK */
+.form-stack{display:flex;flex-direction:column;gap:12px;}
+.form-label{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:-4px;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar{position:fixed;left:0;top:0;transform:translateX(-100%);box-shadow:4px 0 20px rgba(0,0,0,.4);}
+  .sidebar.open{transform:translateX(0);}
+  .sb-overlay.open{display:block;}
+  .sb-close{display:block;}
+  .topbar{display:flex;}
+  .main-content{padding:20px 16px 80px;}
+  .two-col{grid-template-columns:1fr;}
+  .mob-nav{display:flex;}
+}
+@media(max-width:520px){
+  .auth-box{padding:28px 18px;}
+  .page-title{font-size:21px;}
+  .books-grid{grid-template-columns:1fr 1fr;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:360px){
+  .books-grid{grid-template-columns:1fr;}
+  .stats-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ AUTH ══ -->
+<div id="auth-screen" class="screen active">
+  <div class="auth-shapes"><span></span><span></span></div>
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="logo-icon">Py</div>
+      <div class="logo-word">Py<span>Learn</span></div>
+    </div>
+    <p class="auth-tag">// Your Python journey starts here.</p>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
+      <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+    <div class="err-msg" id="auth-err"></div>
+    <div class="auth-form">
+      <div class="field" id="name-field" style="display:none">
+        <label>Full Name</label>
+        <input type="text" id="inp-name" placeholder="Your full name"/>
+      </div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="inp-email" placeholder="you@email.com"/>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="inp-pass" placeholder="••••••••"/>
+      </div>
+      <button class="btn-primary" id="auth-btn" onclick="handleAuth()">Login</button>
+    </div>
+    <p class="auth-note" id="auth-note">No account? <span onclick="switchTab('signup')">Sign up free</span></p>
+    <div class="demo-hint"><b>Admin email:</b> set ADMIN_EMAIL in the script · password: your Firebase password</div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app-screen" class="screen">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-top">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="logo-icon sm">Py</div>
+        <div class="logo-word" style="font-size:18px">Py<span>Learn</span></div>
+      </div>
+      <button class="sb-close" onclick="closeSidebar()">✕</button>
     </div>
 
-    <div class="form-group">
+    <!-- Student Nav -->
+    <nav id="student-nav" class="sidebar-nav">
+      <div class="nav-group">Learn</div>
+      <button class="nav-item active" data-page="dashboard" onclick="showPage('dashboard')"><span class="nav-icon">🏠</span>Dashboard</button>
+      <button class="nav-item" data-page="books" onclick="showPage('books')"><span class="nav-icon">📚</span>Books</button>
+      <button class="nav-item" data-page="exercises" onclick="showPage('exercises')"><span class="nav-icon">✏️</span>Exercises</button>
+      <button class="nav-item" data-page="my-submissions" onclick="showPage('my-submissions')"><span class="nav-icon">📋</span>My Submissions</button>
+      <button class="nav-item" data-page="my-progress" onclick="showPage('my-progress')"><span class="nav-icon">📈</span>My Progress</button>
+      <button class="nav-item" data-page="qa" onclick="showPage('qa')"><span class="nav-icon">💬</span>Ask a Question</button>
+    </nav>
 
-      <label>Book title shown to students</label>
+    <!-- Admin Nav -->
+    <nav id="admin-nav" class="sidebar-nav" style="display:none">
+      <div class="nav-group">Admin</div>
+      <button class="nav-item active" data-page="admin-dashboard" onclick="showPage('admin-dashboard')"><span class="nav-icon">📊</span>Dashboard</button>
+      <button class="nav-item" data-page="admin-books" onclick="showPage('admin-books')"><span class="nav-icon">📚</span>Manage Books</button>
+      <button class="nav-item" data-page="admin-exercises" onclick="showPage('admin-exercises')"><span class="nav-icon">✏️</span>Manage Exercises</button>
+      <button class="nav-item" data-page="admin-submissions" onclick="showPage('admin-submissions')"><span class="nav-icon">📬</span>Submissions</button>
+      <button class="nav-item" data-page="admin-progress" onclick="showPage('admin-progress')"><span class="nav-icon">📈</span>Student Progress</button>
+      <button class="nav-item" data-page="admin-schedule" onclick="showPage('admin-schedule')"><span class="nav-icon">📅</span>Weekly Schedule</button>
+      <button class="nav-item" data-page="admin-qa" onclick="showPage('admin-qa')"><span class="nav-icon">💬</span>Q&amp;A Inbox</button>
+    </nav>
 
-      <input id="ebook-title" type="text" placeholder="Python for Absolute Beginners — Book 1" value="${escAttr(S.settings.bookTitle)}" />
-
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar" id="sidebar-avatar">?</div>
+        <div class="user-info">
+          <div class="user-name" id="sidebar-name">—</div>
+          <div class="user-role" id="sidebar-role">student</div>
+        </div>
+        <button class="logout-btn" onclick="logout()">⏻</button>
+      </div>
     </div>
+  </aside>
 
-    <button class="btn btn-primary" onclick="saveEbook()">Save ebook</button>
+  <div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
 
+  <div class="app-body">
+    <!-- TOPBAR (mobile) -->
+    <header class="topbar">
+      <button class="hamburger" onclick="openSidebar()">☰</button>
+      <div class="topbar-logo">
+        <div class="logo-icon sm">Py</div>
+        <div class="logo-word" style="font-size:17px">Py<span>Learn</span></div>
+      </div>
+      <div class="user-avatar sm" id="topbar-avatar">?</div>
+    </header>
+
+    <main class="main-content">
+
+      <!-- ── Student: Dashboard ── -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-hdr"><h1 class="page-title">Welcome back, <span class="text-acc" id="dash-name">Student</span> 👋</h1><p class="page-sub">Consistency beats talent. Keep going.</p></div>
+        <div class="stats-row" id="dash-stats"></div>
+        <div class="two-col">
+          <div class="card"><div class="card-title">📚 Books</div><div id="dash-books"></div></div>
+          <div class="card"><div class="card-title">✏️ Pending Exercises</div><div id="dash-ex"></div></div>
+        </div>
+        <div class="card" style="margin-top:16px"><div class="card-title">📅 Weekly Schedule</div><div id="dash-schedule"></div></div>
+      </div>
+
+      <!-- ── Student: Books ── -->
+      <div class="page" id="page-books">
+        <div class="page-hdr"><h1 class="page-title">📚 Books</h1><p class="page-sub">Download your study materials below.</p></div>
+        <div class="books-grid" id="books-grid"></div>
+      </div>
+
+      <!-- ── Student: Exercises ── -->
+      <div class="page" id="page-exercises">
+        <div class="page-hdr"><h1 class="page-title">✏️ Exercises</h1><p class="page-sub">Download the sheet, solve it, then upload your file.</p></div>
+        <div id="exercises-list"></div>
+      </div>
+
+      <!-- ── Student: My Submissions ── -->
+      <div class="page" id="page-my-submissions">
+        <div class="page-hdr"><h1 class="page-title">📋 My Submissions</h1><p class="page-sub">Everything you've uploaded.</p></div>
+        <div class="card"><div id="my-subs"></div></div>
+      </div>
+
+      <!-- ── Student: My Progress ── -->
+      <div class="page" id="page-my-progress">
+        <div class="page-hdr"><h1 class="page-title">📈 My Progress</h1><p class="page-sub">Your week-by-week journey.</p></div>
+        <div id="my-progress"></div>
+      </div>
+
+      <!-- ── Student: Q&A ── -->
+      <div class="page" id="page-qa">
+        <div class="page-hdr"><h1 class="page-title">💬 Ask a Question</h1><p class="page-sub">Ask anything — the admin will reply.</p></div>
+        <div id="qa-list"></div>
+      </div>
+
+      <!-- ── Admin: Dashboard ── -->
+      <div class="page" id="page-admin-dashboard">
+        <div class="page-hdr"><h1 class="page-title">📊 Admin Dashboard</h1><p class="page-sub">Platform overview.</p></div>
+        <div class="stats-row" id="adm-stats"></div>
+        <div class="card" style="margin-top:16px"><div class="card-title">👥 Recent Students</div><div id="adm-recent"></div></div>
+      </div>
+
+      <!-- ── Admin: Books ── -->
+      <div class="page" id="page-admin-books">
+        <div class="page-hdr"><h1 class="page-title">📚 Manage Books</h1><p class="page-sub">Upload PDF books. Students download them.</p></div>
+        <div class="card" style="margin-bottom:16px" id="adm-books-upload">
+          <div class="card-title">➕ Upload New Book</div>
+          <div class="form-stack">
+            <input class="form-inp" id="bk-title" placeholder="Book title (e.g. Python for Beginners — Book 1)"/>
+            <input class="form-inp" id="bk-order" type="number" min="1" placeholder="Order number (1, 2, 3…)"/>
+            <div class="file-drop" id="book-drop" onclick="document.getElementById('bk-file').click()">
+              <span class="file-drop-icon">📄</span>
+              <span class="file-drop-label" id="bk-file-label">Click to select PDF</span>
+              <input type="file" id="bk-file" accept=".pdf" style="display:none" onchange="onBookFile(this)"/>
+            </div>
+            <button class="btn-acc" onclick="addBook()">📤 Publish Book</button>
+          </div>
+        </div>
+        <div class="card"><div class="card-title">📖 Published Books</div><div id="adm-books-list"></div></div>
+      </div>
+
+      <!-- ── Admin: Exercises ── -->
+      <div class="page" id="page-admin-exercises">
+        <div class="page-hdr"><h1 class="page-title">✏️ Manage Exercises</h1><p class="page-sub">Upload exercise PDFs. Students submit solutions back.</p></div>
+        <div class="card" style="margin-bottom:16px" id="adm-ex-upload">
+          <div class="card-title">➕ Create Exercise</div>
+          <div class="form-stack">
+            <input class="form-inp" id="ex-title" placeholder="Exercise title"/>
+            <textarea class="form-inp" id="ex-desc" placeholder="Instructions for students…"></textarea>
+            <select class="form-inp" id="ex-type"><option value="exercise">Exercise</option><option value="project">Project</option></select>
+            <input class="form-inp" id="ex-week" type="number" min="1" placeholder="Assign to Week # (optional)"/>
+            <div class="file-drop" id="ex-drop" onclick="document.getElementById('ex-file').click()">
+              <span class="file-drop-icon">📝</span>
+              <span class="file-drop-label" id="ex-file-label">Attach exercise PDF (optional)</span>
+              <input type="file" id="ex-file" accept=".pdf" style="display:none" onchange="onExFile(this)"/>
+            </div>
+            <button class="btn-acc" onclick="addExercise()">✏️ Create Exercise</button>
+          </div>
+        </div>
+        <div class="card"><div class="card-title">📝 All Exercises</div><div id="adm-ex-list"></div></div>
+      </div>
+
+      <!-- ── Admin: Submissions ── -->
+      <div class="page" id="page-admin-submissions">
+        <div class="page-hdr"><h1 class="page-title">📬 Student Submissions</h1><p class="page-sub">Download and review submitted files.</p></div>
+        <div class="card"><div id="adm-subs"></div></div>
+      </div>
+
+      <!-- ── Admin: Progress ── -->
+      <div class="page" id="page-admin-progress">
+        <div class="page-hdr"><h1 class="page-title">📈 Student Progress</h1><p class="page-sub">Track every student week by week.</p></div>
+        <div id="adm-progress"></div>
+      </div>
+
+      <!-- ── Admin: Schedule ── -->
+      <div class="page" id="page-admin-schedule">
+        <div class="page-hdr"><h1 class="page-title">📅 Weekly Schedule</h1><p class="page-sub">Set the course timeline students will see.</p></div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">⚙️ Course Settings</div>
+          <div class="form-stack" style="max-width:380px">
+            <label class="form-label">Total number of weeks</label>
+            <input class="form-inp" id="total-weeks-inp" type="number" min="1" max="52" placeholder="e.g. 12" oninput="renderWeeksEditor({})"/>
+            <label class="form-label">Course start date</label>
+            <input class="form-inp" id="start-date-inp" type="date"/>
+            <button class="btn-acc" onclick="saveSchedule()">💾 Save Settings</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">📋 Week Topics</div>
+          <p style="font-size:13px;color:var(--muted2);margin-bottom:14px">Add a topic for each week so students know what's coming.</p>
+          <div id="weeks-editor"></div>
+          <button class="btn-acc" style="margin-top:12px" onclick="saveWeekTopics()">💾 Save Topics</button>
+        </div>
+      </div>
+
+      <!-- ── Admin: Q&A ── -->
+      <div class="page" id="page-admin-qa">
+        <div class="page-hdr"><h1 class="page-title">💬 Q&amp;A Inbox</h1><p class="page-sub">Answer student questions here.</p></div>
+        <div id="admin-qa-list"></div>
+      </div>
+
+    </main>
   </div>
 
-  <div class="card">
+  <!-- MOBILE NAV — Student -->
+  <nav class="mob-nav" id="mob-student">
+    <button class="mob-item active" data-page="dashboard" onclick="showPage('dashboard')"><span class="mi">🏠</span>Home</button>
+    <button class="mob-item" data-page="books" onclick="showPage('books')"><span class="mi">📚</span>Books</button>
+    <button class="mob-item" data-page="exercises" onclick="showPage('exercises')"><span class="mi">✏️</span>Exercises</button>
+    <button class="mob-item" data-page="qa" onclick="showPage('qa')"><span class="mi">💬</span>Q&amp;A</button>
+    <button class="mob-item" data-page="my-progress" onclick="showPage('my-progress')"><span class="mi">📈</span>Progress</button>
+  </nav>
 
-    <h3 class="mb-2">How to get the Google Drive link</h3>
+  <!-- MOBILE NAV — Admin -->
+  <nav class="mob-nav" id="mob-admin" style="display:none">
+    <button class="mob-item active" data-page="admin-dashboard" onclick="showPage('admin-dashboard')"><span class="mi">📊</span>Home</button>
+    <button class="mob-item" data-page="admin-books" onclick="showPage('admin-books')"><span class="mi">📚</span>Books</button>
+    <button class="mob-item" data-page="admin-exercises" onclick="showPage('admin-exercises')"><span class="mi">✏️</span>Exercises</button>
+    <button class="mob-item" data-page="admin-submissions" onclick="showPage('admin-submissions')"><span class="mi">📬</span>Subs</button>
+    <button class="mob-item" data-page="admin-qa" onclick="showPage('admin-qa')"><span class="mi">💬</span>Q&amp;A</button>
+  </nav>
+</div>
 
-    <ol style="font-size:13px;color:var(--text-2);line-height:2.2;padding-left:1.2rem">
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
-      <li>Upload your PDF to Google Drive</li>
-
-      <li>Right-click the file → <strong>Share</strong> → set to <strong>"Anyone with the link"</strong></li>
-
-      <li>Click <strong>Copy link</strong> — it ends in <code>/view?usp=sharing</code></li>
-
-      <li>Change <code>/view?usp=sharing</code> → <code>/preview</code></li>
-
-      <li>Paste the updated URL above and click Save</li>
-
-    </ol>
-
-    <p class="text-sm text-muted mt-1">When you have Book 2 ready, just paste the new URL and students will see it automatically.</p>
-
-  </div>`;
-
-}
-
-
-
-function renderAdminExercises() {
-
-  return `
-
-  <div class="card mb-2">
-
-    <h3 class="mb-2">Create new exercise</h3>
-
-    <div class="form-group">
-
-      <label>Title</label>
-
-      <input id="ex-title" type="text" placeholder="e.g. Write a loop that prints numbers 1 to 10" />
-
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <div class="modal-title" id="modal-title"></div>
+      <button class="close-btn" onclick="closeModal()">✕</button>
     </div>
-
-    <div class="form-group">
-
-      <label>Instructions</label>
-
-      <textarea id="ex-desc" rows="5" placeholder="Describe what students need to do. You can include example code, hints, or any context."></textarea>
-
-    </div>
-
-    <div class="form-group">
-
-      <label>Due date (optional)</label>
-
-      <input id="ex-due" type="text" placeholder="e.g. Friday 18th April 2025" />
-
-    </div>
-
-    <button class="btn btn-primary" onclick="createExercise()">Post exercise</button>
-
+    <div class="modal-body" id="modal-body"></div>
   </div>
+</div>
 
-  ${S.exercises.length > 0 ? `
-
-  <div class="card">
-
-    <h3 class="mb-2">Posted exercises (${S.exercises.length})</h3>
-
-    ${S.exercises.map(ex => {
-
-      const subCount = S.submissions.filter(s => s.exerciseId===ex.id).length;
-
-      return `
-
-      <div class="list-item">
-
-        <div style="flex:1">
-
-          <p style="font-size:14px;font-weight:500">${escHtml(ex.title)}</p>
-
-          <p class="text-sm text-muted">${subCount} submission${subCount!==1?'s':''}${ex.dueDate?' · Due: '+escHtml(ex.dueDate):''}</p>
-
-        </div>
-
-        <button class="btn btn-danger btn-sm" onclick="deleteExercise('${ex.id}')">Delete</button>
-
-      </div>`;}).join('')}
-
-  </div>` : ''}`;
-
-}
-
-
-
-function renderAdminSubmissions() {
-
-  if (S.submissions.length === 0) return `<div class="empty-state">No submissions yet.<br>Students submit from the Exercises tab.</div>`;
-
-  const pending = S.submissions.filter(s => !s.grade);
-
-  const graded  = S.submissions.filter(s => s.grade);
-
-  return `
-
-  ${pending.length > 0 ? `
-
-  <h3 class="mb-1">Needs marking (${pending.length})</h3>
-
-  ${pending.map(s => renderSubItem(s, false)).join('')}` : ''}
-
-  ${graded.length > 0 ? `
-
-  <h3 class="mb-1 mt-2">Marked (${graded.length})</h3>
-
-  ${graded.map(s => renderSubItem(s, true)).join('')}` : ''}`;
-
-}
-
-
-
-function renderSubItem(s, isMarked) {
-
-  const ex = S.exercises.find(e => e.id===s.exerciseId);
-
-  return `
-
-  <div class="sub-item">
-
-    <div class="flex-between mb-1">
-
-      <div>
-
-        <p style="font-size:14px;font-weight:500">${escHtml(s.studentName)}</p>
-
-        <p class="text-sm text-muted">${ex ? escHtml(ex.title) : 'Exercise'} · ${s.submittedAt}</p>
-
-      </div>
-
-      ${isMarked ? `<span class="badge bg-green">${escHtml(s.grade)}</span>` : `<span class="badge bg-amber">Pending</span>`}
-
-    </div>
-
-    <div class="sub-answer">${escHtml(s.answer)}</div>
-
-    ${s.replitLink ? `<a href="${escAttr(s.replitLink)}" target="_blank" rel="noopener" class="text-sm" style="color:var(--green);text-decoration:none">View on Replit →</a>` : ''}
-
-    ${isMarked ? `
-
-      ${s.feedback ? `<p class="text-sm text-muted mt-1" style="font-style:italic">Your feedback: ${escHtml(s.feedback)}</p>` : ''}` : `
-
-    <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-top:10px">
-
-      <div style="flex:1;min-width:120px">
-
-        <label style="font-size:12px">Grade</label>
-
-        <input id="gr-${s.id}" type="text" placeholder="e.g. A, 85%, Well done" style="height:36px" />
-
-      </div>
-
-      <div style="flex:2;min-width:180px">
-
-        <label style="font-size:12px">Feedback (optional)</label>
-
-        <input id="fb-${s.id}" type="text" placeholder="Great work! Fix..." style="height:36px" />
-
-      </div>
-
-      <button class="btn btn-primary btn-sm" style="height:36px;flex-shrink:0" onclick="gradeSubmission('${s.id}')">Mark</button>
-
-    </div>`}
-
-  </div>`;
-
-}
-
-
-
-/* ===================================================================
-
-   MODAL
-
-   =================================================================== */
-
-function renderModal() {
-
-  const m = S.modal;
-
-
-
-  if (m.type === 'exercise') {
-
-    const ex  = m.data;
-
-    const sub = S.submissions.find(s => s.exerciseId===ex.id && s.studentId===S.user.uid);
-
-    return `
-
-    <div class="modal-overlay" onclick="overlayClose(event)">
-
-      <div class="modal">
-
-        <div class="modal-header">
-
-          <h3 style="line-height:1.4">${escHtml(ex.title)}</h3>
-
-          <button class="close-btn" onclick="closeModal()">×</button>
-
-        </div>
-
-        ${ex.dueDate ? `<p class="text-sm text-muted mb-1">Due: ${escHtml(ex.dueDate)}</p>` : ''}
-
-        <div style="background:var(--bg);padding:12px;border-radius:var(--radius-sm);margin-bottom:1.25rem">
-
-          <p style="font-size:14px;line-heig
+</body>
+</html>
