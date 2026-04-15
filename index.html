@@ -1,1439 +1,1072 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PyLearn — Python Learning Platform</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>"/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Dev Journey — Python Training</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0b;
+  --surface: #111114;
+  --surface2: #1a1a1f;
+  --surface3: #222228;
+  --border: #2a2a32;
+  --border2: #363640;
+  --text: #e8e8f0;
+  --muted: #6b6b7e;
+  --accent: #00ff88;
+  --accent2: #00cc6a;
+  --accent-dim: rgba(0,255,136,0.08);
+  --accent-dim2: rgba(0,255,136,0.15);
+  --blue: #4f9eff;
+  --blue-dim: rgba(79,158,255,0.1);
+  --red: #ff4f4f;
+  --red-dim: rgba(255,79,79,0.1);
+  --amber: #ffb347;
+  --amber-dim: rgba(255,179,71,0.1);
+  --purple: #b47fff;
+  --purple-dim: rgba(180,127,255,0.1);
+  --radius: 10px;
+  --radius-lg: 16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6}
 
-<!-- ████████████████████████████████████████
-     STEP 1: PASTE YOUR FIREBASE CONFIG HERE
-     Go to Firebase Console → Project Settings
-     → Your Apps → Web App → SDK setup
-     Replace the object below with your own.
-████████████████████████████████████████ -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword,
-         signInWithEmailAndPassword, signOut,
-         onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc,
-         collection, addDoc, getDocs, updateDoc,
-         deleteDoc, query, orderBy, onSnapshot,
-         serverTimestamp, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getStorage, ref, uploadString,
-         getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
 
-// ── YOUR FIREBASE CONFIG ──────────────────
+/* AUTH SCREEN */
+#auth-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000;padding:1rem}
+.auth-card{width:100%;max-width:420px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.auth-logo{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent);letter-spacing:.1em;margin-bottom:1.5rem}
+.auth-logo span{color:var(--muted)}
+.auth-title{font-size:22px;font-weight:500;margin-bottom:.25rem}
+.auth-sub{font-size:13px;color:var(--muted);margin-bottom:1.75rem}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;letter-spacing:.04em}
+.field input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border .2s}
+.field input:focus{border-color:var(--accent)}
+.btn-primary{width:100%;background:var(--accent);color:#000;border:none;border-radius:var(--radius);padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:opacity .2s;margin-top:.5rem}
+.btn-primary:hover{opacity:.85}
+.auth-toggle{text-align:center;margin-top:1rem;font-size:13px;color:var(--muted)}
+.auth-toggle a{color:var(--accent);cursor:pointer;text-decoration:none}
+.auth-error{background:var(--red-dim);border:1px solid var(--red);border-radius:var(--radius);padding:.6rem 1rem;font-size:13px;color:var(--red);margin-bottom:1rem;display:none}
+
+/* APP LAYOUT */
+#app{display:none;height:100%;flex-direction:column}
+#app.show{display:flex}
+
+/* TOP BAR */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar-logo{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:.08em}
+.topbar-user{display:flex;align-items:center;gap:8px}
+.topbar-role{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;letter-spacing:.05em}
+.role-student{background:var(--blue-dim);color:var(--blue)}
+.role-admin{background:var(--accent-dim2);color:var(--accent)}
+.topbar-signout{background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif}
+.topbar-signout:hover{color:var(--text)}
+
+/* MAIN CONTENT */
+.main{flex:1;overflow-y:auto;padding:1rem;padding-bottom:80px}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:.6rem .25rem;cursor:pointer;transition:color .2s;color:var(--muted);font-size:10px;letter-spacing:.03em;border:none;background:none;font-family:'DM Sans',sans-serif}
+.nav-item.active{color:var(--accent)}
+.nav-icon{font-size:18px;line-height:1}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:.75rem}
+.card-title{font-size:13px;font-weight:500;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:1rem;font-family:'JetBrains Mono',monospace}
+
+/* STAT GRID */
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin-bottom:.75rem}
+.stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1rem}
+.stat-val{font-size:24px;font-weight:500;font-family:'JetBrains Mono',monospace;color:var(--text)}
+.stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+.stat-card.accent .stat-val{color:var(--accent)}
+.stat-card.blue .stat-val{color:var(--blue)}
+.stat-card.amber .stat-val{color:var(--amber)}
+.stat-card.purple .stat-val{color:var(--purple)}
+
+/* PROGRESS BAR */
+.progress-wrap{margin:.75rem 0}
+.progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.progress-label{font-size:12px;color:var(--muted)}
+.progress-pct{font-size:13px;font-weight:500;font-family:'JetBrains Mono',monospace;color:var(--accent)}
+.progress-bar{height:6px;background:var(--surface3);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .6s ease}
+
+/* CHAPTER CHECKLIST */
+.chapter-item{display:flex;align-items:center;gap:12px;padding:.75rem 0;border-bottom:1px solid var(--border);cursor:pointer}
+.chapter-item:last-child{border-bottom:none}
+.chapter-check{width:20px;height:20px;border:1.5px solid var(--border2);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.chapter-check.done{background:var(--accent);border-color:var(--accent)}
+.chapter-check.done::after{content:'✓';font-size:11px;color:#000;font-weight:700}
+.chapter-name{font-size:13px;color:var(--text);flex:1}
+.chapter-name.done{color:var(--muted);text-decoration:line-through}
+.chapter-num{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted)}
+
+/* ANNOUNCEMENTS */
+.announcement{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.5rem}
+.ann-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem}
+.ann-time{font-size:11px;color:var(--muted)}
+.ann-badge{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--accent-dim);color:var(--accent)}
+.ann-text{font-size:13px;line-height:1.6;color:var(--text)}
+
+/* EXERCISES */
+.exercise-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.5rem}
+.ex-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem}
+.ex-title{font-size:14px;font-weight:500}
+.ex-due{font-size:11px;color:var(--amber);background:var(--amber-dim);padding:2px 8px;border-radius:20px}
+.ex-due.overdue{color:var(--red);background:var(--red-dim)}
+.ex-desc{font-size:13px;color:var(--muted);margin-bottom:.75rem;line-height:1.6}
+.ex-status{font-size:11px;padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:.75rem}
+.ex-status.submitted{background:var(--blue-dim);color:var(--blue)}
+.ex-status.graded{background:var(--accent-dim);color:var(--accent)}
+.ex-status.pending{background:var(--amber-dim);color:var(--amber)}
+textarea.code-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem;color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px;resize:vertical;min-height:80px;outline:none;margin-bottom:.5rem}
+textarea.code-input:focus{border-color:var(--accent)}
+input.replit-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.6rem .75rem;color:var(--blue);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;margin-bottom:.5rem}
+input.replit-input:focus{border-color:var(--blue)}
+.btn-submit{background:var(--blue-dim);border:1px solid var(--blue);color:var(--blue);border-radius:var(--radius);padding:8px 16px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-submit:hover{background:var(--blue);color:#000}
+.grade-box{background:var(--accent-dim);border:1px solid var(--accent);border-radius:var(--radius);padding:.75rem;margin-top:.5rem}
+.grade-score{font-size:20px;font-weight:500;font-family:'JetBrains Mono',monospace;color:var(--accent)}
+.grade-feedback{font-size:12px;color:var(--muted);margin-top:.25rem}
+
+/* Q&A */
+.qa-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.5rem}
+.qa-question{font-size:13px;font-weight:500;margin-bottom:.25rem}
+.qa-meta{font-size:11px;color:var(--muted);margin-bottom:.5rem}
+.qa-answer{background:var(--bg);border-left:2px solid var(--accent);padding:.6rem .75rem;border-radius:0 var(--radius) var(--radius) 0;font-size:13px;color:var(--text);margin-top:.5rem}
+.qa-answer-label{font-size:10px;color:var(--accent);font-family:'JetBrains Mono',monospace;margin-bottom:.25rem;letter-spacing:.05em}
+.unanswered-badge{font-size:10px;background:var(--amber-dim);color:var(--amber);padding:2px 8px;border-radius:20px;display:inline-block;margin-left:8px}
+
+/* EBOOK */
+.ebook-frame{width:100%;height:calc(100vh - 200px);border:none;border-radius:var(--radius);background:var(--surface2)}
+.ebook-notice{background:var(--amber-dim);border:1px solid var(--amber);border-radius:var(--radius);padding:.6rem 1rem;font-size:12px;color:var(--amber);margin-bottom:.75rem}
+
+/* ADMIN COMPONENTS */
+.student-row{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid var(--border)}
+.student-row:last-child{border-bottom:none}
+.student-info{}
+.student-name{font-size:13px;font-weight:500}
+.student-email{font-size:11px;color:var(--muted)}
+.student-joined{font-size:11px;color:var(--muted);margin-top:2px}
+.btn-ban{background:var(--red-dim);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-ban:hover{background:var(--red);color:#fff}
+.btn-unban{background:var(--accent-dim);border:1px solid var(--accent);color:var(--accent);border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+.submission-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.5rem}
+.sub-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem}
+.sub-student{font-size:13px;font-weight:500}
+.sub-exercise{font-size:11px;color:var(--muted)}
+.sub-code{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.6rem;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);margin:.5rem 0;white-space:pre-wrap;word-break:break-all}
+.sub-replit{font-size:12px;color:var(--blue);margin:.25rem 0}
+.sub-replit a{color:var(--blue)}
+.grade-input-row{display:flex;gap:.5rem;margin-top:.5rem}
+.grade-input-row input{flex:0 0 80px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.5rem;color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;text-align:center}
+.grade-input-row input:focus{border-color:var(--accent)}
+.grade-input-row textarea{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.5rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;resize:none;height:60px}
+.grade-input-row textarea:focus{border-color:var(--accent)}
+.btn-grade{background:var(--accent);border:none;color:#000;border-radius:var(--radius);padding:8px 16px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+
+.form-field{margin-bottom:.75rem}
+.form-field label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;letter-spacing:.04em}
+.form-field input,.form-field textarea,.form-field select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:9px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border .2s}
+.form-field input:focus,.form-field textarea:focus,.form-field select:focus{border-color:var(--accent)}
+.form-field textarea{resize:vertical;min-height:80px}
+.btn-action{background:var(--accent-dim2);border:1px solid var(--accent);color:var(--accent);border-radius:var(--radius);padding:9px 18px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-action:hover{background:var(--accent);color:#000}
+.btn-danger{background:var(--red-dim);border:1px solid var(--red);color:var(--red);border-radius:var(--radius);padding:6px 14px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* PAGE HEADER */
+.page-header{margin-bottom:1.25rem}
+.page-title{font-size:20px;font-weight:500;font-family:'JetBrains Mono',monospace}
+.page-sub{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:13px}
+.empty-icon{font-size:32px;margin-bottom:.5rem;opacity:.4}
+
+/* LOADING */
+.loading-screen{display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:.75rem;color:var(--muted);font-size:13px}
+.loader{width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* TOAST */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:.6rem 1.25rem;font-size:13px;z-index:999;opacity:0;transition:all .3s;white-space:nowrap;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.success{border-color:var(--accent);color:var(--accent)}
+.toast.error{border-color:var(--red);color:var(--red)}
+
+/* TABS */
+.tabs{display:flex;gap:.5rem;margin-bottom:1rem;overflow-x:auto;padding-bottom:2px}
+.tab{padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;white-space:nowrap;border:1px solid var(--border);background:none;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all .2s}
+.tab.active{background:var(--accent-dim2);border-color:var(--accent);color:var(--accent)}
+
+/* SECTION DIVIDER */
+.section-divider{border:none;border-top:1px solid var(--border);margin:1rem 0}
+
+/* DELETE BTN */
+.btn-icon{background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;font-size:14px;transition:color .2s}
+.btn-icon:hover{color:var(--red)}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- AUTH SCREEN -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">&gt;&gt;&gt; <span>dev_journey</span>.train()</div>
+    <h1 class="auth-title" id="auth-title">Welcome back</h1>
+    <p class="auth-sub" id="auth-sub">Sign in to continue your Python journey</p>
+    <div class="auth-error" id="auth-error"></div>
+    <div class="field" id="name-field" style="display:none">
+      <label>FULL NAME</label>
+      <input type="text" id="input-name" placeholder="Your full name">
+    </div>
+    <div class="field">
+      <label>EMAIL ADDRESS</label>
+      <input type="email" id="input-email" placeholder="you@example.com">
+    </div>
+    <div class="field">
+      <label>PASSWORD</label>
+      <input type="password" id="input-password" placeholder="••••••••">
+    </div>
+    <button class="btn-primary" id="auth-btn">Sign In</button>
+    <div class="auth-toggle">
+      <span id="auth-toggle-text">Don't have an account?</span>
+      <a id="auth-toggle-link"> Register</a>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-logo">&gt;_ devjourney</div>
+    <div class="topbar-user">
+      <span class="topbar-role" id="role-badge"></span>
+      <button class="topbar-signout" id="signout-btn">Sign out</button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main" id="main-content"></div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav" id="bottom-nav"></nav>
+</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+<script>
+// ============================================================
+// CONFIGURATION — Replace with your Firebase config
+// ============================================================
 const FIREBASE_CONFIG = {
-
   apiKey: "AIzaSyBflRvtpP2DnKnoWCslON6CWIMgX34RvnQ",
   authDomain: "devjourney-portal.firebaseapp.com",
   projectId: "devjourney-portal",
   storageBucket: "devjourney-portal.firebasestorage.app",
   messagingSenderId: "837161815919",
   appId: "1:837161815919:web:5beaaa88b865bd8c60e29a"
-
 };
 
-// ─────────────────────────────────────────
+// Your instructor email — this email gets admin access
+const INSTRUCTOR_EMAIL = "devjourney2006@gmail.com";
 
-const app = initializeApp(FIREBASE_CONFIG);
-const auth = getAuth(app);
-const db = getFirestore(app);
-let authMode = 'login';
-const storage = getStorage(app);
+// Your ebook Google Drive embed link
+let EBOOK_URL = "https://drive.google.com/file/d/YOUR_FILE_ID/preview";
+let EBOOK_TITLE = "Python for Absolute Beginners — Book 1";
 
-// ── ADMIN EMAIL — change to your own email ──
-const ADMIN_EMAIL = "devjourney2006@gmail.com";
+// Chapters list
+const CHAPTERS = [
+  "Chapter 1 — How Computers Think",
+  "Chapter 2 — Variables and Data Types",
+  "Chapter 3 — User Input",
+  "Chapter 4 — Making Decisions: Conditionals",
+  "Chapter 5 — Repeating Actions: Loops",
+  "Chapter 6 — Organising Data: Lists",
+  "Chapter 7 — Reusable Code: Functions",
+  "Final Project — Student Grading System"
+];
 
-// ══════════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════════
-const $ = id => document.getElementById(id);
-let _user = null, _profile = null;
+// ============================================================
+// FIREBASE INIT
+// ============================================================
+firebase.initializeApp(FIREBASE_CONFIG);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-function toast(msg, err = false) {
-  const t = $('toast');
+let currentUser = null;
+let isAdmin = false;
+let currentPage = null;
+let unsubscribers = [];
+
+// ============================================================
+// UTILITIES
+// ============================================================
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
   t.textContent = msg;
-  t.style.borderColor = err ? 'var(--warn)' : 'var(--accent)';
-  t.style.color = err ? 'var(--warn)' : 'var(--accent)';
-  t.classList.add('show');
-  clearTimeout(window._tt);
-  window._tt = setTimeout(() => t.classList.remove('show'), 3000);
+  t.className = `toast show ${type}`;
+  setTimeout(() => t.className = 'toast', 2500);
 }
 
-function empty(icon, msg) {
-  return `<div class="empty-state"><div class="ei">${icon}</div><p>${msg}</p></div>`;
-}
-
-function fmtDate(ts) {
-  if (!ts) return '—';
+function timeAgo(ts) {
+  if (!ts) return '';
   const d = ts.toDate ? ts.toDate() : new Date(ts);
-  return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+  const diff = (Date.now() - d.getTime()) / 1000;
+  if (diff < 60) return 'just now';
+  if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+  return d.toLocaleDateString();
 }
-function fmtDT(ts) {
-  if (!ts) return '—';
+
+function formatDate(ts) {
+  if (!ts) return '';
   const d = ts.toDate ? ts.toDate() : new Date(ts);
-  return d.toLocaleString('en-GB', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+  return d.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'});
 }
 
-function fileToB64(file) {
-  return new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = () => res(r.result);
-    r.onerror = rej;
-    r.readAsDataURL(file);
-  });
-}
-
-function dlB64(b64, name) {
-  const a = document.createElement('a');
-  a.href = b64; a.download = name;
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-}
-
-function loading(el, msg = '⏳ Loading…') {
-  el.innerHTML = `<div class="empty-state"><div class="ei">⏳</div><p>${msg}</p></div>`;
-}
-
-// ══════════════════════════════════════════
+// ============================================================
 // AUTH
-// ══════════════════════════════════════════
+// ============================================================
+let authMode = 'signin';
 
-
-window.switchTab = mode => {
-  authMode = mode;
-  $('tab-login').classList.toggle('active', mode === 'login');
-  $('tab-signup').classList.toggle('active', mode === 'signup');
-  $('auth-btn').textContent = mode === 'login' ? 'Login' : 'Create Account';
-  $('name-field').style.display = mode === 'signup' ? 'flex' : 'none';
-  $('auth-note').innerHTML = mode === 'login'
-    ? `No account? <span onclick="switchTab('signup')">Sign up free</span>`
-    : `Have account? <span onclick="switchTab('login')">Login</span>`;
-  $('auth-err').style.display = 'none';
+document.getElementById('auth-toggle-link').onclick = () => {
+  authMode = authMode === 'signin' ? 'register' : 'signin';
+  document.getElementById('auth-title').textContent = authMode === 'signin' ? 'Welcome back' : 'Create account';
+  document.getElementById('auth-sub').textContent = authMode === 'signin' ? 'Sign in to continue your Python journey' : 'Join the Dev Journey training';
+  document.getElementById('auth-btn').textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
+  document.getElementById('auth-toggle-text').textContent = authMode === 'signin' ? "Don't have an account?" : 'Already have an account?';
+  document.getElementById('auth-toggle-link').textContent = authMode === 'signin' ? ' Register' : ' Sign In';
+  document.getElementById('name-field').style.display = authMode === 'register' ? 'block' : 'none';
+  document.getElementById('auth-error').style.display = 'none';
 };
 
-window.handleAuth = async () => {
-  const email = $('inp-email').value.trim();
-  const pass = $('inp-pass').value;
-  const btn = $('auth-btn');
+document.getElementById('input-password').onkeydown = e => { if (e.key === 'Enter') doAuth(); };
 
-  if (!email || !pass) { showErr('Fill in all fields.'); return; }
+document.getElementById('auth-btn').onclick = doAuth;
 
-  btn.textContent = '⏳'; btn.disabled = true;
+async function doAuth() {
+  const email = document.getElementById('input-email').value.trim();
+  const password = document.getElementById('input-password').value;
+  const name = document.getElementById('input-name').value.trim();
+  const errEl = document.getElementById('auth-error');
+  errEl.style.display = 'none';
+
+  if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; return; }
+
+  document.getElementById('auth-btn').textContent = 'Please wait...';
 
   try {
-    if (authMode === 'login') {
-      await signInWithEmailAndPassword(auth, email, pass);
-    } else {
-      const name = $('inp-name').value.trim();
-      if (!name) { showErr('Enter your name.'); btn.textContent='Create Account'; btn.disabled=false; return; }
-      const cred = await createUserWithEmailAndPassword(auth, email, pass);
-      await setDoc(doc(db, 'users', cred.user.uid), {
-        name, email, role: 'student',
-        joinedAt: serverTimestamp()
+    if (authMode === 'register') {
+      if (!name) { errEl.textContent = 'Please enter your name.'; errEl.style.display = 'block'; document.getElementById('auth-btn').textContent = 'Create Account'; return; }
+      const cred = await auth.createUserWithEmailAndPassword(email, password);
+      await db.collection('users').doc(cred.user.uid).set({
+        name, email, role: email === INSTRUCTOR_EMAIL ? 'admin' : 'student',
+        joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        banned: false, progress: 0, chaptersCompleted: []
       });
-    }
-  } catch(e) {
-    let msg = e.message;
-    if (e.code === 'auth/email-already-in-use') msg = 'Email already registered.';
-    if (e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found') msg = 'Wrong email or password.';
-    if (e.code === 'auth/weak-password') msg = 'Password must be at least 6 characters.';
-    showErr(msg);
-    btn.textContent = authMode === 'login' ? 'Login' : 'Create Account';
-    btn.disabled = false;
-  }
-};
-
-function showErr(msg) {
-  const e = $('auth-err');
-  e.textContent = msg; e.style.display = 'block';
-}
-
-window.logout = async () => {
-  await signOut(auth);
-  $('app-screen').classList.remove('active');
-  $('auth-screen').classList.add('active');
-  closeSidebar();
-};
-
-// Auth state listener
-onAuthStateChanged(auth, async user => {
-  if (user) {
-    _user = user;
-    // Fetch or create profile
-    const snap = await getDoc(doc(db, 'users', user.uid));
-    if (snap.exists()) {
-      _profile = snap.data();
     } else {
-      // Admin created via Firebase console
-      _profile = { name: 'Admin', email: user.email, role: 'admin' };
-      await setDoc(doc(db, 'users', user.uid), { ..._profile, joinedAt: serverTimestamp() });
+      await auth.signInWithEmailAndPassword(email, password);
     }
-    // Override role for admin email
-    if (user.email === ADMIN_EMAIL) _profile.role = 'admin';
-
-    $('auth-screen').classList.remove('active');
-    $('app-screen').classList.add('active');
-    setupShell();
+  } catch (e) {
+    let msg = 'Something went wrong. Try again.';
+    if (e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password') msg = 'Invalid email or password.';
+    if (e.code === 'auth/email-already-in-use') msg = 'This email is already registered.';
+    if (e.code === 'auth/weak-password') msg = 'Password must be at least 6 characters.';
+    if (e.code === 'auth/invalid-email') msg = 'Please enter a valid email address.';
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
+    document.getElementById('auth-btn').textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
   }
-});
+}
 
-// Enter key
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && $('auth-screen').classList.contains('active')) handleAuth();
-});
-
-// ══════════════════════════════════════════
-// SHELL
-// ══════════════════════════════════════════
-function setupShell() {
-  const initials = (_profile.name || 'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  $('sidebar-avatar').textContent = initials;
-  $('topbar-avatar').textContent = initials;
-  $('sidebar-name').textContent = _profile.name;
-  $('sidebar-role').textContent = _profile.role === 'admin' ? '⚙️ Admin' : '🎓 Student';
-
-  if (_profile.role === 'admin') {
-    $('student-nav').style.display = 'none';
-    $('admin-nav').style.display = 'block';
-    $('mob-student').style.display = 'none';
-    $('mob-admin').style.display = 'flex';
-    showPage('admin-dashboard');
+auth.onAuthStateChanged(async user => {
+  if (user) {
+    const doc = await db.collection('users').doc(user.uid).get();
+    if (!doc.exists) { auth.signOut(); return; }
+    const data = doc.data();
+    if (data.banned) { auth.signOut(); showToast('Your access has been revoked.', 'error'); return; }
+    currentUser = { uid: user.uid, ...data };
+    isAdmin = data.role === 'admin' || user.email === INSTRUCTOR_EMAIL;
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('app').classList.add('show');
+    document.getElementById('role-badge').textContent = isAdmin ? 'INSTRUCTOR' : 'STUDENT';
+    document.getElementById('role-badge').className = `topbar-role ${isAdmin ? 'role-admin' : 'role-student'}`;
+    document.getElementById('signout-btn').onclick = () => { unsubscribers.forEach(u => u()); auth.signOut(); };
+    buildNav();
+    navigateTo(isAdmin ? 'overview' : 'dashboard');
   } else {
-    $('student-nav').style.display = 'block';
-    $('admin-nav').style.display = 'none';
-    $('mob-student').style.display = 'flex';
-    $('mob-admin').style.display = 'none';
-    showPage('dashboard');
-  }
-}
-
-// ══════════════════════════════════════════
-// NAVIGATION
-// ══════════════════════════════════════════
-const PAGES = {
-  'dashboard': renderDashboard,
-  'books': renderBooks,
-  'exercises': renderExercises,
-  'my-submissions': renderMySubmissions,
-  'my-progress': renderMyProgress,
-  'qa': renderQA,
-  'admin-dashboard': renderAdminDashboard,
-  'admin-books': renderAdminBooks,
-  'admin-exercises': renderAdminExercises,
-  'admin-submissions': renderAdminSubmissions,
-  'admin-progress': renderAdminProgress,
-  'admin-schedule': renderAdminSchedule,
-  'admin-qa': renderAdminQA,
-};
-
-window.showPage = pid => {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const pg = $('page-'+pid);
-  if (pg) pg.classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === pid));
-  document.querySelectorAll('.mob-item').forEach(n => n.classList.toggle('active', n.dataset.page === pid));
-  if (PAGES[pid]) PAGES[pid]();
-  closeSidebar();
-};
-
-window.openSidebar = () => { $('sidebar').classList.add('open'); $('sb-overlay').classList.add('open'); document.body.style.overflow='hidden'; };
-window.closeSidebar = () => { $('sidebar').classList.remove('open'); $('sb-overlay').classList.remove('open'); document.body.style.overflow=''; };
-
-window.openModal = (title, html) => { $('modal-title').textContent=title; $('modal-body').innerHTML=html; $('modal-overlay').classList.add('open'); };
-window.closeModal = () => $('modal-overlay').classList.remove('open');
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
-
-// ══════════════════════════════════════════
-// STUDENT: DASHBOARD
-// ══════════════════════════════════════════
-async function renderDashboard() {
-  $('dash-name').textContent = (_profile.name||'').split(' ')[0];
-  const [bSnap, eSnap, sSnap, qSnap] = await Promise.all([
-    getDocs(collection(db,'books')),
-    getDocs(collection(db,'exercises')),
-    getDocs(query(collection(db,'submissions'), where('userId','==',_user.uid))),
-    getDocs(query(collection(db,'questions'), where('userId','==',_user.uid)))
-  ]);
-  const bCount = bSnap.size, eCount = eSnap.size;
-  const subExIds = new Set(sSnap.docs.map(d=>d.data().exerciseId));
-  const unanswered = qSnap.docs.filter(d=>!d.data().answer).length;
-
-  $('dash-stats').innerHTML = `
-    <div class="stat-card"><div class="stat-label">Books</div><div class="stat-value">${bCount}</div><div class="stat-sub">available</div></div>
-    <div class="stat-card"><div class="stat-label">Exercises Done</div><div class="stat-value blue">${subExIds.size}/${eCount}</div><div class="stat-sub">submitted</div></div>
-    <div class="stat-card"><div class="stat-label">My Questions</div><div class="stat-value yellow">${qSnap.size}</div><div class="stat-sub">${unanswered} pending</div></div>
-  `;
-
-  // Books quick list
-  const bl = $('dash-books');
-  if (!bCount) { bl.innerHTML = empty('📭','No books yet.'); }
-  else {
-    const emojis = ['🐍','📘','🚀','💡','⚡','🔥'];
-    bl.innerHTML = bSnap.docs.slice(0,3).map((d,i)=>{
-      const b = d.data();
-      return `<div class="dash-row">
-        <span style="font-size:22px">${emojis[i%emojis.length]}</span>
-        <div style="flex:1;min-width:0"><div class="dash-row-title">${b.title}</div><div class="dash-row-sub">Book ${b.order||i+1}</div></div>
-        <button class="btn-sm-acc" onclick="dlBook('${d.id}','${b.title.replace(/'/g,"\\'")}','${b.fileName||'book.pdf'}')">↓ PDF</button>
-      </div>`;
-    }).join('');
-  }
-
-  // Pending exercises
-  const el = $('dash-ex');
-  const pending = eSnap.docs.filter(d=>!subExIds.has(d.id));
-  if (!pending.length) { el.innerHTML = empty('🎉','All done!'); }
-  else {
-    el.innerHTML = pending.slice(0,4).map(d=>{
-      const e=d.data();
-      return `<div class="dash-row">
-        <span style="font-size:20px">${e.type==='project'?'🚀':'✏️'}</span>
-        <div style="flex:1;font-size:13px;font-weight:600">${e.title}</div>
-        <span class="badge ${e.type==='project'?'badge-blue':'badge-green'}">${e.type}</span>
-      </div>`;
-    }).join('');
-  }
-
-  // Schedule widget
-  renderScheduleWidget();
-}
-
-async function renderScheduleWidget() {
-  const snap = await getDoc(doc(db,'settings','schedule'));
-  const el = $('dash-schedule');
-  if (!snap.exists()) { el.innerHTML='<p class="text-muted" style="font-size:13px">Schedule not set up yet.</p>'; return; }
-  const cfg = snap.data();
-  if (!cfg.totalWeeks || !cfg.startDate) { el.innerHTML='<p class="text-muted" style="font-size:13px">Schedule coming soon!</p>'; return; }
-  const start = new Date(cfg.startDate), today = new Date();
-  let html='';
-  for(let w=1;w<=cfg.totalWeeks;w++){
-    const ws=new Date(start); ws.setDate(start.getDate()+(w-1)*7);
-    const we=new Date(ws); we.setDate(ws.getDate()+6);
-    const isCur=today>=ws&&today<=we, isDone=today>we;
-    const topic=cfg.weekTopics?.[w]||`Week ${w}`;
-    html+=`<div class="week-row">
-      <div class="week-num ${isDone?'done':isCur?'current':''}">${w}</div>
-      <div class="week-topic">${topic}${isCur?' <span class="badge badge-green" style="font-size:10px">Now</span>':''}</div>
-      <div class="week-dates">${ws.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}–${we.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}</div>
-    </div>`;
-  }
-  el.innerHTML=html;
-}
-
-// ══════════════════════════════════════════
-// STUDENT: BOOKS
-// ══════════════════════════════════════════
-async function renderBooks() {
-  const el=document.getElementById('books-grid');
-  loading(el);
-  const snap=await getDocs(query(collection(db,'books'),orderBy('order')));
-  if(!snap.size){el.innerHTML=`<div style="grid-column:1/-1">${empty('📭','No books yet.')}</div>`;return;}
-  const emojis=['🐍','📘','🚀','💡','⚡','🔥','🎯','📗'];
-  el.innerHTML=snap.docs.map((d,i)=>{
-    const b=d.data();
-    return `<div class="book-card">
-      <div class="book-cover">${emojis[i%emojis.length]}</div>
-      <div class="book-body">
-        <div class="book-title">${b.title}</div>
-        <div class="book-meta">Book ${b.order||i+1} · PDF</div>
-        <button class="btn-acc" style="margin-top:10px" onclick="dlBook('${d.id}','${b.title.replace(/'/g,"\\'")}','${b.fileName||'book.pdf'}')">📥 Download PDF</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-window.dlBook = async (bookId, title, fileName) => {
-  toast('📥 Preparing download…');
-  try {
-    const snap = await getDoc(doc(db,'books',bookId));
-    const url = snap.data()?.fileURL;
-    if (!url) { toast('File not available.', true); return; }
-    const a = document.createElement('a');
-    a.href = url; a.download = fileName; a.target='_blank';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    toast('📥 Downloaded: ' + title);
-  } catch { toast('Download failed.', true); }
-};
-
-// ══════════════════════════════════════════
-// STUDENT: EXERCISES
-// ══════════════════════════════════════════
-async function renderExercises() {
-  const el=$('exercises-list'); loading(el);
-  const [eSnap,sSnap]=await Promise.all([
-    getDocs(query(collection(db,'exercises'),orderBy('createdAt'))),
-    getDocs(query(collection(db,'submissions'),where('userId','==',_user.uid)))
-  ]);
-  if(!eSnap.size){el.innerHTML=`<div class="card">${empty('📭','No exercises yet.')}</div>`;return;}
-  const submitted=new Set(sSnap.docs.map(d=>d.data().exerciseId));
-  el.innerHTML=eSnap.docs.map(d=>{
-    const e=d.data(),done=submitted.has(d.id);
-    return `<div class="ex-card">
-      <div class="ex-header">
-        <div>
-          <div class="ex-title">${e.type==='project'?'🚀':'✏️'} ${e.title}</div>
-          ${e.week?`<div class="ex-week">📅 Week ${e.week}</div>`:''}
-        </div>
-        <span class="badge ${e.type==='project'?'badge-blue':'badge-green'}">${e.type}</span>
-      </div>
-      <div class="ex-desc">${e.description}</div>
-      ${e.fileURL?`<button class="btn-acc secondary btn-sm" style="margin-bottom:10px" onclick="dlExFile('${e.fileURL}','${e.title.replace(/'/g,"\\'")}')">📥 Download Exercise PDF</button>`:''}
-      ${done
-        ? `<div class="sub-done">✅ Submitted — awaiting review</div>`
-        : `<div class="upload-zone" id="uz-${d.id}" onclick="document.getElementById('sf-${d.id}').click()">
-             <span style="font-size:28px">📤</span>
-             <p>Click to upload your solution (PDF / .py / .zip)</p>
-             <input type="file" id="sf-${d.id}" accept=".pdf,.py,.zip,.txt" style="display:none"
-               onchange="submitEx(this,'${d.id}','${e.title.replace(/'/g,"\\'")}')"/>
-           </div>`
-      }
-    </div>`;
-  }).join('');
-}
-
-window.dlExFile = (url, title) => {
-  const a=document.createElement('a'); a.href=url; a.download=title+'.pdf'; a.target='_blank';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-};
-
-window.submitEx = async (input, exId, exTitle) => {
-  const file=input.files[0]; if(!file)return;
-  const uz=$('uz-'+exId); uz.querySelector('p').textContent='⏳ Uploading…';
-  try {
-    const b64=await fileToB64(file);
-    const storRef=ref(storage,`submissions/${_user.uid}/${exId}/${file.name}`);
-    await uploadString(storRef,b64,'data_url');
-    const url=await getDownloadURL(storRef);
-    await addDoc(collection(db,'submissions'),{
-      userId:_user.uid, userName:_profile.name,
-      exerciseId:exId, exerciseTitle:exTitle,
-      fileName:file.name, fileURL:url,
-      submittedAt:serverTimestamp()
-    });
-    toast('✅ Submitted!');
-    renderExercises();
-  } catch { toast('Upload failed. Try a smaller file.',true); uz.querySelector('p').textContent='Click to upload your solution'; }
-};
-
-// ══════════════════════════════════════════
-// STUDENT: MY SUBMISSIONS
-// ══════════════════════════════════════════
-async function renderMySubmissions() {
-  const el=$('my-subs'); loading(el);
-  const snap=await getDocs(query(collection(db,'submissions'),where('userId','==',_user.uid),orderBy('submittedAt','desc')));
-  if(!snap.size){el.innerHTML=empty('📭','No submissions yet.');return;}
-  el.innerHTML=`<div class="tbl-wrap"><table class="dtable">
-    <thead><tr><th>Exercise</th><th>File</th><th>Submitted</th><th></th></tr></thead>
-    <tbody>${snap.docs.map(d=>{const s=d.data();return`<tr>
-      <td><strong>${s.exerciseTitle}</strong></td>
-      <td class="mono" style="font-size:12px;color:var(--muted2)">${s.fileName||'—'}</td>
-      <td style="font-size:12px;color:var(--muted)">${fmtDT(s.submittedAt)}</td>
-      <td><a href="${s.fileURL}" target="_blank" class="btn-acc secondary btn-sm">↓ View</a></td>
-    </tr>`;}).join('')}</tbody>
-  </table></div>`;
-}
-
-// ══════════════════════════════════════════
-// STUDENT: MY PROGRESS
-// ══════════════════════════════════════════
-async function renderMyProgress() {
-  const el=$('my-progress'); loading(el);
-  const [schedSnap,eSnap,sSnap]=await Promise.all([
-    getDoc(doc(db,'settings','schedule')),
-    getDocs(collection(db,'exercises')),
-    getDocs(query(collection(db,'submissions'),where('userId','==',_user.uid)))
-  ]);
-  const cfg=schedSnap.exists()?schedSnap.data():{};
-  const exs=eSnap.docs.map(d=>({id:d.id,...d.data()}));
-  const submitted=new Set(sSnap.docs.map(d=>d.data().exerciseId));
-  const n=cfg.totalWeeks||0;
-
-  if(!n){el.innerHTML=`<div class="card">${empty('📅','Schedule not set up yet.')}</div>`;return;}
-
-  const start=cfg.startDate?new Date(cfg.startDate):null, today=new Date();
-  let html=`<div class="stats-row" style="margin-bottom:16px">
-    <div class="stat-card"><div class="stat-label">Total Weeks</div><div class="stat-value">${n}</div></div>
-    <div class="stat-card"><div class="stat-label">Exercises</div><div class="stat-value blue">${submitted.size}/${exs.length}</div></div>
-  </div><div class="card"><div class="card-title">📅 Week-by-Week</div>`;
-
-  for(let w=1;w<=n;w++){
-    let ws=null,we=null,status='upcoming';
-    if(start){ws=new Date(start);ws.setDate(start.getDate()+(w-1)*7);we=new Date(ws);we.setDate(ws.getDate()+6);
-      if(today>we)status='done'; else if(today>=ws)status='current';}
-    const wExs=exs.filter(e=>String(e.week)===String(w));
-    const wDone=wExs.filter(e=>submitted.has(e.id)).length;
-    const pct=wExs.length?Math.round(wDone/wExs.length*100):0;
-    const topic=cfg.weekTopics?.[w]||`Week ${w}`;
-    html+=`<div class="week-row">
-      <div class="week-num ${status==='done'?'done':status==='current'?'current':''}">${w}</div>
-      <div style="flex:1"><div class="week-topic">${topic}${status==='current'?' <span class="badge badge-green" style="font-size:10px">Now</span>':''}</div>
-        ${ws?`<div class="week-dates">${ws.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}–${we.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}</div>`:''}
-      </div>
-      <div style="text-align:right">${wExs.length?`<div style="font-size:12px;color:var(--muted2)">${wDone}/${wExs.length}</div>
-        <div class="prog-bar" style="margin-top:4px"><div class="prog-fill" style="width:${pct}%"></div></div>
-        `:`<span style="font-size:11px;color:var(--muted)">No exercises</span>`}
-      </div>
-    </div>`;
-  }
-  html+='</div>';
-  el.innerHTML=html;
-}
-
-// ══════════════════════════════════════════
-// STUDENT: Q&A
-// ══════════════════════════════════════════
-async function renderQA() {
-  const el=$('qa-list'); loading(el);
-  const snap=await getDocs(query(collection(db,'questions'),where('userId','==',_user.uid),orderBy('askedAt','desc')));
-
-  let html=`<div class="card" style="margin-bottom:16px">
-    <div class="card-title">💬 Ask a Question</div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <textarea id="q-inp" class="form-inp" placeholder="Type your Python question here…" style="min-height:90px"></textarea>
-      <button class="btn-acc" onclick="submitQuestion()">📨 Send Question</button>
-    </div>
-  </div>
-  <div class="card"><div class="card-title">📬 My Questions</div>`;
-
-  if(!snap.size){html+=empty('💬','No questions yet. Ask away!');}
-  else {
-    html+=snap.docs.map(d=>{
-      const q=d.data();
-      return `<div class="qa-item">
-        <div class="qa-question">
-          <span class="qa-avatar">👤</span>
-          <div style="flex:1">
-            <div class="qa-text">${q.question}</div>
-            <div class="qa-meta">${fmtDT(q.askedAt)}</div>
-          </div>
-        </div>
-        ${q.answer?`<div class="qa-answer">
-          <span class="qa-avatar admin">🐍</span>
-          <div style="flex:1">
-            <div class="qa-text">${q.answer}</div>
-            <div class="qa-meta">Admin · ${fmtDT(q.answeredAt)}</div>
-          </div>
-        </div>`:`<div class="qa-pending">⏳ Waiting for admin answer…</div>`}
-      </div>`;
-    }).join('');
-  }
-  html+='</div>';
-  el.innerHTML=html;
-}
-
-window.submitQuestion = async () => {
-  const text=$('q-inp').value.trim();
-  if(!text){toast('Type a question first.',true);return;}
-  try {
-    await addDoc(collection(db,'questions'),{
-      userId:_user.uid, userName:_profile.name,
-      question:text, answer:null, answeredAt:null,
-      askedAt:serverTimestamp()
-    });
-    toast('📨 Question sent!');
-    $('q-inp').value='';
-    renderQA();
-  } catch { toast('Failed to send.',true); }
-};
-
-// ══════════════════════════════════════════
-// ADMIN: DASHBOARD
-// ══════════════════════════════════════════
-async function renderAdminDashboard() {
-  const [uSnap,bSnap,eSnap,sSnap,qSnap]=await Promise.all([
-    getDocs(query(collection(db,'users'),where('role','==','student'))),
-    getDocs(collection(db,'books')),
-    getDocs(collection(db,'exercises')),
-    getDocs(collection(db,'submissions')),
-    getDocs(query(collection(db,'questions'),where('answer','==',null)))
-  ]);
-  $('adm-stats').innerHTML=`
-    <div class="stat-card"><div class="stat-label">Students</div><div class="stat-value">${uSnap.size}</div><div class="stat-sub">registered</div></div>
-    <div class="stat-card"><div class="stat-label">Books</div><div class="stat-value blue">${bSnap.size}</div><div class="stat-sub">published</div></div>
-    <div class="stat-card"><div class="stat-label">Exercises</div><div class="stat-value white">${eSnap.size}</div></div>
-    <div class="stat-card"><div class="stat-label">Submissions</div><div class="stat-value yellow">${sSnap.size}</div></div>
-    <div class="stat-card"><div class="stat-label">Unanswered Qs</div><div class="stat-value" style="color:var(--warn)">${qSnap.size}</div><div class="stat-sub">need reply</div></div>
-  `;
-  const el=$('adm-recent');
-  if(!uSnap.size){el.innerHTML=empty('👥','No students yet.');return;}
-  el.innerHTML=`<div class="tbl-wrap"><table class="dtable">
-    <thead><tr><th>Name</th><th>Email</th><th>Joined</th></tr></thead>
-    <tbody>${uSnap.docs.slice(0,10).map(d=>{const u=d.data();return`<tr>
-      <td><strong>${u.name}</strong></td>
-      <td style="color:var(--muted2)">${u.email}</td>
-      <td style="font-size:12px;color:var(--muted)">${fmtDate(u.joinedAt)}</td>
-    </tr>`;}).join('')}</tbody>
-  </table></div>`;
-}
-
-// ══════════════════════════════════════════
-// ADMIN: BOOKS
-// ══════════════════════════════════════════
-async function renderAdminBooks() {
-  const el=$('adm-books-list'); loading(el);
-  const snap=await getDocs(query(collection(db,'books'),orderBy('order')));
-  if(!snap.size){el.innerHTML=empty('📭','No books yet.');return;}
-  el.innerHTML=`<div class="tbl-wrap"><table class="dtable">
-    <thead><tr><th>#</th><th>Title</th><th>File</th><th>Actions</th></tr></thead>
-    <tbody>${snap.docs.map(d=>{const b=d.data();return`<tr>
-      <td class="mono text-acc">${b.order}</td>
-      <td><strong>${b.title}</strong></td>
-      <td>${b.fileURL?'<span class="badge badge-green">✓ PDF</span>':'<span class="badge badge-red">No file</span>'}</td>
-      <td style="display:flex;gap:6px;flex-wrap:wrap">
-        ${b.fileURL?`<a href="${b.fileURL}" target="_blank" class="btn-acc secondary btn-sm">👁 Preview</a>`:''}
-        <button class="btn-acc danger btn-sm" onclick="deleteBook('${d.id}','${b.storagePath||''}')">🗑 Delete</button>
-      </td>
-    </tr>`;}).join('')}</tbody>
-  </table></div>`;
-}
-
-window.onBookFile=input=>{
-  const l=$('bk-file-label');
-  if(input.files[0]){l.textContent='✓ '+input.files[0].name;$('book-drop').classList.add('has-file');}
-};
-
-window.addBook=async()=>{
-  const title=$('bk-title').value.trim(),order=parseInt($('bk-order').value)||1;
-  const fileEl=$('bk-file');
-  if(!title){toast('Enter a title.',true);return;}
-  if(!fileEl.files[0]){toast('Select a PDF.',true);return;}
-  const btn=$('#adm-books-upload .btn-acc');
-  btn.textContent='⏳ Uploading…';btn.disabled=true;
-  try {
-    const file=fileEl.files[0];
-    const b64=await fileToB64(file);
-    const path=`books/${Date.now()}_${file.name}`;
-    const storRef=ref(storage,path);
-    await uploadString(storRef,b64,'data_url');
-    const url=await getDownloadURL(storRef);
-    await addDoc(collection(db,'books'),{title,order,fileURL:url,storagePath:path,fileName:file.name,addedAt:serverTimestamp()});
-    $('bk-title').value='';$('bk-order').value='';fileEl.value='';
-    $('bk-file-label').textContent='Click to select PDF';$('book-drop').classList.remove('has-file');
-    toast('📚 Book published!');renderAdminBooks();
-  } catch(e){toast('Upload failed: '+e.message,true);}
-  finally{btn.textContent='📤 Publish Book';btn.disabled=false;}
-};
-
-window.deleteBook=async(bookId,storagePath)=>{
-  if(!confirm('Delete this book?'))return;
-  await deleteDoc(doc(db,'books',bookId));
-  if(storagePath){try{await deleteObject(ref(storage,storagePath));}catch{}}
-  toast('🗑️ Deleted.');renderAdminBooks();
-};
-
-// ══════════════════════════════════════════
-// ADMIN: EXERCISES
-// ══════════════════════════════════════════
-async function renderAdminExercises() {
-  const el=$('adm-ex-list'); loading(el);
-  const snap=await getDocs(query(collection(db,'exercises'),orderBy('createdAt')));
-  if(!snap.size){el.innerHTML=empty('📭','No exercises yet.');return;}
-  el.innerHTML=snap.docs.map(d=>{
-    const e=d.data();
-    const subQ=getDocs(query(collection(db,'submissions'),where('exerciseId','==',d.id)));
-    return `<div class="dash-row" style="align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border)">
-      <div style="flex:1;min-width:0">
-        <div style="font-weight:700;margin-bottom:4px">
-          ${e.type==='project'?'🚀':'✏️'} ${e.title}
-          <span class="badge ${e.type==='project'?'badge-blue':'badge-green'}" style="margin-left:6px">${e.type}</span>
-          ${e.week?`<span class="badge badge-yellow" style="margin-left:4px">Wk ${e.week}</span>`:''}
-        </div>
-        <div style="font-size:13px;color:var(--muted2);margin-bottom:6px">${e.description.slice(0,80)}${e.description.length>80?'…':''}</div>
-        ${e.fileURL?`<a href="${e.fileURL}" target="_blank" class="badge badge-green" style="text-decoration:none">✓ PDF attached</a>`:'<span class="badge badge-red">No PDF</span>'}
-      </div>
-      <button class="btn-acc danger btn-sm" onclick="deleteExercise('${d.id}','${e.storagePath||''}')">🗑</button>
-    </div>`;
-  }).join('');
-}
-
-window.onExFile=input=>{
-  if(input.files[0]){$('ex-file-label').textContent='✓ '+input.files[0].name;$('ex-drop').classList.add('has-file');}
-};
-
-window.addExercise=async()=>{
-  const title=$('ex-title').value.trim(),desc=$('ex-desc').value.trim();
-  const type=$('ex-type').value,week=$('ex-week').value||null;
-  const fileEl=$('ex-file');
-  if(!title||!desc){toast('Fill in title and description.',true);return;}
-  const btn=document.querySelector('#adm-ex-upload .btn-acc');
-  btn.textContent='⏳ Saving…';btn.disabled=true;
-  try {
-    let fileURL=null,storagePath=null,fileName=null;
-    if(fileEl.files[0]){
-      const file=fileEl.files[0];
-      const b64=await fileToB64(file);
-      storagePath=`exercises/${Date.now()}_${file.name}`;
-      const storRef=ref(storage,storagePath);
-      await uploadString(storRef,b64,'data_url');
-      fileURL=await getDownloadURL(storRef);
-      fileName=file.name;
-    }
-    await addDoc(collection(db,'exercises'),{title,description:desc,type,week,fileURL,storagePath,fileName,createdAt:serverTimestamp()});
-    $('ex-title').value='';$('ex-desc').value='';$('ex-week').value='';fileEl.value='';
-    $('ex-file-label').textContent='Attach exercise PDF (optional)';$('ex-drop').classList.remove('has-file');
-    toast('✏️ Exercise created!');renderAdminExercises();
-  } catch(e){toast('Failed: '+e.message,true);}
-  finally{btn.textContent='✏️ Create Exercise';btn.disabled=false;}
-};
-
-window.deleteExercise=async(exId,storagePath)=>{
-  if(!confirm('Delete this exercise?'))return;
-  await deleteDoc(doc(db,'exercises',exId));
-  if(storagePath){try{await deleteObject(ref(storage,storagePath));}catch{}}
-  toast('🗑️ Deleted.');renderAdminExercises();
-};
-
-// ══════════════════════════════════════════
-// ADMIN: SUBMISSIONS
-// ══════════════════════════════════════════
-async function renderAdminSubmissions() {
-  const el=$('adm-subs'); loading(el);
-  const snap=await getDocs(query(collection(db,'submissions'),orderBy('submittedAt','desc')));
-  if(!snap.size){el.innerHTML=empty('📭','No submissions yet.');return;}
-  el.innerHTML=`<div class="tbl-wrap"><table class="dtable">
-    <thead><tr><th>Student</th><th>Exercise</th><th>File</th><th>Date</th><th></th></tr></thead>
-    <tbody>${snap.docs.map(d=>{const s=d.data();return`<tr>
-      <td><strong>${s.userName}</strong></td>
-      <td>${s.exerciseTitle}</td>
-      <td class="mono" style="font-size:11px;color:var(--muted2)">${s.fileName||'—'}</td>
-      <td style="font-size:12px;color:var(--muted)">${fmtDT(s.submittedAt)}</td>
-      <td><a href="${s.fileURL}" target="_blank" class="btn-acc secondary btn-sm">↓ Download</a></td>
-    </tr>`;}).join('')}</tbody>
-  </table></div>`;
-}
-
-// ══════════════════════════════════════════
-// ADMIN: PROGRESS
-// ══════════════════════════════════════════
-async function renderAdminProgress() {
-  const el=$('adm-progress'); loading(el);
-  const [uSnap,eSnap,sSnap,schedSnap]=await Promise.all([
-    getDocs(query(collection(db,'users'),where('role','==','student'))),
-    getDocs(collection(db,'exercises')),
-    getDocs(collection(db,'submissions')),
-    getDoc(doc(db,'settings','schedule'))
-  ]);
-  const cfg=schedSnap.exists()?schedSnap.data():{};
-  const exs=eSnap.docs.map(d=>({id:d.id,...d.data()}));
-  const students=uSnap.docs.map(d=>({id:d.id,...d.data()}));
-
-  if(!students.length){el.innerHTML=`<div class="card">${empty('👥','No students yet.')}</div>`;return;}
-
-  // Build submission map: userId → Set of exerciseIds
-  const subMap={};
-  sSnap.docs.forEach(d=>{
-    const s=d.data();
-    if(!subMap[s.userId])subMap[s.userId]=new Set();
-    subMap[s.userId].add(s.exerciseId);
-  });
-
-  let html=`<div class="card"><div class="card-title">📈 Student Overview</div>
-    <div class="tbl-wrap"><table class="dtable">
-      <thead><tr><th>Student</th><th>Progress</th><th>Exercises</th><th>Joined</th></tr></thead>
-      <tbody>${students.map(s=>{
-        const done=(subMap[s.id]||new Set()).size;
-        const pct=exs.length?Math.round(done/exs.length*100):0;
-        return`<tr>
-          <td><strong>${s.name}</strong><br><span style="font-size:11px;color:var(--muted2)">${s.email}</span></td>
-          <td><div style="display:flex;align-items:center;gap:8px">
-            <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
-            <span class="mono" style="font-size:11px;color:var(--accent)">${pct}%</span>
-          </div></td>
-          <td><span class="mono text-acc">${done}</span>/${exs.length}</td>
-          <td style="font-size:12px;color:var(--muted)">${fmtDate(s.joinedAt)}</td>
-        </tr>`;
-      }).join('')}</tbody>
-    </table></div>
-  </div>`;
-
-  // Week breakdown
-  if(cfg.totalWeeks){
-    html+=`<div class="card" style="margin-top:16px"><div class="card-title">📅 Week-by-Week</div>
-      <div class="tbl-wrap"><table class="dtable">
-        <thead><tr><th>Week</th><th>Topic</th><th>Exercises</th>${students.map(s=>`<th style="max-width:90px">${s.name.split(' ')[0]}</th>`).join('')}</tr></thead>
-        <tbody>${Array.from({length:cfg.totalWeeks},(_,i)=>i+1).map(w=>{
-          const topic=cfg.weekTopics?.[w]||`Week ${w}`;
-          const wExs=exs.filter(e=>String(e.week)===String(w));
-          return`<tr>
-            <td class="mono text-acc">${w}</td>
-            <td>${topic}</td>
-            <td>${wExs.length}</td>
-            ${students.map(s=>{
-              const done=wExs.filter(e=>(subMap[s.id]||new Set()).has(e.id)).length;
-              const pct=wExs.length?Math.round(done/wExs.length*100):0;
-              return`<td><span class="mono" style="font-size:12px;color:${pct===100?'var(--accent)':pct>0?'var(--yellow)':'var(--muted)'}">${done}/${wExs.length}</span></td>`;
-            }).join('')}
-          </tr>`;
-        }).join('')}</tbody>
-      </table></div>
-    </div>`;
-  }
-  el.innerHTML=html;
-}
-
-// ══════════════════════════════════════════
-// ADMIN: SCHEDULE
-// ══════════════════════════════════════════
-async function renderAdminSchedule() {
-  const snap=await getDoc(doc(db,'settings','schedule'));
-  const cfg=snap.exists()?snap.data():{};
-  $('total-weeks-inp').value=cfg.totalWeeks||'';
-  $('start-date-inp').value=cfg.startDate||'';
-  renderWeeksEditor(cfg);
-}
-
-function renderWeeksEditor(cfg){
-  const n=parseInt($('total-weeks-inp').value)||0;
-  const el=$('weeks-editor');
-  if(!n){el.innerHTML='<p style="font-size:13px;color:var(--muted)">Set total weeks above first.</p>';return;}
-  el.innerHTML=Array.from({length:n},(_,i)=>i+1).map(w=>`
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-      <div style="width:28px;text-align:center;font-family:var(--font-m);font-size:13px;color:var(--accent)">${w}</div>
-      <input class="form-inp" id="wt-${w}" placeholder="Week ${w} topic…" value="${cfg.weekTopics?.[w]||''}"/>
-    </div>`).join('');
-}
-
-window.saveSchedule=async()=>{
-  const weeks=parseInt($('total-weeks-inp').value),start=$('start-date-inp').value;
-  if(!weeks||weeks<1){toast('Enter valid week count.',true);return;}
-  await setDoc(doc(db,'settings','schedule'),{totalWeeks:weeks,startDate:start},{ merge:true });
-  renderWeeksEditor({totalWeeks:weeks});
-  toast('✅ Settings saved!');
-};
-
-window.saveWeekTopics=async()=>{
-  const snap=await getDoc(doc(db,'settings','schedule'));
-  const cfg=snap.exists()?snap.data():{};
-  const n=cfg.totalWeeks||0;
-  const topics={};
-  for(let w=1;w<=n;w++){const inp=$('wt-'+w);if(inp)topics[w]=inp.value.trim()||`Week ${w}`;}
-  await updateDoc(doc(db,'settings','schedule'),{weekTopics:topics});
-  toast('📅 Week topics saved!');
-};
-
-// Refresh weeks editor when input changes
-document.addEventListener('input',e=>{
-  if(e.target.id==='total-weeks-inp'){
-    const snap=getDoc(doc(db,'settings','schedule')).then(s=>renderWeeksEditor(s.exists()?s.data():{}));
+    currentUser = null;
+    isAdmin = false;
+    document.getElementById('auth-screen').style.display = 'flex';
+    document.getElementById('app').classList.remove('show');
+    document.getElementById('auth-btn').textContent = 'Sign In';
   }
 });
 
-// ══════════════════════════════════════════
-// ADMIN: Q&A
-// ══════════════════════════════════════════
-async function renderAdminQA() {
-  const el=$('admin-qa-list'); loading(el);
-  const snap=await getDocs(query(collection(db,'questions'),orderBy('askedAt','desc')));
-  if(!snap.size){el.innerHTML=`<div class="card">${empty('💬','No questions yet.')}</div>`;return;}
+// ============================================================
+// NAVIGATION
+// ============================================================
+const STUDENT_NAV = [
+  { id: 'dashboard', icon: '⊞', label: 'Home' },
+  { id: 'syllabus', icon: '☑', label: 'Progress' },
+  { id: 'ebook', icon: '📖', label: 'Book' },
+  { id: 'exercises', icon: '✏', label: 'Tasks' },
+  { id: 'qa', icon: '💬', label: 'Q&A' },
+];
 
-  const unanswered=snap.docs.filter(d=>!d.data().answer);
-  const answered =snap.docs.filter(d=>!!d.data().answer);
+const ADMIN_NAV = [
+  { id: 'overview', icon: '⊞', label: 'Overview' },
+  { id: 'students', icon: '👥', label: 'Students' },
+  { id: 'content', icon: '📢', label: 'Content' },
+  { id: 'grading', icon: '✏', label: 'Grading' },
+  { id: 'qa', icon: '💬', label: 'Q&A' },
+];
 
-  let html='';
-  if(unanswered.length){
-    html+=`<div class="card" style="margin-bottom:16px"><div class="card-title">🔴 Needs Answer (${unanswered.length})</div>`;
-    html+=unanswered.map(d=>{
-      const q=d.data();
-      return`<div class="qa-item">
-        <div class="qa-question">
-          <div class="qa-avatar">👤</div>
-          <div style="flex:1">
-            <div style="font-size:12px;font-weight:700;color:var(--accent2);margin-bottom:2px">${q.userName}</div>
-            <div class="qa-text">${q.question}</div>
-            <div class="qa-meta">${fmtDT(q.askedAt)}</div>
-          </div>
-        </div>
-        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
-          <textarea class="form-inp" id="ans-${d.id}" placeholder="Type your answer…" style="min-height:70px"></textarea>
-          <button class="btn-acc" onclick="submitAnswer('${d.id}')">📨 Send Answer</button>
-        </div>
-      </div>`;
-    }).join('');
-    html+='</div>';
+function buildNav() {
+  const nav = document.getElementById('bottom-nav');
+  const items = isAdmin ? ADMIN_NAV : STUDENT_NAV;
+  nav.innerHTML = items.map(i => `
+    <button class="nav-item" data-page="${i.id}" onclick="navigateTo('${i.id}')">
+      <span class="nav-icon">${i.icon}</span>
+      <span>${i.label}</span>
+    </button>
+  `).join('');
+}
+
+function navigateTo(page) {
+  currentPage = page;
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.page === page);
+  });
+  unsubscribers.forEach(u => u());
+  unsubscribers = [];
+  const main = document.getElementById('main-content');
+  main.innerHTML = `<div class="loading-screen"><div class="loader"></div><span>Loading...</span></div>`;
+  main.scrollTop = 0;
+
+  if (isAdmin) {
+    if (page === 'overview') renderAdminOverview();
+    else if (page === 'students') renderAdminStudents();
+    else if (page === 'content') renderAdminContent();
+    else if (page === 'grading') renderAdminGrading();
+    else if (page === 'qa') renderQA(true);
+  } else {
+    if (page === 'dashboard') renderStudentDashboard();
+    else if (page === 'syllabus') renderSyllabus();
+    else if (page === 'ebook') renderEbook();
+    else if (page === 'exercises') renderExercises();
+    else if (page === 'qa') renderQA(false);
   }
+}
 
-  if(answered.length){
-    html+=`<div class="card"><div class="card-title">✅ Answered (${answered.length})</div>`;
-    html+=answered.map(d=>{
-      const q=d.data();
-      return`<div class="qa-item">
-        <div class="qa-question">
-          <div class="qa-avatar">👤</div>
-          <div style="flex:1">
-            <div style="font-size:12px;font-weight:700;color:var(--accent2);margin-bottom:2px">${q.userName}</div>
-            <div class="qa-text">${q.question}</div>
-            <div class="qa-meta">${fmtDT(q.askedAt)}</div>
+// ============================================================
+// STUDENT: DASHBOARD
+// ============================================================
+async function renderStudentDashboard() {
+  const main = document.getElementById('main-content');
+
+  const unsub = db.collection('announcements').orderBy('createdAt', 'desc').limit(3)
+    .onSnapshot(snap => {
+      const anns = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const userDoc = db.collection('users').doc(currentUser.uid).get().then(doc => {
+        const data = doc.data();
+        const progress = data.progress || 0;
+        const chapsDone = (data.chaptersCompleted || []).length;
+
+        main.innerHTML = `
+          <div class="page-header">
+            <div class="page-title">Hey, ${data.name.split(' ')[0]} 👋</div>
+            <div class="page-sub">Keep showing up. Consistency beats talent.</div>
           </div>
+
+          <div class="stat-grid">
+            <div class="stat-card accent">
+              <div class="stat-val">${progress}%</div>
+              <div class="stat-lbl">Course progress</div>
+            </div>
+            <div class="stat-card blue">
+              <div class="stat-val">${chapsDone}/${CHAPTERS.length}</div>
+              <div class="stat-lbl">Chapters done</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Your Progress</div>
+            <div class="progress-wrap">
+              <div class="progress-top">
+                <span class="progress-label">Python for Absolute Beginners</span>
+                <span class="progress-pct">${progress}%</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
+            </div>
+            <div style="font-size:12px;color:var(--muted);margin-top:.5rem">${chapsDone === CHAPTERS.length ? '🎉 Course complete! Well done.' : `${CHAPTERS.length - chapsDone} chapters remaining. You can do this.`}</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Announcements</div>
+            ${anns.length === 0 ? '<div class="empty"><div class="empty-icon">📢</div>No announcements yet</div>' :
+              anns.map(a => `
+                <div class="announcement">
+                  <div class="ann-meta">
+                    <span class="ann-badge">ANNOUNCEMENT</span>
+                    <span class="ann-time">${timeAgo(a.createdAt)}</span>
+                  </div>
+                  <div class="ann-text">${a.text}</div>
+                </div>
+              `).join('')}
+          </div>
+        `;
+      });
+    });
+  unsubscribers.push(unsub);
+}
+
+// ============================================================
+// STUDENT: SYLLABUS
+// ============================================================
+function renderSyllabus() {
+  const main = document.getElementById('main-content');
+  const unsub = db.collection('users').doc(currentUser.uid).onSnapshot(doc => {
+    const data = doc.data();
+    const completed = data.chaptersCompleted || [];
+    const progress = Math.round((completed.length / CHAPTERS.length) * 100);
+
+    main.innerHTML = `
+      <div class="page-header">
+        <div class="page-title">Course Syllabus</div>
+        <div class="page-sub">Tap a chapter to mark it complete</div>
+      </div>
+      <div class="card">
+        <div class="progress-wrap" style="margin-top:0">
+          <div class="progress-top">
+            <span class="progress-label">Overall Progress</span>
+            <span class="progress-pct">${progress}%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
         </div>
-        <div class="qa-answer">
-          <div class="qa-avatar admin">🐍</div>
-          <div style="flex:1"><div class="qa-text">${q.answer}</div><div class="qa-meta">${fmtDT(q.answeredAt)}</div></div>
-        </div>
-      </div>`;
-    }).join('');
-    html+='</div>';
+      </div>
+      <div class="card">
+        <div class="card-title">Chapters</div>
+        ${CHAPTERS.map((ch, i) => {
+          const done = completed.includes(i);
+          return `<div class="chapter-item" onclick="toggleChapter(${i})">
+            <div class="chapter-check ${done ? 'done' : ''}"></div>
+            <div class="chapter-name ${done ? 'done' : ''}">${ch}</div>
+            <div class="chapter-num">0${i+1}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    `;
+  });
+  unsubscribers.push(unsub);
+}
+
+async function toggleChapter(idx) {
+  const docRef = db.collection('users').doc(currentUser.uid);
+  const doc = await docRef.get();
+  const completed = doc.data().chaptersCompleted || [];
+  let updated;
+  if (completed.includes(idx)) {
+    updated = completed.filter(i => i !== idx);
+  } else {
+    updated = [...completed, idx];
   }
-
-  el.innerHTML=html;
+  const progress = Math.round((updated.length / CHAPTERS.length) * 100);
+  await docRef.update({ chaptersCompleted: updated, progress });
+  showToast(updated.includes(idx) ? `Chapter ${idx+1} marked complete!` : 'Chapter unmarked');
 }
 
-window.submitAnswer=async(qId)=>{
-  const text=$('ans-'+qId)?.value.trim();
-  if(!text){toast('Type an answer first.',true);return;}
-  try {
-    await updateDoc(doc(db,'questions',qId),{answer:text,answeredAt:serverTimestamp()});
-    toast('✅ Answer sent!');renderAdminQA();
-  } catch{toast('Failed.',true);}
-};
+// ============================================================
+// STUDENT: EBOOK
+// ============================================================
+async function renderEbook() {
+  const main = document.getElementById('main-content');
+  const doc = await db.collection('settings').doc('ebook').get();
+  if (doc.exists) { EBOOK_URL = doc.data().url || EBOOK_URL; EBOOK_TITLE = doc.data().title || EBOOK_TITLE; }
 
-</script>
-
-<style>
-/* ══════════════════════════════════════════
-   VARIABLES & RESET
-══════════════════════════════════════════ */
-:root{
-  --bg:#07090e; --surface:#0e1117; --card:#141a23;
-  --border:#1c2535; --border2:#253040;
-  --accent:#00d4aa; --accent2:#4f8ef7;
-  --warn:#ff5f5f; --yellow:#f5c518;
-  --text:#dde6f0; --muted:#4e6070; --muted2:#7a8fa0;
-  --font-d:'Syne',sans-serif; --font-m:'Space Mono',monospace;
-  --r:12px; --r-sm:8px; --shadow:0 4px 24px rgba(0,0,0,.45);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{font-size:16px;}
-body{font-family:var(--font-d);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
-::-webkit-scrollbar{width:5px;height:5px;}
-::-webkit-scrollbar-track{background:var(--surface);}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,170,.3)}50%{box-shadow:0 0 0 10px rgba(0,212,170,0)}}
-
-/* ══════════════════════════════════════════
-   SCREEN SYSTEM
-══════════════════════════════════════════ */
-.screen{display:none;}
-.screen.active{display:flex;}
-
-/* ══════════════════════════════════════════
-   AUTH
-══════════════════════════════════════════ */
-#auth-screen{
-  min-height:100vh;align-items:center;justify-content:center;padding:24px;
-  position:relative;overflow:hidden;
-  background:radial-gradient(ellipse at 15% 60%,rgba(0,212,170,.1) 0%,transparent 55%),
-             radial-gradient(ellipse at 85% 15%,rgba(79,142,247,.08) 0%,transparent 50%),var(--bg);
-  animation:fadeIn .3s ease;
-}
-.auth-shapes{position:absolute;inset:0;pointer-events:none;}
-.auth-shapes span{position:absolute;border-radius:50%;border:1px solid rgba(0,212,170,.06);}
-.auth-shapes span:nth-child(1){width:500px;height:500px;top:-200px;left:-150px;}
-.auth-shapes span:nth-child(2){width:300px;height:300px;bottom:-100px;right:-80px;border-color:rgba(79,142,247,.06);}
-.auth-box{
-  position:relative;z-index:1;width:100%;max-width:420px;
-  background:var(--surface);border:1px solid var(--border2);
-  border-radius:20px;padding:40px 36px;box-shadow:var(--shadow);
-  animation:fadeUp .5s ease;
-}
-.auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
-.auth-tag{font-size:13px;color:var(--muted);margin-bottom:26px;font-family:var(--font-m);}
-.auth-tabs{display:flex;gap:4px;background:var(--card);border-radius:10px;padding:4px;margin-bottom:22px;}
-.auth-tab{flex:1;padding:9px;border:none;background:transparent;color:var(--muted);font-family:var(--font-d);font-weight:700;font-size:14px;border-radius:8px;cursor:pointer;transition:all .2s;}
-.auth-tab.active{background:var(--accent);color:#000;}
-.auth-form{display:flex;flex-direction:column;gap:13px;}
-.field{display:flex;flex-direction:column;gap:6px;}
-.field label{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
-.form-inp,.field input,.field textarea,.field select{
-  width:100%;padding:11px 14px;background:var(--card);border:1px solid var(--border2);
-  border-radius:var(--r-sm);color:var(--text);font-family:var(--font-d);font-size:14px;
-  transition:border-color .2s,box-shadow .2s;outline:none;
-}
-.form-inp:focus,.field input:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,170,.1);}
-textarea.form-inp{resize:vertical;font-family:var(--font-m);font-size:13px;}
-.err-msg{color:var(--warn);font-size:13px;padding:10px 14px;background:rgba(255,95,95,.08);border:1px solid rgba(255,95,95,.2);border-radius:var(--r-sm);margin-bottom:8px;display:none;}
-.auth-note{text-align:center;font-size:13px;color:var(--muted);margin-top:14px;}
-.auth-note span{color:var(--accent);cursor:pointer;text-decoration:underline;}
-.demo-hint{margin-top:12px;padding:10px 14px;background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.12);border-radius:var(--r-sm);font-family:var(--font-m);font-size:11px;color:var(--muted2);text-align:center;}
-.demo-hint b{color:var(--accent2);}
-
-/* ══════════════════════════════════════════
-   BUTTONS
-══════════════════════════════════════════ */
-.btn-primary{padding:13px;background:var(--accent);color:#000;border:none;border-radius:var(--r-sm);font-family:var(--font-d);font-weight:800;font-size:15px;cursor:pointer;transition:transform .15s,opacity .15s;animation:pulse 2.5s infinite;width:100%;}
-.btn-primary:hover{transform:translateY(-2px);opacity:.9;}
-.btn-acc{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;background:var(--accent);color:#000;border:none;border-radius:var(--r-sm);font-family:var(--font-d);font-weight:700;font-size:13px;cursor:pointer;transition:transform .15s,opacity .15s;text-decoration:none;}
-.btn-acc:hover{transform:translateY(-1px);opacity:.88;}
-.btn-acc.secondary{background:var(--accent2);color:#fff;}
-.btn-acc.danger{background:rgba(255,95,95,.12);color:var(--warn);border:1px solid rgba(255,95,95,.2);}
-.btn-acc.danger:hover{background:rgba(255,95,95,.22);}
-.btn-sm{padding:6px 12px;font-size:12px;}
-.btn-sm-acc{display:inline-flex;align-items:center;padding:6px 12px;background:rgba(0,212,170,.12);color:var(--accent);border:1px solid rgba(0,212,170,.2);border-radius:var(--r-sm);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--font-d);}
-.btn-sm-acc:hover{background:rgba(0,212,170,.22);}
-
-/* FILE DROP */
-.file-drop{border:2px dashed var(--border2);border-radius:var(--r);padding:22px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;display:flex;flex-direction:column;align-items:center;gap:6px;}
-.file-drop:hover{border-color:var(--accent);background:rgba(0,212,170,.04);}
-.file-drop.has-file{border-color:var(--accent);background:rgba(0,212,170,.05);border-style:solid;}
-.file-drop-icon{font-size:28px;}
-.file-drop-label{font-size:13px;color:var(--muted2);font-family:var(--font-m);}
-
-/* ══════════════════════════════════════════
-   APP SHELL
-══════════════════════════════════════════ */
-#app-screen{min-height:100vh;flex-direction:row;}
-.sidebar{
-  width:240px;min-height:100vh;background:var(--surface);border-right:1px solid var(--border);
-  display:flex;flex-direction:column;padding:20px 12px;
-  position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0;
-  transition:transform .3s ease;z-index:200;
-}
-.sidebar-top{display:flex;align-items:center;justify-content:space-between;padding:0 8px;margin-bottom:30px;}
-.sb-close{display:none;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;}
-.sidebar-nav{flex:1;}
-.nav-group{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:0 12px;margin-bottom:8px;margin-top:4px;}
-.nav-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;margin-bottom:2px;border:none;background:transparent;color:var(--muted2);font-family:var(--font-d);font-size:14px;font-weight:600;border-radius:10px;cursor:pointer;transition:all .2s;text-align:left;}
-.nav-item:hover{background:var(--card);color:var(--text);}
-.nav-item.active{background:rgba(0,212,170,.12);color:var(--accent);}
-.nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0;}
-.sidebar-footer{margin-top:auto;padding-top:16px;border-top:1px solid var(--border);}
-.user-chip{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--card);border-radius:var(--r);}
-.user-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;}
-.user-avatar.sm{width:28px;height:28px;font-size:11px;}
-.user-info{flex:1;min-width:0;}
-.user-name{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.user-role{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
-.logout-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:4px;transition:color .2s;flex-shrink:0;}
-.logout-btn:hover{color:var(--warn);}
-.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:150;}
-.app-body{flex:1;display:flex;flex-direction:column;min-width:0;}
-.topbar{display:none;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
-.hamburger{background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:4px;}
-.topbar-logo{display:flex;align-items:center;gap:8px;}
-.topbar-right{display:flex;align-items:center;}
-.main-content{flex:1;padding:32px;overflow-y:auto;}
-
-/* ══════════════════════════════════════════
-   LOGO
-══════════════════════════════════════════ */
-.logo-icon{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-weight:700;color:#000;font-size:15px;flex-shrink:0;}
-.logo-icon.sm{width:30px;height:30px;font-size:12px;border-radius:8px;}
-.logo-word{font-size:21px;font-weight:800;}
-.logo-word span{color:var(--accent);}
-
-/* ══════════════════════════════════════════
-   PAGES
-══════════════════════════════════════════ */
-.page{display:none;animation:fadeUp .3s ease;}
-.page.active{display:block;}
-.page-hdr{margin-bottom:26px;}
-.page-title{font-size:25px;font-weight:800;line-height:1.2;}
-.page-sub{font-size:14px;color:var(--muted2);margin-top:4px;}
-.text-acc{color:var(--accent);}
-.text-muted{color:var(--muted2);}
-.mono{font-family:var(--font-m);}
-
-/* CARD */
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;}
-.card-title{font-size:14px;font-weight:700;margin-bottom:16px;}
-
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;margin-bottom:20px;}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;}
-.stat-label{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
-.stat-value{font-size:28px;font-weight:800;font-family:var(--font-m);color:var(--accent);}
-.stat-value.blue{color:var(--accent2);}
-.stat-value.white{color:var(--text);}
-.stat-value.yellow{color:var(--yellow);}
-.stat-sub{font-size:11px;color:var(--muted);margin-top:3px;}
-
-/* GRID */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.books-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;}
-
-/* BOOK CARD */
-.book-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:transform .2s,border-color .2s;}
-.book-card:hover{transform:translateY(-4px);border-color:var(--accent);}
-.book-cover{height:120px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,rgba(0,212,170,.12),rgba(79,142,247,.12));}
-.book-body{padding:14px;}
-.book-title{font-size:14px;font-weight:700;margin-bottom:3px;line-height:1.3;}
-.book-meta{font-size:11px;color:var(--muted);}
-
-/* EXERCISE CARD */
-.ex-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:14px;}
-.ex-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px;}
-.ex-title{font-size:15px;font-weight:700;}
-.ex-week{font-size:11px;color:var(--muted);font-family:var(--font-m);margin-top:2px;}
-.ex-desc{font-size:13px;color:var(--muted2);line-height:1.7;margin-bottom:12px;}
-.upload-zone{border:2px dashed var(--border2);border-radius:var(--r-sm);padding:16px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.upload-zone:hover{border-color:var(--accent2);background:rgba(79,142,247,.04);}
-.upload-zone p{font-size:12px;color:var(--muted2);font-family:var(--font-m);}
-.sub-done{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.18);border-radius:var(--r-sm);font-size:13px;color:var(--accent);font-weight:700;}
-
-/* BADGES */
-.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;}
-.badge-green{background:rgba(0,212,170,.12);color:var(--accent);}
-.badge-blue{background:rgba(79,142,247,.12);color:var(--accent2);}
-.badge-red{background:rgba(255,95,95,.12);color:var(--warn);}
-.badge-yellow{background:rgba(245,197,24,.12);color:var(--yellow);}
-
-/* TABLE */
-.tbl-wrap{overflow-x:auto;}
-table.dtable{width:100%;border-collapse:collapse;font-size:13px;min-width:480px;}
-table.dtable th{text-align:left;padding:10px 14px;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);}
-table.dtable td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:middle;}
-table.dtable tr:last-child td{border-bottom:none;}
-table.dtable tr:hover td{background:rgba(255,255,255,.02);}
-
-/* PROGRESS */
-.prog-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;width:80px;display:inline-block;vertical-align:middle;}
-.prog-fill{height:100%;background:var(--accent);border-radius:3px;}
-
-/* DASH ROW */
-.dash-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
-.dash-row:last-child{border-bottom:none;}
-.dash-row-title{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.dash-row-sub{font-size:11px;color:var(--muted);}
-
-/* WEEK SCHEDULE */
-.week-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
-.week-row:last-child{border-bottom:none;}
-.week-num{width:34px;height:34px;border-radius:8px;background:rgba(0,212,170,.1);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-size:12px;font-weight:700;flex-shrink:0;}
-.week-num.done{background:rgba(0,212,170,.18);}
-.week-num.current{background:var(--accent);color:#000;animation:pulse 2s infinite;}
-.week-topic{flex:1;font-size:14px;font-weight:600;}
-.week-dates{font-size:11px;color:var(--muted);font-family:var(--font-m);white-space:nowrap;}
-
-/* Q&A */
-.qa-item{padding:16px 0;border-bottom:1px solid var(--border);}
-.qa-item:last-child{border-bottom:none;}
-.qa-question{display:flex;gap:12px;align-items:flex-start;}
-.qa-answer{display:flex;gap:12px;align-items:flex-start;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
-.qa-avatar{width:34px;height:34px;border-radius:50%;background:rgba(79,142,247,.2);color:var(--accent2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.qa-avatar.admin{background:rgba(0,212,170,.15);color:var(--accent);}
-.qa-text{font-size:14px;line-height:1.6;color:var(--text);}
-.qa-meta{font-size:11px;color:var(--muted);margin-top:4px;font-family:var(--font-m);}
-.qa-pending{margin-top:8px;padding:8px 12px;background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.15);border-radius:var(--r-sm);font-size:12px;color:var(--yellow);}
-
-/* EMPTY */
-.empty-state{text-align:center;padding:36px 20px;color:var(--muted);}
-.ei{font-size:38px;margin-bottom:10px;}
-.empty-state p{font-size:14px;}
-
-/* TOAST */
-.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--surface);border:1px solid var(--accent);color:var(--accent);padding:10px 22px;border-radius:30px;font-size:13px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;pointer-events:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,212,170,.2);}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:500;padding:20px;}
-.modal-overlay.open{display:flex;}
-.modal-box{width:100%;max-width:600px;max-height:86vh;background:var(--surface);border:1px solid var(--border2);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;animation:fadeUp .3s ease;box-shadow:var(--shadow);}
-.modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);}
-.modal-title{font-size:15px;font-weight:700;}
-.modal-body{padding:20px;overflow-y:auto;font-size:14px;line-height:1.7;color:var(--muted2);}
-.close-btn{width:30px;height:30px;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:8px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
-.close-btn:hover{background:var(--border);}
-
-/* MOBILE NAV */
-.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);padding:6px 0 10px;z-index:100;justify-content:space-around;}
-.mob-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;color:var(--muted);cursor:pointer;padding:4px 10px;font-weight:600;border:none;background:none;transition:color .2s;}
-.mob-item.active,.mob-item:hover{color:var(--accent);}
-.mob-item .mi{font-size:19px;}
-
-/* FORM STACK */
-.form-stack{display:flex;flex-direction:column;gap:12px;}
-.form-label{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:-4px;}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  .sidebar{position:fixed;left:0;top:0;transform:translateX(-100%);box-shadow:4px 0 20px rgba(0,0,0,.4);}
-  .sidebar.open{transform:translateX(0);}
-  .sb-overlay.open{display:block;}
-  .sb-close{display:block;}
-  .topbar{display:flex;}
-  .main-content{padding:20px 16px 80px;}
-  .two-col{grid-template-columns:1fr;}
-  .mob-nav{display:flex;}
-}
-@media(max-width:520px){
-  .auth-box{padding:28px 18px;}
-  .page-title{font-size:21px;}
-  .books-grid{grid-template-columns:1fr 1fr;}
-  .stats-row{grid-template-columns:1fr 1fr;}
-}
-@media(max-width:360px){
-  .books-grid{grid-template-columns:1fr;}
-  .stats-row{grid-template-columns:1fr;}
-}
-</style>
-</head>
-<body>
-
-<!-- ══ AUTH ══ -->
-<div id="auth-screen" class="screen active">
-  <div class="auth-shapes"><span></span><span></span></div>
-  <div class="auth-box">
-    <div class="auth-logo">
-      <div class="logo-icon">Py</div>
-      <div class="logo-word">Py<span>Learn</span></div>
+  main.innerHTML = `
+    <div class="page-header">
+      <div class="page-title">📖 Ebook Reader</div>
+      <div class="page-sub">${EBOOK_TITLE}</div>
     </div>
-    <p class="auth-tag">// Your Python journey starts here.</p>
-    <div class="auth-tabs">
-      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
-      <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
-    </div>
-    <div class="err-msg" id="auth-err"></div>
-    <div class="auth-form">
-      <div class="field" id="name-field" style="display:none">
-        <label>Full Name</label>
-        <input type="text" id="inp-name" placeholder="Your full name"/>
+    <div class="ebook-notice">⚠ This book is for enrolled students only. Do not share or distribute.</div>
+    <iframe class="ebook-frame" src="${EBOOK_URL}" allowfullscreen></iframe>
+  `;
+}
+
+// ============================================================
+// STUDENT: EXERCISES
+// ============================================================
+function renderExercises() {
+  const main = document.getElementById('main-content');
+  const unsub = db.collection('exercises').orderBy('createdAt', 'desc').onSnapshot(async snap => {
+    const exercises = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    const subSnap = await db.collection('submissions')
+      .where('studentId', '==', currentUser.uid).get();
+    const subs = {};
+    subSnap.docs.forEach(d => { subs[d.data().exerciseId] = { id: d.id, ...d.data() }; });
+
+    if (exercises.length === 0) {
+      main.innerHTML = `<div class="page-header"><div class="page-title">Exercises</div></div><div class="empty"><div class="empty-icon">✏</div>No exercises posted yet</div>`;
+      return;
+    }
+
+    main.innerHTML = `
+      <div class="page-header">
+        <div class="page-title">Exercises</div>
+        <div class="page-sub">${exercises.length} task${exercises.length !== 1 ? 's' : ''} posted</div>
       </div>
-      <div class="field">
-        <label>Email Address</label>
-        <input type="email" id="inp-email" placeholder="you@email.com"/>
-      </div>
-      <div class="field">
-        <label>Password</label>
-        <input type="password" id="inp-pass" placeholder="••••••••"/>
-      </div>
-      <button class="btn-primary" id="auth-btn" onclick="handleAuth()">Login</button>
-    </div>
-    <p class="auth-note" id="auth-note">No account? <span onclick="switchTab('signup')">Sign up free</span></p>
-    <div class="demo-hint"><b>Admin email:</b> set ADMIN_EMAIL in the script · password: your Firebase password</div>
-  </div>
-</div>
-
-<!-- ══ APP ══ -->
-<div id="app-screen" class="screen">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-top">
-      <div style="display:flex;align-items:center;gap:8px">
-        <div class="logo-icon sm">Py</div>
-        <div class="logo-word" style="font-size:18px">Py<span>Learn</span></div>
-      </div>
-      <button class="sb-close" onclick="closeSidebar()">✕</button>
-    </div>
-
-    <!-- Student Nav -->
-    <nav id="student-nav" class="sidebar-nav">
-      <div class="nav-group">Learn</div>
-      <button class="nav-item active" data-page="dashboard" onclick="showPage('dashboard')"><span class="nav-icon">🏠</span>Dashboard</button>
-      <button class="nav-item" data-page="books" onclick="showPage('books')"><span class="nav-icon">📚</span>Books</button>
-      <button class="nav-item" data-page="exercises" onclick="showPage('exercises')"><span class="nav-icon">✏️</span>Exercises</button>
-      <button class="nav-item" data-page="my-submissions" onclick="showPage('my-submissions')"><span class="nav-icon">📋</span>My Submissions</button>
-      <button class="nav-item" data-page="my-progress" onclick="showPage('my-progress')"><span class="nav-icon">📈</span>My Progress</button>
-      <button class="nav-item" data-page="qa" onclick="showPage('qa')"><span class="nav-icon">💬</span>Ask a Question</button>
-    </nav>
-
-    <!-- Admin Nav -->
-    <nav id="admin-nav" class="sidebar-nav" style="display:none">
-      <div class="nav-group">Admin</div>
-      <button class="nav-item active" data-page="admin-dashboard" onclick="showPage('admin-dashboard')"><span class="nav-icon">📊</span>Dashboard</button>
-      <button class="nav-item" data-page="admin-books" onclick="showPage('admin-books')"><span class="nav-icon">📚</span>Manage Books</button>
-      <button class="nav-item" data-page="admin-exercises" onclick="showPage('admin-exercises')"><span class="nav-icon">✏️</span>Manage Exercises</button>
-      <button class="nav-item" data-page="admin-submissions" onclick="showPage('admin-submissions')"><span class="nav-icon">📬</span>Submissions</button>
-      <button class="nav-item" data-page="admin-progress" onclick="showPage('admin-progress')"><span class="nav-icon">📈</span>Student Progress</button>
-      <button class="nav-item" data-page="admin-schedule" onclick="showPage('admin-schedule')"><span class="nav-icon">📅</span>Weekly Schedule</button>
-      <button class="nav-item" data-page="admin-qa" onclick="showPage('admin-qa')"><span class="nav-icon">💬</span>Q&amp;A Inbox</button>
-    </nav>
-
-    <div class="sidebar-footer">
-      <div class="user-chip">
-        <div class="user-avatar" id="sidebar-avatar">?</div>
-        <div class="user-info">
-          <div class="user-name" id="sidebar-name">—</div>
-          <div class="user-role" id="sidebar-role">student</div>
-        </div>
-        <button class="logout-btn" onclick="logout()">⏻</button>
-      </div>
-    </div>
-  </aside>
-
-  <div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
-
-  <div class="app-body">
-    <!-- TOPBAR (mobile) -->
-    <header class="topbar">
-      <button class="hamburger" onclick="openSidebar()">☰</button>
-      <div class="topbar-logo">
-        <div class="logo-icon sm">Py</div>
-        <div class="logo-word" style="font-size:17px">Py<span>Learn</span></div>
-      </div>
-      <div class="user-avatar sm" id="topbar-avatar">?</div>
-    </header>
-
-    <main class="main-content">
-
-      <!-- ── Student: Dashboard ── -->
-      <div class="page active" id="page-dashboard">
-        <div class="page-hdr"><h1 class="page-title">Welcome back, <span class="text-acc" id="dash-name">Student</span> 👋</h1><p class="page-sub">Consistency beats talent. Keep going.</p></div>
-        <div class="stats-row" id="dash-stats"></div>
-        <div class="two-col">
-          <div class="card"><div class="card-title">📚 Books</div><div id="dash-books"></div></div>
-          <div class="card"><div class="card-title">✏️ Pending Exercises</div><div id="dash-ex"></div></div>
-        </div>
-        <div class="card" style="margin-top:16px"><div class="card-title">📅 Weekly Schedule</div><div id="dash-schedule"></div></div>
-      </div>
-
-      <!-- ── Student: Books ── -->
-      <div class="page" id="page-books">
-        <div class="page-hdr"><h1 class="page-title">📚 Books</h1><p class="page-sub">Download your study materials below.</p></div>
-        <div class="books-grid" id="books-grid"></div>
-      </div>
-
-      <!-- ── Student: Exercises ── -->
-      <div class="page" id="page-exercises">
-        <div class="page-hdr"><h1 class="page-title">✏️ Exercises</h1><p class="page-sub">Download the sheet, solve it, then upload your file.</p></div>
-        <div id="exercises-list"></div>
-      </div>
-
-      <!-- ── Student: My Submissions ── -->
-      <div class="page" id="page-my-submissions">
-        <div class="page-hdr"><h1 class="page-title">📋 My Submissions</h1><p class="page-sub">Everything you've uploaded.</p></div>
-        <div class="card"><div id="my-subs"></div></div>
-      </div>
-
-      <!-- ── Student: My Progress ── -->
-      <div class="page" id="page-my-progress">
-        <div class="page-hdr"><h1 class="page-title">📈 My Progress</h1><p class="page-sub">Your week-by-week journey.</p></div>
-        <div id="my-progress"></div>
-      </div>
-
-      <!-- ── Student: Q&A ── -->
-      <div class="page" id="page-qa">
-        <div class="page-hdr"><h1 class="page-title">💬 Ask a Question</h1><p class="page-sub">Ask anything — the admin will reply.</p></div>
-        <div id="qa-list"></div>
-      </div>
-
-      <!-- ── Admin: Dashboard ── -->
-      <div class="page" id="page-admin-dashboard">
-        <div class="page-hdr"><h1 class="page-title">📊 Admin Dashboard</h1><p class="page-sub">Platform overview.</p></div>
-        <div class="stats-row" id="adm-stats"></div>
-        <div class="card" style="margin-top:16px"><div class="card-title">👥 Recent Students</div><div id="adm-recent"></div></div>
-      </div>
-
-      <!-- ── Admin: Books ── -->
-      <div class="page" id="page-admin-books">
-        <div class="page-hdr"><h1 class="page-title">📚 Manage Books</h1><p class="page-sub">Upload PDF books. Students download them.</p></div>
-        <div class="card" style="margin-bottom:16px" id="adm-books-upload">
-          <div class="card-title">➕ Upload New Book</div>
-          <div class="form-stack">
-            <input class="form-inp" id="bk-title" placeholder="Book title (e.g. Python for Beginners — Book 1)"/>
-            <input class="form-inp" id="bk-order" type="number" min="1" placeholder="Order number (1, 2, 3…)"/>
-            <div class="file-drop" id="book-drop" onclick="document.getElementById('bk-file').click()">
-              <span class="file-drop-icon">📄</span>
-              <span class="file-drop-label" id="bk-file-label">Click to select PDF</span>
-              <input type="file" id="bk-file" accept=".pdf" style="display:none" onchange="onBookFile(this)"/>
+      ${exercises.map(ex => {
+        const sub = subs[ex.id];
+        const isGraded = sub && sub.grade;
+        const isSubmitted = sub && !sub.grade;
+        return `
+          <div class="exercise-card">
+            <div class="ex-header">
+              <div class="ex-title">${ex.title}</div>
+              ${ex.dueDate ? `<div class="ex-due">${formatDate(ex.dueDate)}</div>` : ''}
             </div>
-            <button class="btn-acc" onclick="addBook()">📤 Publish Book</button>
+            <div class="ex-desc">${ex.description}</div>
+            ${isGraded ? `
+              <span class="ex-status graded">Graded</span>
+              <div class="grade-box">
+                <div class="grade-score">${sub.grade}</div>
+                <div class="grade-feedback">${sub.feedback || 'No feedback yet'}</div>
+              </div>
+            ` : isSubmitted ? `
+              <span class="ex-status submitted">Submitted — awaiting grade</span>
+              <div style="font-size:12px;color:var(--muted)">Your answer: ${sub.code || sub.replitLink || ''}</div>
+            ` : `
+              <span class="ex-status pending">Not submitted</span>
+              <textarea class="code-input" id="code-${ex.id}" placeholder="Type your code or answer here..."></textarea>
+              <input class="replit-input" id="replit-${ex.id}" placeholder="Replit link (optional): https://replit.com/...">
+              <button class="btn-submit" onclick="submitExercise('${ex.id}')">Submit</button>
+            `}
           </div>
-        </div>
-        <div class="card"><div class="card-title">📖 Published Books</div><div id="adm-books-list"></div></div>
-      </div>
+        `;
+      }).join('')}
+    `;
+  });
+  unsubscribers.push(unsub);
+}
 
-      <!-- ── Admin: Exercises ── -->
-      <div class="page" id="page-admin-exercises">
-        <div class="page-hdr"><h1 class="page-title">✏️ Manage Exercises</h1><p class="page-sub">Upload exercise PDFs. Students submit solutions back.</p></div>
-        <div class="card" style="margin-bottom:16px" id="adm-ex-upload">
-          <div class="card-title">➕ Create Exercise</div>
-          <div class="form-stack">
-            <input class="form-inp" id="ex-title" placeholder="Exercise title"/>
-            <textarea class="form-inp" id="ex-desc" placeholder="Instructions for students…"></textarea>
-            <select class="form-inp" id="ex-type"><option value="exercise">Exercise</option><option value="project">Project</option></select>
-            <input class="form-inp" id="ex-week" type="number" min="1" placeholder="Assign to Week # (optional)"/>
-            <div class="file-drop" id="ex-drop" onclick="document.getElementById('ex-file').click()">
-              <span class="file-drop-icon">📝</span>
-              <span class="file-drop-label" id="ex-file-label">Attach exercise PDF (optional)</span>
-              <input type="file" id="ex-file" accept=".pdf" style="display:none" onchange="onExFile(this)"/>
+async function submitExercise(exId) {
+  const code = document.getElementById(`code-${exId}`).value.trim();
+  const replitLink = document.getElementById(`replit-${exId}`).value.trim();
+  if (!code && !replitLink) { showToast('Please add your code or a Replit link', 'error'); return; }
+  await db.collection('submissions').add({
+    exerciseId: exId, studentId: currentUser.uid,
+    studentName: currentUser.name, code, replitLink,
+    submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    grade: null, feedback: null
+  });
+  showToast('Submitted successfully!');
+}
+
+// ============================================================
+// Q&A
+// ============================================================
+function renderQA(admin) {
+  const main = document.getElementById('main-content');
+  const unsub = db.collection('questions').orderBy('createdAt', 'desc')
+    .onSnapshot(snap => {
+      const questions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const unanswered = questions.filter(q => !q.answer).length;
+
+      main.innerHTML = `
+        <div class="page-header">
+          <div class="page-title">Q&A ${admin && unanswered > 0 ? `<span style="font-size:13px;color:var(--amber);background:var(--amber-dim);padding:2px 10px;border-radius:20px;margin-left:8px">${unanswered} unanswered</span>` : ''}</div>
+          <div class="page-sub">${admin ? 'Answer student questions' : 'Ask anything about the course'}</div>
+        </div>
+
+        ${!admin ? `
+          <div class="card">
+            <div class="card-title">Ask a Question</div>
+            <div class="form-field">
+              <textarea id="qa-question-input" placeholder="What's confusing you? No question is too basic..."></textarea>
             </div>
-            <button class="btn-acc" onclick="addExercise()">✏️ Create Exercise</button>
+            <button class="btn-action" onclick="submitQuestion()">Ask Question</button>
           </div>
-        </div>
-        <div class="card"><div class="card-title">📝 All Exercises</div><div id="adm-ex-list"></div></div>
-      </div>
+        ` : ''}
 
-      <!-- ── Admin: Submissions ── -->
-      <div class="page" id="page-admin-submissions">
-        <div class="page-hdr"><h1 class="page-title">📬 Student Submissions</h1><p class="page-sub">Download and review submitted files.</p></div>
-        <div class="card"><div id="adm-subs"></div></div>
-      </div>
-
-      <!-- ── Admin: Progress ── -->
-      <div class="page" id="page-admin-progress">
-        <div class="page-hdr"><h1 class="page-title">📈 Student Progress</h1><p class="page-sub">Track every student week by week.</p></div>
-        <div id="adm-progress"></div>
-      </div>
-
-      <!-- ── Admin: Schedule ── -->
-      <div class="page" id="page-admin-schedule">
-        <div class="page-hdr"><h1 class="page-title">📅 Weekly Schedule</h1><p class="page-sub">Set the course timeline students will see.</p></div>
-        <div class="card" style="margin-bottom:16px">
-          <div class="card-title">⚙️ Course Settings</div>
-          <div class="form-stack" style="max-width:380px">
-            <label class="form-label">Total number of weeks</label>
-            <input class="form-inp" id="total-weeks-inp" type="number" min="1" max="52" placeholder="e.g. 12" oninput="renderWeeksEditor({})"/>
-            <label class="form-label">Course start date</label>
-            <input class="form-inp" id="start-date-inp" type="date"/>
-            <button class="btn-acc" onclick="saveSchedule()">💾 Save Settings</button>
-          </div>
-        </div>
         <div class="card">
-          <div class="card-title">📋 Week Topics</div>
-          <p style="font-size:13px;color:var(--muted2);margin-bottom:14px">Add a topic for each week so students know what's coming.</p>
-          <div id="weeks-editor"></div>
-          <button class="btn-acc" style="margin-top:12px" onclick="saveWeekTopics()">💾 Save Topics</button>
+          <div class="card-title">Questions</div>
+          ${questions.length === 0 ? '<div class="empty"><div class="empty-icon">💬</div>No questions yet</div>' :
+            questions.map(q => `
+              <div class="qa-item">
+                <div class="qa-question">${q.question}${!q.answer ? '<span class="unanswered-badge">Unanswered</span>' : ''}</div>
+                <div class="qa-meta">${q.studentName} · ${timeAgo(q.createdAt)}</div>
+                ${q.answer ? `
+                  <div class="qa-answer">
+                    <div class="qa-answer-label">PRINCE'S ANSWER</div>
+                    ${q.answer}
+                  </div>
+                ` : admin ? `
+                  <div style="display:flex;gap:.5rem;margin-top:.5rem">
+                    <textarea id="ans-${q.id}" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.5rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;resize:none;height:60px" placeholder="Write your answer..."></textarea>
+                    <button class="btn-grade" style="align-self:flex-end" onclick="answerQuestion('${q.id}')">Answer</button>
+                  </div>
+                ` : '<div style="font-size:12px;color:var(--muted);margin-top:.25rem">Waiting for answer...</div>'}
+              </div>
+            `).join('')}
+        </div>
+      `;
+    });
+  unsubscribers.push(unsub);
+}
+
+async function submitQuestion() {
+  const q = document.getElementById('qa-question-input').value.trim();
+  if (!q) { showToast('Please type your question', 'error'); return; }
+  await db.collection('questions').add({
+    question: q, studentId: currentUser.uid, studentName: currentUser.name,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(), answer: null
+  });
+  showToast('Question submitted!');
+}
+
+async function answerQuestion(qId) {
+  const ans = document.getElementById(`ans-${qId}`).value.trim();
+  if (!ans) { showToast('Please write an answer', 'error'); return; }
+  await db.collection('questions').doc(qId).update({ answer: ans });
+  showToast('Answer posted!');
+}
+
+// ============================================================
+// ADMIN: OVERVIEW
+// ============================================================
+function renderAdminOverview() {
+  const main = document.getElementById('main-content');
+  const unsub = db.collection('users').where('role', '==', 'student').onSnapshot(async snap => {
+    const students = snap.docs.map(d => d.data());
+    const exSnap = await db.collection('exercises').get();
+    const subSnap = await db.collection('submissions').where('grade', '==', null).get();
+    const qSnap = await db.collection('questions').where('answer', '==', null).get();
+
+    const avgProgress = students.length > 0
+      ? Math.round(students.reduce((s, st) => s + (st.progress || 0), 0) / students.length)
+      : 0;
+
+    main.innerHTML = `
+      <div class="page-header">
+        <div class="page-title">Overview</div>
+        <div class="page-sub">Your Dev Journey training dashboard</div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card accent">
+          <div class="stat-val">${students.length}</div>
+          <div class="stat-lbl">Total students</div>
+        </div>
+        <div class="stat-card amber">
+          <div class="stat-val">${subSnap.size}</div>
+          <div class="stat-lbl">Pending reviews</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-val">${exSnap.size}</div>
+          <div class="stat-lbl">Exercises posted</div>
+        </div>
+        <div class="stat-card purple">
+          <div class="stat-val">${avgProgress}%</div>
+          <div class="stat-lbl">Avg. progress</div>
         </div>
       </div>
-
-      <!-- ── Admin: Q&A ── -->
-      <div class="page" id="page-admin-qa">
-        <div class="page-hdr"><h1 class="page-title">💬 Q&amp;A Inbox</h1><p class="page-sub">Answer student questions here.</p></div>
-        <div id="admin-qa-list"></div>
+      ${qSnap.size > 0 ? `
+        <div class="card" style="border-color:var(--amber)">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div>
+              <div style="font-size:13px;font-weight:500;color:var(--amber)">${qSnap.size} unanswered question${qSnap.size !== 1 ? 's' : ''}</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:2px">Students are waiting for your response</div>
+            </div>
+            <button class="btn-action" onclick="navigateTo('qa')">Go answer →</button>
+          </div>
+        </div>
+      ` : ''}
+      <div class="card">
+        <div class="card-title">Student Progress</div>
+        ${students.length === 0 ? '<div class="empty">No students yet</div>' :
+          students.map(s => `
+            <div style="margin-bottom:.75rem">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                <span style="font-size:13px">${s.name}</span>
+                <span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--accent)">${s.progress || 0}%</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:${s.progress||0}%"></div></div>
+            </div>
+          `).join('')}
       </div>
+    `;
+  });
+  unsubscribers.push(unsub);
+}
 
-    </main>
-  </div>
+// ============================================================
+// ADMIN: STUDENTS
+// ============================================================
+function renderAdminStudents() {
+  const main = document.getElementById('main-content');
+  const unsub = db.collection('users').where('role', '==', 'student').onSnapshot(snap => {
+    const students = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    main.innerHTML = `
+      <div class="page-header">
+        <div class="page-title">Students</div>
+        <div class="page-sub">${students.length} enrolled</div>
+      </div>
+      <div class="card">
+        ${students.length === 0 ? '<div class="empty"><div class="empty-icon">👥</div>No students yet</div>' :
+          students.map(s => `
+            <div class="student-row">
+              <div class="student-info">
+                <div class="student-name">${s.name} ${s.banned ? '<span style="font-size:10px;color:var(--red);background:var(--red-dim);padding:2px 6px;border-radius:20px">BANNED</span>' : ''}</div>
+                <div class="student-email">${s.email}</div>
+                <div class="student-joined">Joined ${formatDate(s.joinedAt)} · ${s.progress || 0}% complete</div>
+              </div>
+              ${s.banned
+                ? `<button class="btn-unban" onclick="banStudent('${s.id}', false)">Unban</button>`
+                : `<button class="btn-ban" onclick="banStudent('${s.id}', true)">Ban</button>`
+              }
+            </div>
+          `).join('')}
+      </div>
+    `;
+  });
+  unsubscribers.push(unsub);
+}
 
-  <!-- MOBILE NAV — Student -->
-  <nav class="mob-nav" id="mob-student">
-    <button class="mob-item active" data-page="dashboard" onclick="showPage('dashboard')"><span class="mi">🏠</span>Home</button>
-    <button class="mob-item" data-page="books" onclick="showPage('books')"><span class="mi">📚</span>Books</button>
-    <button class="mob-item" data-page="exercises" onclick="showPage('exercises')"><span class="mi">✏️</span>Exercises</button>
-    <button class="mob-item" data-page="qa" onclick="showPage('qa')"><span class="mi">💬</span>Q&amp;A</button>
-    <button class="mob-item" data-page="my-progress" onclick="showPage('my-progress')"><span class="mi">📈</span>Progress</button>
-  </nav>
+async function banStudent(uid, ban) {
+  if (ban && !confirm('Are you sure you want to ban this student?')) return;
+  await db.collection('users').doc(uid).update({ banned: ban });
+  showToast(ban ? 'Student banned' : 'Student unbanned');
+}
 
-  <!-- MOBILE NAV — Admin -->
-  <nav class="mob-nav" id="mob-admin" style="display:none">
-    <button class="mob-item active" data-page="admin-dashboard" onclick="showPage('admin-dashboard')"><span class="mi">📊</span>Home</button>
-    <button class="mob-item" data-page="admin-books" onclick="showPage('admin-books')"><span class="mi">📚</span>Books</button>
-    <button class="mob-item" data-page="admin-exercises" onclick="showPage('admin-exercises')"><span class="mi">✏️</span>Exercises</button>
-    <button class="mob-item" data-page="admin-submissions" onclick="showPage('admin-submissions')"><span class="mi">📬</span>Subs</button>
-    <button class="mob-item" data-page="admin-qa" onclick="showPage('admin-qa')"><span class="mi">💬</span>Q&amp;A</button>
-  </nav>
-</div>
-
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay">
-  <div class="modal-box">
-    <div class="modal-hdr">
-      <div class="modal-title" id="modal-title"></div>
-      <button class="close-btn" onclick="closeModal()">✕</button>
+// ============================================================
+// ADMIN: CONTENT
+// ============================================================
+function renderAdminContent() {
+  const main = document.getElementById('main-content');
+  main.innerHTML = `
+    <div class="page-header">
+      <div class="page-title">Content</div>
+      <div class="page-sub">Manage announcements, exercises & ebook</div>
     </div>
-    <div class="modal-body" id="modal-body"></div>
-  </div>
-</div>
+    <div class="tabs">
+      <button class="tab active" onclick="showContentTab('announcements', this)">Announcements</button>
+      <button class="tab" onclick="showContentTab('tasks', this)">Exercises</button>
+      <button class="tab" onclick="showContentTab('ebook-ctrl', this)">Ebook</button>
+    </div>
+    <div id="content-tab"></div>
+  `;
+  showContentTab('announcements', document.querySelector('.tab.active'));
+}
 
+function showContentTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  if (tab === 'announcements') renderAnnouncementsTab();
+  else if (tab === 'tasks') renderTasksTab();
+  else if (tab === 'ebook-ctrl') renderEbookControlTab();
+}
+
+function renderAnnouncementsTab() {
+  const unsub = db.collection('announcements').orderBy('createdAt', 'desc').onSnapshot(snap => {
+    const anns = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    document.getElementById('content-tab').innerHTML = `
+      <div class="card">
+        <div class="card-title">New Announcement</div>
+        <div class="form-field">
+          <textarea id="ann-text" placeholder="Write your announcement, session link, or motivation..."></textarea>
+        </div>
+        <button class="btn-action" onclick="postAnnouncement()">Broadcast to all students</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Posted Announcements</div>
+        ${anns.length === 0 ? '<div class="empty">Nothing posted yet</div>' :
+          anns.map(a => `
+            <div class="announcement">
+              <div class="ann-meta">
+                <span class="ann-time">${timeAgo(a.createdAt)}</span>
+                <button class="btn-icon" onclick="deleteAnnouncement('${a.id}')">✕</button>
+              </div>
+              <div class="ann-text">${a.text}</div>
+            </div>
+          `).join('')}
+      </div>
+    `;
+  });
+  unsubscribers.push(unsub);
+}
+
+async function postAnnouncement() {
+  const text = document.getElementById('ann-text').value.trim();
+  if (!text) { showToast('Please write something first', 'error'); return; }
+  await db.collection('announcements').add({
+    text, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  });
+  document.getElementById('ann-text').value = '';
+  showToast('Announcement broadcast!');
+}
+
+async function deleteAnnouncement(id) {
+  await db.collection('announcements').doc(id).delete();
+  showToast('Deleted');
+}
+
+function renderTasksTab() {
+  const unsub = db.collection('exercises').orderBy('createdAt', 'desc').onSnapshot(snap => {
+    const exercises = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    document.getElementById('content-tab').innerHTML = `
+      <div class="card">
+        <div class="card-title">New Exercise</div>
+        <div class="form-field"><label>TITLE</label><input type="text" id="ex-title" placeholder="e.g. Chapter 2 Exercise — Variables"></div>
+        <div class="form-field"><label>INSTRUCTIONS</label><textarea id="ex-desc" placeholder="Describe what students need to do..."></textarea></div>
+        <div class="form-field"><label>DUE DATE (optional)</label><input type="date" id="ex-due"></div>
+        <button class="btn-action" onclick="postExercise()">Post Exercise</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Posted Exercises</div>
+        ${exercises.length === 0 ? '<div class="empty">No exercises yet</div>' :
+          exercises.map(ex => `
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--border)">
+              <div>
+                <div style="font-size:13px;font-weight:500">${ex.title}</div>
+                <div style="font-size:11px;color:var(--muted)">${ex.description.substring(0,60)}...</div>
+              </div>
+              <button class="btn-icon" onclick="deleteExercise('${ex.id}')">✕</button>
+            </div>
+          `).join('')}
+      </div>
+    `;
+  });
+  unsubscribers.push(unsub);
+}
+
+async function postExercise() {
+  const title = document.getElementById('ex-title').value.trim();
+  const description = document.getElementById('ex-desc').value.trim();
+  const dueDateVal = document.getElementById('ex-due').value;
+  if (!title || !description) { showToast('Please fill in title and instructions', 'error'); return; }
+  const data = { title, description, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+  if (dueDateVal) data.dueDate = firebase.firestore.Timestamp.fromDate(new Date(dueDateVal));
+  await db.collection('exercises').add(data);
+  showToast('Exercise posted!');
+}
+
+async function deleteExercise(id) {
+  await db.collection('exercises').doc(id).delete();
+  showToast('Exercise deleted');
+}
+
+function renderEbookControlTab() {
+  document.getElementById('content-tab').innerHTML = `
+    <div class="card">
+      <div class="card-title">Ebook Settings</div>
+      <div class="form-field"><label>BOOK TITLE</label><input type="text" id="ebook-title-input" value="${EBOOK_TITLE}" placeholder="Book title"></div>
+      <div class="form-field"><label>GOOGLE DRIVE PREVIEW LINK</label><input type="text" id="ebook-url-input" value="${EBOOK_URL}" placeholder="https://drive.google.com/file/d/.../preview"></div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:.75rem">In Google Drive: right-click file → Share → Copy link, then change /view to /preview</div>
+      <button class="btn-action" onclick="updateEbook()">Update Ebook</button>
+    </div>
+  `;
+}
+
+async function updateEbook() {
+  const url = document.getElementById('ebook-url-input').value.trim();
+  const title = document.getElementById('ebook-title-input').value.trim();
+  if (!url) { showToast('Please enter a URL', 'error'); return; }
+  await db.collection('settings').doc('ebook').set({ url, title });
+  EBOOK_URL = url; EBOOK_TITLE = title;
+  showToast('Ebook updated!');
+}
+
+// ============================================================
+// ADMIN: GRADING
+// ============================================================
+function renderAdminGrading() {
+  const main = document.getElementById('main-content');
+  const unsub = db.collection('submissions').orderBy('submittedAt', 'desc').onSnapshot(snap => {
+    const subs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const pending = subs.filter(s => !s.grade);
+    const graded = subs.filter(s => s.grade);
+
+    main.innerHTML = `
+      <div class="page-header">
+        <div class="page-title">Grading</div>
+        <div class="page-sub">${pending.length} pending · ${graded.length} graded</div>
+      </div>
+      <div class="tabs">
+        <button class="tab active" onclick="showGradingTab('pending', this)">Needs Marking (${pending.length})</button>
+        <button class="tab" onclick="showGradingTab('graded', this)">Graded (${graded.length})</button>
+      </div>
+      <div id="grading-tab">
+        ${renderSubmissions(pending, true)}
+      </div>
+    `;
+    window._pendingSubs = pending;
+    window._gradedSubs = graded;
+  });
+  unsubscribers.push(unsub);
+}
+
+function showGradingTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('grading-tab').innerHTML = renderSubmissions(
+    tab === 'pending' ? window._pendingSubs : window._gradedSubs,
+    tab === 'pending'
+  );
+}
+
+function renderSubmissions(subs, showGradeInput) {
+  if (subs.length === 0) return '<div class="empty"><div class="empty-icon">✅</div>Nothing here</div>';
+  return subs.map(s => `
+    <div class="submission-item">
+      <div class="sub-header">
+        <div>
+          <div class="sub-student">${s.studentName}</div>
+          <div class="sub-exercise">Submitted ${timeAgo(s.submittedAt)}</div>
+        </div>
+        ${s.grade ? `<div style="font-size:18px;font-weight:500;font-family:'JetBrains Mono',monospace;color:var(--accent)">${s.grade}</div>` : ''}
+      </div>
+      ${s.code ? `<div class="sub-code">${s.code}</div>` : ''}
+      ${s.replitLink ? `<div class="sub-replit">🔗 <a href="${s.replitLink}" target="_blank">${s.replitLink}</a></div>` : ''}
+      ${s.feedback ? `<div style="font-size:12px;color:var(--muted);margin-top:.25rem;font-style:italic">${s.feedback}</div>` : ''}
+      ${showGradeInput ? `
+        <div class="grade-input-row">
+          <input type="text" id="grade-${s.id}" placeholder="A / 85%">
+          <textarea id="feedback-${s.id}" placeholder="Write feedback for this student..."></textarea>
+          <button class="btn-grade" onclick="gradeSubmission('${s.id}')">Grade</button>
+        </div>
+      ` : ''}
+    </div>
+  `).join('');
+}
+
+async function gradeSubmission(subId) {
+  const grade = document.getElementById(`grade-${subId}`).value.trim();
+  const feedback = document.getElementById(`feedback-${subId}`).value.trim();
+  if (!grade) { showToast('Please enter a grade', 'error'); return; }
+  await db.collection('submissions').doc(subId).update({ grade, feedback });
+  showToast('Grade saved!');
+}
+</script>
 </body>
 </html>
