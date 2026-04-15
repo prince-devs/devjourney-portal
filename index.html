@@ -39,9 +39,10 @@ const FIREBASE_CONFIG = {
 
 // ─────────────────────────────────────────
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(FIREBASE_CONFIG);
 const auth = getAuth(app);
 const db = getFirestore(app);
+let authMode = 'login';
 const storage = getStorage(app);
 
 // ── ADMIN EMAIL — change to your own email ──
@@ -101,7 +102,7 @@ function loading(el, msg = '⏳ Loading…') {
 // ══════════════════════════════════════════
 // AUTH
 // ══════════════════════════════════════════
-let authMode = 'login';
+
 
 window.switchTab = mode => {
   authMode = mode;
