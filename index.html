@@ -2024,17 +2024,36 @@ _buf.getvalue()
                         ` : ''}
 
                         ${s.status === 'submitted' ? `
-                            <div style="display:flex;gap:.4rem;margin-top:.5rem">
-                                <button class="btn-grade"
-                                    onclick="approveProject('${s.id}')">
-                                    ✅ Approve
-                                </button>
+<div style="margin-top:.5rem">
+    <textarea
+        id="fb-${s.id}"
+        placeholder="Write feedback for the student..."
+        style="
+            width:100%;
+            background:var(--bg);
+            border:1px solid var(--border);
+            border-radius:var(--r);
+            padding:.45rem;
+            font-size:12px;
+            color:var(--text);
+            margin-bottom:.4rem;
+            resize:none;
+            height:60px;
+        "
+    ></textarea>
 
-                                <button class="btn-ban"
-                                    onclick="requestProjectChanges('${s.id}')">
-                                    ❌ Needs Changes
-                                </button>
-                            </div>
+    <div style="display:flex;gap:.4rem">
+        <button class="btn-grade"
+            onclick="approveProject('${s.id}')">
+            ✅ Approve
+        </button>
+
+        <button class="btn-ban"
+            onclick="requestProjectChanges('${s.id}')">
+            ❌ Needs Changes
+        </button>
+    </div>
+</div>
                         ` : ''}
                     </div>
                 `).join('')}
@@ -2044,10 +2063,13 @@ _buf.getvalue()
             unsubscribers.push(unsub);
         }
         async function approveProject(submissionId) {
+            const fb = document.getElementById(`fb-${submissionId}`)?.value.trim() || '';
+
             await db.collection('project_submissions')
                 .doc(submissionId)
                 .update({
                     status: 'approved',
+                    feedback: fb,
                     reviewedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
@@ -2055,13 +2077,16 @@ _buf.getvalue()
         }
 
         async function requestProjectChanges(submissionId) {
+            const fb = document.getElementById(`fb-${submissionId}`)?.value.trim() || '';
+
             await db.collection('project_submissions')
                 .doc(submissionId)
                 .update({
-                    status: 'needs_changes'
+                    status: 'needs_changes',
+                    feedback: fb
                 });
 
-            showToast('Marked as needs changes');
+            showToast('Feedback sent to learner');
         }
 
         // ── STUDENT: DASHBOARD ──
@@ -2254,6 +2279,22 @@ for i in range(1, 6):
                                         : `<span style="color:var(--muted)">Not submitted</span>`
                             }
                             </div>
+                            ${sub?.feedback ? `
+    <div style="
+        margin-top:.4rem;
+        font-size:12px;
+        background:var(--bg3);
+        border-left:3px solid ${status === 'approved' ? 'var(--lime)' : 'var(--rose)'};
+        padding:.5rem;
+        border-radius:4px;
+        color:var(--text);
+    ">
+        <strong style="font-size:10px;font-family:var(--mono);display:block;margin-bottom:2px">
+            Instructor Feedback
+        </strong>
+        ${sub.feedback}
+    </div>
+` : ''}
 
                             <button class="btn-action"
                                 onclick="startProject('${p.id}')">
@@ -2356,15 +2397,22 @@ You win!
 `
             }
         };
-        function startProject(projectId) {
+        async function startProject(projectId) {
             const main = document.getElementById('main-content');
             const project = PROJECT_INSTRUCTIONS[projectId];
-
 
             if (!project) {
                 showToast('Project not found', 'error');
                 return;
             }
+
+            // ✅ FETCH EXISTING SUBMISSION
+            const docRef = db
+                .collection('project_submissions')
+                .doc(`${currentUser.uid}_${projectId}`);
+
+            const snap = await docRef.get();
+            const existingData = snap.exists ? snap.data() : null;
 
             main.innerHTML = `
         <div class="ph">
@@ -2372,6 +2420,21 @@ You win!
             <div class="ph-title">${project.title}</div>
             <div class="ph-sub">${project.overview}</div>
         </div>
+
+        ${existingData?.feedback ? `
+            <div class="card">
+                <div class="card-label">Instructor Feedback</div>
+                <div style="
+                    font-size:13px;
+                    background:var(--bg3);
+                    border-left:3px solid ${existingData.status === 'approved' ? 'var(--lime)' : 'var(--rose)'};
+                    padding:.75rem;
+                    border-radius:4px;
+                ">
+                    ${existingData.feedback}
+                </div>
+            </div>
+        ` : ''}
 
         <div class="card">
             <div class="card-label">Requirements</div>
@@ -2396,15 +2459,11 @@ You win!
 
         <div class="card">
             <div class="card-label">Submission</div>
-            <p style="font-size:13px;color:var(--muted2)">
-                When you are done, submit either your Python code or a Replit link.
-            </p>
-
             <textarea
                 class="code-input"
                 id="project-code"
-                placeholder="Paste your final Python code here..."
                 rows="8"
+                placeholder="Paste your final Python code here..."
             ></textarea>
 
             <input
@@ -2414,7 +2473,7 @@ You win!
             />
 
             <button class="btn-action" onclick="submitProject('${projectId}')">
-                Submit Project →
+                ${existingData ? 'Resubmit Project →' : 'Submit Project →'}
             </button>
         </div>
     `;
@@ -2636,16 +2695,18 @@ print("Hello, DevJourney!")
 
             const submissionId = `${currentUser.uid}_${projectId}`;
 
-            await db.collection('project_submissions').doc(submissionId).set({
-                projectId,
-                projectTitle: PROJECT_INSTRUCTIONS[projectId].title,
-                studentId: currentUser.uid,
-                studentName: currentUser.name,
-                code,
-                replitLink: link,
-                submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                status: 'submitted'
-            });
+            await db.collection('project_submissions')
+                .doc(submissionId)
+                .set({
+                    projectId,
+                    projectTitle: PROJECT_INSTRUCTIONS[projectId].title,
+                    studentId: currentUser.uid,
+                    studentName: currentUser.name,
+                    code,
+                    replitLink: link,
+                    submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    status: 'submitted'
+                }, { merge: true }); // ✅ IMPORTANT
 
             showToast('Project submitted successfully ✅');
         }
