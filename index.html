@@ -1,852 +1,1946 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>DevJourney — Python Training</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0c0c10;
-  --bg2:#13131a;
-  --bg3:#1a1a24;
-  --bg4:#22222f;
-  --border:#2a2a38;
-  --border2:#343446;
-  --muted:#5a5a72;
-  --muted2:#7a7a92;
-  --text:#c8c8e0;
-  --text2:#e8e8f8;
-  --white:#f0f0fa;
-  --lime:#a8e063;
-  --lime2:#88c040;
-  --lime3:#c8f080;
-  --lime-bg:rgba(168,224,99,0.08);
-  --lime-border:rgba(168,224,99,0.18);
-  --sky:#5aacf0;
-  --sky-bg:rgba(90,172,240,0.08);
-  --sky-border:rgba(90,172,240,0.18);
-  --rose:#f06858;
-  --rose-bg:rgba(240,104,88,0.08);
-  --rose-border:rgba(240,104,88,0.18);
-  --gold:#e8b84a;
-  --gold-bg:rgba(232,184,74,0.08);
-  --gold-border:rgba(232,184,74,0.18);
-  --violet:#9070f0;
-  --violet-bg:rgba(144,112,240,0.08);
-  --sidebar-w:240px;
-  --topbar-h:56px;
-  --r:8px;
-  --rl:12px;
-  --rx:16px;
-  --mono:'DM Mono',monospace;
-  --sans:'DM Sans',sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;background:var(--bg)}
-body{font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--text)}
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>DevJourney — Python Training</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0c0c10;
+            --bg2: #13131a;
+            --bg3: #1a1a24;
+            --bg4: #22222f;
+            --border: #2a2a38;
+            --border2: #343446;
+            --muted: #5a5a72;
+            --muted2: #7a7a92;
+            --text: #c8c8e0;
+            --text2: #e8e8f8;
+            --white: #f0f0fa;
+            --lime: #a8e063;
+            --lime2: #88c040;
+            --lime3: #c8f080;
+            --lime-bg: rgba(168, 224, 99, 0.08);
+            --lime-border: rgba(168, 224, 99, 0.18);
+            --sky: #5aacf0;
+            --sky-bg: rgba(90, 172, 240, 0.08);
+            --sky-border: rgba(90, 172, 240, 0.18);
+            --rose: #f06858;
+            --rose-bg: rgba(240, 104, 88, 0.08);
+            --rose-border: rgba(240, 104, 88, 0.18);
+            --gold: #e8b84a;
+            --gold-bg: rgba(232, 184, 74, 0.08);
+            --gold-border: rgba(232, 184, 74, 0.18);
+            --violet: #9070f0;
+            --violet-bg: rgba(144, 112, 240, 0.08);
+            --sidebar-w: 240px;
+            --topbar-h: 56px;
+            --r: 8px;
+            --rl: 12px;
+            --rx: 16px;
+            --mono: 'DM Mono', monospace;
+            --sans: 'DM Sans', sans-serif;
+        }
 
-/* ── AUTH ── */
-#auth-screen{
-  position:fixed;inset:0;background:var(--bg);
-  display:flex;align-items:center;justify-content:center;
-  z-index:1000;padding:1.5rem
-}
-.auth-split{
-  display:flex;width:100%;max-width:860px;
-  background:var(--bg2);border:1px solid var(--border);
-  border-radius:var(--rx);overflow:hidden;
-  animation:authIn .45s cubic-bezier(.16,1,.3,1)
-}
-@keyframes authIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.auth-panel{
-  flex:1;padding:2.5rem 2rem;display:flex;flex-direction:column;justify-content:center
-}
-.auth-aside{
-  flex:0 0 280px;
-  background:linear-gradient(160deg,var(--bg3) 0%,var(--bg4) 100%);
-  border-left:1px solid var(--border);
-  padding:2.5rem 1.75rem;display:flex;flex-direction:column;justify-content:space-between
-}
-@media(max-width:640px){.auth-aside{display:none}}
-.auth-logo{
-  font-family:var(--mono);font-size:11px;letter-spacing:.15em;
-  color:var(--lime);margin-bottom:2rem;text-transform:uppercase;display:flex;align-items:center;gap:6px
-}
-.auth-logo-dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px rgba(168,224,99,.5)}
-.auth-headline{font-size:24px;font-weight:600;color:var(--white);line-height:1.25;margin-bottom:.3rem}
-.auth-headline em{color:var(--lime);font-style:normal}
-.auth-sub{font-size:13px;color:var(--muted2);margin-bottom:1.75rem}
-.auth-err{
-  background:var(--rose-bg);border:1px solid var(--rose-border);
-  border-radius:var(--r);padding:.55rem .85rem;font-size:12px;
-  color:var(--rose);margin-bottom:.9rem;display:none
-}
-.fg{margin-bottom:.75rem}
-.fg label{
-  display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:.35rem;font-family:var(--mono)
-}
-.fg input{
-  width:100%;background:var(--bg3);
-  border:1px solid var(--border);border-radius:var(--r);
-  padding:10px 13px;color:var(--text2);
-  font-family:var(--sans);font-size:14px;outline:none;
-  transition:border-color .2s,box-shadow .2s
-}
-.fg input:focus{border-color:var(--lime);box-shadow:0 0 0 3px rgba(168,224,99,.1)}
-.fg input::placeholder{color:var(--border2)}
-.btn-primary{
-  width:100%;background:var(--lime);color:#0c0c10;border:none;
-  border-radius:var(--r);padding:12px;font-family:var(--sans);
-  font-size:14px;font-weight:600;cursor:pointer;
-  transition:background .15s,transform .1s;margin-top:.2rem
-}
-.btn-primary:hover{background:var(--lime3)}
-.btn-primary:active{transform:scale(.98)}
-.auth-switch{text-align:center;margin-top:1rem;font-size:12px;color:var(--muted)}
-.auth-switch a{color:var(--lime);cursor:pointer;text-decoration:none;font-weight:500}
-.aside-headline{font-size:15px;font-weight:600;color:var(--white);margin-bottom:.6rem}
-.aside-body{font-size:12px;color:var(--muted2);line-height:1.65}
-.aside-features{list-style:none;margin-top:1.25rem}
-.aside-features li{
-  font-size:12px;color:var(--muted2);padding:.35rem 0;
-  display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)
-}
-.aside-features li:last-child{border-bottom:none}
-.aside-check{
-  width:16px;height:16px;border-radius:4px;
-  background:var(--lime-bg);border:1px solid var(--lime-border);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0
-}
-.aside-check::after{content:'✓';font-size:9px;color:var(--lime);font-weight:700}
-.aside-badge{
-  margin-top:auto;padding-top:1.5rem;font-family:var(--mono);
-  font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent
+        }
 
-/* ── APP SHELL ── */
-#app{display:none;height:100%;flex-direction:column}
-#app.show{display:flex}
-.app-body{flex:1;display:flex;overflow:hidden;position:relative}
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg)
+        }
 
-/* ── SIDEBAR ── */
-.sidebar{
-  width:var(--sidebar-w);flex-shrink:0;
-  background:var(--bg2);border-right:1px solid var(--border);
-  display:flex;flex-direction:column;height:100%;
-  transition:transform .25s cubic-bezier(.16,1,.3,1)
-}
-.sidebar-top{padding:1rem 1rem .75rem}
-.sidebar-brand{display:flex;align-items:center;gap:8px;padding:.5rem .25rem}
-.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 7px rgba(168,224,99,.5)}
-.brand-name{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--white)}
-.sidebar-divider{height:1px;background:var(--border);margin:.25rem 0 .75rem}
-.nav-section{padding:0 .5rem;margin-bottom:.5rem}
-.nav-section-label{
-  font-size:9px;font-family:var(--mono);letter-spacing:.12em;
-  text-transform:uppercase;color:var(--muted);padding:.25rem .5rem .5rem
-}
-.nav-item{
-  display:flex;align-items:center;gap:9px;
-  padding:.6rem .75rem;border-radius:var(--r);cursor:pointer;
-  color:var(--muted2);font-size:13px;font-weight:400;
-  border:none;background:none;width:100%;text-align:left;
-  font-family:var(--sans);transition:all .15s;position:relative
-}
-.nav-item:hover{background:var(--bg3);color:var(--text2)}
-.nav-item.active{background:var(--lime-bg);color:var(--lime);font-weight:500}
-.nav-item.active .nav-icon-wrap{background:rgba(168,224,99,.15)}
-.nav-icon-wrap{
-  width:28px;height:28px;border-radius:6px;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--bg3);flex-shrink:0;transition:background .15s;font-size:14px
-}
-.nav-badge{
-  margin-left:auto;background:var(--gold-bg);color:var(--gold);
-  border:1px solid var(--gold-border);
-  font-size:9px;font-family:var(--mono);
-  padding:1px 6px;border-radius:20px
-}
-.sidebar-bottom{margin-top:auto;padding:1rem;border-top:1px solid var(--border)}
-.user-row{display:flex;align-items:center;gap:9px}
-.user-avatar{
-  width:32px;height:32px;border-radius:50%;
-  background:var(--lime-bg);border:1px solid var(--lime-border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:600;color:var(--lime);font-family:var(--mono);flex-shrink:0
-}
-.user-info{flex:1;min-width:0}
-.user-name{font-size:12px;font-weight:500;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.user-role{font-size:10px;color:var(--muted);font-family:var(--mono);letter-spacing:.05em}
-.btn-signout{
-  background:none;border:none;color:var(--muted);cursor:pointer;
-  font-size:14px;padding:4px;transition:color .15s;line-height:1
-}
-.btn-signout:hover{color:var(--rose)}
+        body {
+            font-family: var(--sans);
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text)
+        }
 
-/* ── TOPBAR (mobile) ── */
-.topbar{
-  background:var(--bg2);border-bottom:1px solid var(--border);
-  padding:0 1rem;height:var(--topbar-h);display:none;
-  align-items:center;justify-content:space-between;flex-shrink:0;gap:.75rem
-}
-.hamburger{
-  background:none;border:none;color:var(--muted2);cursor:pointer;
-  font-size:18px;padding:4px;line-height:1
-}
-.topbar-brand{display:flex;align-items:center;gap:6px}
-.topbar-dot{width:7px;height:7px;border-radius:50%;background:var(--lime)}
-.topbar-name{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--white)}
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px
+        }
 
-/* ── SIDEBAR OVERLAY (mobile) ── */
-.sidebar-overlay{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200
-}
+        ::-webkit-scrollbar-track {
+            background: transparent
+        }
 
-/* ── MAIN CONTENT ── */
-.main-area{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-width:0}
-.main-scroll{padding:1.75rem 1.5rem 2rem;flex:1}
+        ::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 4px
+        }
 
-/* ── PAGE HEADER ── */
-.ph{margin-bottom:1.5rem}
-.ph-eyebrow{
-  font-size:10px;font-family:var(--mono);letter-spacing:.14em;
-  color:var(--lime);text-transform:uppercase;margin-bottom:.3rem
-}
-.ph-title{font-size:22px;font-weight:600;color:var(--white);line-height:1.2}
-.ph-sub{font-size:13px;color:var(--muted2);margin-top:.2rem}
+        /* ── AUTH ── */
+        #auth-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1.5rem
+        }
 
-/* ── CARDS ── */
-.card{
-  background:var(--bg2);border:1px solid var(--border);
-  border-radius:var(--rl);padding:1.25rem;margin-bottom:.75rem
-}
-.card-label{
-  font-size:10px;font-family:var(--mono);letter-spacing:.1em;
-  text-transform:uppercase;color:var(--muted);margin-bottom:1rem
-}
-.card-title{font-size:14px;font-weight:500;color:var(--text2);margin-bottom:.25rem}
+        .auth-split {
+            display: flex;
+            width: 100%;
+            max-width: 860px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--rx);
+            overflow: hidden;
+            animation: authIn .45s cubic-bezier(.16, 1, .3, 1)
+        }
 
-/* ── STAT GRID ── */
-.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.625rem;margin-bottom:.75rem}
-@media(min-width:900px){.stat-grid{grid-template-columns:repeat(4,1fr)}}
-.stat-tile{
-  background:var(--bg2);border:1px solid var(--border);
-  border-radius:var(--rl);padding:1rem 1.1rem
-}
-.stat-val{
-  font-size:28px;font-weight:600;font-family:var(--mono);
-  line-height:1;margin-bottom:.3rem
-}
-.stat-lbl{font-size:11px;color:var(--muted)}
-.sv-lime{color:var(--lime)}
-.sv-sky{color:var(--sky)}
-.sv-gold{color:var(--gold)}
-.sv-violet{color:var(--violet)}
-.sv-rose{color:var(--rose)}
+        @keyframes authIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
 
-/* ── PROGRESS ── */
-.prog-wrap{margin:.6rem 0}
-.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.prog-label{font-size:12px;color:var(--muted)}
-.prog-pct{font-size:12px;font-weight:600;font-family:var(--mono);color:var(--lime)}
-.prog-track{height:4px;background:var(--bg4);border-radius:4px;overflow:hidden}
-.prog-fill{height:100%;background:linear-gradient(90deg,var(--lime2),var(--lime3));border-radius:4px;transition:width .7s ease}
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
 
-/* ── CHAPTERS ── */
-.ch-item{
-  display:flex;align-items:center;gap:10px;
-  padding:.65rem 0;border-bottom:1px solid var(--border);cursor:pointer;
-  transition:opacity .15s
-}
-.ch-item:hover{opacity:.85}
-.ch-item:last-child{border-bottom:none}
-.ch-box{
-  width:18px;height:18px;border:1.5px solid var(--border2);
-  border-radius:4px;flex-shrink:0;display:flex;
-  align-items:center;justify-content:center;transition:all .15s
-}
-.ch-box.done{background:var(--lime);border-color:var(--lime)}
-.ch-box.done::after{content:'✓';font-size:10px;color:#0c0c10;font-weight:700}
-.ch-name{font-size:13px;flex:1;transition:color .15s}
-.ch-name.done{color:var(--muted);text-decoration:line-through}
-.ch-num{font-size:10px;font-family:var(--mono);color:var(--muted)}
+        .auth-panel {
+            flex: 1;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
 
-/* ── ANNOUNCEMENT ── */
-.ann{
-  background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);
-  padding:.875rem;margin-bottom:.45rem
-}
-.ann-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem}
-.ann-tag{
-  font-size:9px;font-family:var(--mono);letter-spacing:.08em;
-  padding:2px 8px;border-radius:20px;text-transform:uppercase;
-  background:var(--lime-bg);color:var(--lime);border:1px solid var(--lime-border)
-}
-.ann-time{font-size:10px;color:var(--muted)}
-.ann-text{font-size:13px;color:var(--text);line-height:1.6}
+        .auth-aside {
+            flex: 0 0 280px;
+            background: linear-gradient(160deg, var(--bg3) 0%, var(--bg4) 100%);
+            border-left: 1px solid var(--border);
+            padding: 2.5rem 1.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between
+        }
 
-/* ── EXERCISES ── */
-.ex-card{
-  background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);
-  padding:.9rem;margin-bottom:.5rem
-}
-.ex-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem}
-.ex-title{font-size:14px;font-weight:500;color:var(--text2)}
-.ex-due-pill{
-  font-size:9px;font-family:var(--mono);
-  padding:2px 8px;border-radius:20px;
-  background:var(--gold-bg);color:var(--gold);
-  border:1px solid var(--gold-border);flex-shrink:0
-}
-.ex-due-pill.late{background:var(--rose-bg);color:var(--rose);border-color:var(--rose-border)}
-.ex-desc{font-size:12px;color:var(--muted2);margin-bottom:.65rem;line-height:1.6}
-.ex-badge{
-  display:inline-block;font-size:9px;font-family:var(--mono);
-  padding:2px 8px;border-radius:20px;margin-bottom:.65rem;letter-spacing:.05em
-}
-.eb-pending{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border)}
-.eb-submitted{background:var(--sky-bg);color:var(--sky);border:1px solid var(--sky-border)}
-.eb-graded{background:var(--lime-bg);color:var(--lime);border:1px solid var(--lime-border)}
-.code-input{
-  width:100%;background:var(--bg);border:1px solid var(--border);
-  border-radius:var(--r);padding:.7rem;color:var(--lime);
-  font-family:var(--mono);font-size:12px;resize:vertical;
-  min-height:72px;outline:none;margin-bottom:.4rem;
-  transition:border-color .2s
-}
-.code-input:focus{border-color:var(--lime);box-shadow:0 0 0 3px rgba(168,224,99,.07)}
-.replit-inp{
-  width:100%;background:var(--bg);border:1px solid var(--border);
-  border-radius:var(--r);padding:.55rem .7rem;color:var(--sky);
-  font-family:var(--mono);font-size:12px;outline:none;
-  margin-bottom:.45rem;transition:border-color .2s
-}
-.replit-inp:focus{border-color:var(--sky)}
-.grade-box{
-  background:var(--lime-bg);border:1px solid var(--lime-border);
-  border-radius:var(--r);padding:.75rem;margin-top:.5rem
-}
-.grade-score{font-size:22px;font-weight:600;font-family:var(--mono);color:var(--lime)}
-.grade-fb{font-size:12px;color:var(--muted2);margin-top:.2rem}
+        @media(max-width:640px) {
+            .auth-aside {
+                display: none
+            }
+        }
 
-/* ── BUTTONS ── */
-.btn-submit{
-  background:var(--sky-bg);border:1px solid var(--sky-border);
-  color:var(--sky);border-radius:var(--r);padding:7px 16px;
-  font-size:12px;cursor:pointer;font-family:var(--sans);font-weight:500;
-  transition:all .15s
-}
-.btn-submit:hover{background:var(--sky);color:#0c0c10;border-color:var(--sky)}
-.btn-action{
-  background:var(--lime-bg);border:1px solid var(--lime-border);
-  color:var(--lime);border-radius:var(--r);padding:9px 18px;
-  font-size:13px;cursor:pointer;font-family:var(--sans);
-  font-weight:500;transition:all .15s
-}
-.btn-action:hover{background:var(--lime);color:#0c0c10;border-color:var(--lime)}
-.btn-icon{
-  background:none;border:none;color:var(--muted);cursor:pointer;
-  padding:4px 6px;font-size:14px;transition:color .15s
-}
-.btn-icon:hover{color:var(--rose)}
+        .auth-logo {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: .15em;
+            color: var(--lime);
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
 
-/* ── Q&A ── */
-.qa-item{
-  background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);
-  padding:.875rem;margin-bottom:.45rem
-}
-.qa-q{font-size:13px;font-weight:500;color:var(--text2);margin-bottom:.2rem}
-.qa-meta{font-size:10px;color:var(--muted);margin-bottom:.45rem}
-.qa-no-ans{font-size:11px;color:var(--muted);font-style:italic}
-.qa-ans{
-  background:var(--bg4);border-left:2px solid var(--lime);
-  padding:.6rem .75rem;border-radius:0 var(--r) var(--r) 0;
-  font-size:12px;color:var(--text);margin-top:.4rem
-}
-.qa-ans-label{
-  font-size:9px;font-family:var(--mono);letter-spacing:.08em;
-  color:var(--lime);margin-bottom:.2rem;text-transform:uppercase
-}
-.unans-tag{
-  font-size:9px;background:var(--gold-bg);color:var(--gold);
-  border:1px solid var(--gold-border);
-  padding:1px 7px;border-radius:20px;margin-left:7px;font-family:var(--mono)
-}
+        .auth-logo-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--lime);
+            box-shadow: 0 0 8px rgba(168, 224, 99, .5)
+        }
 
-/* ── EBOOK ── */
-.ebook-frame{
-  width:100%;height:calc(100vh - 200px);
-  border:none;border-radius:var(--r);background:var(--bg2);
-  border:1px solid var(--border)
-}
-.notice-bar{
-  background:var(--gold-bg);border:1px solid var(--gold-border);
-  border-radius:var(--r);padding:.55rem .875rem;
-  font-size:11px;color:var(--gold);margin-bottom:.75rem;
-  display:flex;align-items:center;gap:6px
-}
+        .auth-headline {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--white);
+            line-height: 1.25;
+            margin-bottom: .3rem
+        }
 
-/* ── ADMIN: STUDENTS ── */
-.student-row{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:.75rem 0;border-bottom:1px solid var(--border)
-}
-.student-row:last-child{border-bottom:none}
-.s-avatar{
-  width:34px;height:34px;border-radius:50%;
-  background:var(--bg3);border:1px solid var(--border2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:600;color:var(--muted2);font-family:var(--mono);flex-shrink:0
-}
-.s-info{flex:1;margin-left:.75rem;min-width:0}
-.s-name{font-size:13px;font-weight:500;color:var(--text2);margin-bottom:.1rem}
-.s-email{font-size:11px;color:var(--muted)}
-.s-joined{font-size:10px;color:var(--muted);margin-top:.1rem}
-.btn-ban{
-  background:var(--rose-bg);border:1px solid var(--rose-border);
-  color:var(--rose);border-radius:6px;padding:5px 13px;
-  font-size:11px;cursor:pointer;font-family:var(--sans);font-weight:500;transition:all .15s
-}
-.btn-ban:hover{background:var(--rose);color:#fff;border-color:var(--rose)}
-.btn-unban{
-  background:var(--lime-bg);border:1px solid var(--lime-border);
-  color:var(--lime);border-radius:6px;padding:5px 13px;
-  font-size:11px;cursor:pointer;font-family:var(--sans);font-weight:500
-}
-.banned-badge{
-  font-size:9px;font-family:var(--mono);
-  background:var(--rose-bg);color:var(--rose);
-  border:1px solid var(--rose-border);padding:1px 6px;
-  border-radius:20px;margin-left:6px;vertical-align:middle
-}
+        .auth-headline em {
+            color: var(--lime);
+            font-style: normal
+        }
 
-/* ── ADMIN: SUBMISSIONS ── */
-.sub-item{
-  background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);
-  padding:.9rem;margin-bottom:.5rem
-}
-.sub-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem}
-.sub-student{font-size:13px;font-weight:500;color:var(--text2)}
-.sub-when{font-size:10px;color:var(--muted)}
-.sub-code{
-  background:var(--bg);border:1px solid var(--border);border-radius:var(--r);
-  padding:.6rem;font-family:var(--mono);font-size:11px;
-  color:var(--lime);white-space:pre-wrap;word-break:break-all;margin:.45rem 0
-}
-.grade-row{display:flex;gap:.4rem;margin-top:.5rem;align-items:flex-end}
-.grade-row input{
-  flex:0 0 80px;background:var(--bg);border:1px solid var(--border);
-  border-radius:var(--r);padding:.45rem;color:var(--lime);
-  font-family:var(--mono);font-size:13px;outline:none;text-align:center;
-  transition:border-color .2s
-}
-.grade-row input:focus{border-color:var(--lime)}
-.grade-row textarea{
-  flex:1;background:var(--bg);border:1px solid var(--border);
-  border-radius:var(--r);padding:.45rem;color:var(--text);
-  font-family:var(--sans);font-size:12px;outline:none;
-  resize:none;height:56px;transition:border-color .2s
-}
-.grade-row textarea:focus{border-color:var(--lime)}
-.btn-grade{
-  background:var(--lime);border:none;color:#0c0c10;
-  border-radius:var(--r);padding:8px 14px;font-size:12px;
-  font-weight:600;cursor:pointer;font-family:var(--sans);white-space:nowrap
-}
+        .auth-sub {
+            font-size: 13px;
+            color: var(--muted2);
+            margin-bottom: 1.75rem
+        }
 
-/* ── FORM FIELDS ── */
-.ff{margin-bottom:.75rem}
-.ff label{
-  display:block;font-size:10px;font-family:var(--mono);
-  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem
-}
-.ff input,.ff textarea,.ff select{
-  width:100%;background:var(--bg3);border:1px solid var(--border);
-  border-radius:var(--r);padding:.55rem .85rem;color:var(--text2);
-  font-family:var(--sans);font-size:13px;outline:none;
-  transition:border-color .2s,box-shadow .2s
-}
-.ff input:focus,.ff textarea:focus,.ff select:focus{
-  border-color:var(--lime);box-shadow:0 0 0 3px rgba(168,224,99,.07)
-}
-.ff textarea{resize:vertical;min-height:72px}
+        .auth-err {
+            background: var(--rose-bg);
+            border: 1px solid var(--rose-border);
+            border-radius: var(--r);
+            padding: .55rem .85rem;
+            font-size: 12px;
+            color: var(--rose);
+            margin-bottom: .9rem;
+            display: none
+        }
 
-/* ── TABS ── */
-.tabs{display:flex;gap:.3rem;margin-bottom:.875rem;overflow-x:auto;padding-bottom:2px;border-bottom:1px solid var(--border);padding-bottom:0}
-.tab{
-  padding:8px 14px;font-size:12px;cursor:pointer;
-  white-space:nowrap;border:none;border-bottom:2px solid transparent;
-  color:var(--muted2);font-family:var(--sans);background:none;
-  transition:all .15s;margin-bottom:-1px
-}
-.tab.active{color:var(--lime);border-bottom-color:var(--lime)}
-.tab:hover:not(.active){color:var(--text2)}
+        .fg {
+            margin-bottom: .75rem
+        }
 
-/* ── LESSONS ── */
-.lesson-card{
-  background:var(--bg2);border:1px solid var(--border);
-  border-radius:var(--rl);overflow:hidden;margin-bottom:.75rem
-}
-.lesson-card-head{padding:.875rem 1rem;border-bottom:1px solid var(--border)}
-.lesson-card-title{font-size:14px;font-weight:500;color:var(--text2)}
-.lesson-video-wrap{background:var(--bg);aspect-ratio:16/9}
-.lesson-video-wrap iframe{width:100%;height:100%;border:none;display:block}
-.lesson-code-wrap{padding:.75rem}
-.lesson-code-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
-.lesson-code-label{font-size:10px;font-family:var(--mono);color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
-pre code{
-  display:block;background:var(--bg);border:1px solid var(--border);
-  padding:.75rem;border-radius:var(--r);font-family:var(--mono);font-size:12px;
-  color:var(--lime);white-space:pre-wrap;word-break:break-all
-}
+        .fg label {
+            display: block;
+            font-size: 10px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: .35rem;
+            font-family: var(--mono)
+        }
 
-/* ── ALERT ── */
-.alert-card{
-  background:var(--gold-bg);border:1px solid var(--gold-border);
-  border-radius:var(--r);padding:.875rem;margin-bottom:.6rem;
-  display:flex;align-items:center;justify-content:space-between;gap:.75rem
-}
-.ac-text{font-size:13px;color:var(--gold);font-weight:500}
-.ac-sub{font-size:11px;color:rgba(232,184,74,.65);margin-top:.15rem}
+        .fg input {
+            width: 100%;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 10px 13px;
+            color: var(--text2);
+            font-family: var(--sans);
+            font-size: 14px;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s
+        }
 
-/* ── EMPTY / LOADING ── */
-.empty{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:13px}
-.empty-icon{font-size:28px;margin-bottom:.5rem;opacity:.4}
-.loading-screen{
-  display:flex;align-items:center;justify-content:center;
-  height:160px;flex-direction:column;gap:.65rem;color:var(--muted);font-size:13px
-}
-.spin{
-  width:20px;height:20px;border:2px solid var(--border);
-  border-top-color:var(--lime);border-radius:50%;
-  animation:sp .7s linear infinite
-}
-@keyframes sp{to{transform:rotate(360deg)}}
+        .fg input:focus {
+            border-color: var(--lime);
+            box-shadow: 0 0 0 3px rgba(168, 224, 99, .1)
+        }
 
-/* ── TOAST ── */
-.toast{
-  position:fixed;bottom:24px;right:24px;
-  background:var(--bg2);border:1px solid var(--border2);
-  border-radius:var(--r);padding:.55rem 1rem;font-size:12px;
-  z-index:9999;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap
-}
-.toast.show{opacity:1}
-.toast.success{border-color:var(--lime-border);color:var(--lime)}
-.toast.error{border-color:var(--rose-border);color:var(--rose)}
+        .fg input::placeholder {
+            color: var(--border2)
+        }
 
-/* ── MOBILE ── */
-@media(max-width:768px){
-  .topbar{display:flex}
-  .sidebar{
-    position:fixed;left:0;top:0;bottom:0;z-index:300;
-    transform:translateX(-100%)
-  }
-  .sidebar.open{transform:translateX(0)}
-  .sidebar-overlay.show{display:block}
-  .main-area{padding-top:0}
-  .main-scroll{padding:1.25rem 1rem 1.75rem}
-  .stat-grid{grid-template-columns:repeat(2,1fr)}
-}
+        .btn-primary {
+            width: 100%;
+            background: var(--lime);
+            color: #0c0c10;
+            border: none;
+            border-radius: var(--r);
+            padding: 12px;
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .15s, transform .1s;
+            margin-top: .2rem
+        }
 
-/* ── OVERVIEW GRID ── */
-.overview-grid{display:grid;grid-template-columns:1fr;gap:.75rem}
-@media(min-width:900px){.overview-grid{grid-template-columns:1fr 1fr}}
-</style>
+        .btn-primary:hover {
+            background: var(--lime3)
+        }
+
+        .btn-primary:active {
+            transform: scale(.98)
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .auth-switch a {
+            color: var(--lime);
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500
+        }
+
+        .aside-headline {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: .6rem
+        }
+
+        .aside-body {
+            font-size: 12px;
+            color: var(--muted2);
+            line-height: 1.65
+        }
+
+        .aside-features {
+            list-style: none;
+            margin-top: 1.25rem
+        }
+
+        .aside-features li {
+            font-size: 12px;
+            color: var(--muted2);
+            padding: .35rem 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .aside-features li:last-child {
+            border-bottom: none
+        }
+
+        .aside-check {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            background: var(--lime-bg);
+            border: 1px solid var(--lime-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .aside-check::after {
+            content: '✓';
+            font-size: 9px;
+            color: var(--lime);
+            font-weight: 700
+        }
+
+        .aside-badge {
+            margin-top: auto;
+            padding-top: 1.5rem;
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: .08em;
+            color: var(--muted);
+            text-transform: uppercase
+        }
+
+        /* ── APP SHELL ── */
+        #app {
+            display: none;
+            height: 100%;
+            flex-direction: column
+        }
+
+        #app.show {
+            display: flex
+        }
+
+        .app-body {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            position: relative
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: var(--sidebar-w);
+            flex-shrink: 0;
+            background: var(--bg2);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: transform .25s cubic-bezier(.16, 1, .3, 1)
+        }
+
+        .sidebar-top {
+            padding: 1rem 1rem .75rem
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: .5rem .25rem
+        }
+
+        .brand-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--lime);
+            box-shadow: 0 0 7px rgba(168, 224, 99, .5)
+        }
+
+        .brand-name {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: .12em;
+            color: var(--white)
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: var(--border);
+            margin: .25rem 0 .75rem
+        }
+
+        .nav-section {
+            padding: 0 .5rem;
+            margin-bottom: .5rem
+        }
+
+        .nav-section-label {
+            font-size: 9px;
+            font-family: var(--mono);
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: .25rem .5rem .5rem
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: .6rem .75rem;
+            border-radius: var(--r);
+            cursor: pointer;
+            color: var(--muted2);
+            font-size: 13px;
+            font-weight: 400;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: var(--sans);
+            transition: all .15s;
+            position: relative
+        }
+
+        .nav-item:hover {
+            background: var(--bg3);
+            color: var(--text2)
+        }
+
+        .nav-item.active {
+            background: var(--lime-bg);
+            color: var(--lime);
+            font-weight: 500
+        }
+
+        .nav-item.active .nav-icon-wrap {
+            background: rgba(168, 224, 99, .15)
+        }
+
+        .nav-icon-wrap {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg3);
+            flex-shrink: 0;
+            transition: background .15s;
+            font-size: 14px
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--gold-bg);
+            color: var(--gold);
+            border: 1px solid var(--gold-border);
+            font-size: 9px;
+            font-family: var(--mono);
+            padding: 1px 6px;
+            border-radius: 20px
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 1rem;
+            border-top: 1px solid var(--border)
+        }
+
+        .user-row {
+            display: flex;
+            align-items: center;
+            gap: 9px
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--lime-bg);
+            border: 1px solid var(--lime-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--lime);
+            font-family: var(--mono);
+            flex-shrink: 0
+        }
+
+        .user-info {
+            flex: 1;
+            min-width: 0
+        }
+
+        .user-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .user-role {
+            font-size: 10px;
+            color: var(--muted);
+            font-family: var(--mono);
+            letter-spacing: .05em
+        }
+
+        .btn-signout {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 4px;
+            transition: color .15s;
+            line-height: 1
+        }
+
+        .btn-signout:hover {
+            color: var(--rose)
+        }
+
+        /* ── TOPBAR (mobile) ── */
+        .topbar {
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            padding: 0 1rem;
+            height: var(--topbar-h);
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            gap: .75rem
+        }
+
+        .hamburger {
+            background: none;
+            border: none;
+            color: var(--muted2);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 4px;
+            line-height: 1
+        }
+
+        .topbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .topbar-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--lime)
+        }
+
+        .topbar-name {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: .1em;
+            color: var(--white)
+        }
+
+        /* ── SIDEBAR OVERLAY (mobile) ── */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .6);
+            z-index: 200
+        }
+
+        /* ── MAIN CONTENT ── */
+        .main-area {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            min-width: 0
+        }
+
+        .main-scroll {
+            padding: 1.75rem 1.5rem 2rem;
+            flex: 1
+        }
+
+        /* ── PAGE HEADER ── */
+        .ph {
+            margin-bottom: 1.5rem
+        }
+
+        .ph-eyebrow {
+            font-size: 10px;
+            font-family: var(--mono);
+            letter-spacing: .14em;
+            color: var(--lime);
+            text-transform: uppercase;
+            margin-bottom: .3rem
+        }
+
+        .ph-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--white);
+            line-height: 1.2
+        }
+
+        .ph-sub {
+            font-size: 13px;
+            color: var(--muted2);
+            margin-top: .2rem
+        }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--rl);
+            padding: 1.25rem;
+            margin-bottom: .75rem
+        }
+
+        .card-label {
+            font-size: 10px;
+            font-family: var(--mono);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 1rem
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text2);
+            margin-bottom: .25rem
+        }
+
+        /* ── STAT GRID ── */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: .625rem;
+            margin-bottom: .75rem
+        }
+
+        @media(min-width:900px) {
+            .stat-grid {
+                grid-template-columns: repeat(4, 1fr)
+            }
+        }
+
+        .stat-tile {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--rl);
+            padding: 1rem 1.1rem
+        }
+
+        .stat-val {
+            font-size: 28px;
+            font-weight: 600;
+            font-family: var(--mono);
+            line-height: 1;
+            margin-bottom: .3rem
+        }
+
+        .stat-lbl {
+            font-size: 11px;
+            color: var(--muted)
+        }
+
+        .sv-lime {
+            color: var(--lime)
+        }
+
+        .sv-sky {
+            color: var(--sky)
+        }
+
+        .sv-gold {
+            color: var(--gold)
+        }
+
+        .sv-violet {
+            color: var(--violet)
+        }
+
+        .sv-rose {
+            color: var(--rose)
+        }
+
+        /* ── PROGRESS ── */
+        .prog-wrap {
+            margin: .6rem 0
+        }
+
+        .prog-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px
+        }
+
+        .prog-label {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .prog-pct {
+            font-size: 12px;
+            font-weight: 600;
+            font-family: var(--mono);
+            color: var(--lime)
+        }
+
+        .prog-track {
+            height: 4px;
+            background: var(--bg4);
+            border-radius: 4px;
+            overflow: hidden
+        }
+
+        .prog-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--lime2), var(--lime3));
+            border-radius: 4px;
+            transition: width .7s ease
+        }
+
+        /* ── CHAPTERS ── */
+        .ch-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: .65rem 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: opacity .15s
+        }
+
+        .ch-item:hover {
+            opacity: .85
+        }
+
+        .ch-item:last-child {
+            border-bottom: none
+        }
+
+        .ch-box {
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid var(--border2);
+            border-radius: 4px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .15s
+        }
+
+        .ch-box.done {
+            background: var(--lime);
+            border-color: var(--lime)
+        }
+
+        .ch-box.done::after {
+            content: '✓';
+            font-size: 10px;
+            color: #0c0c10;
+            font-weight: 700
+        }
+
+        .ch-name {
+            font-size: 13px;
+            flex: 1;
+            transition: color .15s
+        }
+
+        .ch-name.done {
+            color: var(--muted);
+            text-decoration: line-through
+        }
+
+        .ch-num {
+            font-size: 10px;
+            font-family: var(--mono);
+            color: var(--muted)
+        }
+
+        /* ── ANNOUNCEMENT ── */
+        .ann {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .875rem;
+            margin-bottom: .45rem
+        }
+
+        .ann-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: .4rem
+        }
+
+        .ann-tag {
+            font-size: 9px;
+            font-family: var(--mono);
+            letter-spacing: .08em;
+            padding: 2px 8px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            background: var(--lime-bg);
+            color: var(--lime);
+            border: 1px solid var(--lime-border)
+        }
+
+        .ann-time {
+            font-size: 10px;
+            color: var(--muted)
+        }
+
+        .ann-text {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.6
+        }
+
+        /* ── EXERCISES ── */
+        .ex-card {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .9rem;
+            margin-bottom: .5rem
+        }
+
+        .ex-hd {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: .4rem
+        }
+
+        .ex-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text2)
+        }
+
+        .ex-due-pill {
+            font-size: 9px;
+            font-family: var(--mono);
+            padding: 2px 8px;
+            border-radius: 20px;
+            background: var(--gold-bg);
+            color: var(--gold);
+            border: 1px solid var(--gold-border);
+            flex-shrink: 0
+        }
+
+        .ex-due-pill.late {
+            background: var(--rose-bg);
+            color: var(--rose);
+            border-color: var(--rose-border)
+        }
+
+        .ex-desc {
+            font-size: 12px;
+            color: var(--muted2);
+            margin-bottom: .65rem;
+            line-height: 1.6
+        }
+
+        .ex-badge {
+            display: inline-block;
+            font-size: 9px;
+            font-family: var(--mono);
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-bottom: .65rem;
+            letter-spacing: .05em
+        }
+
+        .eb-pending {
+            background: var(--gold-bg);
+            color: var(--gold);
+            border: 1px solid var(--gold-border)
+        }
+
+        .eb-submitted {
+            background: var(--sky-bg);
+            color: var(--sky);
+            border: 1px solid var(--sky-border)
+        }
+
+        .eb-graded {
+            background: var(--lime-bg);
+            color: var(--lime);
+            border: 1px solid var(--lime-border)
+        }
+
+        .code-input {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .7rem;
+            color: var(--lime);
+            font-family: var(--mono);
+            font-size: 12px;
+            resize: vertical;
+            min-height: 72px;
+            outline: none;
+            margin-bottom: .4rem;
+            transition: border-color .2s
+        }
+
+        .code-input:focus {
+            border-color: var(--lime);
+            box-shadow: 0 0 0 3px rgba(168, 224, 99, .07)
+        }
+
+        .replit-inp {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .55rem .7rem;
+            color: var(--sky);
+            font-family: var(--mono);
+            font-size: 12px;
+            outline: none;
+            margin-bottom: .45rem;
+            transition: border-color .2s
+        }
+
+        .replit-inp:focus {
+            border-color: var(--sky)
+        }
+
+        .grade-box {
+            background: var(--lime-bg);
+            border: 1px solid var(--lime-border);
+            border-radius: var(--r);
+            padding: .75rem;
+            margin-top: .5rem
+        }
+
+        .grade-score {
+            font-size: 22px;
+            font-weight: 600;
+            font-family: var(--mono);
+            color: var(--lime)
+        }
+
+        .grade-fb {
+            font-size: 12px;
+            color: var(--muted2);
+            margin-top: .2rem
+        }
+
+        /* ── BUTTONS ── */
+        .btn-submit {
+            background: var(--sky-bg);
+            border: 1px solid var(--sky-border);
+            color: var(--sky);
+            border-radius: var(--r);
+            padding: 7px 16px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: var(--sans);
+            font-weight: 500;
+            transition: all .15s
+        }
+
+        .btn-submit:hover {
+            background: var(--sky);
+            color: #0c0c10;
+            border-color: var(--sky)
+        }
+
+        .btn-action {
+            background: var(--lime-bg);
+            border: 1px solid var(--lime-border);
+            color: var(--lime);
+            border-radius: var(--r);
+            padding: 9px 18px;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: var(--sans);
+            font-weight: 500;
+            transition: all .15s
+        }
+
+        .btn-action:hover {
+            background: var(--lime);
+            color: #0c0c10;
+            border-color: var(--lime)
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 4px 6px;
+            font-size: 14px;
+            transition: color .15s
+        }
+
+        .btn-icon:hover {
+            color: var(--rose)
+        }
+
+        /* ── Q&A ── */
+        .qa-item {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .875rem;
+            margin-bottom: .45rem
+        }
+
+        .qa-q {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text2);
+            margin-bottom: .2rem
+        }
+
+        .qa-meta {
+            font-size: 10px;
+            color: var(--muted);
+            margin-bottom: .45rem
+        }
+
+        .qa-no-ans {
+            font-size: 11px;
+            color: var(--muted);
+            font-style: italic
+        }
+
+        .qa-ans {
+            background: var(--bg4);
+            border-left: 2px solid var(--lime);
+            padding: .6rem .75rem;
+            border-radius: 0 var(--r) var(--r) 0;
+            font-size: 12px;
+            color: var(--text);
+            margin-top: .4rem
+        }
+
+        .qa-ans-label {
+            font-size: 9px;
+            font-family: var(--mono);
+            letter-spacing: .08em;
+            color: var(--lime);
+            margin-bottom: .2rem;
+            text-transform: uppercase
+        }
+
+        .unans-tag {
+            font-size: 9px;
+            background: var(--gold-bg);
+            color: var(--gold);
+            border: 1px solid var(--gold-border);
+            padding: 1px 7px;
+            border-radius: 20px;
+            margin-left: 7px;
+            font-family: var(--mono)
+        }
+
+        /* ── EBOOK ── */
+        .ebook-frame {
+            width: 100%;
+            height: calc(100vh - 200px);
+            border: none;
+            border-radius: var(--r);
+            background: var(--bg2);
+            border: 1px solid var(--border)
+        }
+
+        .notice-bar {
+            background: var(--gold-bg);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--r);
+            padding: .55rem .875rem;
+            font-size: 11px;
+            color: var(--gold);
+            margin-bottom: .75rem;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        /* ── ADMIN: STUDENTS ── */
+        .student-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .75rem 0;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .student-row:last-child {
+            border-bottom: none
+        }
+
+        .s-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted2);
+            font-family: var(--mono);
+            flex-shrink: 0
+        }
+
+        .s-info {
+            flex: 1;
+            margin-left: .75rem;
+            min-width: 0
+        }
+
+        .s-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text2);
+            margin-bottom: .1rem
+        }
+
+        .s-email {
+            font-size: 11px;
+            color: var(--muted)
+        }
+
+        .s-joined {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: .1rem
+        }
+
+        .btn-ban {
+            background: var(--rose-bg);
+            border: 1px solid var(--rose-border);
+            color: var(--rose);
+            border-radius: 6px;
+            padding: 5px 13px;
+            font-size: 11px;
+            cursor: pointer;
+            font-family: var(--sans);
+            font-weight: 500;
+            transition: all .15s
+        }
+
+        .btn-ban:hover {
+            background: var(--rose);
+            color: #fff;
+            border-color: var(--rose)
+        }
+
+        .btn-unban {
+            background: var(--lime-bg);
+            border: 1px solid var(--lime-border);
+            color: var(--lime);
+            border-radius: 6px;
+            padding: 5px 13px;
+            font-size: 11px;
+            cursor: pointer;
+            font-family: var(--sans);
+            font-weight: 500
+        }
+
+        .banned-badge {
+            font-size: 9px;
+            font-family: var(--mono);
+            background: var(--rose-bg);
+            color: var(--rose);
+            border: 1px solid var(--rose-border);
+            padding: 1px 6px;
+            border-radius: 20px;
+            margin-left: 6px;
+            vertical-align: middle
+        }
+
+        /* ── ADMIN: SUBMISSIONS ── */
+        .sub-item {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .9rem;
+            margin-bottom: .5rem
+        }
+
+        .sub-hd {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: .4rem
+        }
+
+        .sub-student {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text2)
+        }
+
+        .sub-when {
+            font-size: 10px;
+            color: var(--muted)
+        }
+
+        .sub-code {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .6rem;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--lime);
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin: .45rem 0
+        }
+
+        .grade-row {
+            display: flex;
+            gap: .4rem;
+            margin-top: .5rem;
+            align-items: flex-end
+        }
+
+        .grade-row input {
+            flex: 0 0 80px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .45rem;
+            color: var(--lime);
+            font-family: var(--mono);
+            font-size: 13px;
+            outline: none;
+            text-align: center;
+            transition: border-color .2s
+        }
+
+        .grade-row input:focus {
+            border-color: var(--lime)
+        }
+
+        .grade-row textarea {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .45rem;
+            color: var(--text);
+            font-family: var(--sans);
+            font-size: 12px;
+            outline: none;
+            resize: none;
+            height: 56px;
+            transition: border-color .2s
+        }
+
+        .grade-row textarea:focus {
+            border-color: var(--lime)
+        }
+
+        .btn-grade {
+            background: var(--lime);
+            border: none;
+            color: #0c0c10;
+            border-radius: var(--r);
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--sans);
+            white-space: nowrap
+        }
+
+        /* ── FORM FIELDS ── */
+        .ff {
+            margin-bottom: .75rem
+        }
+
+        .ff label {
+            display: block;
+            font-size: 10px;
+            font-family: var(--mono);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: .35rem
+        }
+
+        .ff input,
+        .ff textarea,
+        .ff select {
+            width: 100%;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .55rem .85rem;
+            color: var(--text2);
+            font-family: var(--sans);
+            font-size: 13px;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s
+        }
+
+        .ff input:focus,
+        .ff textarea:focus,
+        .ff select:focus {
+            border-color: var(--lime);
+            box-shadow: 0 0 0 3px rgba(168, 224, 99, .07)
+        }
+
+        .ff textarea {
+            resize: vertical;
+            min-height: 72px
+        }
+
+        /* ── TABS ── */
+        .tabs {
+            display: flex;
+            gap: .3rem;
+            margin-bottom: .875rem;
+            overflow-x: auto;
+            padding-bottom: 2px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0
+        }
+
+        .tab {
+            padding: 8px 14px;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--muted2);
+            font-family: var(--sans);
+            background: none;
+            transition: all .15s;
+            margin-bottom: -1px
+        }
+
+        .tab.active {
+            color: var(--lime);
+            border-bottom-color: var(--lime)
+        }
+
+        .tab:hover:not(.active) {
+            color: var(--text2)
+        }
+
+        /* ── LESSONS ── */
+        .lesson-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--rl);
+            overflow: hidden;
+            margin-bottom: .75rem
+        }
+
+        .lesson-card-head {
+            padding: .875rem 1rem;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .lesson-card-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text2)
+        }
+
+        .lesson-video-wrap {
+            background: var(--bg);
+            aspect-ratio: 16/9
+        }
+
+        .lesson-video-wrap iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block
+        }
+
+        .lesson-code-wrap {
+            padding: .75rem
+        }
+
+        .lesson-code-hd {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: .5rem
+        }
+
+        .lesson-code-label {
+            font-size: 10px;
+            font-family: var(--mono);
+            color: var(--muted);
+            letter-spacing: .08em;
+            text-transform: uppercase
+        }
+
+        pre code {
+            display: block;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: .75rem;
+            border-radius: var(--r);
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--lime);
+            white-space: pre-wrap;
+            word-break: break-all
+        }
+
+        /* ── ALERT ── */
+        .alert-card {
+            background: var(--gold-bg);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--r);
+            padding: .875rem;
+            margin-bottom: .6rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .75rem
+        }
+
+        .ac-text {
+            font-size: 13px;
+            color: var(--gold);
+            font-weight: 500
+        }
+
+        .ac-sub {
+            font-size: 11px;
+            color: rgba(232, 184, 74, .65);
+            margin-top: .15rem
+        }
+
+        /* ── EMPTY / LOADING ── */
+        .empty {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        .empty-icon {
+            font-size: 28px;
+            margin-bottom: .5rem;
+            opacity: .4
+        }
+
+        .loading-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 160px;
+            flex-direction: column;
+            gap: .65rem;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        .spin {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-top-color: var(--lime);
+            border-radius: 50%;
+            animation: sp .7s linear infinite
+        }
+
+        @keyframes sp {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        /* ── TOAST ── */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: var(--r);
+            padding: .55rem 1rem;
+            font-size: 12px;
+            z-index: 9999;
+            opacity: 0;
+            transition: all .25s;
+            pointer-events: none;
+            white-space: nowrap
+        }
+
+        .toast.show {
+            opacity: 1
+        }
+
+        .toast.success {
+            border-color: var(--lime-border);
+            color: var(--lime)
+        }
+
+        .toast.error {
+            border-color: var(--rose-border);
+            color: var(--rose)
+        }
+
+        /* ── MOBILE ── */
+        @media(max-width:768px) {
+            .topbar {
+                display: flex
+            }
+
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                z-index: 300;
+                transform: translateX(-100%)
+            }
+
+            .sidebar.open {
+                transform: translateX(0)
+            }
+
+            .sidebar-overlay.show {
+                display: block
+            }
+
+            .main-area {
+                padding-top: 0
+            }
+
+            .main-scroll {
+                padding: 1.25rem 1rem 1.75rem
+            }
+
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        /* ── OVERVIEW GRID ── */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: .75rem
+        }
+
+        @media(min-width:900px) {
+            .overview-grid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+    </style>
+    <!-- CodeMirror (Python syntax highlighting) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
 </head>
+
 <body>
 
-<div class="toast" id="toast"></div>
-<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+    <div class="toast" id="toast"></div>
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
-<!-- AUTH -->
-<div id="auth-screen">
-  <div class="auth-split">
-    <div class="auth-panel">
-      <div class="auth-logo"><div class="auth-logo-dot"></div>DevJourney / Python</div>
-      <h1 class="auth-headline" id="auth-title">Welcome <em>back.</em></h1>
-      <p class="auth-sub" id="auth-sub">Sign in to continue your Python training</p>
-      <div class="auth-err" id="auth-error"></div>
-      <div class="fg" id="name-field" style="display:none">
-        <label>Full Name</label>
-        <input type="text" id="input-name" placeholder="Your full name">
-      </div>
-      <div class="fg">
-        <label>Email address</label>
-        <input type="email" id="input-email" placeholder="you@example.com">
-      </div>
-      <div class="fg">
-        <label>Password</label>
-        <input type="password" id="input-password" placeholder="••••••••">
-      </div>
-      <button class="btn-primary" id="auth-btn">Sign In</button>
-      <div class="auth-switch">
-        <span id="auth-toggle-text">No account?</span>
-        <a id="auth-toggle-link"> Register here</a>
-      </div>
-    </div>
-    <div class="auth-aside">
-      <div>
-        <div class="aside-headline">Python for Absolute Beginners</div>
-        <div class="aside-body">A structured 8-chapter programme designed to take you from zero to writing real Python code.</div>
-        <ul class="aside-features">
-          <li><div class="aside-check"></div>Video lessons with code samples</li>
-          <li><div class="aside-check"></div>Graded exercises & feedback</li>
-          <li><div class="aside-check"></div>Live Q&A with your instructor</li>
-          <li><div class="aside-check"></div>Downloadable ebook included</li>
-          <li><div class="aside-check"></div>Track your progress chapter by chapter</li>
-        </ul>
-      </div>
-      <div class="aside-badge">Powered by DevJourney · 2025</div>
-    </div>
-  </div>
-</div>
-
-<!-- APP -->
-<div id="app">
-  <!-- Mobile topbar -->
-  <div class="topbar">
-    <button class="hamburger" onclick="openSidebar()">☰</button>
-    <div class="topbar-brand">
-      <div class="topbar-dot"></div>
-      <div class="topbar-name">DEVJOURNEY</div>
-    </div>
-    <div style="width:32px"></div>
-  </div>
-
-  <div class="app-body">
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-top">
-        <div class="sidebar-brand">
-          <div class="brand-dot"></div>
-          <div class="brand-name">DEVJOURNEY</div>
+    <!-- AUTH -->
+    <div id="auth-screen">
+        <div class="auth-split">
+            <div class="auth-panel">
+                <div class="auth-logo">
+                    <div class="auth-logo-dot"></div>DevJourney / Python
+                </div>
+                <h1 class="auth-headline" id="auth-title">Welcome <em>back.</em></h1>
+                <p class="auth-sub" id="auth-sub">Sign in to continue your Python training</p>
+                <div class="auth-err" id="auth-error"></div>
+                <div class="fg" id="name-field" style="display:none">
+                    <label>Full Name</label>
+                    <input type="text" id="input-name" placeholder="Your full name">
+                </div>
+                <div class="fg">
+                    <label>Email address</label>
+                    <input type="email" id="input-email" placeholder="you@example.com">
+                </div>
+                <div class="fg">
+                    <label>Password</label>
+                    <input type="password" id="input-password" placeholder="••••••••">
+                </div>
+                <button class="btn-primary" id="auth-btn">Sign In</button>
+                <div class="auth-switch">
+                    <span id="auth-toggle-text">No account?</span>
+                    <a id="auth-toggle-link"> Register here</a>
+                </div>
+            </div>
+            <div class="auth-aside">
+                <div>
+                    <div class="aside-headline">Python for Absolute Beginners</div>
+                    <div class="aside-body">A structured 8-chapter programme designed to take you from zero to writing
+                        real Python code.</div>
+                    <ul class="aside-features">
+                        <li>
+                            <div class="aside-check"></div>Video lessons with code samples
+                        </li>
+                        <li>
+                            <div class="aside-check"></div>Graded exercises & feedback
+                        </li>
+                        <li>
+                            <div class="aside-check"></div>Live Q&A with your instructor
+                        </li>
+                        <li>
+                            <div class="aside-check"></div>Downloadable ebook included
+                        </li>
+                        <li>
+                            <div class="aside-check"></div>Track your progress chapter by chapter
+                        </li>
+                    </ul>
+                </div>
+                <div class="aside-badge">Powered by DevJourney · 2025</div>
+            </div>
         </div>
-        <div class="sidebar-divider"></div>
-        <div class="nav-section" id="sidebar-nav"></div>
-      </div>
-      <div class="sidebar-bottom">
-        <div class="user-row">
-          <div class="user-avatar" id="user-avatar">?</div>
-          <div class="user-info">
-            <div class="user-name" id="user-name-display">—</div>
-            <div class="user-role" id="user-role-display">—</div>
-          </div>
-          <button class="btn-signout" id="signout-btn" title="Sign out">⇥</button>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Main -->
-    <div class="main-area">
-      <div class="main-scroll" id="main-content"></div>
     </div>
-  </div>
-</div>
 
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <!-- APP -->
+    <div id="app">
+        <!-- Mobile topbar -->
+        <div class="topbar">
+            <button class="hamburger" onclick="openSidebar()">☰</button>
+            <div class="topbar-brand">
+                <div class="topbar-dot"></div>
+                <div class="topbar-name">DEVJOURNEY</div>
+            </div>
+            <div style="width:32px"></div>
+        </div>
 
-<script>
-const FIREBASE_CONFIG={
-  apiKey:"AIzaSyBflRvtpP2DnKnoWCslON6CWIMgX34RvnQ",
-  authDomain:"devjourney-portal.firebaseapp.com",
-  projectId:"devjourney-portal",
-  storageBucket:"devjourney-portal.firebasestorage.app",
-  messagingSenderId:"837161815919",
-  appId:"1:837161815919:web:5beaaa88b865bd8c60e29a"
-};
-const INSTRUCTOR_EMAIL="devjourney2006@gmail.com";
-let EBOOK_URL="https://drive.google.com/file/d/YOUR_FILE_ID/preview";
-let EBOOK_TITLE="Python for Absolute Beginners — Book 1";
-const CHAPTERS=[
-  "Chapter 1 — How Computers Think",
-  "Chapter 2 — Variables and Data Types",
-  "Chapter 3 — User Input",
-  "Chapter 4 — Making Decisions: Conditionals",
-  "Chapter 5 — Repeating Actions: Loops",
-  "Chapter 6 — Organising Data: Lists",
-  "Chapter 7 — Reusable Code: Functions",
-  "Final Project — Student Grading System"
-];
+        <div class="app-body">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-top">
+                    <div class="sidebar-brand">
+                        <div class="brand-dot"></div>
+                        <div class="brand-name">DEVJOURNEY</div>
+                    </div>
+                    <div class="sidebar-divider"></div>
+                    <div class="nav-section" id="sidebar-nav"></div>
+                </div>
+                <div class="sidebar-bottom">
+                    <div class="user-row">
+                        <div class="user-avatar" id="user-avatar">?</div>
+                        <div class="user-info">
+                            <div class="user-name" id="user-name-display">—</div>
+                            <div class="user-role" id="user-role-display">—</div>
+                        </div>
+                        <button class="btn-signout" id="signout-btn" title="Sign out">⇥</button>
+                    </div>
+                </div>
+            </aside>
 
-firebase.initializeApp(FIREBASE_CONFIG);
-const auth=firebase.auth();
-const db=firebase.firestore();
-let currentUser=null,isAdmin=false,unsubscribers=[];
+            <!-- Main -->
+            <div class="main-area">
+                <div class="main-scroll" id="main-content"></div>
+            </div>
+        </div>
+    </div>
 
-function showToast(msg,type='success'){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.className=`toast show ${type}`;
-  setTimeout(()=>t.className='toast',2600);
-}
-function timeAgo(ts){
-  if(!ts)return'';
-  const d=ts.toDate?ts.toDate():new Date(ts);
-  const diff=(Date.now()-d.getTime())/1000;
-  if(diff<60)return'just now';
-  if(diff<3600)return`${Math.floor(diff/60)}m ago`;
-  if(diff<86400)return`${Math.floor(diff/3600)}h ago`;
-  return d.toLocaleDateString();
-}
-function formatDate(ts){
-  if(!ts)return'';
-  const d=ts.toDate?ts.toDate():new Date(ts);
-  return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
-}
-function initials(name){
-  if(!name)return'?';
-  return name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-}
-function copyLessonCode(id){
-  navigator.clipboard.writeText(document.getElementById(`lesson-code-${id}`).innerText);
-  showToast('Copied!');
-}
-function openSidebar(){
-  document.getElementById('sidebar').classList.add('open');
-  document.getElementById('sidebar-overlay').classList.add('show');
-}
-function closeSidebar(){
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebar-overlay').classList.remove('show');
-}
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    <script>
+        const FIREBASE_CONFIG = {
+            apiKey: "AIzaSyBflRvtpP2DnKnoWCslON6CWIMgX34RvnQ",
+            authDomain: "devjourney-portal.firebaseapp.com",
+            projectId: "devjourney-portal",
+            storageBucket: "devjourney-portal.firebasestorage.app",
+            messagingSenderId: "837161815919",
+            appId: "1:837161815919:web:5beaaa88b865bd8c60e29a"
+        };
 
-// AUTH
-let authMode='signin';
-document.getElementById('auth-toggle-link').onclick=()=>{
-  authMode=authMode==='signin'?'register':'signin';
-  document.getElementById('auth-title').innerHTML=authMode==='signin'?'Welcome <em>back.</em>':'Create <em>account.</em>';
-  document.getElementById('auth-sub').textContent=authMode==='signin'?'Sign in to continue your Python training':'Join the Dev Journey programme';
-  document.getElementById('auth-btn').textContent=authMode==='signin'?'Sign In':'Create Account';
-  document.getElementById('auth-toggle-text').textContent=authMode==='signin'?'No account?':'Already have one?';
-  document.getElementById('auth-toggle-link').textContent=authMode==='signin'?' Register here':' Sign In';
-  document.getElementById('name-field').style.display=authMode==='register'?'block':'none';
-  document.getElementById('auth-error').style.display='none';
-};
-document.getElementById('input-password').onkeydown=e=>{if(e.key==='Enter')doAuth();};
-document.getElementById('auth-btn').onclick=doAuth;
+        const INSTRUCTOR_EMAIL = "devjourney2006@gmail.com";
+        let EBOOK_URL = "https://drive.google.com/file/d/YOUR_FILE_ID/preview";
+        let EBOOK_TITLE = "Python for Absolute Beginners — Book 1";
+        const CHAPTERS = [
+            "Chapter 1 — How Computers Think",
+            "Chapter 2 — Variables and Data Types",
+            "Chapter 3 — User Input",
+            "Chapter 4 — Making Decisions: Conditionals",
+            "Chapter 5 — Repeating Actions: Loops",
+            "Chapter 6 — Organising Data: Lists",
+            "Chapter 7 — Reusable Code: Functions",
+            "Final Project — Student Grading System"
+        ];
 
-async function doAuth(){
-  const email=document.getElementById('input-email').value.trim();
-  const password=document.getElementById('input-password').value;
-  const name=document.getElementById('input-name').value.trim();
-  const errEl=document.getElementById('auth-error');
-  errEl.style.display='none';
-  if(!email||!password){errEl.textContent='Please fill in all fields.';errEl.style.display='block';return;}
-  document.getElementById('auth-btn').textContent='Please wait...';
-  try{
-    if(authMode==='register'){
-      if(!name){errEl.textContent='Please enter your name.';errEl.style.display='block';document.getElementById('auth-btn').textContent='Create Account';return;}
-      const cred=await auth.createUserWithEmailAndPassword(email,password);
-      await db.collection('users').doc(cred.user.uid).set({
-        name,email,role:email===INSTRUCTOR_EMAIL?'admin':'student',
-        joinedAt:firebase.firestore.FieldValue.serverTimestamp(),
-        banned:false,progress:0,chaptersCompleted:[]
-      });
-    }else{
-      await auth.signInWithEmailAndPassword(email,password);
-    }
-  }catch(e){
-    let msg='Something went wrong. Try again.';
-    if(e.code==='auth/user-not-found'||e.code==='auth/wrong-password')msg='Invalid email or password.';
-    if(e.code==='auth/email-already-in-use')msg='This email is already registered.';
-    if(e.code==='auth/weak-password')msg='Password must be at least 6 characters.';
-    if(e.code==='auth/invalid-email')msg='Please enter a valid email address.';
-    errEl.textContent=msg;errEl.style.display='block';
-    document.getElementById('auth-btn').textContent=authMode==='signin'?'Sign In':'Create Account';
-  }
-}
+        firebase.initializeApp(FIREBASE_CONFIG);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        let currentUser = null, isAdmin = false, unsubscribers = [];
+        // ──────────────────────────────
+        // PYTHON ENGINE (Pyodide)
+        // ──────────────────────────────
+        let pyodide = null;
+        let pyodideReady = false;
 
-auth.onAuthStateChanged(async user=>{
-  if(user){
-    const doc=await db.collection('users').doc(user.uid).get();
-    if(!doc.exists){auth.signOut();return;}
-    const data=doc.data();
-    if(data.banned){auth.signOut();showToast('Your access has been revoked.','error');return;}
-    currentUser={uid:user.uid,...data};
-    isAdmin=data.role==='admin'||user.email===INSTRUCTOR_EMAIL;
-    document.getElementById('auth-screen').style.display='none';
-    document.getElementById('app').classList.add('show');
-    document.getElementById('user-avatar').textContent=initials(data.name);
-    document.getElementById('user-name-display').textContent=data.name;
-    document.getElementById('user-role-display').textContent=isAdmin?'INSTRUCTOR':'STUDENT';
-    document.getElementById('signout-btn').onclick=()=>{unsubscribers.forEach(u=>u());auth.signOut();};
-    buildNav();
-    navigateTo(isAdmin?'overview':'dashboard');
-  }else{
-    currentUser=null;isAdmin=false;
-    document.getElementById('auth-screen').style.display='flex';
-    document.getElementById('app').classList.remove('show');
-    document.getElementById('auth-btn').textContent='Sign In';
-  }
-});
+        async function initPython() {
+            pyodide = await loadPyodide();
+            pyodideReady = true;
+        }
 
-// NAV
-const STUDENT_NAV=[
-  {id:'dashboard',icon:'⊞',label:'Dashboard'},
-  {id:'syllabus',icon:'☑',label:'My Progress'},
-  {id:'lessons',icon:'▶',label:'Lessons'},
-  {id:'ebook',icon:'◫',label:'Ebook'},
-  {id:'exercises',icon:'✎',label:'Exercises'},
-  {id:'qa',icon:'◯',label:'Q & A'},
-];
-const ADMIN_NAV=[
-  {id:'overview',icon:'⊞',label:'Overview'},
-  {id:'students',icon:'◎',label:'Students'},
-  {id:'content',icon:'◈',label:'Content'},
-  {id:'grading',icon:'✎',label:'Grading'},
-  {id:'qa',icon:'◯',label:'Q & A'},
-];
+        initPython();
 
-function buildNav(){
-  const nav=document.getElementById('sidebar-nav');
-  const items=isAdmin?ADMIN_NAV:STUDENT_NAV;
-  nav.innerHTML=`
-    <div class="nav-section-label">${isAdmin?'Instructor':'Learning'}</div>
-    ${items.map(i=>`
+        async function runPython(code, exId) {
+            const output = document.getElementById(`py-output-${exId}`);
+            if (!output) return;
+
+            if (!pyodideReady) {
+                output.textContent = 'Python is still loading...';
+                return;
+            }
+
+            output.style.color = 'var(--lime)';
+            output.textContent = '';
+
+            const wrappedCode = `
+import sys
+from io import StringIO
+
+_buf = StringIO()
+sys.stdout = _buf
+sys.stderr = _buf
+
+try:
+${code.split('\n').map(l => '    ' + l).join('\n')}
+except Exception as e:
+    print(e)
+
+sys.stdout = sys.__stdout__
+sys.stderr = sys.__stderr__
+
+_buf.getvalue()
+`;
+
+            try {
+                const result = await pyodide.runPythonAsync(wrappedCode);
+                output.textContent = result || '';
+            } catch (err) {
+                output.textContent = err.toString();
+                output.style.color = '#f06858';
+            }
+        }
+
+        function showToast(msg, type = 'success') {
+            const t = document.getElementById('toast');
+            t.textContent = msg; t.className = `toast show ${type}`;
+            setTimeout(() => t.className = 'toast', 2600);
+        }
+        function timeAgo(ts) {
+            if (!ts) return '';
+            const d = ts.toDate ? ts.toDate() : new Date(ts);
+            const diff = (Date.now() - d.getTime()) / 1000;
+            if (diff < 60) return 'just now';
+            if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+            if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+            return d.toLocaleDateString();
+        }
+        function formatDate(ts) {
+            if (!ts) return '';
+            const d = ts.toDate ? ts.toDate() : new Date(ts);
+            return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+        function initials(name) {
+            if (!name) return '?';
+            return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+        }
+        function copyLessonCode(id) {
+            navigator.clipboard.writeText(document.getElementById(`lesson-code-${id}`).innerText);
+            showToast('Copied!');
+        }
+        function openSidebar() {
+            document.getElementById('sidebar').classList.add('open');
+            document.getElementById('sidebar-overlay').classList.add('show');
+        }
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebar-overlay').classList.remove('show');
+        }
+
+        // AUTH
+        let authMode = 'signin';
+        document.getElementById('auth-toggle-link').onclick = () => {
+            authMode = authMode === 'signin' ? 'register' : 'signin';
+            document.getElementById('auth-title').innerHTML = authMode === 'signin' ? 'Welcome <em>back.</em>' : 'Create <em>account.</em>';
+            document.getElementById('auth-sub').textContent = authMode === 'signin' ? 'Sign in to continue your Python training' : 'Join the Dev Journey programme';
+            document.getElementById('auth-btn').textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
+            document.getElementById('auth-toggle-text').textContent = authMode === 'signin' ? 'No account?' : 'Already have one?';
+            document.getElementById('auth-toggle-link').textContent = authMode === 'signin' ? ' Register here' : ' Sign In';
+            document.getElementById('name-field').style.display = authMode === 'register' ? 'block' : 'none';
+            document.getElementById('auth-error').style.display = 'none';
+        };
+        document.getElementById('input-password').onkeydown = e => { if (e.key === 'Enter') doAuth(); };
+        document.getElementById('auth-btn').onclick = doAuth;
+
+        async function doAuth() {
+            const email = document.getElementById('input-email').value.trim();
+            const password = document.getElementById('input-password').value;
+            const name = document.getElementById('input-name').value.trim();
+            const errEl = document.getElementById('auth-error');
+            errEl.style.display = 'none';
+            if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; return; }
+            document.getElementById('auth-btn').textContent = 'Please wait...';
+            try {
+                if (authMode === 'register') {
+                    if (!name) { errEl.textContent = 'Please enter your name.'; errEl.style.display = 'block'; document.getElementById('auth-btn').textContent = 'Create Account'; return; }
+                    const cred = await auth.createUserWithEmailAndPassword(email, password);
+                    await db.collection('users').doc(cred.user.uid).set({
+                        name, email, role: email === INSTRUCTOR_EMAIL ? 'admin' : 'student',
+                        joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        banned: false, progress: 0, chaptersCompleted: []
+                    });
+                } else {
+                    await auth.signInWithEmailAndPassword(email, password);
+                }
+            } catch (e) {
+                let msg = 'Something went wrong. Try again.';
+                if (e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password') msg = 'Invalid email or password.';
+                if (e.code === 'auth/email-already-in-use') msg = 'This email is already registered.';
+                if (e.code === 'auth/weak-password') msg = 'Password must be at least 6 characters.';
+                if (e.code === 'auth/invalid-email') msg = 'Please enter a valid email address.';
+                errEl.textContent = msg; errEl.style.display = 'block';
+                document.getElementById('auth-btn').textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
+            }
+        }
+
+        auth.onAuthStateChanged(async user => {
+            if (user) {
+                const doc = await db.collection('users').doc(user.uid).get();
+                if (!doc.exists) { auth.signOut(); return; }
+                const data = doc.data();
+                if (data.banned) { auth.signOut(); showToast('Your access has been revoked.', 'error'); return; }
+                currentUser = { uid: user.uid, ...data };
+                isAdmin = data.role === 'admin' || user.email === INSTRUCTOR_EMAIL;
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('app').classList.add('show');
+                document.getElementById('user-avatar').textContent = initials(data.name);
+                document.getElementById('user-name-display').textContent = data.name;
+                document.getElementById('user-role-display').textContent = isAdmin ? 'INSTRUCTOR' : 'STUDENT';
+                document.getElementById('signout-btn').onclick = () => { unsubscribers.forEach(u => u()); auth.signOut(); };
+                buildNav();
+                navigateTo(isAdmin ? 'overview' : 'dashboard');
+            } else {
+                currentUser = null; isAdmin = false;
+                document.getElementById('auth-screen').style.display = 'flex';
+                document.getElementById('app').classList.remove('show');
+                document.getElementById('auth-btn').textContent = 'Sign In';
+            }
+        });
+
+        // NAV
+        const STUDENT_NAV = [
+            { id: 'dashboard', icon: '⊞', label: 'Dashboard' },
+            { id: 'syllabus', icon: '☑', label: 'My Progress' },
+            { id: 'lessons', icon: '▶', label: 'Lessons' },
+            { id: 'ebook', icon: '◫', label: 'Ebook' },
+            { id: 'exercises', icon: '✎', label: 'Exercises' },
+            { id: 'practice', icon: '⌨', label: 'Practice Lab' },
+            { id: 'qa', icon: '◯', label: 'Q & A' }
+        ];
+        const ADMIN_NAV = [
+            { id: 'overview', icon: '⊞', label: 'Overview' },
+            { id: 'students', icon: '◎', label: 'Students' },
+            { id: 'content', icon: '◈', label: 'Content' },
+            { id: 'grading', icon: '✎', label: 'Grading' },
+            { id: 'qa', icon: '◯', label: 'Q & A' },
+        ];
+
+        function buildNav() {
+            const nav = document.getElementById('sidebar-nav');
+            const items = isAdmin ? ADMIN_NAV : STUDENT_NAV;
+            nav.innerHTML = `
+    <div class="nav-section-label">${isAdmin ? 'Instructor' : 'Learning'}</div>
+    ${items.map(i => `
       <button class="nav-item" data-page="${i.id}" onclick="navigateTo('${i.id}');closeSidebar()">
         <div class="nav-icon-wrap">${i.icon}</div>
         ${i.label}
       </button>`).join('')}`;
-}
+        }
 
-function navigateTo(page){
-  document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.page===page));
-  unsubscribers.forEach(u=>u());unsubscribers=[];
-  const main=document.getElementById('main-content');
-  main.innerHTML=`<div class="loading-screen"><div class="spin"></div><span>Loading…</span></div>`;
-  main.scrollTop=0;
-  const map={
-    dashboard:renderStudentDashboard,
-    syllabus:renderSyllabus,
-    lessons:renderLessons,
-    ebook:renderEbook,
-    exercises:renderExercises,
-    overview:renderAdminOverview,
-    students:renderAdminStudents,
-    content:renderAdminContent,
-    grading:renderAdminGrading,
-    qa:()=>renderQA(isAdmin)
-  };
-  if(map[page])map[page]();
-}
+        function navigateTo(page) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.toggle('active', el.dataset.page === page));
+            unsubscribers.forEach(u => u()); unsubscribers = [];
+            const main = document.getElementById('main-content');
+            main.innerHTML = `<div class="loading-screen"><div class="spin"></div><span>Loading…</span></div>`;
+            main.scrollTop = 0;
+            const map = {
+                dashboard: renderStudentDashboard,
+                syllabus: renderSyllabus,
+                lessons: renderLessons,
+                ebook: renderEbook,
+                exercises: renderExercises,
+                overview: renderAdminOverview,
+                students: renderAdminStudents,
+                content: renderAdminContent,
+                grading: renderAdminGrading,
+                practice: renderPracticeLab,
+                qa: () => renderQA(isAdmin)
+            };
+            if (map[page]) map[page]();
+        }
 
-// ── STUDENT: DASHBOARD ──
-async function renderStudentDashboard(){
-  const main=document.getElementById('main-content');
-  const unsub=db.collection('announcements').orderBy('createdAt','desc').limit(4).onSnapshot(snap=>{
-    const anns=snap.docs.map(d=>({id:d.id,...d.data()}));
-    db.collection('users').doc(currentUser.uid).get().then(doc=>{
-      const data=doc.data();
-      const progress=data.progress||0;
-      const chapsDone=(data.chaptersCompleted||[]).length;
-      const nextChap=CHAPTERS.find((_,i)=>!(data.chaptersCompleted||[]).includes(i));
-      main.innerHTML=`
+        // ── STUDENT: DASHBOARD ──
+        async function renderStudentDashboard() {
+            const main = document.getElementById('main-content');
+            const unsub = db.collection('announcements').orderBy('createdAt', 'desc').limit(4).onSnapshot(snap => {
+                const anns = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                db.collection('users').doc(currentUser.uid).get().then(doc => {
+                    const data = doc.data();
+                    const progress = data.progress || 0;
+                    const chapsDone = (data.chaptersCompleted || []).length;
+                    const nextChap = CHAPTERS.find((_, i) => !(data.chaptersCompleted || []).includes(i));
+                    main.innerHTML = `
         <div class="ph">
           <div class="ph-eyebrow">Dashboard</div>
           <div class="ph-title">Hey, ${data.name.split(' ')[0]} 👋</div>
@@ -873,17 +1967,17 @@ async function renderStudentDashboard(){
                 </div>
                 <div class="prog-track"><div class="prog-fill" style="width:${progress}%"></div></div>
               </div>
-              ${nextChap?`<div style="margin-top:.75rem;padding:.6rem .85rem;background:var(--bg3);border-radius:var(--r);border:1px solid var(--border);font-size:12px;color:var(--muted2)">
+              ${nextChap ? `<div style="margin-top:.75rem;padding:.6rem .85rem;background:var(--bg3);border-radius:var(--r);border:1px solid var(--border);font-size:12px;color:var(--muted2)">
                 <span style="color:var(--lime);font-family:var(--mono);font-size:10px;display:block;margin-bottom:2px">UP NEXT</span>
                 ${nextChap}
-              </div>`:`<div style="margin-top:.75rem;font-size:12px;color:var(--lime)">🎉 Course complete! Well done.</div>`}
+              </div>`: `<div style="margin-top:.75rem;font-size:12px;color:var(--lime)">🎉 Course complete! Well done.</div>`}
             </div>
           </div>
           <div>
             <div class="card">
               <div class="card-label">Announcements</div>
-              ${anns.length===0?`<div class="empty" style="padding:1rem 0"><div class="empty-icon">📢</div>Nothing yet</div>`:
-              anns.map(a=>`
+              ${anns.length === 0 ? `<div class="empty" style="padding:1rem 0"><div class="empty-icon">📢</div>Nothing yet</div>` :
+                            anns.map(a => `
                 <div class="ann">
                   <div class="ann-top">
                     <span class="ann-tag">Announcement</span>
@@ -894,19 +1988,86 @@ async function renderStudentDashboard(){
             </div>
           </div>
         </div>`;
-    });
-  });
-  unsubscribers.push(unsub);
-}
+                });
+            });
+            unsubscribers.push(unsub);
+        }
+        function renderPracticeLab() {
+            const main = document.getElementById('main-content');
 
-// ── STUDENT: SYLLABUS ──
-function renderSyllabus(){
-  const main=document.getElementById('main-content');
-  const unsub=db.collection('users').doc(currentUser.uid).onSnapshot(doc=>{
-    const data=doc.data();
-    const completed=data.chaptersCompleted||[];
-    const progress=Math.round((completed.length/CHAPTERS.length)*100);
-    main.innerHTML=`
+            main.innerHTML = `
+        <div class="ph">
+            <div class="ph-eyebrow">Practice</div>
+            <div class="ph-title">Python Practice Lab</div>
+            <div class="ph-sub">
+                Experiment freely. Code here is not graded and is not saved.
+            </div>
+        </div>
+
+        <div class="card">
+            <textarea id="practice-editor">
+# Try anything here
+# Example:
+
+for i in range(1, 6):
+    print(i)
+            </textarea>
+
+            <div style="display:flex; gap:.5rem; margin-top:.75rem">
+                <button class="btn-submit" id="practice-run">▶ Run Code</button>
+                <button class="btn-submit" id="practice-clear">🧹 Clear Output</button>
+            </div>
+
+            <div
+                id="py-output-practice"
+                style="
+                    margin-top:.75rem;
+                    background:#0c0c10;
+                    border:1px solid var(--border);
+                    border-radius:var(--r);
+                    padding:.6rem;
+                    font-family:var(--mono);
+                    font-size:12px;
+                    min-height:100px;
+                    color:var(--lime);
+                    white-space:pre-wrap;
+                    overflow:auto;
+                ">
+            </div>
+        </div>
+    `;
+
+            // ✅ CodeMirror editor
+            const editor = CodeMirror.fromTextArea(
+                document.getElementById('practice-editor'),
+                {
+                    mode: "python",
+                    lineNumbers: true,
+                    indentUnit: 4,
+                    tabSize: 4,
+                    theme: "default"
+                }
+            );
+
+            // ✅ Run code
+            document.getElementById('practice-run').onclick = () => {
+                runPython(editor.getValue(), 'practice');
+            };
+
+            // ✅ Clear output
+            document.getElementById('practice-clear').onclick = () => {
+                document.getElementById('py-output-practice').textContent = '';
+            };
+        }
+
+        // ── STUDENT: SYLLABUS ──
+        function renderSyllabus() {
+            const main = document.getElementById('main-content');
+            const unsub = db.collection('users').doc(currentUser.uid).onSnapshot(doc => {
+                const data = doc.data();
+                const completed = data.chaptersCompleted || [];
+                const progress = Math.round((completed.length / CHAPTERS.length) * 100);
+                main.innerHTML = `
       <div class="ph">
         <div class="ph-eyebrow">Syllabus</div>
         <div class="ph-title">Course Progress</div>
@@ -926,62 +2087,62 @@ function renderSyllabus(){
       </div>
       <div class="card">
         <div class="card-label">Chapters</div>
-        ${CHAPTERS.map((ch,i)=>{
-          const done=completed.includes(i);
-          return`<div class="ch-item" onclick="toggleChapter(${i})">
-            <div class="ch-box ${done?'done':''}"></div>
-            <div class="ch-name ${done?'done':''}">${ch}</div>
-            <div class="ch-num">0${i+1}</div>
+        ${CHAPTERS.map((ch, i) => {
+                    const done = completed.includes(i);
+                    return `<div class="ch-item" onclick="toggleChapter(${i})">
+            <div class="ch-box ${done ? 'done' : ''}"></div>
+            <div class="ch-name ${done ? 'done' : ''}">${ch}</div>
+            <div class="ch-num">0${i + 1}</div>
           </div>`;
-        }).join('')}
+                }).join('')}
       </div>`;
-  });
-  unsubscribers.push(unsub);
-}
+            });
+            unsubscribers.push(unsub);
+        }
 
-async function toggleChapter(idx){
-  const docRef=db.collection('users').doc(currentUser.uid);
-  const doc=await docRef.get();
-  const completed=doc.data().chaptersCompleted||[];
-  const updated=completed.includes(idx)?completed.filter(i=>i!==idx):[...completed,idx];
-  await docRef.update({chaptersCompleted:updated,progress:Math.round((updated.length/CHAPTERS.length)*100)});
-  showToast(updated.includes(idx)?`Chapter ${idx+1} marked complete ✓`:'Chapter unmarked');
-}
+        async function toggleChapter(idx) {
+            const docRef = db.collection('users').doc(currentUser.uid);
+            const doc = await docRef.get();
+            const completed = doc.data().chaptersCompleted || [];
+            const updated = completed.includes(idx) ? completed.filter(i => i !== idx) : [...completed, idx];
+            await docRef.update({ chaptersCompleted: updated, progress: Math.round((updated.length / CHAPTERS.length) * 100) });
+            showToast(updated.includes(idx) ? `Chapter ${idx + 1} marked complete ✓` : 'Chapter unmarked');
+        }
 
-// ── STUDENT: LESSONS ──
-function renderLessons(){
-  const main=document.getElementById('main-content');
-  const unsub=db.collection('lessons').orderBy('createdAt','desc').onSnapshot(snap=>{
-    const lessons=snap.docs.map(d=>({id:d.id,...d.data()}));
-    main.innerHTML=`
+        // ── STUDENT: LESSONS ──
+        function renderLessons() {
+            const main = document.getElementById('main-content');
+            const unsub = db.collection('lessons').orderBy('createdAt', 'desc').onSnapshot(snap => {
+                const lessons = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                main.innerHTML = `
       <div class="ph">
         <div class="ph-eyebrow">Lessons</div>
         <div class="ph-title">Python Lessons</div>
         <div class="ph-sub">Watch → Read → Practice</div>
       </div>
-      ${lessons.length===0?`<div class="empty"><div class="empty-icon">▶</div>No lessons uploaded yet</div>`:
-      lessons.map(l=>`
+      ${lessons.length === 0 ? `<div class="empty"><div class="empty-icon">▶</div>No lessons uploaded yet</div>` :
+                        lessons.map(l => `
         <div class="lesson-card">
           <div class="lesson-card-head"><div class="lesson-card-title">${l.title}</div></div>
           <div class="lesson-video-wrap"><iframe src="${l.videoUrl}" allowfullscreen></iframe></div>
-          ${l.codeSample?`<div class="lesson-code-wrap">
+          ${l.codeSample ? `<div class="lesson-code-wrap">
             <div class="lesson-code-hd">
               <span class="lesson-code-label">Python code</span>
               <button class="btn-submit" onclick="copyLessonCode('${l.id}')">Copy</button>
             </div>
             <pre><code id="lesson-code-${l.id}">${l.codeSample}</code></pre>
-          </div>`:``}
+          </div>`: ``}
         </div>`).join('')}`;
-  });
-  unsubscribers.push(unsub);
-}
+            });
+            unsubscribers.push(unsub);
+        }
 
-// ── STUDENT: EBOOK ──
-async function renderEbook(){
-  const main=document.getElementById('main-content');
-  const doc=await db.collection('settings').doc('ebook').get();
-  if(doc.exists){EBOOK_URL=doc.data().url||EBOOK_URL;EBOOK_TITLE=doc.data().title||EBOOK_TITLE;}
-  main.innerHTML=`
+        // ── STUDENT: EBOOK ──
+        async function renderEbook() {
+            const main = document.getElementById('main-content');
+            const doc = await db.collection('settings').doc('ebook').get();
+            if (doc.exists) { EBOOK_URL = doc.data().url || EBOOK_URL; EBOOK_TITLE = doc.data().title || EBOOK_TITLE; }
+            main.innerHTML = `
     <div class="ph">
       <div class="ph-eyebrow">Ebook</div>
       <div class="ph-title">Reading Room</div>
@@ -989,134 +2150,188 @@ async function renderEbook(){
     </div>
     <div class="notice-bar">⚠ For enrolled students only — do not share or distribute.</div>
     <iframe class="ebook-frame" src="${EBOOK_URL}" allowfullscreen></iframe>`;
-}
+        }
 
-// ── STUDENT: EXERCISES ──
-function renderExercises(){
-  const main=document.getElementById('main-content');
-  const unsub=db.collection('exercises').orderBy('createdAt','desc').onSnapshot(async snap=>{
-    const exercises=snap.docs.map(d=>({id:d.id,...d.data()}));
-    const subSnap=await db.collection('submissions').where('studentId','==',currentUser.uid).get();
-    const subs={};
-    subSnap.docs.forEach(d=>{subs[d.data().exerciseId]={id:d.id,...d.data()};});
-    if(exercises.length===0){
-      main.innerHTML=`<div class="ph"><div class="ph-title">Exercises</div></div><div class="empty"><div class="empty-icon">✎</div>No exercises posted yet</div>`;
-      return;
-    }
-    main.innerHTML=`
+        // ── STUDENT: EXERCISES ──
+        function renderExercises() {
+            const main = document.getElementById('main-content');
+            const unsub = db.collection('exercises').orderBy('createdAt', 'desc').onSnapshot(async snap => {
+                const exercises = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                const subSnap = await db.collection('submissions').where('studentId', '==', currentUser.uid).get();
+                const subs = {};
+                subSnap.docs.forEach(d => { subs[d.data().exerciseId] = { id: d.id, ...d.data() }; });
+                if (exercises.length === 0) {
+                    main.innerHTML = `<div class="ph"><div class="ph-title">Exercises</div></div><div class="empty"><div class="empty-icon">✎</div>No exercises posted yet</div>`;
+                    return;
+                }
+                main.innerHTML = `
       <div class="ph">
         <div class="ph-eyebrow">Tasks</div>
         <div class="ph-title">Exercises</div>
-        <div class="ph-sub">${exercises.length} task${exercises.length!==1?'s':''} posted</div>
+        <div class="ph-sub">${exercises.length} task${exercises.length !== 1 ? 's' : ''} posted</div>
       </div>
-      ${exercises.map(ex=>{
-        const sub=subs[ex.id];
-        const isGraded=sub&&sub.grade;
-        const isSubmitted=sub&&!sub.grade;
-        return`<div class="ex-card">
+      ${exercises.map(ex => {
+                    const sub = subs[ex.id];
+                    const isGraded = sub && sub.grade;
+                    const isSubmitted = sub && !sub.grade;
+                    return `<div class="ex-card">
           <div class="ex-hd">
             <div class="ex-title">${ex.title}</div>
-            ${ex.dueDate?`<div class="ex-due-pill">${formatDate(ex.dueDate)}</div>`:''}
+            ${ex.dueDate ? `<div class="ex-due-pill">${formatDate(ex.dueDate)}</div>` : ''}
           </div>
           <div class="ex-desc">${ex.description}</div>
-          ${isGraded?`
+          ${isGraded ? `
             <span class="ex-badge eb-graded">Graded</span>
             <div class="grade-box">
               <div class="grade-score">${sub.grade}</div>
-              <div class="grade-fb">${sub.feedback||'No feedback provided'}</div>
+              <div class="grade-fb">${sub.feedback || 'No feedback provided'}</div>
             </div>`:
-          isSubmitted?`
+                            isSubmitted ? `
             <span class="ex-badge eb-submitted">Submitted — awaiting grade</span>
-            <div style="font-size:11px;color:var(--muted);margin-top:.3rem">Your answer: ${sub.code||sub.replitLink||''}</div>`:
-          `<span class="ex-badge eb-pending">Not submitted</span>
-            <textarea class="code-input" id="code-${ex.id}" placeholder="Type your code or answer here..."></textarea>
+            <div style="font-size:11px;color:var(--muted);margin-top:.3rem">Your answer: ${sub.code || sub.replitLink || ''}</div>` :
+                                `<span class="ex-badge eb-pending">Not submitted</span>
+
+<textarea
+  class="code-input"
+  id="code-${ex.id}"
+  spellcheck="false"
+  rows="8"
+  oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"
+>
+print("Hello, DevJourney!")
+</textarea>
+
+<button
+  class="btn-submit"
+  onclick="runPython(document.getElementById('code-${ex.id}').value, '${ex.id}')">
+  ▶ Run Code
+</button>
+
+<div
+  id="py-output-${ex.id}"
+  style="
+    margin-top:.5rem;
+    background:#0c0c10;
+    border:1px solid var(--border);
+    border-radius:var(--r);
+    padding:.6rem;
+    font-family:var(--mono);
+    font-size:12px;
+    min-height:60px;
+    color:var(--lime);
+    white-space:pre-wrap;
+    overflow:auto;
+  ">
+</div>
+
+
             <input class="replit-inp" id="replit-${ex.id}" placeholder="Replit link (optional): https://replit.com/...">
             <button class="btn-submit" onclick="submitExercise('${ex.id}')">Submit</button>`}
         </div>`;
-      }).join('')}`;
-  });
-  unsubscribers.push(unsub);
-}
+                }).join('')}`;
+            });
+            unsubscribers.push(unsub);
+        }
 
-async function submitExercise(exId){
-  const code=document.getElementById(`code-${exId}`).value.trim();
-  const replitLink=document.getElementById(`replit-${exId}`).value.trim();
-  if(!code&&!replitLink){showToast('Please add your code or a Replit link','error');return;}
-  await db.collection('submissions').add({
-    exerciseId:exId,studentId:currentUser.uid,studentName:currentUser.name,
-    code,replitLink,submittedAt:firebase.firestore.FieldValue.serverTimestamp(),
-    grade:null,feedback:null
-  });
-  showToast('Submitted successfully!');
-}
+        async function submitExercise(exId) {
+            const code = document.getElementById(`code-${exId}`).value.trim();
+            const replitLink = document.getElementById(`replit-${exId}`).value.trim();
 
-// ── Q&A ──
-function renderQA(admin){
-  const main=document.getElementById('main-content');
-  const unsub=db.collection('questions').orderBy('createdAt','desc').onSnapshot(snap=>{
-    const questions=snap.docs.map(d=>({id:d.id,...d.data()}));
-    const unanswered=questions.filter(q=>!q.answer).length;
-    main.innerHTML=`
+            if (!code && !replitLink) {
+                showToast('Please add your code or a Replit link', 'error');
+                return;
+            }
+
+            const submissionId = `${currentUser.uid}_${exId}`;
+            const docRef = db.collection('submissions').doc(submissionId);
+
+            const existing = await docRef.get();
+            if (existing.exists) {
+                showToast('You have already submitted this exercise.', 'error');
+                return;
+            }
+
+            await docRef.set({
+                exerciseId: exId,
+                studentId: currentUser.uid,
+                studentName: currentUser.name,
+                code,
+                replitLink,
+                submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                grade: null,
+                feedback: null
+            });
+
+            showToast('Submitted successfully!');
+        }
+
+        // ── Q&A ──
+        function renderQA(admin) {
+            const main = document.getElementById('main-content');
+            const unsub = db.collection('questions').orderBy('createdAt', 'desc').onSnapshot(snap => {
+                const questions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                const unanswered = questions.filter(q => !q.answer).length;
+                main.innerHTML = `
       <div class="ph">
         <div class="ph-eyebrow">Q & A</div>
-        <div class="ph-title">Questions${admin&&unanswered>0?` <span style="font-size:13px;font-family:var(--mono);color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-border);padding:2px 10px;border-radius:20px;vertical-align:middle">${unanswered}</span>`:''}</div>
-        <div class="ph-sub">${admin?'Answer student questions':'Ask anything about the course'}</div>
+        <div class="ph-title">Questions${admin && unanswered > 0 ? ` <span style="font-size:13px;font-family:var(--mono);color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-border);padding:2px 10px;border-radius:20px;vertical-align:middle">${unanswered}</span>` : ''}</div>
+        <div class="ph-sub">${admin ? 'Answer student questions' : 'Ask anything about the course'}</div>
       </div>
-      ${!admin?`
+      ${!admin ? `
         <div class="card">
           <div class="card-label">Ask a question</div>
           <div class="ff"><textarea id="qa-question-input" placeholder="What's confusing you? No question is too basic…"></textarea></div>
           <button class="btn-action" onclick="submitQuestion()">Ask question</button>
-        </div>`:``}
+        </div>`: ``}
       <div class="card">
         <div class="card-label">Questions</div>
-        ${questions.length===0?`<div class="empty" style="padding:1.5rem 0"><div class="empty-icon">◯</div>No questions yet</div>`:
-        questions.map(q=>`
+        ${questions.length === 0 ? `<div class="empty" style="padding:1.5rem 0"><div class="empty-icon">◯</div>No questions yet</div>` :
+                        questions.map(q => `
           <div class="qa-item">
-            <div class="qa-q">${q.question}${!q.answer?`<span class="unans-tag">unanswered</span>`:''}</div>
+            <div class="qa-q">${q.question}${!q.answer ? `<span class="unans-tag">unanswered</span>` : ''}</div>
             <div class="qa-meta">${q.studentName} · ${timeAgo(q.createdAt)}</div>
-            ${q.answer?`
+            ${q.answer ? `
               <div class="qa-ans">
                 <div class="qa-ans-label">Instructor's answer</div>
                 ${q.answer}
               </div>`:
-            admin?`
+                                admin ? `
               <div style="display:flex;gap:.4rem;margin-top:.5rem">
                 <textarea id="ans-${q.id}" style="flex:1;background:var(--bg4);border:1px solid var(--border);border-radius:var(--r);padding:.45rem;color:var(--text);font-family:var(--sans);font-size:12px;outline:none;resize:none;height:56px" placeholder="Write your answer…"></textarea>
                 <button class="btn-grade" onclick="answerQuestion('${q.id}')">Answer</button>
               </div>`:
-            `<div class="qa-no-ans">Waiting for answer…</div>`}
+                                    `<div class="qa-no-ans">Waiting for answer…</div>`}
           </div>`).join('')}
       </div>`;
-  });
-  unsubscribers.push(unsub);
-}
-async function submitQuestion(){
-  const q=document.getElementById('qa-question-input').value.trim();
-  if(!q){showToast('Please type your question','error');return;}
-  await db.collection('questions').add({
-    question:q,studentId:currentUser.uid,studentName:currentUser.name,
-    createdAt:firebase.firestore.FieldValue.serverTimestamp(),answer:null
-  });
-  showToast('Question submitted!');
-}
-async function answerQuestion(qId){
-  const ans=document.getElementById(`ans-${qId}`).value.trim();
-  if(!ans){showToast('Please write an answer','error');return;}
-  await db.collection('questions').doc(qId).update({answer:ans});
-  showToast('Answer posted!');
-}
+            });
+            unsubscribers.push(unsub);
+        }
+        async function submitQuestion() {
+            const q = document.getElementById('qa-question-input').value.trim();
+            if (!q) { showToast('Please type your question', 'error'); return; }
+            await db.collection('questions').add({
+                question: q, studentId: currentUser.uid, studentName: currentUser.name,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(), answer: null
+            });
+            showToast('Question submitted!');
+        }
+        async function answerQuestion(qId) {
+            const ans = document.getElementById(`ans-${qId}`).value.trim();
+            if (!ans) { showToast('Please write an answer', 'error'); return; }
+            await db.collection('questions').doc(qId).update({ answer: ans });
+            showToast('Answer posted!');
+        }
 
-// ── ADMIN: OVERVIEW ──
-function renderAdminOverview(){
-  const main=document.getElementById('main-content');
-  const unsub=db.collection('users').where('role','==','student').onSnapshot(async snap=>{
-    const students=snap.docs.map(d=>d.data());
-    const exSnap=await db.collection('exercises').get();
-    const subSnap=await db.collection('submissions').where('grade','==',null).get();
-    const qSnap=await db.collection('questions').where('answer','==',null).get();
-    const avgProgress=students.length>0?Math.round(students.reduce((s,st)=>s+(st.progress||0),0)/students.length):0;
-    main.innerHTML=`
+        // ── ADMIN: OVERVIEW ──
+        function renderAdminOverview() {
+            const main = document.getElementById('main-content');
+            const unsub = db.collection('users').where('role', '==', 'student').onSnapshot(async snap => {
+                const students = snap.docs.map(d => d.data());
+                const exSnap = await db.collection('exercises').get();
+                const subSnap = await db.collection('submissions').where('grade', '==', null).get();
+                const qSnap = await db.collection('questions').where('answer', '==', null).get();
+                const avgProgress = students.length > 0 ? Math.round(students.reduce((s, st) => s + (st.progress || 0), 0) / students.length) : 0;
+                main.innerHTML = `
       <div class="ph">
         <div class="ph-eyebrow">Admin</div>
         <div class="ph-title">Overview</div>
@@ -1140,25 +2355,25 @@ function renderAdminOverview(){
           <div class="stat-lbl">Avg. progress</div>
         </div>
       </div>
-      ${qSnap.size>0?`
+      ${qSnap.size > 0 ? `
         <div class="alert-card">
           <div>
-            <div class="ac-text">${qSnap.size} unanswered question${qSnap.size!==1?'s':''}</div>
+            <div class="ac-text">${qSnap.size} unanswered question${qSnap.size !== 1 ? 's' : ''}</div>
             <div class="ac-sub">Students are waiting for your response</div>
           </div>
           <button class="btn-action" onclick="navigateTo('qa')">Go to Q&A →</button>
-        </div>`:``}
+        </div>`: ``}
       <div class="overview-grid">
         <div class="card">
           <div class="card-label">Student progress</div>
-          ${students.length===0?'<div class="empty" style="padding:1rem 0">No students yet</div>':
-          students.map(s=>`
+          ${students.length === 0 ? '<div class="empty" style="padding:1rem 0">No students yet</div>' :
+                        students.map(s => `
             <div style="margin-bottom:.875rem">
               <div style="display:flex;justify-content:space-between;margin-bottom:5px">
                 <span style="font-size:13px;color:var(--text2)">${s.name}</span>
-                <span style="font-size:11px;font-family:var(--mono);color:var(--lime)">${s.progress||0}%</span>
+                <span style="font-size:11px;font-family:var(--mono);color:var(--lime)">${s.progress || 0}%</span>
               </div>
-              <div class="prog-track"><div class="prog-fill" style="width:${s.progress||0}%"></div></div>
+              <div class="prog-track"><div class="prog-fill" style="width:${s.progress || 0}%"></div></div>
             </div>`).join('')}
         </div>
         <div>
@@ -1172,48 +2387,48 @@ function renderAdminOverview(){
           </div>
         </div>
       </div>`;
-  });
-  unsubscribers.push(unsub);
-}
+            });
+            unsubscribers.push(unsub);
+        }
 
-// ── ADMIN: STUDENTS ──
-function renderAdminStudents(){
-  const main=document.getElementById('main-content');
-  const unsub=db.collection('users').where('role','==','student').onSnapshot(snap=>{
-    const students=snap.docs.map(d=>({id:d.id,...d.data()}));
-    main.innerHTML=`
+        // ── ADMIN: STUDENTS ──
+        function renderAdminStudents() {
+            const main = document.getElementById('main-content');
+            const unsub = db.collection('users').where('role', '==', 'student').onSnapshot(snap => {
+                const students = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                main.innerHTML = `
       <div class="ph">
         <div class="ph-eyebrow">Students</div>
         <div class="ph-title">Enrolled Students</div>
         <div class="ph-sub">${students.length} enrolled</div>
       </div>
       <div class="card">
-        ${students.length===0?`<div class="empty"><div class="empty-icon">◎</div>No students yet</div>`:
-        students.map(s=>`
+        ${students.length === 0 ? `<div class="empty"><div class="empty-icon">◎</div>No students yet</div>` :
+                        students.map(s => `
           <div class="student-row">
             <div class="s-avatar">${initials(s.name)}</div>
             <div class="s-info">
-              <div class="s-name">${s.name}${s.banned?'<span class="banned-badge">BANNED</span>':''}</div>
+              <div class="s-name">${s.name}${s.banned ? '<span class="banned-badge">BANNED</span>' : ''}</div>
               <div class="s-email">${s.email}</div>
-              <div class="s-joined">Joined ${formatDate(s.joinedAt)} · ${s.progress||0}% complete</div>
+              <div class="s-joined">Joined ${formatDate(s.joinedAt)} · ${s.progress || 0}% complete</div>
             </div>
-            ${s.banned?`<button class="btn-unban" onclick="banStudent('${s.id}',false)">Unban</button>`:
-            `<button class="btn-ban" onclick="banStudent('${s.id}',true)">Ban</button>`}
+            ${s.banned ? `<button class="btn-unban" onclick="banStudent('${s.id}',false)">Unban</button>` :
+                                `<button class="btn-ban" onclick="banStudent('${s.id}',true)">Ban</button>`}
           </div>`).join('')}
       </div>`;
-  });
-  unsubscribers.push(unsub);
-}
-async function banStudent(uid,ban){
-  if(ban&&!confirm('Ban this student? They will be signed out immediately.'))return;
-  await db.collection('users').doc(uid).update({banned:ban});
-  showToast(ban?'Student banned':'Student unbanned');
-}
+            });
+            unsubscribers.push(unsub);
+        }
+        async function banStudent(uid, ban) {
+            if (ban && !confirm('Ban this student? They will be signed out immediately.')) return;
+            await db.collection('users').doc(uid).update({ banned: ban });
+            showToast(ban ? 'Student banned' : 'Student unbanned');
+        }
 
-// ── ADMIN: CONTENT ──
-function renderAdminContent(){
-  const main=document.getElementById('main-content');
-  main.innerHTML=`
+        // ── ADMIN: CONTENT ──
+        function renderAdminContent() {
+            const main = document.getElementById('main-content');
+            main.innerHTML = `
     <div class="ph">
       <div class="ph-eyebrow">Admin</div>
       <div class="ph-title">Content</div>
@@ -1226,20 +2441,20 @@ function renderAdminContent(){
       <button class="tab" onclick="showContentTab('ebook-ctrl',this)">Ebook</button>
     </div>
     <div id="content-tab"></div>`;
-  showContentTab('announcements',document.querySelector('.tab.active'));
-}
-function showContentTab(tab,el){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  if(tab==='announcements')renderAnnouncementsTab();
-  else if(tab==='tasks')renderTasksTab();
-  else if(tab==='lessons')renderLessonsAdmin();
-  else if(tab==='ebook-ctrl')renderEbookControlTab();
-}
-function renderAnnouncementsTab(){
-  const unsub=db.collection('announcements').orderBy('createdAt','desc').onSnapshot(snap=>{
-    const anns=snap.docs.map(d=>({id:d.id,...d.data()}));
-    document.getElementById('content-tab').innerHTML=`
+            showContentTab('announcements', document.querySelector('.tab.active'));
+        }
+        function showContentTab(tab, el) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            if (tab === 'announcements') renderAnnouncementsTab();
+            else if (tab === 'tasks') renderTasksTab();
+            else if (tab === 'lessons') renderLessonsAdmin();
+            else if (tab === 'ebook-ctrl') renderEbookControlTab();
+        }
+        function renderAnnouncementsTab() {
+            const unsub = db.collection('announcements').orderBy('createdAt', 'desc').onSnapshot(snap => {
+                const anns = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                document.getElementById('content-tab').innerHTML = `
       <div class="card">
         <div class="card-label">New announcement</div>
         <div class="ff"><textarea id="ann-text" placeholder="Write your announcement, session link, or reminder…"></textarea></div>
@@ -1247,8 +2462,8 @@ function renderAnnouncementsTab(){
       </div>
       <div class="card">
         <div class="card-label">Posted</div>
-        ${anns.length===0?`<div class="empty" style="padding:1rem 0">Nothing posted yet</div>`:
-        anns.map(a=>`
+        ${anns.length === 0 ? `<div class="empty" style="padding:1rem 0">Nothing posted yet</div>` :
+                        anns.map(a => `
           <div class="ann">
             <div class="ann-top">
               <span class="ann-time">${timeAgo(a.createdAt)}</span>
@@ -1257,23 +2472,23 @@ function renderAnnouncementsTab(){
             <div class="ann-text">${a.text}</div>
           </div>`).join('')}
       </div>`;
-  });
-  unsubscribers.push(unsub);
-}
-async function postAnnouncement(){
-  const text=document.getElementById('ann-text').value.trim();
-  if(!text){showToast('Please write something first','error');return;}
-  await db.collection('announcements').add({text,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-  document.getElementById('ann-text').value='';
-  showToast('Announcement broadcast!');
-}
-async function deleteAnnouncement(id){
-  await db.collection('announcements').doc(id).delete();showToast('Deleted');
-}
-function renderTasksTab(){
-  const unsub=db.collection('exercises').orderBy('createdAt','desc').onSnapshot(snap=>{
-    const exercises=snap.docs.map(d=>({id:d.id,...d.data()}));
-    document.getElementById('content-tab').innerHTML=`
+            });
+            unsubscribers.push(unsub);
+        }
+        async function postAnnouncement() {
+            const text = document.getElementById('ann-text').value.trim();
+            if (!text) { showToast('Please write something first', 'error'); return; }
+            await db.collection('announcements').add({ text, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+            document.getElementById('ann-text').value = '';
+            showToast('Announcement broadcast!');
+        }
+        async function deleteAnnouncement(id) {
+            await db.collection('announcements').doc(id).delete(); showToast('Deleted');
+        }
+        function renderTasksTab() {
+            const unsub = db.collection('exercises').orderBy('createdAt', 'desc').onSnapshot(snap => {
+                const exercises = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                document.getElementById('content-tab').innerHTML = `
       <div class="card">
         <div class="card-label">New exercise</div>
         <div class="ff"><label>Title</label><input type="text" id="ex-title" placeholder="e.g. Chapter 2 — Variables"></div>
@@ -1283,34 +2498,34 @@ function renderTasksTab(){
       </div>
       <div class="card">
         <div class="card-label">Posted exercises</div>
-        ${exercises.length===0?`<div class="empty" style="padding:1rem 0">No exercises yet</div>`:
-        exercises.map(ex=>`
+        ${exercises.length === 0 ? `<div class="empty" style="padding:1rem 0">No exercises yet</div>` :
+                        exercises.map(ex => `
           <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid var(--border)">
             <div>
               <div style="font-size:13px;font-weight:500;color:var(--text2)">${ex.title}</div>
-              <div style="font-size:11px;color:var(--muted);margin-top:2px">${ex.description.substring(0,70)}…</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">${ex.description.substring(0, 70)}…</div>
             </div>
             <button class="btn-icon" onclick="deleteExercise('${ex.id}')">✕</button>
           </div>`).join('')}
       </div>`;
-  });
-  unsubscribers.push(unsub);
-}
-async function postExercise(){
-  const title=document.getElementById('ex-title').value.trim();
-  const description=document.getElementById('ex-desc').value.trim();
-  const dueDateVal=document.getElementById('ex-due').value;
-  if(!title||!description){showToast('Please fill in title and instructions','error');return;}
-  const data={title,description,createdAt:firebase.firestore.FieldValue.serverTimestamp()};
-  if(dueDateVal)data.dueDate=firebase.firestore.Timestamp.fromDate(new Date(dueDateVal));
-  await db.collection('exercises').add(data);showToast('Exercise posted!');
-}
-async function deleteExercise(id){await db.collection('exercises').doc(id).delete();showToast('Deleted');}
-function renderLessonsAdmin(){
-  const tab=document.getElementById('content-tab');
-  const unsub=db.collection('lessons').orderBy('createdAt','desc').onSnapshot(snap=>{
-    const lessons=snap.docs.map(d=>({id:d.id,...d.data()}));
-    tab.innerHTML=`
+            });
+            unsubscribers.push(unsub);
+        }
+        async function postExercise() {
+            const title = document.getElementById('ex-title').value.trim();
+            const description = document.getElementById('ex-desc').value.trim();
+            const dueDateVal = document.getElementById('ex-due').value;
+            if (!title || !description) { showToast('Please fill in title and instructions', 'error'); return; }
+            const data = { title, description, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+            if (dueDateVal) data.dueDate = firebase.firestore.Timestamp.fromDate(new Date(dueDateVal));
+            await db.collection('exercises').add(data); showToast('Exercise posted!');
+        }
+        async function deleteExercise(id) { await db.collection('exercises').doc(id).delete(); showToast('Deleted'); }
+        function renderLessonsAdmin() {
+            const tab = document.getElementById('content-tab');
+            const unsub = db.collection('lessons').orderBy('createdAt', 'desc').onSnapshot(snap => {
+                const lessons = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                tab.innerHTML = `
       <div class="card">
         <div class="card-label">New lesson</div>
         <div class="ff"><label>Lesson Title</label><input id="lesson-title" placeholder="e.g. Python Loops"></div>
@@ -1320,51 +2535,51 @@ function renderLessonsAdmin(){
       </div>
       <div class="card">
         <div class="card-label">Uploaded lessons</div>
-        ${lessons.length===0?`<div class="empty" style="padding:1rem 0"><div class="empty-icon">▶</div>No lessons yet</div>`:
-        lessons.map(l=>`
+        ${lessons.length === 0 ? `<div class="empty" style="padding:1rem 0"><div class="empty-icon">▶</div>No lessons yet</div>` :
+                        lessons.map(l => `
           <div class="ex-card">
             <div class="ex-hd">
               <div class="ex-title">${l.title}</div>
               <button class="btn-icon" onclick="deleteLesson('${l.id}')">✕</button>
             </div>
             <div style="font-size:11px;color:var(--muted);margin-bottom:.5rem">${l.videoUrl}</div>
-            <button class="btn-submit" onclick="editLesson('${l.id}',\`${l.title}\`,\`${l.videoUrl}\`,\`${(l.codeSample||'').replace(/`/g,'\\`')}\`)">Edit</button>
+            <button class="btn-submit" onclick="editLesson('${l.id}',\`${l.title}\`,\`${l.videoUrl}\`,\`${(l.codeSample || '').replace(/`/g, '\\`')}\`)">Edit</button>
           </div>`).join('')}
       </div>`;
-  });
-  unsubscribers.push(unsub);
-}
-async function postLesson(){
-  const title=document.getElementById('lesson-title').value.trim();
-  const videoUrl=document.getElementById('lesson-video').value.trim();
-  const codeSample=document.getElementById('lesson-code').value.trim();
-  if(!title||!videoUrl){showToast('Title and video link are required','error');return;}
-  await db.collection('lessons').add({title,videoUrl,codeSample,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-  showToast('Lesson added ✓');
-}
-async function deleteLesson(id){
-  if(!confirm('Delete this lesson?'))return;
-  await db.collection('lessons').doc(id).delete();showToast('Deleted');
-}
-function editLesson(id,title,videoUrl,codeSample){
-  document.getElementById('lesson-title').value=title;
-  document.getElementById('lesson-video').value=videoUrl;
-  document.getElementById('lesson-code').value=codeSample;
-  const btn=document.querySelector('#content-tab .btn-action');
-  btn.textContent='Update lesson';
-  btn.onclick=async()=>{
-    await db.collection('lessons').doc(id).update({
-      title:document.getElementById('lesson-title').value.trim(),
-      videoUrl:document.getElementById('lesson-video').value.trim(),
-      codeSample:document.getElementById('lesson-code').value.trim()
-    });
-    showToast('Lesson updated ✓');
-    btn.textContent='Add lesson';
-    btn.onclick=postLesson;
-  };
-}
-function renderEbookControlTab(){
-  document.getElementById('content-tab').innerHTML=`
+            });
+            unsubscribers.push(unsub);
+        }
+        async function postLesson() {
+            const title = document.getElementById('lesson-title').value.trim();
+            const videoUrl = document.getElementById('lesson-video').value.trim();
+            const codeSample = document.getElementById('lesson-code').value.trim();
+            if (!title || !videoUrl) { showToast('Title and video link are required', 'error'); return; }
+            await db.collection('lessons').add({ title, videoUrl, codeSample, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+            showToast('Lesson added ✓');
+        }
+        async function deleteLesson(id) {
+            if (!confirm('Delete this lesson?')) return;
+            await db.collection('lessons').doc(id).delete(); showToast('Deleted');
+        }
+        function editLesson(id, title, videoUrl, codeSample) {
+            document.getElementById('lesson-title').value = title;
+            document.getElementById('lesson-video').value = videoUrl;
+            document.getElementById('lesson-code').value = codeSample;
+            const btn = document.querySelector('#content-tab .btn-action');
+            btn.textContent = 'Update lesson';
+            btn.onclick = async () => {
+                await db.collection('lessons').doc(id).update({
+                    title: document.getElementById('lesson-title').value.trim(),
+                    videoUrl: document.getElementById('lesson-video').value.trim(),
+                    codeSample: document.getElementById('lesson-code').value.trim()
+                });
+                showToast('Lesson updated ✓');
+                btn.textContent = 'Add lesson';
+                btn.onclick = postLesson;
+            };
+        }
+        function renderEbookControlTab() {
+            document.getElementById('content-tab').innerHTML = `
     <div class="card">
       <div class="card-label">Ebook settings</div>
       <div class="ff"><label>Book Title</label><input type="text" id="ebook-title-input" value="${EBOOK_TITLE}"></div>
@@ -1372,23 +2587,23 @@ function renderEbookControlTab(){
       <div style="font-size:11px;color:var(--muted);margin-bottom:.75rem">In Google Drive: right-click → Share → Copy link, then change /view to /preview</div>
       <button class="btn-action" onclick="updateEbook()">Save ebook settings</button>
     </div>`;
-}
-async function updateEbook(){
-  const url=document.getElementById('ebook-url-input').value.trim();
-  const title=document.getElementById('ebook-title-input').value.trim();
-  if(!url){showToast('Please enter a URL','error');return;}
-  await db.collection('settings').doc('ebook').set({url,title});
-  EBOOK_URL=url;EBOOK_TITLE=title;showToast('Ebook updated!');
-}
+        }
+        async function updateEbook() {
+            const url = document.getElementById('ebook-url-input').value.trim();
+            const title = document.getElementById('ebook-title-input').value.trim();
+            if (!url) { showToast('Please enter a URL', 'error'); return; }
+            await db.collection('settings').doc('ebook').set({ url, title });
+            EBOOK_URL = url; EBOOK_TITLE = title; showToast('Ebook updated!');
+        }
 
-// ── ADMIN: GRADING ──
-function renderAdminGrading(){
-  const main=document.getElementById('main-content');
-  const unsub=db.collection('submissions').orderBy('submittedAt','desc').onSnapshot(snap=>{
-    const subs=snap.docs.map(d=>({id:d.id,...d.data()}));
-    const pending=subs.filter(s=>!s.grade);
-    const graded=subs.filter(s=>s.grade);
-    main.innerHTML=`
+        // ── ADMIN: GRADING ──
+        function renderAdminGrading() {
+            const main = document.getElementById('main-content');
+            const unsub = db.collection('submissions').orderBy('submittedAt', 'desc').onSnapshot(snap => {
+                const subs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                const pending = subs.filter(s => !s.grade);
+                const graded = subs.filter(s => s.grade);
+                main.innerHTML = `
       <div class="ph">
         <div class="ph-eyebrow">Admin</div>
         <div class="ph-title">Grading</div>
@@ -1398,47 +2613,48 @@ function renderAdminGrading(){
         <button class="tab active" onclick="showGradingTab('pending',this)">Needs Marking (${pending.length})</button>
         <button class="tab" onclick="showGradingTab('graded',this)">Graded (${graded.length})</button>
       </div>
-      <div id="grading-tab">${renderSubmissions(pending,true)}</div>`;
-    window._pendingSubs=pending;window._gradedSubs=graded;
-  });
-  unsubscribers.push(unsub);
-}
-function showGradingTab(tab,el){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('grading-tab').innerHTML=renderSubmissions(
-    tab==='pending'?window._pendingSubs:window._gradedSubs,tab==='pending'
-  );
-}
-function renderSubmissions(subs,showInput){
-  if(subs.length===0)return`<div class="empty"><div class="empty-icon">✓</div>Nothing here</div>`;
-  return subs.map(s=>`
+      <div id="grading-tab">${renderSubmissions(pending, true)}</div>`;
+                window._pendingSubs = pending; window._gradedSubs = graded;
+            });
+            unsubscribers.push(unsub);
+        }
+        function showGradingTab(tab, el) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('grading-tab').innerHTML = renderSubmissions(
+                tab === 'pending' ? window._pendingSubs : window._gradedSubs, tab === 'pending'
+            );
+        }
+        function renderSubmissions(subs, showInput) {
+            if (subs.length === 0) return `<div class="empty"><div class="empty-icon">✓</div>Nothing here</div>`;
+            return subs.map(s => `
     <div class="sub-item">
       <div class="sub-hd">
         <div>
           <div class="sub-student">${s.studentName}</div>
           <div class="sub-when">Submitted ${timeAgo(s.submittedAt)}</div>
         </div>
-        ${s.grade?`<div style="font-size:20px;font-weight:600;font-family:var(--mono);color:var(--lime)">${s.grade}</div>`:''}
+        ${s.grade ? `<div style="font-size:20px;font-weight:600;font-family:var(--mono);color:var(--lime)">${s.grade}</div>` : ''}
       </div>
-      ${s.code?`<div class="sub-code">${s.code}</div>`:''}
-      ${s.replitLink?`<div style="font-size:11px;color:var(--sky);margin:.2rem 0">🔗 <a href="${s.replitLink}" target="_blank" style="color:var(--sky)">${s.replitLink}</a></div>`:''}
-      ${s.feedback?`<div style="font-size:11px;color:var(--muted);margin-top:.25rem;font-style:italic">${s.feedback}</div>`:''}
-      ${showInput?`
+      ${s.code ? `<div class="sub-code">${s.code}</div>` : ''}
+      ${s.replitLink ? `<div style="font-size:11px;color:var(--sky);margin:.2rem 0">🔗 <a href="${s.replitLink}" target="_blank" style="color:var(--sky)">${s.replitLink}</a></div>` : ''}
+      ${s.feedback ? `<div style="font-size:11px;color:var(--muted);margin-top:.25rem;font-style:italic">${s.feedback}</div>` : ''}
+      ${showInput ? `
         <div class="grade-row">
           <input type="text" id="grade-${s.id}" placeholder="A / 85%">
           <textarea id="feedback-${s.id}" placeholder="Write feedback…"></textarea>
           <button class="btn-grade" onclick="gradeSubmission('${s.id}')">Grade</button>
-        </div>`:''}
+        </div>`: ''}
     </div>`).join('');
-}
-async function gradeSubmission(subId){
-  const grade=document.getElementById(`grade-${subId}`).value.trim();
-  const feedback=document.getElementById(`feedback-${subId}`).value.trim();
-  if(!grade){showToast('Please enter a grade','error');return;}
-  await db.collection('submissions').doc(subId).update({grade,feedback});
-  showToast('Grade saved!');
-}
-</script>
+        }
+        async function gradeSubmission(subId) {
+            const grade = document.getElementById(`grade-${subId}`).value.trim();
+            const feedback = document.getElementById(`feedback-${subId}`).value.trim();
+            if (!grade) { showToast('Please enter a grade', 'error'); return; }
+            await db.collection('submissions').doc(subId).update({ grade, feedback });
+            showToast('Grade saved!');
+        }
+    </script>
 </body>
+
 </html>
