@@ -1,499 +1,1521 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Dev Journey — Python Training</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #0a0a0b;
-  --surface: #111114;
-  --surface2: #1a1a1f;
-  --surface3: #222228;
-  --border: #2a2a32;
-  --border2: #363640;
-  --text: #e8e8f0;
-  --muted: #6b6b7e;
-  --accent: #00ff88;
-  --accent2: #00cc6a;
-  --accent-dim: rgba(0,255,136,0.08);
-  --accent-dim2: rgba(0,255,136,0.15);
-  --blue: #4f9eff;
-  --blue-dim: rgba(79,158,255,0.1);
-  --red: #ff4f4f;
-  --red-dim: rgba(255,79,79,0.1);
-  --amber: #ffb347;
-  --amber-dim: rgba(255,179,71,0.1);
-  --purple: #b47fff;
-  --purple-dim: rgba(180,127,255,0.1);
-  --radius: 10px;
-  --radius-lg: 16px;
-}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Dev Journey — Python Training</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      /* Layout */
+      --bg: #f8f9fb;
+      --surface: #ffffff;
+      --surface2: #f1f3f6;
+      --surface3: #e9ecf1;
 
-/* SCROLLBAR */
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+      /* Borders & radius */
+      --border: #e5e7eb;
+      --border2: #d1d5db;
+      --radius: 10px;
+      --radius-lg: 16px;
 
-/* AUTH SCREEN */
-#auth-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000;padding:1rem}
-.auth-card{width:100%;max-width:420px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;animation:fadeUp .4s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.auth-logo{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent);letter-spacing:.1em;margin-bottom:1.5rem}
-.auth-logo span{color:var(--muted)}
-.auth-title{font-size:22px;font-weight:500;margin-bottom:.25rem}
-.auth-sub{font-size:13px;color:var(--muted);margin-bottom:1.75rem}
-.field{margin-bottom:1rem}
-.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;letter-spacing:.04em}
-.field input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border .2s}
-.field input:focus{border-color:var(--accent)}
-.btn-primary{width:100%;background:var(--accent);color:#000;border:none;border-radius:var(--radius);padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:opacity .2s;margin-top:.5rem}
-.btn-primary:hover{opacity:.85}
-.auth-toggle{text-align:center;margin-top:1rem;font-size:13px;color:var(--muted)}
-.auth-toggle a{color:var(--accent);cursor:pointer;text-decoration:none}
-.auth-error{background:var(--red-dim);border:1px solid var(--red);border-radius:var(--radius);padding:.6rem 1rem;font-size:13px;color:var(--red);margin-bottom:1rem;display:none}
+      /* Text */
+      --text: #111827;
+      --muted: #6b7280;
 
-/* APP LAYOUT */
-#app{display:none;height:100%;flex-direction:column}
-#app.show{display:flex}
+      /* Accents */
+      --accent: #00c26f;
+      --accent2: #00cc6a;
+      --accent-dim: rgba(0, 194, 111, 0.08);
+      --accent-dim2: rgba(0, 194, 111, 0.15);
 
-/* TOP BAR */
-.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.topbar-logo{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:.08em}
-.topbar-user{display:flex;align-items:center;gap:8px}
-.topbar-role{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;letter-spacing:.05em}
-.role-student{background:var(--blue-dim);color:var(--blue)}
-.role-admin{background:var(--accent-dim2);color:var(--accent)}
-.topbar-signout{background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif}
-.topbar-signout:hover{color:var(--text)}
+      /* Colors */
+      --blue: #4f9eff;
+      --blue-dim: rgba(79, 158, 255, 0.1);
+      --red: #ff4f4f;
+      --red-dim: rgba(255, 79, 79, 0.1);
+      --amber: #ffb347;
+      --amber-dim: rgba(255, 179, 71, 0.1);
+      --purple: #b47fff;
+      --purple-dim: rgba(180, 127, 255, 0.1);
+    }
 
-/* MAIN CONTENT */
-.main{flex:1;overflow-y:auto;padding:1rem;padding-bottom:80px}
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0a0a0b;
+        --surface: #111114;
+        --text: #e8e8f0;
+        --muted: #6b6b7e;
+        --accent: #00ff88;
+        --border: #2a2a32;
 
-/* BOTTOM NAV */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:.6rem .25rem;cursor:pointer;transition:color .2s;color:var(--muted);font-size:10px;letter-spacing:.03em;border:none;background:none;font-family:'DM Sans',sans-serif}
-.nav-item.active{color:var(--accent)}
-.nav-icon{font-size:18px;line-height:1}
+        --accent2: #00cc6a;
+        --accent-dim: rgba(0, 255, 136, 0.08);
+        --accent-dim2: rgba(0, 255, 136, 0.15);
+        --blue: #4f9eff;
+        --blue-dim: rgba(79, 158, 255, 0.1);
+        --red: #ff4f4f;
+        --red-dim: rgba(255, 79, 79, 0.1);
+        --amber: #ffb347;
+        --amber-dim: rgba(255, 179, 71, 0.1);
+        --purple: #b47fff;
+        --purple-dim: rgba(180, 127, 255, 0.1);
+        --radius: 10px;
+        --radius-lg: 16px;
+      }
+    }
 
-/* CARDS */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:.75rem}
-.card-title{font-size:13px;font-weight:500;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:1rem;font-family:'JetBrains Mono',monospace}
+    .app-layout {
+      display: flex;
+      height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+    }
 
-/* STAT GRID */
-.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin-bottom:.75rem}
-.stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1rem}
-.stat-val{font-size:24px;font-weight:500;font-family:'JetBrains Mono',monospace;color:var(--text)}
-.stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
-.stat-card.accent .stat-val{color:var(--accent)}
-.stat-card.blue .stat-val{color:var(--blue)}
-.stat-card.amber .stat-val{color:var(--amber)}
-.stat-card.purple .stat-val{color:var(--purple)}
+    .sidebar {
+      width: 240px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 1rem;
+    }
 
-/* PROGRESS BAR */
-.progress-wrap{margin:.75rem 0}
-.progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.progress-label{font-size:12px;color:var(--muted)}
-.progress-pct{font-size:13px;font-weight:500;font-family:'JetBrains Mono',monospace;color:var(--accent)}
-.progress-bar{height:6px;background:var(--surface3);border-radius:3px;overflow:hidden}
-.progress-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .6s ease}
+    .sidebar-logo {
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 1.5rem;
+    }
 
-/* CHAPTER CHECKLIST */
-.chapter-item{display:flex;align-items:center;gap:12px;padding:.75rem 0;border-bottom:1px solid var(--border);cursor:pointer}
-.chapter-item:last-child{border-bottom:none}
-.chapter-check{width:20px;height:20px;border:1.5px solid var(--border2);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
-.chapter-check.done{background:var(--accent);border-color:var(--accent)}
-.chapter-check.done::after{content:'✓';font-size:11px;color:#000;font-weight:700}
-.chapter-name{font-size:13px;color:var(--text);flex:1}
-.chapter-name.done{color:var(--muted);text-decoration:line-through}
-.chapter-num{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted)}
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
 
-/* ANNOUNCEMENTS */
-.announcement{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.5rem}
-.ann-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem}
-.ann-time{font-size:11px;color:var(--muted)}
-.ann-badge{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--accent-dim);color:var(--accent)}
-.ann-text{font-size:13px;line-height:1.6;color:var(--text)}
+    .sidebar-item {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 14px;
+    }
 
-/* EXERCISES */
-.exercise-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.5rem}
-.ex-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem}
-.ex-title{font-size:14px;font-weight:500}
-.ex-due{font-size:11px;color:var(--amber);background:var(--amber-dim);padding:2px 8px;border-radius:20px}
-.ex-due.overdue{color:var(--red);background:var(--red-dim)}
-.ex-desc{font-size:13px;color:var(--muted);margin-bottom:.75rem;line-height:1.6}
-.ex-status{font-size:11px;padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:.75rem}
-.ex-status.submitted{background:var(--blue-dim);color:var(--blue)}
-.ex-status.graded{background:var(--accent-dim);color:var(--accent)}
-.ex-status.pending{background:var(--amber-dim);color:var(--amber)}
-textarea.code-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem;color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px;resize:vertical;min-height:80px;outline:none;margin-bottom:.5rem}
-textarea.code-input:focus{border-color:var(--accent)}
-input.replit-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.6rem .75rem;color:var(--blue);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;margin-bottom:.5rem}
-input.replit-input:focus{border-color:var(--blue)}
-.btn-submit{background:var(--blue-dim);border:1px solid var(--blue);color:var(--blue);border-radius:var(--radius);padding:8px 16px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
-.btn-submit:hover{background:var(--blue);color:#000}
-.grade-box{background:var(--accent-dim);border:1px solid var(--accent);border-radius:var(--radius);padding:.75rem;margin-top:.5rem}
-.grade-score{font-size:20px;font-weight:500;font-family:'JetBrains Mono',monospace;color:var(--accent)}
-.grade-feedback{font-size:12px;color:var(--muted);margin-top:.25rem}
+    .sidebar-item.active,
+    .sidebar-item:hover {
+      background: rgba(0, 0, 0, 0.06);
+      color: var(--text);
+    }
 
-/* Q&A */
-.qa-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.5rem}
-.qa-question{font-size:13px;font-weight:500;margin-bottom:.25rem}
-.qa-meta{font-size:11px;color:var(--muted);margin-bottom:.5rem}
-.qa-answer{background:var(--bg);border-left:2px solid var(--accent);padding:.6rem .75rem;border-radius:0 var(--radius) var(--radius) 0;font-size:13px;color:var(--text);margin-top:.5rem}
-.qa-answer-label{font-size:10px;color:var(--accent);font-family:'JetBrains Mono',monospace;margin-bottom:.25rem;letter-spacing:.05em}
-.unanswered-badge{font-size:10px;background:var(--amber-dim);color:var(--amber);padding:2px 8px;border-radius:20px;display:inline-block;margin-left:8px}
+    .app-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
 
-/* EBOOK */
-.ebook-frame{width:100%;height:calc(100vh - 200px);border:none;border-radius:var(--radius);background:var(--surface2)}
-.ebook-notice{background:var(--amber-dim);border:1px solid var(--amber);border-radius:var(--radius);padding:.6rem 1rem;font-size:12px;color:var(--amber);margin-bottom:.75rem}
+    .topbar {
+      height: 56px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      background: var(--surface);
+    }
 
-/* ADMIN COMPONENTS */
-.student-row{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid var(--border)}
-.student-row:last-child{border-bottom:none}
-.student-info{}
-.student-name{font-size:13px;font-weight:500}
-.student-email{font-size:11px;color:var(--muted)}
-.student-joined{font-size:11px;color:var(--muted);margin-top:2px}
-.btn-ban{background:var(--red-dim);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
-.btn-ban:hover{background:var(--red);color:#fff}
-.btn-unban{background:var(--accent-dim);border:1px solid var(--accent);color:var(--accent);border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif}
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+    }
 
-.submission-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.5rem}
-.sub-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem}
-.sub-student{font-size:13px;font-weight:500}
-.sub-exercise{font-size:11px;color:var(--muted)}
-.sub-code{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.6rem;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);margin:.5rem 0;white-space:pre-wrap;word-break:break-all}
-.sub-replit{font-size:12px;color:var(--blue);margin:.25rem 0}
-.sub-replit a{color:var(--blue)}
-.grade-input-row{display:flex;gap:.5rem;margin-top:.5rem}
-.grade-input-row input{flex:0 0 80px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.5rem;color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;text-align:center}
-.grade-input-row input:focus{border-color:var(--accent)}
-.grade-input-row textarea{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.5rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;resize:none;height:60px}
-.grade-input-row textarea:focus{border-color:var(--accent)}
-.btn-grade{background:var(--accent);border:none;color:#000;border-radius:var(--radius);padding:8px 16px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent
+    }
 
-.form-field{margin-bottom:.75rem}
-.form-field label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;letter-spacing:.04em}
-.form-field input,.form-field textarea,.form-field select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:9px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border .2s}
-.form-field input:focus,.form-field textarea:focus,.form-field select:focus{border-color:var(--accent)}
-.form-field textarea{resize:vertical;min-height:80px}
-.btn-action{background:var(--accent-dim2);border:1px solid var(--accent);color:var(--accent);border-radius:var(--radius);padding:9px 18px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
-.btn-action:hover{background:var(--accent);color:#000}
-.btn-danger{background:var(--red-dim);border:1px solid var(--red);color:var(--red);border-radius:var(--radius);padding:6px 14px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif}
+    html,
+    body {
+      height: 100%;
+      overflow: hidden
+    }
 
-/* PAGE HEADER */
-.page-header{margin-bottom:1.25rem}
-.page-title{font-size:20px;font-weight:500;font-family:'JetBrains Mono',monospace}
-.page-sub{font-size:12px;color:var(--muted);margin-top:2px}
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6
+    }
 
-/* EMPTY STATE */
-.empty{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:13px}
-.empty-icon{font-size:32px;margin-bottom:.5rem;opacity:.4}
+    /* SCROLLBAR */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px
+    }
 
-/* LOADING */
-.loading-screen{display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:.75rem;color:var(--muted);font-size:13px}
-.loader{width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+    ::-webkit-scrollbar-track {
+      background: transparent
+    }
 
-/* TOAST */
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:.6rem 1.25rem;font-size:13px;z-index:999;opacity:0;transition:all .3s;white-space:nowrap;pointer-events:none}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast.success{border-color:var(--accent);color:var(--accent)}
-.toast.error{border-color:var(--red);color:var(--red)}
+    ::-webkit-scrollbar-thumb {
+      background: var(--border2);
+      border-radius: 4px
+    }
 
-/* TABS */
-.tabs{display:flex;gap:.5rem;margin-bottom:1rem;overflow-x:auto;padding-bottom:2px}
-.tab{padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;white-space:nowrap;border:1px solid var(--border);background:none;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all .2s}
-.tab.active{background:var(--accent-dim2);border-color:var(--accent);color:var(--accent)}
+    /* AUTH SCREEN */
+    #auth-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem
+    }
 
-/* SECTION DIVIDER */
-.section-divider{border:none;border-top:1px solid var(--border);margin:1rem 0}
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      animation: fadeUp .4s ease
+    }
 
-/* DELETE BTN */
-.btn-icon{background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;font-size:14px;transition:color .2s}
-.btn-icon:hover{color:var(--red)}
-</style>
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .auth-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--accent);
+      letter-spacing: .1em;
+      margin-bottom: 1.5rem
+    }
+
+    .auth-logo span {
+      color: var(--muted)
+    }
+
+    .auth-title {
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: .25rem
+    }
+
+    .auth-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 1.75rem
+    }
+
+    .field {
+      margin-bottom: 1rem
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 5px;
+      letter-spacing: .04em
+    }
+
+    .field input {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border .2s
+    }
+
+    .field input:focus {
+      border-color: var(--accent)
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: var(--radius);
+      padding: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity .2s;
+      margin-top: .5rem
+    }
+
+    .btn-primary:hover {
+      opacity: .85
+    }
+
+    .auth-toggle {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 13px;
+      color: var(--muted)
+    }
+
+    .auth-toggle a {
+      color: var(--accent);
+      cursor: pointer;
+      text-decoration: none
+    }
+
+    .auth-error {
+      background: var(--red-dim);
+      border: 1px solid var(--red);
+      border-radius: var(--radius);
+      padding: .6rem 1rem;
+      font-size: 13px;
+      color: var(--red);
+      margin-bottom: 1rem;
+      display: none
+    }
+
+    /* APP LAYOUT */
+    #app {
+      display: none;
+      height: 100%;
+      flex-direction: column
+    }
+
+    #app.show {
+      display: flex
+    }
+
+    /* TOP BAR */
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: .75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0
+    }
+
+    .topbar-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: .08em
+    }
+
+    .topbar-user {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .topbar-role {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: .05em
+    }
+
+    .role-student {
+      background: var(--blue-dim);
+      color: var(--blue)
+    }
+
+    .role-admin {
+      background: var(--accent-dim2);
+      color: var(--accent)
+    }
+
+    .topbar-signout {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif
+    }
+
+    .topbar-signout:hover {
+      color: var(--text)
+    }
+
+    /* MAIN CONTENT */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      padding-bottom: 80px
+    }
+
+    /* BOTTOM NAV */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      z-index: 100;
+      padding-bottom: env(safe-area-inset-bottom)
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: .6rem .25rem;
+      cursor: pointer;
+      transition: color .2s;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .03em;
+      border: none;
+      background: none;
+      font-family: 'DM Sans', sans-serif
+    }
+
+    .nav-item.active {
+      color: var(--accent)
+    }
+
+    .nav-icon {
+      font-size: 18px;
+      line-height: 1
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      margin-bottom: .75rem
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      font-family: 'JetBrains Mono', monospace
+    }
+
+    /* STAT GRID */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: .5rem;
+      margin-bottom: .75rem
+    }
+
+    .stat-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .75rem 1rem
+    }
+
+    .stat-val {
+      font-size: 24px;
+      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text)
+    }
+
+    .stat-lbl {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px
+    }
+
+    .stat-card.accent .stat-val {
+      color: var(--accent)
+    }
+
+    .stat-card.blue .stat-val {
+      color: var(--blue)
+    }
+
+    .stat-card.amber .stat-val {
+      color: var(--amber)
+    }
+
+    .stat-card.purple .stat-val {
+      color: var(--purple)
+    }
+
+    /* PROGRESS BAR */
+    .progress-wrap {
+      margin: .75rem 0
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px
+    }
+
+    .progress-label {
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .progress-pct {
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent)
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: var(--surface3);
+      border-radius: 3px;
+      overflow: hidden
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 3px;
+      transition: width .6s ease
+    }
+
+    /* CHAPTER CHECKLIST */
+    .chapter-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: .75rem 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer
+    }
+
+    .chapter-item:last-child {
+      border-bottom: none
+    }
+
+    .chapter-check {
+      width: 20px;
+      height: 20px;
+      border: 1.5px solid var(--border2);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all .2s
+    }
+
+    .chapter-check.done {
+      background: var(--accent);
+      border-color: var(--accent)
+    }
+
+    .chapter-check.done::after {
+      content: '✓';
+      font-size: 11px;
+      color: #000;
+      font-weight: 700
+    }
+
+    .chapter-name {
+      font-size: 13px;
+      color: var(--text);
+      flex: 1
+    }
+
+    .chapter-name.done {
+      color: var(--muted);
+      text-decoration: line-through
+    }
+
+    .chapter-num {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--muted)
+    }
+
+    /* ANNOUNCEMENTS */
+    .announcement {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-bottom: .5rem
+    }
+
+    .ann-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .4rem
+    }
+
+    .ann-time {
+      font-size: 11px;
+      color: var(--muted)
+    }
+
+    .ann-badge {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: var(--accent-dim);
+      color: var(--accent)
+    }
+
+    .ann-text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text)
+    }
+
+    /* EXERCISES */
+    .exercise-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-bottom: .5rem
+    }
+
+    .ex-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: .5rem
+    }
+
+    .ex-title {
+      font-size: 14px;
+      font-weight: 500
+    }
+
+    .ex-due {
+      font-size: 11px;
+      color: var(--amber);
+      background: var(--amber-dim);
+      padding: 2px 8px;
+      border-radius: 20px
+    }
+
+    .ex-due.overdue {
+      color: var(--red);
+      background: var(--red-dim)
+    }
+
+    .ex-desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: .75rem;
+      line-height: 1.6
+    }
+
+    .ex-status {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: .75rem
+    }
+
+    .ex-status.submitted {
+      background: var(--blue-dim);
+      color: var(--blue)
+    }
+
+    .ex-status.graded {
+      background: var(--accent-dim);
+      color: var(--accent)
+    }
+
+    .ex-status.pending {
+      background: var(--amber-dim);
+      color: var(--amber)
+    }
+
+    textarea.code-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .75rem;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      resize: vertical;
+      min-height: 80px;
+      outline: none;
+      margin-bottom: .5rem
+    }
+
+    textarea.code-input:focus {
+      border-color: var(--accent)
+    }
+
+    input.replit-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .6rem .75rem;
+      color: var(--blue);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      outline: none;
+      margin-bottom: .5rem
+    }
+
+    input.replit-input:focus {
+      border-color: var(--blue)
+    }
+
+    .btn-submit {
+      background: var(--blue-dim);
+      border: 1px solid var(--blue);
+      color: var(--blue);
+      border-radius: var(--radius);
+      padding: 8px 16px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .2s
+    }
+
+    .btn-submit:hover {
+      background: var(--blue);
+      color: #000
+    }
+
+    .grade-box {
+      background: var(--accent-dim);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: .75rem;
+      margin-top: .5rem
+    }
+
+    .grade-score {
+      font-size: 20px;
+      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent)
+    }
+
+    .grade-feedback {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: .25rem
+    }
+
+    /* Q&A */
+    .qa-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-bottom: .5rem
+    }
+
+    .qa-question {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: .25rem
+    }
+
+    .qa-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: .5rem
+    }
+
+    .qa-answer {
+      background: var(--bg);
+      border-left: 2px solid var(--accent);
+      padding: .6rem .75rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 13px;
+      color: var(--text);
+      margin-top: .5rem
+    }
+
+    .qa-answer-label {
+      font-size: 10px;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: .25rem;
+      letter-spacing: .05em
+    }
+
+    .unanswered-badge {
+      font-size: 10px;
+      background: var(--amber-dim);
+      color: var(--amber);
+      padding: 2px 8px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-left: 8px
+    }
+
+    /* EBOOK */
+    .ebook-frame {
+      width: 100%;
+      height: calc(100vh - 200px);
+      border: none;
+      border-radius: var(--radius);
+      background: var(--surface2)
+    }
+
+    .ebook-notice {
+      background: var(--amber-dim);
+      border: 1px solid var(--amber);
+      border-radius: var(--radius);
+      padding: .6rem 1rem;
+      font-size: 12px;
+      color: var(--amber);
+      margin-bottom: .75rem
+    }
+
+    /* ADMIN COMPONENTS */
+    .student-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .75rem 0;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .student-row:last-child {
+      border-bottom: none
+    }
+
+    .student-info {}
+
+    .student-name {
+      font-size: 13px;
+      font-weight: 500
+    }
+
+    .student-email {
+      font-size: 11px;
+      color: var(--muted)
+    }
+
+    .student-joined {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px
+    }
+
+    .btn-ban {
+      background: var(--red-dim);
+      border: 1px solid var(--red);
+      color: var(--red);
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 11px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .2s
+    }
+
+    .btn-ban:hover {
+      background: var(--red);
+      color: #fff
+    }
+
+    .btn-unban {
+      background: var(--accent-dim);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 11px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif
+    }
+
+    .submission-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-bottom: .5rem
+    }
+
+    .sub-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: .5rem
+    }
+
+    .sub-student {
+      font-size: 13px;
+      font-weight: 500
+    }
+
+    .sub-exercise {
+      font-size: 11px;
+      color: var(--muted)
+    }
+
+    .sub-code {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .6rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      margin: .5rem 0;
+      white-space: pre-wrap;
+      word-break: break-all
+    }
+
+    .sub-replit {
+      font-size: 12px;
+      color: var(--blue);
+      margin: .25rem 0
+    }
+
+    .sub-replit a {
+      color: var(--blue)
+    }
+
+    .grade-input-row {
+      display: flex;
+      gap: .5rem;
+      margin-top: .5rem
+    }
+
+    .grade-input-row input {
+      flex: 0 0 80px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .5rem;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      outline: none;
+      text-align: center
+    }
+
+    .grade-input-row input:focus {
+      border-color: var(--accent)
+    }
+
+    .grade-input-row textarea {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .5rem;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      outline: none;
+      resize: none;
+      height: 60px
+    }
+
+    .grade-input-row textarea:focus {
+      border-color: var(--accent)
+    }
+
+    .btn-grade {
+      background: var(--accent);
+      border: none;
+      color: #000;
+      border-radius: var(--radius);
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      white-space: nowrap
+    }
+
+    .form-field {
+      margin-bottom: .75rem
+    }
+
+    .form-field label {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 4px;
+      letter-spacing: .04em
+    }
+
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 9px 12px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      outline: none;
+      transition: border .2s
+    }
+
+    .form-field input:focus,
+    .form-field textarea:focus,
+    .form-field select:focus {
+      border-color: var(--accent)
+    }
+
+    .form-field textarea {
+      resize: vertical;
+      min-height: 80px
+    }
+
+    .btn-action {
+      background: var(--accent-dim2);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      border-radius: var(--radius);
+      padding: 9px 18px;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .2s
+    }
+
+    .btn-action:hover {
+      background: var(--accent);
+      color: #000
+    }
+
+    .btn-danger {
+      background: var(--red-dim);
+      border: 1px solid var(--red);
+      color: var(--red);
+      border-radius: var(--radius);
+      padding: 6px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      margin-bottom: 1.25rem
+    }
+
+    .page-title {
+      font-size: 20px;
+      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace
+    }
+
+    .page-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px
+    }
+
+    /* EMPTY STATE */
+    .empty {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    .empty-icon {
+      font-size: 32px;
+      margin-bottom: .5rem;
+      opacity: .4
+    }
+
+    /* LOADING */
+    .loading-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      flex-direction: column;
+      gap: .75rem;
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    .loader {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--border2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      padding: .6rem 1.25rem;
+      font-size: 13px;
+      z-index: 999;
+      opacity: 0;
+      transition: all .3s;
+      white-space: nowrap;
+      pointer-events: none
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0)
+    }
+
+    .toast.success {
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    .toast.error {
+      border-color: var(--red);
+      color: var(--red)
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      gap: .5rem;
+      margin-bottom: 1rem;
+      overflow-x: auto;
+      padding-bottom: 2px
+    }
+
+    .tab {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      border: 1px solid var(--border);
+      background: none;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      transition: all .2s
+    }
+
+    .tab.active {
+      background: var(--accent-dim2);
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    /* SECTION DIVIDER */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1rem 0
+    }
+
+    /* DELETE BTN */
+    .btn-icon {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 4px;
+      font-size: 14px;
+      transition: color .2s
+    }
+
+    .btn-icon:hover {
+      color: var(--red)
+    }
+
+    .menu-btn {
+      display: none;
+      font-size: 20px;
+      background: none;
+      border: none;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        position: fixed;
+        left: -260px;
+        top: 0;
+        bottom: 0;
+        z-index: 1000;
+        transition: left .3s;
+      }
+
+      .sidebar.show {
+        left: 0;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
 
-<!-- AUTH SCREEN -->
-<div id="auth-screen">
-  <div class="auth-card">
-    <div class="auth-logo">&gt;&gt;&gt; <span>dev_journey</span>.train()</div>
-    <h1 class="auth-title" id="auth-title">Welcome back</h1>
-    <p class="auth-sub" id="auth-sub">Sign in to continue your Python journey</p>
-    <div class="auth-error" id="auth-error"></div>
-    <div class="field" id="name-field" style="display:none">
-      <label>FULL NAME</label>
-      <input type="text" id="input-name" placeholder="Your full name">
-    </div>
-    <div class="field">
-      <label>EMAIL ADDRESS</label>
-      <input type="email" id="input-email" placeholder="you@example.com">
-    </div>
-    <div class="field">
-      <label>PASSWORD</label>
-      <input type="password" id="input-password" placeholder="••••••••">
-    </div>
-    <button class="btn-primary" id="auth-btn">Sign In</button>
-    <div class="auth-toggle">
-      <span id="auth-toggle-text">Don't have an account?</span>
-      <a id="auth-toggle-link"> Register</a>
-    </div>
-  </div>
-</div>
-
-<!-- APP -->
-<div id="app">
-  <!-- TOP BAR -->
-  <div class="topbar">
-    <div class="topbar-logo">&gt;_ devjourney</div>
-    <div class="topbar-user">
-      <span class="topbar-role" id="role-badge"></span>
-      <button class="topbar-signout" id="signout-btn">Sign out</button>
+  <!-- AUTH SCREEN -->
+  <div id="auth-screen">
+    <div class="auth-card">
+      <div class="auth-logo">&gt;&gt;&gt; <span>dev_journey</span>.train()</div>
+      <h1 class="auth-title" id="auth-title">Welcome back</h1>
+      <p class="auth-sub" id="auth-sub">Sign in to continue your Python journey</p>
+      <div class="auth-error" id="auth-error"></div>
+      <div class="field" id="name-field" style="display:none">
+        <label>FULL NAME</label>
+        <input type="text" id="input-name" placeholder="Your full name">
+      </div>
+      <div class="field">
+        <label>EMAIL ADDRESS</label>
+        <input type="email" id="input-email" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label>PASSWORD</label>
+        <input type="password" id="input-password" placeholder="••••••••">
+      </div>
+      <button class="btn-primary" id="auth-btn">Sign In</button>
+      <div class="auth-toggle">
+        <span id="auth-toggle-text">Don't have an account?</span>
+        <a id="auth-toggle-link"> Register</a>
+      </div>
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
-  <div class="main" id="main-content"></div>
+  <!-- APP -->
+  <div id="app" class="app-layout">
 
-  <!-- BOTTOM NAV -->
-  <nav class="bottom-nav" id="bottom-nav"></nav>
-</div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">DevJourney</div>
+      <nav class="sidebar-nav" id="sidebar-nav"></nav>
+    </aside>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <!-- MAIN AREA -->
+    <div class="app-main">
 
-<script>
-// ============================================================
-// CONFIGURATION — Replace with your Firebase config
-// ============================================================
-const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyBflRvtpP2DnKnoWCslON6CWIMgX34RvnQ",
-  authDomain: "devjourney-portal.firebaseapp.com",
-  projectId: "devjourney-portal",
-  storageBucket: "devjourney-portal.firebasestorage.app",
-  messagingSenderId: "837161815919",
-  appId: "1:837161815919:web:5beaaa88b865bd8c60e29a"
-};
+      <!-- TOP BAR -->
+      <header class="topbar">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <span class="topbar-title" id="page-title">Dashboard</span>
+        <button class="topbar-signout" id="signout-btn">Sign out</button>
+      </header>
 
-// Your instructor email — this email gets admin access
-const INSTRUCTOR_EMAIL = "devjourney2006@gmail.com";
+      <!-- PAGE CONTENT -->
+      <main class="content" id="main-content"></main>
 
-// Your ebook Google Drive embed link
-let EBOOK_URL = "https://drive.google.com/file/d/YOUR_FILE_ID/preview";
-let EBOOK_TITLE = "Python for Absolute Beginners — Book 1";
+    </div>
+  </div>
 
-// Chapters list
-const CHAPTERS = [
-  "Chapter 1 — How Computers Think",
-  "Chapter 2 — Variables and Data Types",
-  "Chapter 3 — User Input",
-  "Chapter 4 — Making Decisions: Conditionals",
-  "Chapter 5 — Repeating Actions: Loops",
-  "Chapter 6 — Organising Data: Lists",
-  "Chapter 7 — Reusable Code: Functions",
-  "Final Project — Student Grading System"
-];
 
-// ============================================================
-// FIREBASE INIT
-// ============================================================
-firebase.initializeApp(FIREBASE_CONFIG);
-const auth = firebase.auth();
-const db = firebase.firestore();
 
-let currentUser = null;
-let isAdmin = false;
-let currentPage = null;
-let unsubscribers = [];
 
-// ============================================================
-// UTILITIES
-// ============================================================
-function showToast(msg, type = 'success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `toast show ${type}`;
-  setTimeout(() => t.className = 'toast', 2500);
-}
 
-function timeAgo(ts) {
-  if (!ts) return '';
-  const d = ts.toDate ? ts.toDate() : new Date(ts);
-  const diff = (Date.now() - d.getTime()) / 1000;
-  if (diff < 60) return 'just now';
-  if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
-  if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
-  return d.toLocaleDateString();
-}
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
-function formatDate(ts) {
-  if (!ts) return '';
-  const d = ts.toDate ? ts.toDate() : new Date(ts);
-  return d.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'});
-}
+  <script>
+    // ============================================================
+    // CONFIGURATION — Replace with your Firebase config
+    // ============================================================
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyBflRvtpP2DnKnoWCslON6CWIMgX34RvnQ",
+      authDomain: "devjourney-portal.firebaseapp.com",
+      projectId: "devjourney-portal",
+      storageBucket: "devjourney-portal.firebasestorage.app",
+      messagingSenderId: "837161815919",
+      appId: "1:837161815919:web:5beaaa88b865bd8c60e29a"
+    };
 
-// ============================================================
-// AUTH
-// ============================================================
-let authMode = 'signin';
+    // Your instructor email — this email gets admin access
+    const INSTRUCTOR_EMAIL = "devjourney2006@gmail.com";
 
-document.getElementById('auth-toggle-link').onclick = () => {
-  authMode = authMode === 'signin' ? 'register' : 'signin';
-  document.getElementById('auth-title').textContent = authMode === 'signin' ? 'Welcome back' : 'Create account';
-  document.getElementById('auth-sub').textContent = authMode === 'signin' ? 'Sign in to continue your Python journey' : 'Join the Dev Journey training';
-  document.getElementById('auth-btn').textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
-  document.getElementById('auth-toggle-text').textContent = authMode === 'signin' ? "Don't have an account?" : 'Already have an account?';
-  document.getElementById('auth-toggle-link').textContent = authMode === 'signin' ? ' Register' : ' Sign In';
-  document.getElementById('name-field').style.display = authMode === 'register' ? 'block' : 'none';
-  document.getElementById('auth-error').style.display = 'none';
-};
+    // Your ebook Google Drive embed link
+    let EBOOK_URL = "https://drive.google.com/file/d/YOUR_FILE_ID/preview";
+    let EBOOK_TITLE = "Python for Absolute Beginners — Book 1";
 
-document.getElementById('input-password').onkeydown = e => { if (e.key === 'Enter') doAuth(); };
+    // Chapters list
+    const CHAPTERS = [
+      "Chapter 1 — How Computers Think",
+      "Chapter 2 — Variables and Data Types",
+      "Chapter 3 — User Input",
+      "Chapter 4 — Making Decisions: Conditionals",
+      "Chapter 5 — Repeating Actions: Loops",
+      "Chapter 6 — Organising Data: Lists",
+      "Chapter 7 — Reusable Code: Functions",
+      "Final Project — Student Grading System"
+    ];
 
-document.getElementById('auth-btn').onclick = doAuth;
+    // ============================================================
+    // FIREBASE INIT
+    // ============================================================
+    firebase.initializeApp(FIREBASE_CONFIG);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-async function doAuth() {
-  const email = document.getElementById('input-email').value.trim();
-  const password = document.getElementById('input-password').value;
-  const name = document.getElementById('input-name').value.trim();
-  const errEl = document.getElementById('auth-error');
-  errEl.style.display = 'none';
+    let currentUser = null;
+    let isAdmin = false;
+    let currentPage = null;
+    let unsubscribers = [];
 
-  if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; return; }
+    // ============================================================
+    // UTILITIES
+    // ============================================================
 
-  document.getElementById('auth-btn').textContent = 'Please wait...';
-
-  try {
-    if (authMode === 'register') {
-      if (!name) { errEl.textContent = 'Please enter your name.'; errEl.style.display = 'block'; document.getElementById('auth-btn').textContent = 'Create Account'; return; }
-      const cred = await auth.createUserWithEmailAndPassword(email, password);
-      await db.collection('users').doc(cred.user.uid).set({
-        name, email, role: email === INSTRUCTOR_EMAIL ? 'admin' : 'student',
-        joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        banned: false, progress: 0, chaptersCompleted: []
-      });
-    } else {
-      await auth.signInWithEmailAndPassword(email, password);
+    function showToast(msg, type = 'success') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = `toast show ${type}`;
+      setTimeout(() => t.className = 'toast', 2500);
     }
-  } catch (e) {
-    let msg = 'Something went wrong. Try again.';
-    if (e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password') msg = 'Invalid email or password.';
-    if (e.code === 'auth/email-already-in-use') msg = 'This email is already registered.';
-    if (e.code === 'auth/weak-password') msg = 'Password must be at least 6 characters.';
-    if (e.code === 'auth/invalid-email') msg = 'Please enter a valid email address.';
-    errEl.textContent = msg;
-    errEl.style.display = 'block';
-    document.getElementById('auth-btn').textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
-  }
-}
 
-auth.onAuthStateChanged(async user => {
-  if (user) {
-    const doc = await db.collection('users').doc(user.uid).get();
-    if (!doc.exists) { auth.signOut(); return; }
-    const data = doc.data();
-    if (data.banned) { auth.signOut(); showToast('Your access has been revoked.', 'error'); return; }
-    currentUser = { uid: user.uid, ...data };
-    isAdmin = data.role === 'admin' || user.email === INSTRUCTOR_EMAIL;
-    document.getElementById('auth-screen').style.display = 'none';
-    document.getElementById('app').classList.add('show');
-    document.getElementById('role-badge').textContent = isAdmin ? 'INSTRUCTOR' : 'STUDENT';
-    document.getElementById('role-badge').className = `topbar-role ${isAdmin ? 'role-admin' : 'role-student'}`;
-    document.getElementById('signout-btn').onclick = () => { unsubscribers.forEach(u => u()); auth.signOut(); };
-    buildNav();
-    navigateTo(isAdmin ? 'overview' : 'dashboard');
-  } else {
-    currentUser = null;
-    isAdmin = false;
-    document.getElementById('auth-screen').style.display = 'flex';
-    document.getElementById('app').classList.remove('show');
-    document.getElementById('auth-btn').textContent = 'Sign In';
-  }
-});
 
-// ============================================================
-// NAVIGATION
-// ============================================================
-const STUDENT_NAV = [
-  { id: 'dashboard', icon: '⊞', label: 'Home' },
-  { id: 'syllabus', icon: '☑', label: 'Progress' },
-  { id: 'ebook', icon: '📖', label: 'Book' },
-  { id: 'exercises', icon: '✏', label: 'Tasks' },
-  { id: 'qa', icon: '💬', label: 'Q&A' },
-];
+    function timeAgo(ts) {
+      if (!ts) return '';
+      const d = ts.toDate ? ts.toDate() : new Date(ts);
+      const diff = (Date.now() - d.getTime()) / 1000;
+      if (diff < 60) return 'just now';
+      if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+      if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+      return d.toLocaleDateString();
+    }
 
-const ADMIN_NAV = [
-  { id: 'overview', icon: '⊞', label: 'Overview' },
-  { id: 'students', icon: '👥', label: 'Students' },
-  { id: 'content', icon: '📢', label: 'Content' },
-  { id: 'grading', icon: '✏', label: 'Grading' },
-  { id: 'qa', icon: '💬', label: 'Q&A' },
-];
+    function formatDate(ts) {
+      if (!ts) return '';
+      const d = ts.toDate ? ts.toDate() : new Date(ts);
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
 
-function buildNav() {
-  const nav = document.getElementById('bottom-nav');
-  const items = isAdmin ? ADMIN_NAV : STUDENT_NAV;
-  nav.innerHTML = items.map(i => `
-    <button class="nav-item" data-page="${i.id}" onclick="navigateTo('${i.id}')">
-      <span class="nav-icon">${i.icon}</span>
+    function copyLessonCode(id) {
+      const code = document.getElementById(`lesson-code-${id}`).innerText;
+      navigator.clipboard.writeText(code);
+      showToast('Code copied ✅');
+    }
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+    }
+
+
+
+    // ============================================================
+    // AUTH
+    // ============================================================
+    let authMode = 'signin';
+
+    document.getElementById('auth-toggle-link').onclick = () => {
+      authMode = authMode === 'signin' ? 'register' : 'signin';
+      document.getElementById('auth-title').textContent = authMode === 'signin' ? 'Welcome back' : 'Create account';
+      document.getElementById('auth-sub').textContent = authMode === 'signin' ? 'Sign in to continue your Python journey' : 'Join the Dev Journey training';
+      document.getElementById('auth-btn').textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
+      document.getElementById('auth-toggle-text').textContent = authMode === 'signin' ? "Don't have an account?" : 'Already have an account?';
+      document.getElementById('auth-toggle-link').textContent = authMode === 'signin' ? ' Register' : ' Sign In';
+      document.getElementById('name-field').style.display = authMode === 'register' ? 'block' : 'none';
+      document.getElementById('auth-error').style.display = 'none';
+    };
+
+    document.getElementById('input-password').onkeydown = e => { if (e.key === 'Enter') doAuth(); };
+
+    document.getElementById('auth-btn').onclick = doAuth;
+
+    async function doAuth() {
+      const email = document.getElementById('input-email').value.trim();
+      const password = document.getElementById('input-password').value;
+      const name = document.getElementById('input-name').value.trim();
+      const errEl = document.getElementById('auth-error');
+      errEl.style.display = 'none';
+
+      if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; return; }
+
+      document.getElementById('auth-btn').textContent = 'Please wait...';
+
+      try {
+        if (authMode === 'register') {
+          if (!name) { errEl.textContent = 'Please enter your name.'; errEl.style.display = 'block'; document.getElementById('auth-btn').textContent = 'Create Account'; return; }
+          const cred = await auth.createUserWithEmailAndPassword(email, password);
+          await db.collection('users').doc(cred.user.uid).set({
+            name, email, role: email === INSTRUCTOR_EMAIL ? 'admin' : 'student',
+            joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            banned: false, progress: 0, chaptersCompleted: []
+          });
+        } else {
+          await auth.signInWithEmailAndPassword(email, password);
+        }
+      } catch (e) {
+        let msg = 'Something went wrong. Try again.';
+        if (e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password') msg = 'Invalid email or password.';
+        if (e.code === 'auth/email-already-in-use') msg = 'This email is already registered.';
+        if (e.code === 'auth/weak-password') msg = 'Password must be at least 6 characters.';
+        if (e.code === 'auth/invalid-email') msg = 'Please enter a valid email address.';
+        errEl.textContent = msg;
+        errEl.style.display = 'block';
+        document.getElementById('auth-btn').textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
+      }
+    }
+
+    auth.onAuthStateChanged(async user => {
+      if (user) {
+        const doc = await db.collection('users').doc(user.uid).get();
+        if (!doc.exists) { auth.signOut(); return; }
+        const data = doc.data();
+        if (data.banned) { auth.signOut(); showToast('Your access has been revoked.', 'error'); return; }
+        currentUser = { uid: user.uid, ...data };
+        isAdmin = data.role === 'admin' || user.email === INSTRUCTOR_EMAIL;
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('app').classList.add('show');
+        document.getElementById('role-badge').textContent = isAdmin ? 'INSTRUCTOR' : 'STUDENT';
+        document.getElementById('role-badge').className = `topbar-role ${isAdmin ? 'role-admin' : 'role-student'}`;
+        document.getElementById('signout-btn').onclick = () => { unsubscribers.forEach(u => u()); auth.signOut(); };
+        buildNav();
+        navigateTo(isAdmin ? 'overview' : 'dashboard');
+      } else {
+        currentUser = null;
+        isAdmin = false;
+        document.getElementById('auth-screen').style.display = 'flex';
+        document.getElementById('app').classList.remove('show');
+        document.getElementById('auth-btn').textContent = 'Sign In';
+      }
+    });
+
+    // ============================================================
+    // NAVIGATION
+    // ============================================================
+    const STUDENT_NAV = [
+      { id: 'dashboard', icon: '⊞', label: 'Home' },
+      { id: 'syllabus', icon: '☑', label: 'Progress' },
+      { id: 'lessons', icon: '🎥', label: 'Lessons' }, // ✅ ADDED
+      { id: 'ebook', icon: '📖', label: 'Book' },
+      { id: 'exercises', icon: '✏', label: 'Tasks' },
+      { id: 'qa', icon: '💬', label: 'Q&A' },
+    ];
+
+    const ADMIN_NAV = [
+      { id: 'overview', icon: '⊞', label: 'Overview' },
+      { id: 'students', icon: '👥', label: 'Students' },
+      { id: 'content', icon: '📢', label: 'Content' },
+      { id: 'grading', icon: '✏', label: 'Grading' },
+      { id: 'qa', icon: '💬', label: 'Q&A' },
+    ];
+
+    function buildNav() {
+      const nav = document.getElementById('sidebar-nav');
+      const items = isAdmin ? ADMIN_NAV : STUDENT_NAV;
+
+      nav.innerHTML = items.map(i => `
+    <button class="sidebar-item"
+      data-page="${i.id}"
+      onclick="navigateTo('${i.id}')">
+      <span class="icon">${i.icon}</span>
       <span>${i.label}</span>
     </button>
   `).join('');
-}
+    }
 
-function navigateTo(page) {
-  currentPage = page;
-  document.querySelectorAll('.nav-item').forEach(el => {
-    el.classList.toggle('active', el.dataset.page === page);
-  });
-  unsubscribers.forEach(u => u());
-  unsubscribers = [];
-  const main = document.getElementById('main-content');
-  main.innerHTML = `<div class="loading-screen"><div class="loader"></div><span>Loading...</span></div>`;
-  main.scrollTop = 0;
+    function navigateTo(page) {
+      currentPage = page;
+      document.getElementById('page-title').textContent =
+        page.charAt(0).toUpperCase() + page.slice(1);
 
-  if (isAdmin) {
-    if (page === 'overview') renderAdminOverview();
-    else if (page === 'students') renderAdminStudents();
-    else if (page === 'content') renderAdminContent();
-    else if (page === 'grading') renderAdminGrading();
-    else if (page === 'qa') renderQA(true);
-  } else {
-    if (page === 'dashboard') renderStudentDashboard();
-    else if (page === 'syllabus') renderSyllabus();
-    else if (page === 'ebook') renderEbook();
-    else if (page === 'exercises') renderExercises();
-    else if (page === 'qa') renderQA(false);
-  }
-}
+      document.querySelectorAll('.nav-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.page === page);
+      });
+      unsubscribers.forEach(u => u());
+      unsubscribers = [];
+      const main = document.getElementById('main-content');
+      main.innerHTML = `<div class="loading-screen"><div class="loader"></div><span>Loading...</span></div>`;
+      main.scrollTop = 0;
 
-// ============================================================
-// STUDENT: DASHBOARD
-// ============================================================
-async function renderStudentDashboard() {
-  const main = document.getElementById('main-content');
+      if (isAdmin) {
+        if (page === 'overview') renderAdminOverview();
+        else if (page === 'students') renderAdminStudents();
+        else if (page === 'content') renderAdminContent();
+        else if (page === 'grading') renderAdminGrading();
+        else if (page === 'qa') renderQA(true);
+      } else {
+        if (page === 'dashboard') renderStudentDashboard();
+        else if (page === 'syllabus') renderSyllabus();
+        else if (page === 'lessons') renderLessons();
+        else if (page === 'ebook') renderEbook();
+        else if (page === 'exercises') renderExercises();
+        else if (page === 'qa') renderQA(false);
+      }
+    }
 
-  const unsub = db.collection('announcements').orderBy('createdAt', 'desc').limit(3)
-    .onSnapshot(snap => {
-      const anns = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      const userDoc = db.collection('users').doc(currentUser.uid).get().then(doc => {
-        const data = doc.data();
-        const progress = data.progress || 0;
-        const chapsDone = (data.chaptersCompleted || []).length;
+    // ============================================================
+    // STUDENT: DASHBOARD
+    // ============================================================
+    async function renderStudentDashboard() {
+      const main = document.getElementById('main-content');
 
-        main.innerHTML = `
+      const unsub = db.collection('announcements').orderBy('createdAt', 'desc').limit(3)
+        .onSnapshot(snap => {
+          const anns = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          const userDoc = db.collection('users').doc(currentUser.uid).get().then(doc => {
+            const data = doc.data();
+            const progress = data.progress || 0;
+            const chapsDone = (data.chaptersCompleted || []).length;
+
+            main.innerHTML = `
           <div class="page-header">
             <div class="page-title">Hey, ${data.name.split(' ')[0]} 👋</div>
             <div class="page-sub">Keep showing up. Consistency beats talent.</div>
@@ -525,7 +1547,7 @@ async function renderStudentDashboard() {
           <div class="card">
             <div class="card-title">Announcements</div>
             ${anns.length === 0 ? '<div class="empty"><div class="empty-icon">📢</div>No announcements yet</div>' :
-              anns.map(a => `
+                anns.map(a => `
                 <div class="announcement">
                   <div class="ann-meta">
                     <span class="ann-badge">ANNOUNCEMENT</span>
@@ -536,22 +1558,22 @@ async function renderStudentDashboard() {
               `).join('')}
           </div>
         `;
-      });
-    });
-  unsubscribers.push(unsub);
-}
+          });
+        });
+      unsubscribers.push(unsub);
+    }
 
-// ============================================================
-// STUDENT: SYLLABUS
-// ============================================================
-function renderSyllabus() {
-  const main = document.getElementById('main-content');
-  const unsub = db.collection('users').doc(currentUser.uid).onSnapshot(doc => {
-    const data = doc.data();
-    const completed = data.chaptersCompleted || [];
-    const progress = Math.round((completed.length / CHAPTERS.length) * 100);
+    // ============================================================
+    // STUDENT: SYLLABUS
+    // ============================================================
+    function renderSyllabus() {
+      const main = document.getElementById('main-content');
+      const unsub = db.collection('users').doc(currentUser.uid).onSnapshot(doc => {
+        const data = doc.data();
+        const completed = data.chaptersCompleted || [];
+        const progress = Math.round((completed.length / CHAPTERS.length) * 100);
 
-    main.innerHTML = `
+        main.innerHTML = `
       <div class="page-header">
         <div class="page-title">Course Syllabus</div>
         <div class="page-sub">Tap a chapter to mark it complete</div>
@@ -572,39 +1594,91 @@ function renderSyllabus() {
           return `<div class="chapter-item" onclick="toggleChapter(${i})">
             <div class="chapter-check ${done ? 'done' : ''}"></div>
             <div class="chapter-name ${done ? 'done' : ''}">${ch}</div>
-            <div class="chapter-num">0${i+1}</div>
+            <div class="chapter-num">0${i + 1}</div>
           </div>`;
         }).join('')}
       </div>
     `;
-  });
-  unsubscribers.push(unsub);
-}
+      });
+      unsubscribers.push(unsub);
+    }
 
-async function toggleChapter(idx) {
-  const docRef = db.collection('users').doc(currentUser.uid);
-  const doc = await docRef.get();
-  const completed = doc.data().chaptersCompleted || [];
-  let updated;
-  if (completed.includes(idx)) {
-    updated = completed.filter(i => i !== idx);
-  } else {
-    updated = [...completed, idx];
-  }
-  const progress = Math.round((updated.length / CHAPTERS.length) * 100);
-  await docRef.update({ chaptersCompleted: updated, progress });
-  showToast(updated.includes(idx) ? `Chapter ${idx+1} marked complete!` : 'Chapter unmarked');
-}
+    async function toggleChapter(idx) {
+      const docRef = db.collection('users').doc(currentUser.uid);
+      const doc = await docRef.get();
+      const completed = doc.data().chaptersCompleted || [];
+      let updated;
+      if (completed.includes(idx)) {
+        updated = completed.filter(i => i !== idx);
+      } else {
+        updated = [...completed, idx];
+      }
+      const progress = Math.round((updated.length / CHAPTERS.length) * 100);
+      await docRef.update({ chaptersCompleted: updated, progress });
+      showToast(updated.includes(idx) ? `Chapter ${idx + 1} marked complete!` : 'Chapter unmarked');
+    }
+    // ============================================================
+    // STUDENT: LESSONS (VIDEO + CODE PRACTICE)
+    // ============================================================
+    function renderLessons() {
+      const main = document.getElementById('main-content');
 
-// ============================================================
-// STUDENT: EBOOK
-// ============================================================
-async function renderEbook() {
-  const main = document.getElementById('main-content');
-  const doc = await db.collection('settings').doc('ebook').get();
-  if (doc.exists) { EBOOK_URL = doc.data().url || EBOOK_URL; EBOOK_TITLE = doc.data().title || EBOOK_TITLE; }
+      const unsub = db.collection('lessons')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot(snap => {
 
-  main.innerHTML = `
+          const lessons = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+          main.innerHTML = `
+        <div class="page-header">
+          <div class="page-title">🎥 Python Lessons</div>
+          <div class="page-sub">Watch → Read → Practice</div>
+        </div>
+
+        ${lessons.length === 0 ? `
+          <div class="empty">
+            <div class="empty-icon">🎥</div>
+            No lessons uploaded yet
+          </div>
+        ` : lessons.map(l => `
+          <div class="card">
+            <div class="card-title">${l.title}</div>
+
+            <iframe
+              src="${l.videoUrl}"
+              style="width:100%;height:220px;border:none;border-radius:10px;margin-bottom:.75rem"
+              allowfullscreen>
+            </iframe>
+
+            ${l.codeSample ? `
+              <div class="code-practice">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <span style="font-size:12px;color:var(--muted)">Python code</span>
+                  <button class="btn-submit" onclick="copyLessonCode('${l.id}')">
+                    📋 Copy
+                  </button>
+                </div>
+                <pre><code id="lesson-code-${l.id}">
+${l.codeSample}
+                </code></pre>
+              </div>
+            ` : ''}
+          </div>
+        `).join('')}
+      `;
+        });
+
+      unsubscribers.push(unsub);
+    }
+    // ============================================================
+    // STUDENT: EBOOK
+    // ============================================================
+    async function renderEbook() {
+      const main = document.getElementById('main-content');
+      const doc = await db.collection('settings').doc('ebook').get();
+      if (doc.exists) { EBOOK_URL = doc.data().url || EBOOK_URL; EBOOK_TITLE = doc.data().title || EBOOK_TITLE; }
+
+      main.innerHTML = `
     <div class="page-header">
       <div class="page-title">📖 Ebook Reader</div>
       <div class="page-sub">${EBOOK_TITLE}</div>
@@ -612,36 +1686,36 @@ async function renderEbook() {
     <div class="ebook-notice">⚠ This book is for enrolled students only. Do not share or distribute.</div>
     <iframe class="ebook-frame" src="${EBOOK_URL}" allowfullscreen></iframe>
   `;
-}
-
-// ============================================================
-// STUDENT: EXERCISES
-// ============================================================
-function renderExercises() {
-  const main = document.getElementById('main-content');
-  const unsub = db.collection('exercises').orderBy('createdAt', 'desc').onSnapshot(async snap => {
-    const exercises = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-
-    const subSnap = await db.collection('submissions')
-      .where('studentId', '==', currentUser.uid).get();
-    const subs = {};
-    subSnap.docs.forEach(d => { subs[d.data().exerciseId] = { id: d.id, ...d.data() }; });
-
-    if (exercises.length === 0) {
-      main.innerHTML = `<div class="page-header"><div class="page-title">Exercises</div></div><div class="empty"><div class="empty-icon">✏</div>No exercises posted yet</div>`;
-      return;
     }
 
-    main.innerHTML = `
+    // ============================================================
+    // STUDENT: EXERCISES
+    // ============================================================
+    function renderExercises() {
+      const main = document.getElementById('main-content');
+      const unsub = db.collection('exercises').orderBy('createdAt', 'desc').onSnapshot(async snap => {
+        const exercises = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        const subSnap = await db.collection('submissions')
+          .where('studentId', '==', currentUser.uid).get();
+        const subs = {};
+        subSnap.docs.forEach(d => { subs[d.data().exerciseId] = { id: d.id, ...d.data() }; });
+
+        if (exercises.length === 0) {
+          main.innerHTML = `<div class="page-header"><div class="page-title">Exercises</div></div><div class="empty"><div class="empty-icon">✏</div>No exercises posted yet</div>`;
+          return;
+        }
+
+        main.innerHTML = `
       <div class="page-header">
         <div class="page-title">Exercises</div>
         <div class="page-sub">${exercises.length} task${exercises.length !== 1 ? 's' : ''} posted</div>
       </div>
       ${exercises.map(ex => {
-        const sub = subs[ex.id];
-        const isGraded = sub && sub.grade;
-        const isSubmitted = sub && !sub.grade;
-        return `
+          const sub = subs[ex.id];
+          const isGraded = sub && sub.grade;
+          const isSubmitted = sub && !sub.grade;
+          return `
           <div class="exercise-card">
             <div class="ex-header">
               <div class="ex-title">${ex.title}</div>
@@ -665,36 +1739,36 @@ function renderExercises() {
             `}
           </div>
         `;
-      }).join('')}
+        }).join('')}
     `;
-  });
-  unsubscribers.push(unsub);
-}
+      });
+      unsubscribers.push(unsub);
+    }
 
-async function submitExercise(exId) {
-  const code = document.getElementById(`code-${exId}`).value.trim();
-  const replitLink = document.getElementById(`replit-${exId}`).value.trim();
-  if (!code && !replitLink) { showToast('Please add your code or a Replit link', 'error'); return; }
-  await db.collection('submissions').add({
-    exerciseId: exId, studentId: currentUser.uid,
-    studentName: currentUser.name, code, replitLink,
-    submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
-    grade: null, feedback: null
-  });
-  showToast('Submitted successfully!');
-}
+    async function submitExercise(exId) {
+      const code = document.getElementById(`code-${exId}`).value.trim();
+      const replitLink = document.getElementById(`replit-${exId}`).value.trim();
+      if (!code && !replitLink) { showToast('Please add your code or a Replit link', 'error'); return; }
+      await db.collection('submissions').add({
+        exerciseId: exId, studentId: currentUser.uid,
+        studentName: currentUser.name, code, replitLink,
+        submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        grade: null, feedback: null
+      });
+      showToast('Submitted successfully!');
+    }
 
-// ============================================================
-// Q&A
-// ============================================================
-function renderQA(admin) {
-  const main = document.getElementById('main-content');
-  const unsub = db.collection('questions').orderBy('createdAt', 'desc')
-    .onSnapshot(snap => {
-      const questions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      const unanswered = questions.filter(q => !q.answer).length;
+    // ============================================================
+    // Q&A
+    // ============================================================
+    function renderQA(admin) {
+      const main = document.getElementById('main-content');
+      const unsub = db.collection('questions').orderBy('createdAt', 'desc')
+        .onSnapshot(snap => {
+          const questions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          const unanswered = questions.filter(q => !q.answer).length;
 
-      main.innerHTML = `
+          main.innerHTML = `
         <div class="page-header">
           <div class="page-title">Q&A ${admin && unanswered > 0 ? `<span style="font-size:13px;color:var(--amber);background:var(--amber-dim);padding:2px 10px;border-radius:20px;margin-left:8px">${unanswered} unanswered</span>` : ''}</div>
           <div class="page-sub">${admin ? 'Answer student questions' : 'Ask anything about the course'}</div>
@@ -713,7 +1787,7 @@ function renderQA(admin) {
         <div class="card">
           <div class="card-title">Questions</div>
           ${questions.length === 0 ? '<div class="empty"><div class="empty-icon">💬</div>No questions yet</div>' :
-            questions.map(q => `
+              questions.map(q => `
               <div class="qa-item">
                 <div class="qa-question">${q.question}${!q.answer ? '<span class="unanswered-badge">Unanswered</span>' : ''}</div>
                 <div class="qa-meta">${q.studentName} · ${timeAgo(q.createdAt)}</div>
@@ -732,43 +1806,43 @@ function renderQA(admin) {
             `).join('')}
         </div>
       `;
-    });
-  unsubscribers.push(unsub);
-}
+        });
+      unsubscribers.push(unsub);
+    }
 
-async function submitQuestion() {
-  const q = document.getElementById('qa-question-input').value.trim();
-  if (!q) { showToast('Please type your question', 'error'); return; }
-  await db.collection('questions').add({
-    question: q, studentId: currentUser.uid, studentName: currentUser.name,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(), answer: null
-  });
-  showToast('Question submitted!');
-}
+    async function submitQuestion() {
+      const q = document.getElementById('qa-question-input').value.trim();
+      if (!q) { showToast('Please type your question', 'error'); return; }
+      await db.collection('questions').add({
+        question: q, studentId: currentUser.uid, studentName: currentUser.name,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(), answer: null
+      });
+      showToast('Question submitted!');
+    }
 
-async function answerQuestion(qId) {
-  const ans = document.getElementById(`ans-${qId}`).value.trim();
-  if (!ans) { showToast('Please write an answer', 'error'); return; }
-  await db.collection('questions').doc(qId).update({ answer: ans });
-  showToast('Answer posted!');
-}
+    async function answerQuestion(qId) {
+      const ans = document.getElementById(`ans-${qId}`).value.trim();
+      if (!ans) { showToast('Please write an answer', 'error'); return; }
+      await db.collection('questions').doc(qId).update({ answer: ans });
+      showToast('Answer posted!');
+    }
 
-// ============================================================
-// ADMIN: OVERVIEW
-// ============================================================
-function renderAdminOverview() {
-  const main = document.getElementById('main-content');
-  const unsub = db.collection('users').where('role', '==', 'student').onSnapshot(async snap => {
-    const students = snap.docs.map(d => d.data());
-    const exSnap = await db.collection('exercises').get();
-    const subSnap = await db.collection('submissions').where('grade', '==', null).get();
-    const qSnap = await db.collection('questions').where('answer', '==', null).get();
+    // ============================================================
+    // ADMIN: OVERVIEW
+    // ============================================================
+    function renderAdminOverview() {
+      const main = document.getElementById('main-content');
+      const unsub = db.collection('users').where('role', '==', 'student').onSnapshot(async snap => {
+        const students = snap.docs.map(d => d.data());
+        const exSnap = await db.collection('exercises').get();
+        const subSnap = await db.collection('submissions').where('grade', '==', null).get();
+        const qSnap = await db.collection('questions').where('answer', '==', null).get();
 
-    const avgProgress = students.length > 0
-      ? Math.round(students.reduce((s, st) => s + (st.progress || 0), 0) / students.length)
-      : 0;
+        const avgProgress = students.length > 0
+          ? Math.round(students.reduce((s, st) => s + (st.progress || 0), 0) / students.length)
+          : 0;
 
-    main.innerHTML = `
+        main.innerHTML = `
       <div class="page-header">
         <div class="page-title">Overview</div>
         <div class="page-sub">Your Dev Journey training dashboard</div>
@@ -805,36 +1879,36 @@ function renderAdminOverview() {
       <div class="card">
         <div class="card-title">Student Progress</div>
         ${students.length === 0 ? '<div class="empty">No students yet</div>' :
-          students.map(s => `
+            students.map(s => `
             <div style="margin-bottom:.75rem">
               <div style="display:flex;justify-content:space-between;margin-bottom:4px">
                 <span style="font-size:13px">${s.name}</span>
                 <span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--accent)">${s.progress || 0}%</span>
               </div>
-              <div class="progress-bar"><div class="progress-fill" style="width:${s.progress||0}%"></div></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:${s.progress || 0}%"></div></div>
             </div>
           `).join('')}
       </div>
     `;
-  });
-  unsubscribers.push(unsub);
-}
+      });
+      unsubscribers.push(unsub);
+    }
 
-// ============================================================
-// ADMIN: STUDENTS
-// ============================================================
-function renderAdminStudents() {
-  const main = document.getElementById('main-content');
-  const unsub = db.collection('users').where('role', '==', 'student').onSnapshot(snap => {
-    const students = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    main.innerHTML = `
+    // ============================================================
+    // ADMIN: STUDENTS
+    // ============================================================
+    function renderAdminStudents() {
+      const main = document.getElementById('main-content');
+      const unsub = db.collection('users').where('role', '==', 'student').onSnapshot(snap => {
+        const students = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        main.innerHTML = `
       <div class="page-header">
         <div class="page-title">Students</div>
         <div class="page-sub">${students.length} enrolled</div>
       </div>
       <div class="card">
         ${students.length === 0 ? '<div class="empty"><div class="empty-icon">👥</div>No students yet</div>' :
-          students.map(s => `
+            students.map(s => `
             <div class="student-row">
               <div class="student-info">
                 <div class="student-name">${s.name} ${s.banned ? '<span style="font-size:10px;color:var(--red);background:var(--red-dim);padding:2px 6px;border-radius:20px">BANNED</span>' : ''}</div>
@@ -849,48 +1923,54 @@ function renderAdminStudents() {
           `).join('')}
       </div>
     `;
-  });
-  unsubscribers.push(unsub);
-}
+      });
+      unsubscribers.push(unsub);
+    }
 
-async function banStudent(uid, ban) {
-  if (ban && !confirm('Are you sure you want to ban this student?')) return;
-  await db.collection('users').doc(uid).update({ banned: ban });
-  showToast(ban ? 'Student banned' : 'Student unbanned');
-}
+    async function banStudent(uid, ban) {
+      if (ban && !confirm('Are you sure you want to ban this student?')) return;
+      await db.collection('users').doc(uid).update({ banned: ban });
+      showToast(ban ? 'Student banned' : 'Student unbanned');
+    }
 
-// ============================================================
-// ADMIN: CONTENT
-// ============================================================
-function renderAdminContent() {
-  const main = document.getElementById('main-content');
-  main.innerHTML = `
+    // ============================================================
+    // ADMIN: CONTENT
+    // ============================================================
+    function renderAdminContent() {
+      const main = document.getElementById('main-content');
+
+      main.innerHTML = `
     <div class="page-header">
       <div class="page-title">Content</div>
-      <div class="page-sub">Manage announcements, exercises & ebook</div>
+      <div class="page-sub">Manage announcements, exercises, lessons & ebook</div>
     </div>
+
     <div class="tabs">
       <button class="tab active" onclick="showContentTab('announcements', this)">Announcements</button>
       <button class="tab" onclick="showContentTab('tasks', this)">Exercises</button>
+      <button class="tab" onclick="showContentTab('lessons', this)">Lessons</button>
       <button class="tab" onclick="showContentTab('ebook-ctrl', this)">Ebook</button>
     </div>
+
     <div id="content-tab"></div>
   `;
-  showContentTab('announcements', document.querySelector('.tab.active'));
-}
 
-function showContentTab(tab, el) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  if (tab === 'announcements') renderAnnouncementsTab();
-  else if (tab === 'tasks') renderTasksTab();
-  else if (tab === 'ebook-ctrl') renderEbookControlTab();
-}
+      showContentTab('announcements', document.querySelector('.tab.active'));
+    }
 
-function renderAnnouncementsTab() {
-  const unsub = db.collection('announcements').orderBy('createdAt', 'desc').onSnapshot(snap => {
-    const anns = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    document.getElementById('content-tab').innerHTML = `
+    function showContentTab(tab, el) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      if (tab === 'announcements') renderAnnouncementsTab();
+      else if (tab === 'tasks') renderTasksTab();
+      else if (tab === 'ebook-ctrl') renderEbookControlTab();
+      else if (tab === 'lessons') renderLessonsAdmin(); // 
+    }
+
+    function renderAnnouncementsTab() {
+      const unsub = db.collection('announcements').orderBy('createdAt', 'desc').onSnapshot(snap => {
+        const anns = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        document.getElementById('content-tab').innerHTML = `
       <div class="card">
         <div class="card-title">New Announcement</div>
         <div class="form-field">
@@ -901,7 +1981,7 @@ function renderAnnouncementsTab() {
       <div class="card">
         <div class="card-title">Posted Announcements</div>
         ${anns.length === 0 ? '<div class="empty">Nothing posted yet</div>' :
-          anns.map(a => `
+            anns.map(a => `
             <div class="announcement">
               <div class="ann-meta">
                 <span class="ann-time">${timeAgo(a.createdAt)}</span>
@@ -912,29 +1992,29 @@ function renderAnnouncementsTab() {
           `).join('')}
       </div>
     `;
-  });
-  unsubscribers.push(unsub);
-}
+      });
+      unsubscribers.push(unsub);
+    }
 
-async function postAnnouncement() {
-  const text = document.getElementById('ann-text').value.trim();
-  if (!text) { showToast('Please write something first', 'error'); return; }
-  await db.collection('announcements').add({
-    text, createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  });
-  document.getElementById('ann-text').value = '';
-  showToast('Announcement broadcast!');
-}
+    async function postAnnouncement() {
+      const text = document.getElementById('ann-text').value.trim();
+      if (!text) { showToast('Please write something first', 'error'); return; }
+      await db.collection('announcements').add({
+        text, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      document.getElementById('ann-text').value = '';
+      showToast('Announcement broadcast!');
+    }
 
-async function deleteAnnouncement(id) {
-  await db.collection('announcements').doc(id).delete();
-  showToast('Deleted');
-}
+    async function deleteAnnouncement(id) {
+      await db.collection('announcements').doc(id).delete();
+      showToast('Deleted');
+    }
 
-function renderTasksTab() {
-  const unsub = db.collection('exercises').orderBy('createdAt', 'desc').onSnapshot(snap => {
-    const exercises = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    document.getElementById('content-tab').innerHTML = `
+    function renderTasksTab() {
+      const unsub = db.collection('exercises').orderBy('createdAt', 'desc').onSnapshot(snap => {
+        const exercises = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        document.getElementById('content-tab').innerHTML = `
       <div class="card">
         <div class="card-title">New Exercise</div>
         <div class="form-field"><label>TITLE</label><input type="text" id="ex-title" placeholder="e.g. Chapter 2 Exercise — Variables"></div>
@@ -945,39 +2025,39 @@ function renderTasksTab() {
       <div class="card">
         <div class="card-title">Posted Exercises</div>
         ${exercises.length === 0 ? '<div class="empty">No exercises yet</div>' :
-          exercises.map(ex => `
+            exercises.map(ex => `
             <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--border)">
               <div>
                 <div style="font-size:13px;font-weight:500">${ex.title}</div>
-                <div style="font-size:11px;color:var(--muted)">${ex.description.substring(0,60)}...</div>
+                <div style="font-size:11px;color:var(--muted)">${ex.description.substring(0, 60)}...</div>
               </div>
               <button class="btn-icon" onclick="deleteExercise('${ex.id}')">✕</button>
             </div>
           `).join('')}
       </div>
     `;
-  });
-  unsubscribers.push(unsub);
-}
+      });
+      unsubscribers.push(unsub);
+    }
 
-async function postExercise() {
-  const title = document.getElementById('ex-title').value.trim();
-  const description = document.getElementById('ex-desc').value.trim();
-  const dueDateVal = document.getElementById('ex-due').value;
-  if (!title || !description) { showToast('Please fill in title and instructions', 'error'); return; }
-  const data = { title, description, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
-  if (dueDateVal) data.dueDate = firebase.firestore.Timestamp.fromDate(new Date(dueDateVal));
-  await db.collection('exercises').add(data);
-  showToast('Exercise posted!');
-}
+    async function postExercise() {
+      const title = document.getElementById('ex-title').value.trim();
+      const description = document.getElementById('ex-desc').value.trim();
+      const dueDateVal = document.getElementById('ex-due').value;
+      if (!title || !description) { showToast('Please fill in title and instructions', 'error'); return; }
+      const data = { title, description, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+      if (dueDateVal) data.dueDate = firebase.firestore.Timestamp.fromDate(new Date(dueDateVal));
+      await db.collection('exercises').add(data);
+      showToast('Exercise posted!');
+    }
 
-async function deleteExercise(id) {
-  await db.collection('exercises').doc(id).delete();
-  showToast('Exercise deleted');
-}
+    async function deleteExercise(id) {
+      await db.collection('exercises').doc(id).delete();
+      showToast('Exercise deleted');
+    }
 
-function renderEbookControlTab() {
-  document.getElementById('content-tab').innerHTML = `
+    function renderEbookControlTab() {
+      document.getElementById('content-tab').innerHTML = `
     <div class="card">
       <div class="card-title">Ebook Settings</div>
       <div class="form-field"><label>BOOK TITLE</label><input type="text" id="ebook-title-input" value="${EBOOK_TITLE}" placeholder="Book title"></div>
@@ -986,28 +2066,134 @@ function renderEbookControlTab() {
       <button class="btn-action" onclick="updateEbook()">Update Ebook</button>
     </div>
   `;
-}
+    }
+    function renderLessonsAdmin() {
+      const tab = document.getElementById('content-tab');
 
-async function updateEbook() {
-  const url = document.getElementById('ebook-url-input').value.trim();
-  const title = document.getElementById('ebook-title-input').value.trim();
-  if (!url) { showToast('Please enter a URL', 'error'); return; }
-  await db.collection('settings').doc('ebook').set({ url, title });
-  EBOOK_URL = url; EBOOK_TITLE = title;
-  showToast('Ebook updated!');
-}
+      const unsub = db.collection('lessons')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot(snap => {
 
-// ============================================================
-// ADMIN: GRADING
-// ============================================================
-function renderAdminGrading() {
-  const main = document.getElementById('main-content');
-  const unsub = db.collection('submissions').orderBy('submittedAt', 'desc').onSnapshot(snap => {
-    const subs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    const pending = subs.filter(s => !s.grade);
-    const graded = subs.filter(s => s.grade);
+          const lessons = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-    main.innerHTML = `
+          tab.innerHTML = `
+        <div class="card">
+          <div class="card-title">New Lesson</div>
+
+          <div class="form-field">
+            <label>LESSON TITLE</label>
+            <input id="lesson-title" placeholder="e.g. Python Loops">
+          </div>
+
+          <div class="form-field">
+            <label>VIDEO EMBED LINK</label>
+            <input id="lesson-video" placeholder="https://www.youtube.com/embed/VIDEO_ID">
+          </div>
+
+          <div class="form-field">
+            <label>PYTHON CODE SAMPLE</label>
+            <textarea id="lesson-code" placeholder="for i in range(5):\n    print(i)"></textarea>
+          </div>
+
+          <button class="btn-action" onclick="postLesson()">Add Lesson</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Uploaded Lessons</div>
+
+          ${lessons.length === 0 ? `
+            <div class="empty">
+              <div class="empty-icon">🎥</div>
+              No lessons uploaded yet
+            </div>
+          ` : lessons.map(l => `
+            <div class="exercise-card">
+              <div class="ex-header">
+                <div class="ex-title">${l.title}</div>
+                <button class="btn-icon" onclick="deleteLesson('${l.id}')">✕</button>
+              </div>
+
+              ${l.videoUrl}
+
+              <button class="btn-submit"
+                onclick="editLesson(
+                  '${l.id}',
+                  \`${l.title}\`,
+                  \`${l.videoUrl}\`,
+                  \`${(l.codeSample || '').replace(/`/g, '\\`')}\`
+                )">
+                ✏ Edit
+              </button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+        });
+
+      unsubscribers.push(unsub);
+    }
+    async function postLesson() {
+      const title = document.getElementById('lesson-title').value.trim();
+      const videoUrl = document.getElementById('lesson-video').value.trim();
+      const codeSample = document.getElementById('lesson-code').value.trim();
+
+      if (!title || !videoUrl) {
+        showToast('Title and video are required', 'error');
+        return;
+      }
+
+      await db.collection('lessons').add({
+        title,
+        videoUrl,
+        codeSample,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      showToast('Lesson added successfully ✅');
+    }
+    async function deleteLesson(id) {
+      if (!confirm('Delete this lesson permanently?')) return;
+      await db.collection('lessons').doc(id).delete();
+      showToast('Lesson deleted ✅');
+    }
+    function editLesson(id, title, videoUrl, codeSample) {
+      document.getElementById('lesson-title').value = title;
+      document.getElementById('lesson-video').value = videoUrl;
+      document.getElementById('lesson-code').value = codeSample;
+
+      const btn = document.querySelector('#content-tab .btn-action');
+      btn.textContent = 'Update Lesson';
+      btn.onclick = async () => {
+        await db.collection('lessons').doc(id).update({
+          title,
+          videoUrl: document.getElementById('lesson-video').value.trim(),
+          codeSample: document.getElementById('lesson-code').value.trim()
+        });
+        showToast('Lesson updated ✅');
+      };
+    }
+
+
+    async function updateEbook() {
+      const url = document.getElementById('ebook-url-input').value.trim();
+      const title = document.getElementById('ebook-title-input').value.trim();
+      if (!url) { showToast('Please enter a URL', 'error'); return; }
+      await db.collection('settings').doc('ebook').set({ url, title });
+      EBOOK_URL = url; EBOOK_TITLE = title;
+      showToast('Ebook updated!');
+    }
+
+    // ============================================================
+    // ADMIN: GRADING
+    // ============================================================
+    function renderAdminGrading() {
+      const main = document.getElementById('main-content');
+      const unsub = db.collection('submissions').orderBy('submittedAt', 'desc').onSnapshot(snap => {
+        const subs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const pending = subs.filter(s => !s.grade);
+        const graded = subs.filter(s => s.grade);
+
+        main.innerHTML = `
       <div class="page-header">
         <div class="page-title">Grading</div>
         <div class="page-sub">${pending.length} pending · ${graded.length} graded</div>
@@ -1020,24 +2206,24 @@ function renderAdminGrading() {
         ${renderSubmissions(pending, true)}
       </div>
     `;
-    window._pendingSubs = pending;
-    window._gradedSubs = graded;
-  });
-  unsubscribers.push(unsub);
-}
+        window._pendingSubs = pending;
+        window._gradedSubs = graded;
+      });
+      unsubscribers.push(unsub);
+    }
 
-function showGradingTab(tab, el) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('grading-tab').innerHTML = renderSubmissions(
-    tab === 'pending' ? window._pendingSubs : window._gradedSubs,
-    tab === 'pending'
-  );
-}
+    function showGradingTab(tab, el) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('grading-tab').innerHTML = renderSubmissions(
+        tab === 'pending' ? window._pendingSubs : window._gradedSubs,
+        tab === 'pending'
+      );
+    }
 
-function renderSubmissions(subs, showGradeInput) {
-  if (subs.length === 0) return '<div class="empty"><div class="empty-icon">✅</div>Nothing here</div>';
-  return subs.map(s => `
+    function renderSubmissions(subs, showGradeInput) {
+      if (subs.length === 0) return '<div class="empty"><div class="empty-icon">✅</div>Nothing here</div>';
+      return subs.map(s => `
     <div class="submission-item">
       <div class="sub-header">
         <div>
@@ -1058,15 +2244,16 @@ function renderSubmissions(subs, showGradeInput) {
       ` : ''}
     </div>
   `).join('');
-}
+    }
 
-async function gradeSubmission(subId) {
-  const grade = document.getElementById(`grade-${subId}`).value.trim();
-  const feedback = document.getElementById(`feedback-${subId}`).value.trim();
-  if (!grade) { showToast('Please enter a grade', 'error'); return; }
-  await db.collection('submissions').doc(subId).update({ grade, feedback });
-  showToast('Grade saved!');
-}
-</script>
+    async function gradeSubmission(subId) {
+      const grade = document.getElementById(`grade-${subId}`).value.trim();
+      const feedback = document.getElementById(`feedback-${subId}`).value.trim();
+      if (!grade) { showToast('Please enter a grade', 'error'); return; }
+      await db.collection('submissions').doc(subId).update({ grade, feedback });
+      showToast('Grade saved!');
+    }
+  </script>
 </body>
+
 </html>
