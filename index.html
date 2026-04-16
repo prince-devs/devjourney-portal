@@ -24,19 +24,20 @@
             --lime: #a8e063;
             --lime2: #88c040;
             --lime3: #c8f080;
-            --lime-bg: rgba(168, 224, 99, 0.08);
-            --lime-border: rgba(168, 224, 99, 0.18);
+            --lime-bg: rgba(168, 224, 99, .08);
+            --lime-border: rgba(168, 224, 99, .18);
             --sky: #5aacf0;
-            --sky-bg: rgba(90, 172, 240, 0.08);
-            --sky-border: rgba(90, 172, 240, 0.18);
+            --sky-bg: rgba(90, 172, 240, .08);
+            --sky-border: rgba(90, 172, 240, .18);
             --rose: #f06858;
-            --rose-bg: rgba(240, 104, 88, 0.08);
-            --rose-border: rgba(240, 104, 88, 0.18);
+            --rose-bg: rgba(240, 104, 88, .08);
+            --rose-border: rgba(240, 104, 88, .18);
             --gold: #e8b84a;
-            --gold-bg: rgba(232, 184, 74, 0.08);
-            --gold-border: rgba(232, 184, 74, 0.18);
+            --gold-bg: rgba(232, 184, 74, .08);
+            --gold-border: rgba(232, 184, 74, .18);
             --violet: #9070f0;
-            --violet-bg: rgba(144, 112, 240, 0.08);
+            --violet-bg: rgba(144, 112, 240, .08);
+            --violet-border: rgba(144, 112, 240, .22);
             --sidebar-w: 240px;
             --topbar-h: 56px;
             --r: 8px;
@@ -81,7 +82,7 @@
             border-radius: 4px
         }
 
-        /* ── AUTH ── */
+        /* AUTH */
         #auth-screen {
             position: fixed;
             inset: 0;
@@ -324,7 +325,7 @@
             text-transform: uppercase
         }
 
-        /* ── APP SHELL ── */
+        /* APP SHELL */
         #app {
             display: none;
             height: 100%;
@@ -342,7 +343,7 @@
             position: relative
         }
 
-        /* ── SIDEBAR ── */
+        /* SIDEBAR */
         .sidebar {
             width: var(--sidebar-w);
             flex-shrink: 0;
@@ -522,7 +523,7 @@
             color: var(--rose)
         }
 
-        /* ── TOPBAR (mobile) ── */
+        /* TOPBAR (mobile) */
         .topbar {
             background: var(--bg2);
             border-bottom: 1px solid var(--border);
@@ -565,7 +566,7 @@
             color: var(--white)
         }
 
-        /* ── SIDEBAR OVERLAY (mobile) ── */
+        /* SIDEBAR OVERLAY */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -574,7 +575,7 @@
             z-index: 200
         }
 
-        /* ── MAIN CONTENT ── */
+        /* MAIN */
         .main-area {
             flex: 1;
             overflow-y: auto;
@@ -588,7 +589,7 @@
             flex: 1
         }
 
-        /* ── PAGE HEADER ── */
+        /* PAGE HEADER */
         .ph {
             margin-bottom: 1.5rem
         }
@@ -615,7 +616,7 @@
             margin-top: .2rem
         }
 
-        /* ── CARDS ── */
+        /* CARDS */
         .card {
             background: var(--bg2);
             border: 1px solid var(--border);
@@ -640,7 +641,7 @@
             margin-bottom: .25rem
         }
 
-        /* ── STAT GRID ── */
+        /* STAT GRID */
         .stat-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -694,7 +695,7 @@
             color: var(--rose)
         }
 
-        /* ── PROGRESS ── */
+        /* PROGRESS */
         .prog-wrap {
             margin: .6rem 0
         }
@@ -732,7 +733,7 @@
             transition: width .7s ease
         }
 
-        /* ── CHAPTERS ── */
+        /* CHAPTERS */
         .ch-item {
             display: flex;
             align-items: center;
@@ -792,7 +793,7 @@
             color: var(--muted)
         }
 
-        /* ── ANNOUNCEMENT ── */
+        /* ANNOUNCEMENT */
         .ann {
             background: var(--bg3);
             border: 1px solid var(--border);
@@ -831,7 +832,7 @@
             line-height: 1.6
         }
 
-        /* ── EXERCISES ── */
+        /* EXERCISES */
         .ex-card {
             background: var(--bg3);
             border: 1px solid var(--border);
@@ -965,7 +966,7 @@
             margin-top: .2rem
         }
 
-        /* ── BUTTONS ── */
+        /* BUTTONS */
         .btn-submit {
             background: var(--sky-bg);
             border: 1px solid var(--sky-border);
@@ -1018,7 +1019,7 @@
             color: var(--rose)
         }
 
-        /* ── Q&A ── */
+        /* Q&A */
         .qa-item {
             background: var(--bg3);
             border: 1px solid var(--border);
@@ -1076,7 +1077,7 @@
             font-family: var(--mono)
         }
 
-        /* ── EBOOK ── */
+        /* EBOOK */
         .ebook-frame {
             width: 100%;
             height: calc(100vh - 200px);
@@ -1099,7 +1100,7 @@
             gap: 6px
         }
 
-        /* ── ADMIN: STUDENTS ── */
+        /* ADMIN STUDENTS */
         .student-row {
             display: flex;
             align-items: center;
@@ -1195,7 +1196,7 @@
             vertical-align: middle
         }
 
-        /* ── ADMIN: SUBMISSIONS ── */
+        /* SUBMISSIONS */
         .sub-item {
             background: var(--bg3);
             border: 1px solid var(--border);
@@ -1292,7 +1293,7 @@
             white-space: nowrap
         }
 
-        /* ── FORM FIELDS ── */
+        /* FORM FIELDS */
         .ff {
             margin-bottom: .75rem
         }
@@ -1334,15 +1335,14 @@
             min-height: 72px
         }
 
-        /* ── TABS ── */
+        /* TABS */
         .tabs {
             display: flex;
             gap: .3rem;
             margin-bottom: .875rem;
             overflow-x: auto;
             padding-bottom: 2px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 0
+            border-bottom: 1px solid var(--border)
         }
 
         .tab {
@@ -1368,7 +1368,7 @@
             color: var(--text2)
         }
 
-        /* ── LESSONS ── */
+        /* LESSONS */
         .lesson-card {
             background: var(--bg2);
             border: 1px solid var(--border);
@@ -1432,7 +1432,7 @@
             word-break: break-all
         }
 
-        /* ── ALERT ── */
+        /* ALERT */
         .alert-card {
             background: var(--gold-bg);
             border: 1px solid var(--gold-border);
@@ -1457,7 +1457,7 @@
             margin-top: .15rem
         }
 
-        /* ── EMPTY / LOADING ── */
+        /* EMPTY / LOADING */
         .empty {
             text-align: center;
             padding: 2.5rem 1rem;
@@ -1497,7 +1497,7 @@
             }
         }
 
-        /* ── TOAST ── */
+        /* TOAST */
         .toast {
             position: fixed;
             bottom: 24px;
@@ -1528,7 +1528,7 @@
             color: var(--rose)
         }
 
-        /* ── MOBILE ── */
+        /* MOBILE */
         @media(max-width:768px) {
             .topbar {
                 display: flex
@@ -1551,10 +1551,6 @@
                 display: block
             }
 
-            .main-area {
-                padding-top: 0
-            }
-
             .main-scroll {
                 padding: 1.25rem 1rem 1.75rem
             }
@@ -1564,7 +1560,7 @@
             }
         }
 
-        /* ── OVERVIEW GRID ── */
+        /* OVERVIEW GRID */
         .overview-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -1576,10 +1572,482 @@
                 grid-template-columns: 1fr 1fr
             }
         }
-    </style>
-    <!-- CodeMirror (Python syntax highlighting) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
 
+        /* ════════════════════════════════
+           ROADMAP STYLES
+        ════════════════════════════════ */
+        .track-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: .875rem;
+            margin-bottom: .75rem
+        }
+
+        @media(min-width:700px) {
+            .track-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+        }
+
+        .track-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--rl);
+            padding: 1.5rem 1.25rem;
+            cursor: pointer;
+            transition: border-color .2s, transform .15s, box-shadow .2s;
+            position: relative;
+            overflow: hidden
+        }
+
+        .track-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: var(--rl) var(--rl) 0 0;
+            transition: opacity .2s
+        }
+
+        .track-card.sky::before {
+            background: linear-gradient(90deg, var(--sky), #3a8ccf)
+        }
+
+        .track-card.violet::before {
+            background: linear-gradient(90deg, var(--violet), #6040c0)
+        }
+
+        .track-card.gold::before {
+            background: linear-gradient(90deg, var(--gold), #c89030)
+        }
+
+        .track-card:hover {
+            transform: translateY(-2px)
+        }
+
+        .track-card.sky:hover {
+            border-color: var(--sky-border);
+            box-shadow: 0 8px 24px rgba(90, 172, 240, .12)
+        }
+
+        .track-card.violet:hover {
+            border-color: var(--violet-border);
+            box-shadow: 0 8px 24px rgba(144, 112, 240, .12)
+        }
+
+        .track-card.gold:hover {
+            border-color: var(--gold-border);
+            box-shadow: 0 8px 24px rgba(232, 184, 74, .12)
+        }
+
+        .track-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: .875rem
+        }
+
+        .track-icon.sky {
+            background: var(--sky-bg);
+            border: 1px solid var(--sky-border)
+        }
+
+        .track-icon.violet {
+            background: var(--violet-bg);
+            border: 1px solid var(--violet-border)
+        }
+
+        .track-icon.gold {
+            background: var(--gold-bg);
+            border: 1px solid var(--gold-border)
+        }
+
+        .track-card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: .3rem
+        }
+
+        .track-card-tagline {
+            font-size: 12px;
+            color: var(--muted2);
+            margin-bottom: .875rem;
+            line-height: 1.5
+        }
+
+        .track-stack {
+            font-size: 10px;
+            font-family: var(--mono);
+            color: var(--muted);
+            padding: .35rem .6rem;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            line-height: 1.6
+        }
+
+        .track-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 1rem;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 7px 14px;
+            border-radius: var(--r);
+            border: none;
+            cursor: pointer;
+            font-family: var(--sans);
+            transition: all .15s
+        }
+
+        .track-cta.sky {
+            background: var(--sky-bg);
+            color: var(--sky);
+            border: 1px solid var(--sky-border)
+        }
+
+        .track-cta.sky:hover {
+            background: var(--sky);
+            color: #0c0c10
+        }
+
+        .track-cta.violet {
+            background: var(--violet-bg);
+            color: var(--violet);
+            border: 1px solid var(--violet-border)
+        }
+
+        .track-cta.violet:hover {
+            background: var(--violet);
+            color: #fff
+        }
+
+        .track-cta.gold {
+            background: var(--gold-bg);
+            color: var(--gold);
+            border: 1px solid var(--gold-border)
+        }
+
+        .track-cta.gold:hover {
+            background: var(--gold);
+            color: #0c0c10
+        }
+
+        /* Roadmap detail */
+        .rm-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            color: var(--muted2);
+            border-radius: var(--r);
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: var(--sans);
+            font-weight: 500;
+            margin-bottom: 1.25rem;
+            transition: all .15s
+        }
+
+        .rm-back:hover {
+            color: var(--text2);
+            border-color: var(--border2)
+        }
+
+        .rm-overview {
+            background: var(--bg3);
+            border-radius: var(--rl);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.8;
+            border-left: 3px solid var(--lime)
+        }
+
+        .phase-block {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--rl);
+            margin-bottom: .75rem;
+            overflow: hidden
+        }
+
+        .phase-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: .875rem 1rem;
+            cursor: pointer;
+            transition: background .15s;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .phase-head:hover {
+            background: var(--bg3)
+        }
+
+        .phase-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            font-family: var(--mono);
+            flex-shrink: 0
+        }
+
+        .phase-num.sky {
+            background: var(--sky-bg);
+            color: var(--sky);
+            border: 1px solid var(--sky-border)
+        }
+
+        .phase-num.violet {
+            background: var(--violet-bg);
+            color: var(--violet);
+            border: 1px solid var(--violet-border)
+        }
+
+        .phase-num.gold {
+            background: var(--gold-bg);
+            color: var(--gold);
+            border: 1px solid var(--gold-border)
+        }
+
+        .phase-num.lime {
+            background: var(--lime-bg);
+            color: var(--lime);
+            border: 1px solid var(--lime-border)
+        }
+
+        .phase-head-text {
+            flex: 1
+        }
+
+        .phase-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--white)
+        }
+
+        .phase-duration {
+            font-size: 11px;
+            color: var(--muted);
+            font-family: var(--mono)
+        }
+
+        .phase-chevron {
+            font-size: 12px;
+            color: var(--muted);
+            transition: transform .2s
+        }
+
+        .phase-chevron.open {
+            transform: rotate(180deg)
+        }
+
+        .phase-body {
+            padding: 1rem;
+            display: none
+        }
+
+        .phase-body.open {
+            display: block
+        }
+
+        .rm-section-label {
+            font-size: 9px;
+            font-family: var(--mono);
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: .5rem;
+            margin-top: .75rem
+        }
+
+        .rm-section-label:first-child {
+            margin-top: 0
+        }
+
+        .rm-list {
+            list-style: none;
+            padding: 0
+        }
+
+        .rm-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text);
+            padding: .35rem 0;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .rm-list li:last-child {
+            border-bottom: none
+        }
+
+        .rm-list li::before {
+            content: '›';
+            color: var(--lime);
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px
+        }
+
+        .rm-success {
+            background: var(--lime-bg);
+            border: 1px solid var(--lime-border);
+            border-radius: var(--r);
+            padding: .65rem .875rem;
+            font-size: 12px;
+            color: var(--lime);
+            margin-top: .75rem;
+            line-height: 1.7
+        }
+
+        .rm-success strong {
+            display: block;
+            font-size: 10px;
+            font-family: var(--mono);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+            opacity: .7
+        }
+
+        .project-pill {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .75rem;
+            margin-bottom: .5rem
+        }
+
+        .project-pill-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text2);
+            margin-bottom: .25rem
+        }
+
+        .project-pill-proof {
+            font-size: 12px;
+            color: var(--muted2);
+            line-height: 1.6
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: .6rem 0;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .resource-item:last-child {
+            border-bottom: none
+        }
+
+        .resource-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 5px
+        }
+
+        .resource-dot.sky {
+            background: var(--sky)
+        }
+
+        .resource-dot.violet {
+            background: var(--violet)
+        }
+
+        .resource-dot.gold {
+            background: var(--gold)
+        }
+
+        .resource-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--sky)
+        }
+
+        .resource-name:hover {
+            text-decoration: underline
+        }
+
+        .resource-note {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 1px
+        }
+
+        .action-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: .7rem;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            margin-bottom: .4rem
+        }
+
+        .action-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--lime-bg);
+            border: 1px solid var(--lime-border);
+            color: var(--lime);
+            font-size: 10px;
+            font-weight: 700;
+            font-family: var(--mono);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .action-text {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.6
+        }
+
+        .timeline-box {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--rl);
+            padding: 1rem 1.25rem;
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.8
+        }
+
+        .timeline-box strong {
+            color: var(--white)
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
 </head>
@@ -1627,10 +2095,10 @@
                             <div class="aside-check"></div>Video lessons with code samples
                         </li>
                         <li>
-                            <div class="aside-check"></div>Graded exercises & feedback
+                            <div class="aside-check"></div>Graded exercises &amp; feedback
                         </li>
                         <li>
-                            <div class="aside-check"></div>Live Q&A with your instructor
+                            <div class="aside-check"></div>Live Q&amp;A with your instructor
                         </li>
                         <li>
                             <div class="aside-check"></div>Downloadable ebook included
@@ -1647,7 +2115,6 @@
 
     <!-- APP -->
     <div id="app">
-        <!-- Mobile topbar -->
         <div class="topbar">
             <button class="hamburger" onclick="openSidebar()">☰</button>
             <div class="topbar-brand">
@@ -1656,9 +2123,7 @@
             </div>
             <div style="width:32px"></div>
         </div>
-
         <div class="app-body">
-            <!-- Sidebar -->
             <aside class="sidebar" id="sidebar">
                 <div class="sidebar-top">
                     <div class="sidebar-brand">
@@ -1679,8 +2144,6 @@
                     </div>
                 </div>
             </aside>
-
-            <!-- Main -->
             <div class="main-area">
                 <div class="main-scroll" id="main-content"></div>
             </div>
@@ -1700,7 +2163,6 @@
             messagingSenderId: "837161815919",
             appId: "1:837161815919:web:5beaaa88b865bd8c60e29a"
         };
-
         const INSTRUCTOR_EMAIL = "devjourney2006@gmail.com";
         let EBOOK_URL = "https://drive.google.com/file/d/YOUR_FILE_ID/preview";
         let EBOOK_TITLE = "Python for Absolute Beginners — Book 1";
@@ -1719,57 +2181,31 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
         let currentUser = null, isAdmin = false, unsubscribers = [];
-        // ──────────────────────────────
-        // PYTHON ENGINE (Pyodide)
-        // ──────────────────────────────
-        let pyodide = null;
-        let pyodideReady = false;
 
-        async function initPython() {
-            pyodide = await loadPyodide();
-            pyodideReady = true;
-        }
-
+        // ── PYTHON ENGINE ──
+        let pyodide = null, pyodideReady = false;
+        async function initPython() { pyodide = await loadPyodide(); pyodideReady = true; }
         initPython();
-
         async function runPython(code, exId) {
             const output = document.getElementById(`py-output-${exId}`);
             if (!output) return;
-
-            if (!pyodideReady) {
-                output.textContent = 'Python is still loading...';
-                return;
-            }
-
-            output.style.color = 'var(--lime)';
-            output.textContent = '';
-
+            if (!pyodideReady) { output.textContent = 'Python is still loading...'; return; }
+            output.style.color = 'var(--lime)'; output.textContent = '';
             const wrappedCode = `
 import sys
 from io import StringIO
-
-_buf = StringIO()
-sys.stdout = _buf
-sys.stderr = _buf
-
+_buf=StringIO()
+sys.stdout=_buf
+sys.stderr=_buf
 try:
 ${code.split('\n').map(l => '    ' + l).join('\n')}
 except Exception as e:
     print(e)
-
-sys.stdout = sys.__stdout__
-sys.stderr = sys.__stderr__
-
-_buf.getvalue()
-`;
-
-            try {
-                const result = await pyodide.runPythonAsync(wrappedCode);
-                output.textContent = result || '';
-            } catch (err) {
-                output.textContent = err.toString();
-                output.style.color = '#f06858';
-            }
+sys.stdout=sys.__stdout__
+sys.stderr=sys.__stderr__
+_buf.getvalue()`;
+            try { const result = await pyodide.runPythonAsync(wrappedCode); output.textContent = result || ''; }
+            catch (err) { output.textContent = err.toString(); output.style.color = '#f06858'; }
         }
 
         function showToast(msg, type = 'success') {
@@ -1791,22 +2227,10 @@ _buf.getvalue()
             const d = ts.toDate ? ts.toDate() : new Date(ts);
             return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
         }
-        function initials(name) {
-            if (!name) return '?';
-            return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-        }
-        function copyLessonCode(id) {
-            navigator.clipboard.writeText(document.getElementById(`lesson-code-${id}`).innerText);
-            showToast('Copied!');
-        }
-        function openSidebar() {
-            document.getElementById('sidebar').classList.add('open');
-            document.getElementById('sidebar-overlay').classList.add('show');
-        }
-        function closeSidebar() {
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('sidebar-overlay').classList.remove('show');
-        }
+        function initials(name) { if (!name) return '?'; return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2); }
+        function copyLessonCode(id) { navigator.clipboard.writeText(document.getElementById(`lesson-code-${id}`).innerText); showToast('Copied!'); }
+        function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebar-overlay').classList.add('show'); }
+        function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebar-overlay').classList.remove('show'); }
 
         // AUTH
         let authMode = 'signin';
@@ -1822,7 +2246,6 @@ _buf.getvalue()
         };
         document.getElementById('input-password').onkeydown = e => { if (e.key === 'Enter') doAuth(); };
         document.getElementById('auth-btn').onclick = doAuth;
-
         async function doAuth() {
             const email = document.getElementById('input-email').value.trim();
             const password = document.getElementById('input-password').value;
@@ -1840,9 +2263,7 @@ _buf.getvalue()
                         joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
                         banned: false, progress: 0, chaptersCompleted: []
                     });
-                } else {
-                    await auth.signInWithEmailAndPassword(email, password);
-                }
+                } else { await auth.signInWithEmailAndPassword(email, password); }
             } catch (e) {
                 let msg = 'Something went wrong. Try again.';
                 if (e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password') msg = 'Invalid email or password.';
@@ -1887,6 +2308,7 @@ _buf.getvalue()
             { id: 'exercises', icon: '✎', label: 'Exercises' },
             { id: 'practice', icon: '⌨', label: 'Practice Lab' },
             { id: 'projects', icon: '🧩', label: 'Beginner Projects' },
+            { id: 'roadmap', icon: '◈', label: 'Learning Roadmap' },
             { id: 'qa', icon: '◯', label: 'Q & A' }
         ];
         const ADMIN_NAV = [
@@ -1897,54 +2319,17 @@ _buf.getvalue()
             { id: 'project-review', icon: '🧩', label: 'Project Review' },
             { id: 'qa', icon: '◯', label: 'Q & A' },
         ];
-        const BEGINNER_PROJECTS = [
-            {
-                id: 'guessing',
-                title: 'Number Guessing Game',
-                description: 'Build a game where the user guesses a randomly generated number.',
-                skills: ['Variables', 'Loops', 'Conditionals'],
-                difficulty: 1
-            },
-            {
-                id: 'calculator',
-                title: 'Simple Calculator',
-                description: 'Create a calculator that performs basic math operations.',
-                skills: ['If statements', 'Functions', 'Input'],
-                difficulty: 2
-            },
-            {
-                id: 'todo',
-                title: 'To‑Do List (Console)',
-                description: 'Create a task manager where users can add and remove tasks.',
-                skills: ['Lists', 'Loops'],
-                difficulty: 2
-            },
-            {
-                id: 'grading',
-                title: 'Student Grading System',
-                description: 'Convert student scores into grades using logic.',
-                skills: ['Conditionals', 'Variables'],
-                difficulty: 2
-            },
-            {
-                id: 'rps',
-                title: 'Rock, Paper, Scissors',
-                description: 'Play Rock, Paper, Scissors against the computer.',
-                skills: ['Random', 'Conditionals', 'Loops'],
-                difficulty: 3
-            }
-        ];
 
         function buildNav() {
             const nav = document.getElementById('sidebar-nav');
             const items = isAdmin ? ADMIN_NAV : STUDENT_NAV;
             nav.innerHTML = `
-    <div class="nav-section-label">${isAdmin ? 'Instructor' : 'Learning'}</div>
-    ${items.map(i => `
-      <button class="nav-item" data-page="${i.id}" onclick="navigateTo('${i.id}');closeSidebar()">
-        <div class="nav-icon-wrap">${i.icon}</div>
-        ${i.label}
-      </button>`).join('')}`;
+        <div class="nav-section-label">${isAdmin ? 'Instructor' : 'Learning'}</div>
+        ${items.map(i => `
+          <button class="nav-item" data-page="${i.id}" onclick="navigateTo('${i.id}');closeSidebar()">
+            <div class="nav-icon-wrap">${i.icon}</div>
+            ${i.label}
+          </button>`).join('')}`;
         }
 
         function navigateTo(page) {
@@ -1965,131 +2350,438 @@ _buf.getvalue()
                 grading: renderAdminGrading,
                 practice: renderPracticeLab,
                 projects: renderBeginnerProjects,
+                roadmap: renderRoadmap,
                 'project-review': renderAdminProjectReview,
                 qa: () => renderQA(isAdmin)
             };
             if (map[page]) map[page]();
         }
+
+        // ════════════════════════════════════════════════════
+        // LEARNING ROADMAP DATA
+        // ════════════════════════════════════════════════════
+        const TRACKS = {
+            backend: {
+                id: 'backend', icon: '⚙', label: 'Backend Development',
+                color: 'sky',
+                tagline: 'Build real APIs and web servers with Python',
+                stack: 'Python · Flask · PostgreSQL · REST APIs · Git · Docker',
+                overview: 'You will go from writing your first Python script to building and deploying real web APIs that other applications can consume. At 2–3 hours per day, expect solid junior-ready skills in 4 to 5 months. Success looks like two working backend projects on GitHub that you can walk through clearly in an interview.',
+                phases: [
+                    {
+                        num: 1, title: 'Python Foundations', duration: '3–4 weeks',
+                        sectionA: 'Skills to build',
+                        listA: [
+                            'Variables, data types, and operators',
+                            'Conditionals (if / elif / else)',
+                            'Loops: for and while',
+                            'Functions and variable scope',
+                            'Lists, dictionaries, and sets',
+                            'File reading and writing',
+                            'Basic error handling with try/except'
+                        ],
+                        success: 'You can write a script that reads a file, processes data, and prints a formatted result — without looking anything up.'
+                    },
+                    {
+                        num: 2, title: 'Core Backend Skills', duration: '5–6 weeks',
+                        sectionA: 'Technologies to learn',
+                        listA: [
+                            'Flask — routing, request/response, templates',
+                            'REST API design: GET, POST, PUT, DELETE',
+                            'Working with JSON data',
+                            'PostgreSQL basics: tables, queries, joins',
+                            'SQLAlchemy ORM — connecting Python to your database',
+                            'Authentication basics: sessions and tokens (JWT)',
+                            'Git and GitHub: commits, branches, pull requests'
+                        ],
+                        sectionB: 'Practical exercises',
+                        listB: [
+                            'Build a To-Do List API with full CRUD operations',
+                            'Add user registration, login, and logout to a Flask app',
+                            'Connect a Flask API to a PostgreSQL database hosted on Railway'
+                        ]
+                    },
+                    {
+                        num: 3, title: 'Projects & Portfolio', duration: '4–5 weeks',
+                        projects: [
+                            { title: 'Personal Budget Tracker API', proof: 'Proves you can model real-world financial data and build a complete REST API with a database and user authentication.' },
+                            { title: 'URL Shortener Service', proof: 'Proves you understand routing, persistent data storage, and redirect logic — a classic, recognisable backend problem.' },
+                            { title: 'Blog API with Authentication', proof: 'Proves you can implement user auth, CRUD operations, and role-based access — skills every backend job listing requires.' }
+                        ]
+                    },
+                    {
+                        num: 4, title: 'Job-Ready Skills', duration: '2–3 weeks',
+                        sectionA: 'Non-coding habits',
+                        listA: [
+                            'Write a clean README for every project explaining what it does and how to run it',
+                            'Deploy at least one project to Railway or Render (both free tiers available)',
+                            'Learn to read and write SQL queries confidently without assistance',
+                            'Practice explaining your code out loud — record yourself if you can',
+                            'Study the 15 most common Python backend interview questions',
+                            'Set up a GitHub profile with pinned projects and a short bio'
+                        ]
+                    }
+                ],
+                timeline: 'At 2–3 hours per day, the realistic total is 4 to 5 months from complete beginner to a junior-ready backend developer. The first 3–4 weeks will feel slow — that is intentional and critical. Do not rush past foundations.',
+                resources: [
+                    { name: 'CS50P — Introduction to Programming with Python (Harvard)', url: 'https://cs50.harvard.edu/python/', note: 'Free. The best structured Python beginner course available.' },
+                    { name: 'Flask Official Documentation', url: 'https://flask.palletsprojects.com/', note: 'Free. Read it alongside building — not before.' },
+                    { name: 'PostgreSQL Tutorial', url: 'https://www.postgresqltutorial.com/', note: 'Free. Practical, structured, and directly applicable.' },
+                    { name: 'The Odin Project (Web Foundation)', url: 'https://www.theodinproject.com/', note: 'Free. Excellent on Git, developer workflow, and professional habits.' },
+                    { name: 'Python.org Official Tutorial', url: 'https://docs.python.org/3/tutorial/', note: 'Free. Dry but authoritative — great as a reference.' }
+                ],
+                actions: [
+                    'Install Python 3, VS Code, and Git on your machine today. Verify all three work by running a hello world script.',
+                    'Complete the CS50P Problem Set 0 this week. It will expose the exact gaps in your foundations.',
+                    'Build the Student Grading System project in this course from scratch, without copying. If you get stuck — that is your first real debugging experience.'
+                ]
+            },
+
+            aiml: {
+                id: 'aiml', icon: '◈', label: 'AI & Machine Learning',
+                color: 'violet',
+                tagline: 'Train models and build intelligent systems with Python',
+                stack: 'Python · NumPy · Pandas · Scikit-learn · TensorFlow · Jupyter',
+                overview: 'You will start with data manipulation, move through classical machine learning algorithms, and finish by training and evaluating your own neural networks. Success looks like being able to take a raw dataset, clean it, build and evaluate a model, and explain your results to a non-technical person clearly.',
+                phases: [
+                    {
+                        num: 1, title: 'Python & Data Foundations', duration: '4–5 weeks',
+                        sectionA: 'Skills to build',
+                        listA: [
+                            'Python: variables, loops, functions, lists, dictionaries',
+                            'NumPy: arrays, shapes, broadcasting, vectorised operations',
+                            'Pandas: loading CSV files, filtering, sorting, groupby, handling nulls',
+                            'Basic statistics: mean, median, variance, standard deviation, correlation',
+                            'Matplotlib and Seaborn: line charts, bar charts, scatter plots, histograms',
+                            'Jupyter Notebooks: your primary work environment throughout this track'
+                        ],
+                        success: 'You can load a CSV file, explore it with Pandas, clean missing values, compute basic statistics, and produce three meaningful visualisations.'
+                    },
+                    {
+                        num: 2, title: 'Core Machine Learning', duration: '6–7 weeks',
+                        sectionA: 'Concepts and tools',
+                        listA: [
+                            'Supervised vs unsupervised learning: what the difference actually means',
+                            'Linear regression: predicting continuous values',
+                            'Logistic regression: predicting categories (yes/no, spam/not spam)',
+                            'Decision trees and random forests',
+                            'Train/test splits and cross-validation: preventing overfitting',
+                            'Scikit-learn pipeline: fit, predict, evaluate',
+                            'Model metrics: accuracy, precision, recall, F1, ROC-AUC',
+                            'Introduction to neural networks with Keras / TensorFlow'
+                        ],
+                        sectionB: 'Practical exercises',
+                        listB: [
+                            'Predict house prices using linear regression on the Boston Housing dataset',
+                            'Classify emails as spam or not spam using logistic regression',
+                            'Cluster customer purchase data with K-Means unsupervised learning'
+                        ]
+                    },
+                    {
+                        num: 3, title: 'Projects & Portfolio', duration: '4–5 weeks',
+                        projects: [
+                            { title: 'Movie Recommendation System', proof: 'Proves you understand similarity metrics, filtering techniques, and working with user-item data — a highly valued ML skill.' },
+                            { title: 'Image Classifier (cats vs dogs)', proof: 'Proves you can train a convolutional neural network, handle image data pipelines, and evaluate deep learning model performance.' },
+                            { title: 'Salary Prediction from Job Listings', proof: 'Proves you can process messy real-world text data, engineer features, and build an end-to-end ML pipeline ready for deployment.' }
+                        ]
+                    },
+                    {
+                        num: 4, title: 'Job-Ready Skills', duration: '2–3 weeks',
+                        sectionA: 'Non-technical habits',
+                        listA: [
+                            'Write Jupyter Notebooks that others can follow — label sections, explain decisions, show outputs',
+                            'Learn to cite model metrics correctly: never report accuracy alone',
+                            'Push all projects to GitHub with a README that summarises your results and methodology',
+                            'Understand the difference between ML Engineer, Data Scientist, and AI Engineer roles before applying',
+                            'Practice explaining a model decision in plain English — a standard interview question',
+                            'Complete at least one beginner Kaggle competition and write a public notebook'
+                        ]
+                    }
+                ],
+                timeline: 'At 2–3 hours per day, expect 5 to 6 months to reach a solid junior ML level. This track has more theory than others. Give yourself time to understand concepts before moving on — gaps here compound badly later.',
+                resources: [
+                    { name: 'CS50 AI — Introduction to Artificial Intelligence (Harvard)', url: 'https://cs50.harvard.edu/ai/', note: 'Free. The best conceptual foundation available for free.' },
+                    { name: 'fast.ai — Practical Deep Learning for Coders', url: 'https://www.fast.ai/', note: 'Free. Project-first approach — unusual and very effective.' },
+                    { name: 'Kaggle Learn (free micro-courses)', url: 'https://www.kaggle.com/learn', note: 'Free. Pandas, ML, deep learning — all in-browser with no setup needed.' },
+                    { name: 'Scikit-learn Official Documentation', url: 'https://scikit-learn.org/stable/', note: 'Free. The most reliable reference for classical machine learning.' },
+                    { name: 'Hands-On Machine Learning (Géron) — 3rd Edition', url: 'https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/', note: 'Paid book, highly worth it. Check your public library for free access.' }
+                ],
+                actions: [
+                    'Set up your environment today: install Anaconda, then verify Jupyter, NumPy, Pandas, and Matplotlib all work.',
+                    'Download the Titanic dataset from Kaggle and spend one focused hour exploring it with Pandas — no modelling yet. Just look at the data.',
+                    'Complete the free Pandas micro-course on Kaggle Learn this week. It takes roughly 4 hours and directly applies to every project in this track.'
+                ]
+            },
+
+            data: {
+                id: 'data', icon: '◱', label: 'Data Analytics',
+                color: 'gold',
+                tagline: 'Turn raw data into clear decisions using Python and SQL',
+                stack: 'Python · Pandas · SQL · Matplotlib · Seaborn · Tableau / Power BI',
+                overview: 'You will learn to collect, clean, analyse, and visualise data so that non-technical people can make better decisions from it. Success looks like producing a complete analysis report — from messy raw data through to polished charts and written recommendations — that you could present to a manager, client, or employer.',
+                phases: [
+                    {
+                        num: 1, title: 'Python & Data Basics', duration: '3–4 weeks',
+                        sectionA: 'Skills to build',
+                        listA: [
+                            'Python: variables, lists, loops, and functions',
+                            'Pandas: loading, filtering, sorting, and grouping data',
+                            'Handling missing values, duplicate rows, and incorrect data types',
+                            'Basic statistics: averages, distributions, and identifying outliers',
+                            'Matplotlib and Seaborn: bar charts, line charts, scatter plots',
+                            'Reading and writing CSV and Excel files with Pandas'
+                        ],
+                        success: 'You can take a messy CSV file, clean it, summarise it with summary statistics, and produce at least three clear, labelled charts.'
+                    },
+                    {
+                        num: 2, title: 'Core Analytics Skills', duration: '5–6 weeks',
+                        sectionA: 'Technologies and concepts',
+                        listA: [
+                            'SQL: SELECT, WHERE, GROUP BY, ORDER BY, JOIN, subqueries',
+                            'Connecting Python to a database using sqlite3 or psycopg2',
+                            'Pivot tables and cross-tabulations in Pandas',
+                            'Time-series basics: resampling, rolling averages, trend detection',
+                            'Dashboard creation in Tableau Public or Power BI (both have free tiers)',
+                            'Structuring an insight report: context, finding, recommendation'
+                        ],
+                        sectionB: 'Practical exercises',
+                        listB: [
+                            'Analyse a public retail sales dataset and identify the top 5 revenue drivers',
+                            'Write 15 SQL queries of increasing complexity against a sample database',
+                            'Build a one-page Tableau dashboard from a Kaggle dataset and publish it'
+                        ]
+                    },
+                    {
+                        num: 3, title: 'Projects & Portfolio', duration: '4–5 weeks',
+                        projects: [
+                            { title: 'E-commerce Sales Analysis', proof: 'Proves you can clean messy transactional data, perform revenue analysis, and present business insights through clear visualisations.' },
+                            { title: 'World Population or COVID Trend Report', proof: 'Proves you can work with time-series data, handle multiple data sources, and tell a coherent story across multiple chart types.' },
+                            { title: 'Personal Finance Dashboard', proof: 'Proves you can build an interactive dashboard and communicate data insights to a non-technical audience — the core job of a data analyst.' }
+                        ]
+                    },
+                    {
+                        num: 4, title: 'Job-Ready Skills', duration: '2–3 weeks',
+                        sectionA: 'Non-technical habits',
+                        listA: [
+                            'Structure every analysis as a story: context, finding, then recommendation',
+                            'Practice presenting a chart to someone non-technical — can they understand it immediately?',
+                            'Build a GitHub portfolio with notebooks that include written explanations alongside code',
+                            'Study common SQL interview questions: aggregations, window functions, CTEs',
+                            'Get comfortable with Excel or Google Sheets — most analyst roles still rely on them heavily',
+                            'Create a LinkedIn profile, list your projects, and include specific results (e.g. "identified 3 underperforming product categories")'
+                        ]
+                    }
+                ],
+                timeline: 'At 2–3 hours per day, expect 4 to 5 months to reach a junior data analyst level. SQL is the single most in-demand skill in this track — invest heavily in it from week 3 onward. Everything else builds around it.',
+                resources: [
+                    { name: 'Kaggle Learn — Pandas, SQL, Data Visualisation', url: 'https://www.kaggle.com/learn', note: 'Free. The best hands-on starting point for this entire track.' },
+                    { name: 'Mode Analytics SQL Tutorial', url: 'https://mode.com/sql-tutorial/', note: 'Free. Interactive SQL practice directly in the browser — excellent.' },
+                    { name: 'Tableau Public (free version)', url: 'https://public.tableau.com/', note: 'Free tool with a huge community gallery. Learn by studying other published dashboards.' },
+                    { name: 'Google Data Analytics Certificate (Coursera)', url: 'https://www.coursera.org/professional-certificates/google-data-analytics', note: 'Affordable with financial aid option. Widely recognised by hiring managers.' },
+                    { name: 'Storytelling with Data (Cole Nussbaumer Knaflic)', url: 'https://www.storytellingwithdata.com/', note: 'Book and blog. Teaches chart communication and presentation — not just tools.' }
+                ],
+                actions: [
+                    'Download the Superstore Sales dataset from Kaggle today and open it in a Jupyter Notebook. Spend 30 minutes just describing what you see.',
+                    'Complete the free Pandas micro-course on Kaggle Learn this week — it applies directly to every project in this track.',
+                    'Install DB Browser for SQLite today and run your first 5 SQL SELECT queries on any sample database you find online.'
+                ]
+            }
+        };
+
+        // ════════════════════════════════════════════════════
+        // RENDER: ROADMAP TRACK SELECTION
+        // ════════════════════════════════════════════════════
+        function renderRoadmap() {
+            const main = document.getElementById('main-content');
+            main.innerHTML = `
+        <div class="ph">
+            <div class="ph-eyebrow">Learning Roadmap</div>
+            <div class="ph-title">Choose Your Track</div>
+            <div class="ph-sub">All tracks start from zero. Pick the path that matches your goal.</div>
+        </div>
+
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:.65rem 1rem;font-size:12px;color:var(--muted2);margin-bottom:1.25rem;line-height:1.7">
+            Every roadmap below is built for a <strong style="color:var(--text2)">complete beginner</strong> studying
+            <strong style="color:var(--text2)">2–3 hours per day</strong>.
+            Phases, timelines, and resources are tailored accordingly.
+        </div>
+
+        <div class="track-grid">
+            ${Object.values(TRACKS).map(t => `
+            <div class="track-card ${t.color}" onclick="renderTrackRoadmap('${t.id}')">
+                <div class="track-icon ${t.color}">${t.icon}</div>
+                <div class="track-card-title">${t.label}</div>
+                <div class="track-card-tagline">${t.tagline}</div>
+                <div class="track-stack">${t.stack}</div>
+                <button class="track-cta ${t.color}">View Roadmap →</button>
+            </div>`).join('')}
+        </div>
+        `;
+        }
+
+        // ════════════════════════════════════════════════════
+        // RENDER: INDIVIDUAL TRACK ROADMAP
+        // ════════════════════════════════════════════════════
+        function renderTrackRoadmap(trackId) {
+            const t = TRACKS[trackId];
+            if (!t) return;
+            const main = document.getElementById('main-content');
+            main.scrollTop = 0;
+
+            const phaseColors = ['sky', 'violet', 'gold', 'lime'];
+
+            const phasesHTML = t.phases.map((p, i) => {
+                const c = phaseColors[i] || 'lime';
+                let bodyHTML = '';
+
+                if (p.sectionA) {
+                    bodyHTML += `<div class="rm-section-label">${p.sectionA}</div>
+                <ul class="rm-list">${p.listA.map(x => `<li>${x}</li>`).join('')}</ul>`;
+                }
+                if (p.sectionB) {
+                    bodyHTML += `<div class="rm-section-label">${p.sectionB}</div>
+                <ul class="rm-list">${p.listB.map(x => `<li>${x}</li>`).join('')}</ul>`;
+                }
+                if (p.projects) {
+                    bodyHTML += `<div class="rm-section-label">Projects to build</div>
+                ${p.projects.map(pr => `
+                    <div class="project-pill">
+                        <div class="project-pill-title">${pr.title}</div>
+                        <div class="project-pill-proof">${pr.proof}</div>
+                    </div>`).join('')}`;
+                }
+                if (p.success) {
+                    bodyHTML += `<div class="rm-success"><strong>What success looks like</strong>${p.success}</div>`;
+                }
+
+                return `
+            <div class="phase-block">
+                <div class="phase-head" onclick="togglePhase(${i})">
+                    <div class="phase-num ${c}">0${p.num}</div>
+                    <div class="phase-head-text">
+                        <div class="phase-title">${p.title}</div>
+                        <div class="phase-duration">${p.duration}</div>
+                    </div>
+                    <div class="phase-chevron" id="chev-${i}">▼</div>
+                </div>
+                <div class="phase-body" id="phase-body-${i}">${bodyHTML}</div>
+            </div>`;
+            }).join('');
+
+            const resourcesHTML = t.resources.map(r => `
+        <div class="resource-item">
+            <div class="resource-dot ${t.color}"></div>
+            <div>
+                <a href="${r.url}" target="_blank" class="resource-name">${r.name}</a>
+                <div class="resource-note">${r.note}</div>
+            </div>
+        </div>`).join('');
+
+            const actionsHTML = t.actions.map((a, i) => `
+        <div class="action-step">
+            <div class="action-num">${i + 1}</div>
+            <div class="action-text">${a}</div>
+        </div>`).join('');
+
+            main.innerHTML = `
+        <button class="rm-back" onclick="renderRoadmap()">← All Tracks</button>
+
+        <div class="ph">
+            <div class="ph-eyebrow">Learning Roadmap</div>
+            <div class="ph-title">${t.label}</div>
+            <div class="ph-sub">${t.tagline}</div>
+        </div>
+
+        <div class="rm-overview">${t.overview}</div>
+
+        <div class="card-label" style="margin-bottom:.625rem">Phases — click to expand</div>
+        ${phasesHTML}
+
+        <div class="card" style="margin-top:.75rem">
+            <div class="card-label">Estimated Timeline</div>
+            <div class="timeline-box">${t.timeline}</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Top Resources</div>
+            ${resourcesHTML}
+        </div>
+
+        <div class="card">
+            <div class="card-label">First 3 Actions — This Week</div>
+            ${actionsHTML}
+        </div>
+        `;
+
+            // Auto-open first phase
+            openPhase(0);
+        }
+
+        function togglePhase(i) {
+            const body = document.getElementById(`phase-body-${i}`);
+            const chev = document.getElementById(`chev-${i}`);
+            if (!body) return;
+            const open = body.classList.contains('open');
+            body.classList.toggle('open', !open);
+            if (chev) chev.classList.toggle('open', !open);
+        }
+        function openPhase(i) {
+            const body = document.getElementById(`phase-body-${i}`);
+            const chev = document.getElementById(`chev-${i}`);
+            if (body) { body.classList.add('open'); }
+            if (chev) { chev.classList.add('open'); }
+        }
+
+        // ════════════════════════════════════════════════════
+        // ALL ORIGINAL FUNCTIONS BELOW (UNCHANGED)
+        // ════════════════════════════════════════════════════
+
+        const BEGINNER_PROJECTS = [
+            { id: 'guessing', title: 'Number Guessing Game', description: 'Build a game where the user guesses a randomly generated number.', skills: ['Variables', 'Loops', 'Conditionals'], difficulty: 1 },
+            { id: 'calculator', title: 'Simple Calculator', description: 'Create a calculator that performs basic math operations.', skills: ['If statements', 'Functions', 'Input'], difficulty: 2 },
+            { id: 'todo', title: 'To-Do List (Console)', description: 'Create a task manager where users can add and remove tasks.', skills: ['Lists', 'Loops'], difficulty: 2 },
+            { id: 'grading', title: 'Student Grading System', description: 'Convert student scores into grades using logic.', skills: ['Conditionals', 'Variables'], difficulty: 2 },
+            { id: 'rps', title: 'Rock, Paper, Scissors', description: 'Play Rock, Paper, Scissors against the computer.', skills: ['Random', 'Conditionals', 'Loops'], difficulty: 3 }
+        ];
+
         function renderAdminProjectReview() {
             const main = document.getElementById('main-content');
-
-            const unsub = db
-                .collection('project_submissions')
-                .orderBy('submittedAt', 'desc')
-                .onSnapshot(snap => {
-
-                    const subs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-
-                    main.innerHTML = `
-                <div class="ph">
-                    <div class="ph-eyebrow">Admin</div>
-                    <div class="ph-title">Project Review</div>
-                    <div class="ph-sub">
-                        Review and approve student projects
+            const unsub = db.collection('project_submissions').orderBy('submittedAt', 'desc').onSnapshot(snap => {
+                const subs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                main.innerHTML = `
+            <div class="ph"><div class="ph-eyebrow">Admin</div><div class="ph-title">Project Review</div><div class="ph-sub">Review and approve student projects</div></div>
+            ${subs.length === 0 ? `<div class="empty"><div class="empty-icon">🧩</div>No project submissions yet</div>` :
+                        subs.map(s => `
+                <div class="sub-item">
+                    <div class="sub-hd">
+                        <div><div class="sub-student">${s.studentName}</div><div class="sub-when">${s.projectTitle} · Submitted ${timeAgo(s.submittedAt)}</div></div>
+                        <span style="font-size:11px;font-family:var(--mono);color:${s.status === 'approved' ? 'var(--lime)' : 'var(--gold)'}">${s.status.toUpperCase()}</span>
                     </div>
-                </div>
-
-                ${subs.length === 0 ? `
-                    <div class="empty">
-                        <div class="empty-icon">🧩</div>
-                        No project submissions yet
-                    </div>
-                ` : subs.map(s => `
-                    <div class="sub-item">
-                        <div class="sub-hd">
-                            <div>
-                                <div class="sub-student">${s.studentName}</div>
-                                <div class="sub-when">
-                                    ${s.projectTitle} · Submitted ${timeAgo(s.submittedAt)}
-                                </div>
-                            </div>
-
-                            <span style="
-                                font-size:11px;
-                                font-family:var(--mono);
-                                color:${s.status === 'approved' ? 'var(--lime)' : 'var(--gold)'};
-                            ">
-                                ${s.status.toUpperCase()}
-                            </span>
+                    ${s.code ? `<div class="sub-code">${s.code}</div>` : ''}
+                    ${s.replitLink ? `<div style="font-size:11px;color:var(--sky);margin:.3rem 0">🔗 <a href="${s.replitLink}" target="_blank" style="color:var(--sky)">${s.replitLink}</a></div>` : ''}
+                    ${s.status === 'submitted' ? `
+                    <div style="margin-top:.5rem">
+                        <textarea id="fb-${s.id}" placeholder="Write feedback..." style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:.45rem;font-size:12px;color:var(--text);margin-bottom:.4rem;resize:none;height:60px;"></textarea>
+                        <div style="display:flex;gap:.4rem">
+                            <button class="btn-grade" onclick="approveProject('${s.id}')">✅ Approve</button>
+                            <button class="btn-ban" onclick="requestProjectChanges('${s.id}')">❌ Needs Changes</button>
                         </div>
-
-                        ${s.code ? `<div class="sub-code">${s.code}</div>` : ''}
-
-                        ${s.replitLink ? `
-                            <div style="font-size:11px;color:var(--sky);margin:.3rem 0">
-                                🔗 <a href="${s.replitLink}" target="_blank" style="color:var(--sky)">
-                                    ${s.replitLink}
-                                </a>
-                            </div>
-                        ` : ''}
-
-                        ${s.status === 'submitted' ? `
-<div style="margin-top:.5rem">
-    <textarea
-        id="fb-${s.id}"
-        placeholder="Write feedback for the student..."
-        style="
-            width:100%;
-            background:var(--bg);
-            border:1px solid var(--border);
-            border-radius:var(--r);
-            padding:.45rem;
-            font-size:12px;
-            color:var(--text);
-            margin-bottom:.4rem;
-            resize:none;
-            height:60px;
-        "
-    ></textarea>
-
-    <div style="display:flex;gap:.4rem">
-        <button class="btn-grade"
-            onclick="approveProject('${s.id}')">
-            ✅ Approve
-        </button>
-
-        <button class="btn-ban"
-            onclick="requestProjectChanges('${s.id}')">
-            ❌ Needs Changes
-        </button>
-    </div>
-</div>
-                        ` : ''}
-                    </div>
-                `).join('')}
-            `;
-                });
-
+                    </div>`: ''}
+                </div>`).join('')}`;
+            });
             unsubscribers.push(unsub);
         }
         async function approveProject(submissionId) {
             const fb = document.getElementById(`fb-${submissionId}`)?.value.trim() || '';
-
-            await db.collection('project_submissions')
-                .doc(submissionId)
-                .update({
-                    status: 'approved',
-                    feedback: fb,
-                    reviewedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
+            await db.collection('project_submissions').doc(submissionId).update({ status: 'approved', feedback: fb, reviewedAt: firebase.firestore.FieldValue.serverTimestamp() });
             showToast('Project approved ✅');
         }
-
         async function requestProjectChanges(submissionId) {
             const fb = document.getElementById(`fb-${submissionId}`)?.value.trim() || '';
-
-            await db.collection('project_submissions')
-                .doc(submissionId)
-                .update({
-                    status: 'needs_changes',
-                    feedback: fb
-                });
-
+            await db.collection('project_submissions').doc(submissionId).update({ status: 'needs_changes', feedback: fb });
             showToast('Feedback sent to learner');
         }
 
-        // ── STUDENT: DASHBOARD ──
         async function renderStudentDashboard() {
             const main = document.getElementById('main-content');
             const unsub = db.collection('announcements').orderBy('createdAt', 'desc').limit(4).onSnapshot(snap => {
@@ -2100,387 +2792,105 @@ _buf.getvalue()
                     const chapsDone = (data.chaptersCompleted || []).length;
                     const nextChap = CHAPTERS.find((_, i) => !(data.chaptersCompleted || []).includes(i));
                     main.innerHTML = `
-        <div class="ph">
-          <div class="ph-eyebrow">Dashboard</div>
-          <div class="ph-title">Hey, ${data.name.split(' ')[0]} 👋</div>
-          <div class="ph-sub">Consistency beats talent — keep showing up.</div>
-        </div>
-        <div class="stat-grid">
-          <div class="stat-tile">
-            <div class="stat-val sv-lime">${progress}%</div>
-            <div class="stat-lbl">Course progress</div>
-          </div>
-          <div class="stat-tile">
-            <div class="stat-val sv-sky">${chapsDone}<span style="font-size:15px;color:var(--muted)">/${CHAPTERS.length}</span></div>
-            <div class="stat-lbl">Chapters done</div>
-          </div>
-        </div>
-        <div class="overview-grid">
-          <div>
-            <div class="card">
-              <div class="card-label">Course progress</div>
-              <div class="prog-wrap" style="margin-top:0">
-                <div class="prog-top">
-                  <span class="prog-label">Python for Absolute Beginners</span>
-                  <span class="prog-pct">${progress}%</span>
+                <div class="ph"><div class="ph-eyebrow">Dashboard</div><div class="ph-title">Hey, ${data.name.split(' ')[0]} 👋</div><div class="ph-sub">Consistency beats talent — keep showing up.</div></div>
+                <div class="stat-grid">
+                    <div class="stat-tile"><div class="stat-val sv-lime">${progress}%</div><div class="stat-lbl">Course progress</div></div>
+                    <div class="stat-tile"><div class="stat-val sv-sky">${chapsDone}<span style="font-size:15px;color:var(--muted)">/${CHAPTERS.length}</span></div><div class="stat-lbl">Chapters done</div></div>
                 </div>
-                <div class="prog-track"><div class="prog-fill" style="width:${progress}%"></div></div>
-              </div>
-              ${nextChap ? `<div style="margin-top:.75rem;padding:.6rem .85rem;background:var(--bg3);border-radius:var(--r);border:1px solid var(--border);font-size:12px;color:var(--muted2)">
-                <span style="color:var(--lime);font-family:var(--mono);font-size:10px;display:block;margin-bottom:2px">UP NEXT</span>
-                ${nextChap}
-              </div>`: `<div style="margin-top:.75rem;font-size:12px;color:var(--lime)">🎉 Course complete! Well done.</div>`}
-            </div>
-          </div>
-          <div>
-            <div class="card">
-              <div class="card-label">Announcements</div>
-              ${anns.length === 0 ? `<div class="empty" style="padding:1rem 0"><div class="empty-icon">📢</div>Nothing yet</div>` :
-                            anns.map(a => `
-                <div class="ann">
-                  <div class="ann-top">
-                    <span class="ann-tag">Announcement</span>
-                    <span class="ann-time">${timeAgo(a.createdAt)}</span>
-                  </div>
-                  <div class="ann-text">${a.text}</div>
-                </div>`).join('')}
-            </div>
-          </div>
-        </div>`;
+                <div class="overview-grid">
+                    <div>
+                        <div class="card">
+                            <div class="card-label">Course progress</div>
+                            <div class="prog-wrap" style="margin-top:0">
+                                <div class="prog-top"><span class="prog-label">Python for Absolute Beginners</span><span class="prog-pct">${progress}%</span></div>
+                                <div class="prog-track"><div class="prog-fill" style="width:${progress}%"></div></div>
+                            </div>
+                            ${nextChap ? `<div style="margin-top:.75rem;padding:.6rem .85rem;background:var(--bg3);border-radius:var(--r);border:1px solid var(--border);font-size:12px;color:var(--muted2)"><span style="color:var(--lime);font-family:var(--mono);font-size:10px;display:block;margin-bottom:2px">UP NEXT</span>${nextChap}</div>` : `<div style="margin-top:.75rem;font-size:12px;color:var(--lime)">🎉 Course complete! Well done.</div>`}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card">
+                            <div class="card-label">Announcements</div>
+                            ${anns.length === 0 ? `<div class="empty" style="padding:1rem 0"><div class="empty-icon">📢</div>Nothing yet</div>` :
+                            anns.map(a => `<div class="ann"><div class="ann-top"><span class="ann-tag">Announcement</span><span class="ann-time">${timeAgo(a.createdAt)}</span></div><div class="ann-text">${a.text}</div></div>`).join('')}
+                        </div>
+                    </div>
+                </div>`;
                 });
             });
             unsubscribers.push(unsub);
         }
+
         function renderPracticeLab() {
             const main = document.getElementById('main-content');
-
             main.innerHTML = `
-        <div class="ph">
-            <div class="ph-eyebrow">Practice</div>
-            <div class="ph-title">Python Practice Lab</div>
-            <div class="ph-sub">
-                Experiment freely. Code here is not graded and is not saved.
-            </div>
-        </div>
-
+        <div class="ph"><div class="ph-eyebrow">Practice</div><div class="ph-title">Python Practice Lab</div><div class="ph-sub">Experiment freely. Code here is not graded and is not saved.</div></div>
         <div class="card">
             <textarea id="practice-editor">
 # Try anything here
-# Example:
-
 for i in range(1, 6):
     print(i)
             </textarea>
-
-            <div style="display:flex; gap:.5rem; margin-top:.75rem">
+            <div style="display:flex;gap:.5rem;margin-top:.75rem">
                 <button class="btn-submit" id="practice-run">▶ Run Code</button>
                 <button class="btn-submit" id="practice-clear">🧹 Clear Output</button>
             </div>
-
-            <div
-                id="py-output-practice"
-                style="
-                    margin-top:.75rem;
-                    background:#0c0c10;
-                    border:1px solid var(--border);
-                    border-radius:var(--r);
-                    padding:.6rem;
-                    font-family:var(--mono);
-                    font-size:12px;
-                    min-height:100px;
-                    color:var(--lime);
-                    white-space:pre-wrap;
-                    overflow:auto;
-                ">
-            </div>
-        </div>
-    `;
-
-            // ✅ CodeMirror editor
-            const editor = CodeMirror.fromTextArea(
-                document.getElementById('practice-editor'),
-                {
-                    mode: "python",
-                    lineNumbers: true,
-                    indentUnit: 4,
-                    tabSize: 4,
-                    theme: "default"
-                }
-            );
-
-            // ✅ Run code
-            document.getElementById('practice-run').onclick = () => {
-                runPython(editor.getValue(), 'practice');
-            };
-
-            // ✅ Clear output
-            document.getElementById('practice-clear').onclick = () => {
-                document.getElementById('py-output-practice').textContent = '';
-            };
+            <div id="py-output-practice" style="margin-top:.75rem;background:#0c0c10;border:1px solid var(--border);border-radius:var(--r);padding:.6rem;font-family:var(--mono);font-size:12px;min-height:100px;color:var(--lime);white-space:pre-wrap;overflow:auto;"></div>
+        </div>`;
+            const editor = CodeMirror.fromTextArea(document.getElementById('practice-editor'), { mode: "python", lineNumbers: true, indentUnit: 4, tabSize: 4, theme: "default" });
+            document.getElementById('practice-run').onclick = () => runPython(editor.getValue(), 'practice');
+            document.getElementById('practice-clear').onclick = () => { document.getElementById('py-output-practice').textContent = ''; };
         }
+
         function renderBeginnerProjects() {
             const main = document.getElementById('main-content');
-
-            const unsub = db
-                .collection('project_submissions')
-                .where('studentId', '==', currentUser.uid)
-                .onSnapshot(snap => {
-
-                    const submissions = {};
-                    snap.docs.forEach(d => {
-                        submissions[d.data().projectId] = d.data();
-                    });
-
-                    main.innerHTML = `
-                <div class="ph">
-                    <div class="ph-eyebrow">Projects</div>
-                    <div class="ph-title">Beginner Python Projects</div>
-                    <div class="ph-sub">
-                        Build projects and submit them for review.
-                    </div>
-                </div>
-
-                ${BEGINNER_PROJECTS.map(p => {
-                        const sub = submissions[p.id];
-                        const status = sub?.status;
-
-                        return `
-                        <div class="card">
-                            <div class="card-title">
-                                ${p.title}
-                                ${status === 'approved' ? ' ✅' : ''}
-                            </div>
-
-                            <p style="font-size:13px;color:var(--muted2);margin:.4rem 0">
-                                ${p.description}
-                            </p>
-
-                            <div style="margin:.5rem 0">
-                                ${p.skills.map(s => `
-                                    <span style="
-                                        font-size:10px;
-                                        font-family:var(--mono);
-                                        background:var(--bg3);
-                                        border:1px solid var(--border);
-                                        padding:2px 8px;
-                                        border-radius:20px;
-                                        margin-right:6px;
-                                    ">${s}</span>
-                                `).join('')}
-                            </div>
-
-                            <div style="margin:.4rem 0;font-size:12px">
-                                ${status === 'approved'
-                                ? `<span style="color:var(--lime)">✅ Approved</span>`
-                                : status === 'needs_changes'
-                                    ? `<span style="color:var(--rose)">❌ Needs changes</span>`
-                                    : status === 'submitted'
-                                        ? `<span style="color:var(--gold)">⏳ Submitted</span>`
-                                        : `<span style="color:var(--muted)">Not submitted</span>`
-                            }
-                            </div>
-                            ${sub?.feedback ? `
-    <div style="
-        margin-top:.4rem;
-        font-size:12px;
-        background:var(--bg3);
-        border-left:3px solid ${status === 'approved' ? 'var(--lime)' : 'var(--rose)'};
-        padding:.5rem;
-        border-radius:4px;
-        color:var(--text);
-    ">
-        <strong style="font-size:10px;font-family:var(--mono);display:block;margin-bottom:2px">
-            Instructor Feedback
-        </strong>
-        ${sub.feedback}
-    </div>
-` : ''}
-
-                            <button class="btn-action"
-                                onclick="startProject('${p.id}')">
-                                ${status ? 'View Project' : 'Start Project →'}
-                            </button>
-                        </div>
-                    `;
-                    }).join('')}
-            `;
-                });
-
+            const unsub = db.collection('project_submissions').where('studentId', '==', currentUser.uid).onSnapshot(snap => {
+                const submissions = {};
+                snap.docs.forEach(d => { submissions[d.data().projectId] = d.data(); });
+                main.innerHTML = `
+            <div class="ph"><div class="ph-eyebrow">Projects</div><div class="ph-title">Beginner Python Projects</div><div class="ph-sub">Build projects and submit them for review.</div></div>
+            ${BEGINNER_PROJECTS.map(p => {
+                    const sub = submissions[p.id]; const status = sub?.status;
+                    return `<div class="card">
+                    <div class="card-title">${p.title}${status === 'approved' ? ' ✅' : ''}</div>
+                    <p style="font-size:13px;color:var(--muted2);margin:.4rem 0">${p.description}</p>
+                    <div style="margin:.5rem 0">${p.skills.map(s => `<span style="font-size:10px;font-family:var(--mono);background:var(--bg3);border:1px solid var(--border);padding:2px 8px;border-radius:20px;margin-right:6px;">${s}</span>`).join('')}</div>
+                    <div style="margin:.4rem 0;font-size:12px">${status === 'approved' ? `<span style="color:var(--lime)">✅ Approved</span>` : status === 'needs_changes' ? `<span style="color:var(--rose)">❌ Needs changes</span>` : status === 'submitted' ? `<span style="color:var(--gold)">⏳ Submitted</span>` : `<span style="color:var(--muted)">Not submitted</span>`}</div>
+                    ${sub?.feedback ? `<div style="margin-top:.4rem;font-size:12px;background:var(--bg3);border-left:3px solid ${status === 'approved' ? 'var(--lime)' : 'var(--rose)'};padding:.5rem;border-radius:4px;color:var(--text);"><strong style="font-size:10px;font-family:var(--mono);display:block;margin-bottom:2px">Instructor Feedback</strong>${sub.feedback}</div>` : ''}
+                    <button class="btn-action" onclick="startProject('${p.id}')">${status ? 'View Project' : 'Start Project →'}</button>
+                </div>`;
+                }).join('')}`;
+            });
             unsubscribers.push(unsub);
         }
+
         const PROJECT_INSTRUCTIONS = {
-            guessing: {
-                title: 'Number Guessing Game',
-                overview: 'Build a game where the computer chooses a random number and the user keeps guessing until they get it right.',
-                requirements: [
-                    'Generate a random number between 1 and 10',
-                    'Ask the user to guess the number',
-                    'Tell the user if their guess is too high or too low',
-                    'Repeat until the correct number is guessed',
-                    'Print a success message when guessed correctly'
-                ],
-                example: `
-Computer has chosen a number between 1 and 10
-Your guess: 5
-Too high!
-Your guess: 3
-Correct! You guessed it!
-`
-            },
-
-            calculator: {
-                title: 'Simple Calculator',
-                overview: 'Create a calculator that performs basic arithmetic operations based on user input.',
-                requirements: [
-                    'Ask the user for two numbers',
-                    'Ask the user to choose an operation (+, -, *, /)',
-                    'Perform the calculation',
-                    'Display the result',
-                    'Handle invalid operations gracefully'
-                ],
-                example: `
-Enter first number: 4
-Enter second number: 2
-Choose operation (+ - * /): *
-Result: 8
-`
-            },
-
-            todo: {
-                title: 'To‑Do List (Console)',
-                overview: 'Build a simple task manager using a list.',
-                requirements: [
-                    'Allow the user to add tasks',
-                    'Allow the user to view all tasks',
-                    'Allow the user to remove a task',
-                    'Keep running until the user chooses to exit'
-                ],
-                example: `
-1. Add task
-2. View tasks
-3. Remove task
-4. Exit
-Choose option: 1
-Task added!
-`
-            },
-
-            grading: {
-                title: 'Student Grading System',
-                overview: 'Convert numerical scores into letter grades.',
-                requirements: [
-                    'Ask for a student score',
-                    'Determine the grade (A, B, C, etc.)',
-                    'Display the grade clearly',
-                    'Allow multiple students to be graded'
-                ],
-                example: `
-Enter score: 82
-Grade: B
-`
-            },
-
-            rps: {
-                title: 'Rock, Paper, Scissors',
-                overview: 'Create a Rock, Paper, Scissors game where the user plays against the computer.',
-                requirements: [
-                    'Ask the user to choose rock, paper, or scissors',
-                    'Generate a random choice for the computer',
-                    'Determine the winner',
-                    'Display the result',
-                    'Allow the user to play multiple rounds'
-                ],
-                example: `
-You chose: rock
-Computer chose: scissors
-You win!
-`
-            }
+            guessing: { title: 'Number Guessing Game', overview: 'Build a game where the computer chooses a random number and the user keeps guessing until they get it right.', requirements: ['Generate a random number between 1 and 10', 'Ask the user to guess the number', 'Tell the user if their guess is too high or too low', 'Repeat until the correct number is guessed', 'Print a success message when guessed correctly'], example: `Computer has chosen a number between 1 and 10\nYour guess: 5\nToo high!\nYour guess: 3\nCorrect! You guessed it!` },
+            calculator: { title: 'Simple Calculator', overview: 'Create a calculator that performs basic arithmetic based on user input.', requirements: ['Ask for two numbers', 'Ask user to choose operation (+, -, *, /)', 'Perform the calculation', 'Display the result', 'Handle invalid operations gracefully'], example: `Enter first number: 4\nEnter second number: 2\nChoose operation (+ - * /): *\nResult: 8` },
+            todo: { title: 'To-Do List (Console)', overview: 'Build a simple task manager using a list.', requirements: ['Allow the user to add tasks', 'Allow the user to view all tasks', 'Allow the user to remove a task', 'Keep running until the user chooses to exit'], example: `1. Add task\n2. View tasks\n3. Remove task\n4. Exit\nChoose option: 1\nTask added!` },
+            grading: { title: 'Student Grading System', overview: 'Convert numerical scores into letter grades.', requirements: ['Ask for a student score', 'Determine the grade (A, B, C, etc.)', 'Display the grade clearly', 'Allow multiple students to be graded'], example: `Enter score: 82\nGrade: B` },
+            rps: { title: 'Rock, Paper, Scissors', overview: 'Create a Rock, Paper, Scissors game against the computer.', requirements: ['Ask the user to choose rock, paper, or scissors', 'Generate a random choice for the computer', 'Determine the winner', 'Display the result', 'Allow the user to play multiple rounds'], example: `You chose: rock\nComputer chose: scissors\nYou win!` }
         };
+
         async function startProject(projectId) {
             const main = document.getElementById('main-content');
             const project = PROJECT_INSTRUCTIONS[projectId];
-
-            if (!project) {
-                showToast('Project not found', 'error');
-                return;
-            }
-
-            // ✅ FETCH EXISTING SUBMISSION
-            const docRef = db
-                .collection('project_submissions')
-                .doc(`${currentUser.uid}_${projectId}`);
-
+            if (!project) { showToast('Project not found', 'error'); return; }
+            const docRef = db.collection('project_submissions').doc(`${currentUser.uid}_${projectId}`);
             const snap = await docRef.get();
             const existingData = snap.exists ? snap.data() : null;
-
             main.innerHTML = `
-        <div class="ph">
-            <div class="ph-eyebrow">Project</div>
-            <div class="ph-title">${project.title}</div>
-            <div class="ph-sub">${project.overview}</div>
-        </div>
-
-        ${existingData?.feedback ? `
-            <div class="card">
-                <div class="card-label">Instructor Feedback</div>
-                <div style="
-                    font-size:13px;
-                    background:var(--bg3);
-                    border-left:3px solid ${existingData.status === 'approved' ? 'var(--lime)' : 'var(--rose)'};
-                    padding:.75rem;
-                    border-radius:4px;
-                ">
-                    ${existingData.feedback}
-                </div>
-            </div>
-        ` : ''}
-
-        <div class="card">
-            <div class="card-label">Requirements</div>
-            <ul style="font-size:13px;color:var(--muted2);padding-left:18px">
-                ${project.requirements.map(r => `<li>${r}</li>`).join('')}
-            </ul>
-        </div>
-
-        <div class="card">
-            <div class="card-label">Example Output</div>
-            <pre style="
-                background:var(--bg);
-                border:1px solid var(--border);
-                padding:.75rem;
-                border-radius:var(--r);
-                font-family:var(--mono);
-                font-size:12px;
-                color:var(--lime);
-                white-space:pre-wrap;
-            ">${project.example}</pre>
-        </div>
-
-        <div class="card">
-            <div class="card-label">Submission</div>
-            <textarea
-                class="code-input"
-                id="project-code"
-                rows="8"
-                placeholder="Paste your final Python code here..."
-            ></textarea>
-
-            <input
-                class="replit-inp"
-                id="project-link"
-                placeholder="Optional: Replit link"
-            />
-
-            <button class="btn-action" onclick="submitProject('${projectId}')">
-                ${existingData ? 'Resubmit Project →' : 'Submit Project →'}
-            </button>
-        </div>
-    `;
+        <div class="ph"><div class="ph-eyebrow">Project</div><div class="ph-title">${project.title}</div><div class="ph-sub">${project.overview}</div></div>
+        ${existingData?.feedback ? `<div class="card"><div class="card-label">Instructor Feedback</div><div style="font-size:13px;background:var(--bg3);border-left:3px solid ${existingData.status === 'approved' ? 'var(--lime)' : 'var(--rose)'};padding:.75rem;border-radius:4px;">${existingData.feedback}</div></div>` : ''}
+        <div class="card"><div class="card-label">Requirements</div><ul style="font-size:13px;color:var(--muted2);padding-left:18px">${project.requirements.map(r => `<li>${r}</li>`).join('')}</ul></div>
+        <div class="card"><div class="card-label">Example Output</div><pre style="background:var(--bg);border:1px solid var(--border);padding:.75rem;border-radius:var(--r);font-family:var(--mono);font-size:12px;color:var(--lime);white-space:pre-wrap;">${project.example}</pre></div>
+        <div class="card"><div class="card-label">Submission</div>
+            <textarea class="code-input" id="project-code" rows="8" placeholder="Paste your final Python code here..."></textarea>
+            <input class="replit-inp" id="project-link" placeholder="Optional: Replit link"/>
+            <button class="btn-action" onclick="submitProject('${projectId}')">${existingData ? 'Resubmit Project →' : 'Submit Project →'}</button>
+        </div>`;
         }
 
-
-        // ── STUDENT: SYLLABUS ──
         function renderSyllabus() {
             const main = document.getElementById('main-content');
             const unsub = db.collection('users').doc(currentUser.uid).onSnapshot(doc => {
@@ -2488,38 +2898,20 @@ You win!
                 const completed = data.chaptersCompleted || [];
                 const progress = Math.round((completed.length / CHAPTERS.length) * 100);
                 main.innerHTML = `
-      <div class="ph">
-        <div class="ph-eyebrow">Syllabus</div>
-        <div class="ph-title">Course Progress</div>
-        <div class="ph-sub">Tap a chapter to mark it complete</div>
-      </div>
-      <div class="card">
-        <div class="prog-wrap" style="margin-top:0">
-          <div class="prog-top">
-            <span class="prog-label">Overall completion</span>
-            <span class="prog-pct">${progress}%</span>
-          </div>
-          <div class="prog-track"><div class="prog-fill" style="width:${progress}%"></div></div>
-        </div>
-        <div style="display:flex;gap:8px;margin-top:.875rem">
-          <span style="font-size:12px;color:var(--muted)">${completed.length} of ${CHAPTERS.length} chapters done</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-label">Chapters</div>
-        ${CHAPTERS.map((ch, i) => {
-                    const done = completed.includes(i);
-                    return `<div class="ch-item" onclick="toggleChapter(${i})">
-            <div class="ch-box ${done ? 'done' : ''}"></div>
-            <div class="ch-name ${done ? 'done' : ''}">${ch}</div>
-            <div class="ch-num">0${i + 1}</div>
-          </div>`;
-                }).join('')}
-      </div>`;
+            <div class="ph"><div class="ph-eyebrow">Syllabus</div><div class="ph-title">Course Progress</div><div class="ph-sub">Tap a chapter to mark it complete</div></div>
+            <div class="card">
+                <div class="prog-wrap" style="margin-top:0">
+                    <div class="prog-top"><span class="prog-label">Overall completion</span><span class="prog-pct">${progress}%</span></div>
+                    <div class="prog-track"><div class="prog-fill" style="width:${progress}%"></div></div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:.875rem"><span style="font-size:12px;color:var(--muted)">${completed.length} of ${CHAPTERS.length} chapters done</span></div>
+            </div>
+            <div class="card"><div class="card-label">Chapters</div>
+                ${CHAPTERS.map((ch, i) => { const done = completed.includes(i); return `<div class="ch-item" onclick="toggleChapter(${i})"><div class="ch-box ${done ? 'done' : ''}"></div><div class="ch-name ${done ? 'done' : ''}">${ch}</div><div class="ch-num">0${i + 1}</div></div>`; }).join('')}
+            </div>`;
             });
             unsubscribers.push(unsub);
         }
-
         async function toggleChapter(idx) {
             const docRef = db.collection('users').doc(currentUser.uid);
             const doc = await docRef.get();
@@ -2529,50 +2921,33 @@ You win!
             showToast(updated.includes(idx) ? `Chapter ${idx + 1} marked complete ✓` : 'Chapter unmarked');
         }
 
-        // ── STUDENT: LESSONS ──
         function renderLessons() {
             const main = document.getElementById('main-content');
             const unsub = db.collection('lessons').orderBy('createdAt', 'desc').onSnapshot(snap => {
                 const lessons = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 main.innerHTML = `
-      <div class="ph">
-        <div class="ph-eyebrow">Lessons</div>
-        <div class="ph-title">Python Lessons</div>
-        <div class="ph-sub">Watch → Read → Practice</div>
-      </div>
-      ${lessons.length === 0 ? `<div class="empty"><div class="empty-icon">▶</div>No lessons uploaded yet</div>` :
+            <div class="ph"><div class="ph-eyebrow">Lessons</div><div class="ph-title">Python Lessons</div><div class="ph-sub">Watch → Read → Practice</div></div>
+            ${lessons.length === 0 ? `<div class="empty"><div class="empty-icon">▶</div>No lessons uploaded yet</div>` :
                         lessons.map(l => `
-        <div class="lesson-card">
-          <div class="lesson-card-head"><div class="lesson-card-title">${l.title}</div></div>
-          <div class="lesson-video-wrap"><iframe src="${l.videoUrl}" allowfullscreen></iframe></div>
-          ${l.codeSample ? `<div class="lesson-code-wrap">
-            <div class="lesson-code-hd">
-              <span class="lesson-code-label">Python code</span>
-              <button class="btn-submit" onclick="copyLessonCode('${l.id}')">Copy</button>
-            </div>
-            <pre><code id="lesson-code-${l.id}">${l.codeSample}</code></pre>
-          </div>`: ``}
-        </div>`).join('')}`;
+                <div class="lesson-card">
+                    <div class="lesson-card-head"><div class="lesson-card-title">${l.title}</div></div>
+                    <div class="lesson-video-wrap"><iframe src="${l.videoUrl}" allowfullscreen></iframe></div>
+                    ${l.codeSample ? `<div class="lesson-code-wrap"><div class="lesson-code-hd"><span class="lesson-code-label">Python code</span><button class="btn-submit" onclick="copyLessonCode('${l.id}')">Copy</button></div><pre><code id="lesson-code-${l.id}">${l.codeSample}</code></pre></div>` : ''}
+                </div>`).join('')}`;
             });
             unsubscribers.push(unsub);
         }
 
-        // ── STUDENT: EBOOK ──
         async function renderEbook() {
             const main = document.getElementById('main-content');
             const doc = await db.collection('settings').doc('ebook').get();
             if (doc.exists) { EBOOK_URL = doc.data().url || EBOOK_URL; EBOOK_TITLE = doc.data().title || EBOOK_TITLE; }
             main.innerHTML = `
-    <div class="ph">
-      <div class="ph-eyebrow">Ebook</div>
-      <div class="ph-title">Reading Room</div>
-      <div class="ph-sub">${EBOOK_TITLE}</div>
-    </div>
-    <div class="notice-bar">⚠ For enrolled students only — do not share or distribute.</div>
-    <iframe class="ebook-frame" src="${EBOOK_URL}" allowfullscreen></iframe>`;
+        <div class="ph"><div class="ph-eyebrow">Ebook</div><div class="ph-title">Reading Room</div><div class="ph-sub">${EBOOK_TITLE}</div></div>
+        <div class="notice-bar">⚠ For enrolled students only — do not share or distribute.</div>
+        <iframe class="ebook-frame" src="${EBOOK_URL}" allowfullscreen></iframe>`;
         }
 
-        // ── STUDENT: EXERCISES ──
         function renderExercises() {
             const main = document.getElementById('main-content');
             const unsub = db.collection('exercises').orderBy('createdAt', 'desc').onSnapshot(async snap => {
@@ -2580,74 +2955,25 @@ You win!
                 const subSnap = await db.collection('submissions').where('studentId', '==', currentUser.uid).get();
                 const subs = {};
                 subSnap.docs.forEach(d => { subs[d.data().exerciseId] = { id: d.id, ...d.data() }; });
-                if (exercises.length === 0) {
-                    main.innerHTML = `<div class="ph"><div class="ph-title">Exercises</div></div><div class="empty"><div class="empty-icon">✎</div>No exercises posted yet</div>`;
-                    return;
-                }
+                if (exercises.length === 0) { main.innerHTML = `<div class="ph"><div class="ph-title">Exercises</div></div><div class="empty"><div class="empty-icon">✎</div>No exercises posted yet</div>`; return; }
                 main.innerHTML = `
-      <div class="ph">
-        <div class="ph-eyebrow">Tasks</div>
-        <div class="ph-title">Exercises</div>
-        <div class="ph-sub">${exercises.length} task${exercises.length !== 1 ? 's' : ''} posted</div>
-      </div>
-      ${exercises.map(ex => {
+            <div class="ph"><div class="ph-eyebrow">Tasks</div><div class="ph-title">Exercises</div><div class="ph-sub">${exercises.length} task${exercises.length !== 1 ? 's' : ''} posted</div></div>
+            ${exercises.map(ex => {
                     const sub = subs[ex.id];
                     const isGraded = sub && sub.grade;
                     const isSubmitted = sub && !sub.grade;
                     return `<div class="ex-card">
-          <div class="ex-hd">
-            <div class="ex-title">${ex.title}</div>
-            ${ex.dueDate ? `<div class="ex-due-pill">${formatDate(ex.dueDate)}</div>` : ''}
-          </div>
-          <div class="ex-desc">${ex.description}</div>
-          ${isGraded ? `
-            <span class="ex-badge eb-graded">Graded</span>
-            <div class="grade-box">
-              <div class="grade-score">${sub.grade}</div>
-              <div class="grade-fb">${sub.feedback || 'No feedback provided'}</div>
-            </div>`:
-                            isSubmitted ? `
-            <span class="ex-badge eb-submitted">Submitted — awaiting grade</span>
-            <div style="font-size:11px;color:var(--muted);margin-top:.3rem">Your answer: ${sub.code || sub.replitLink || ''}</div>` :
+                    <div class="ex-hd"><div class="ex-title">${ex.title}</div>${ex.dueDate ? `<div class="ex-due-pill">${formatDate(ex.dueDate)}</div>` : ''}</div>
+                    <div class="ex-desc">${ex.description}</div>
+                    ${isGraded ? `<span class="ex-badge eb-graded">Graded</span><div class="grade-box"><div class="grade-score">${sub.grade}</div><div class="grade-fb">${sub.feedback || 'No feedback provided'}</div></div>` :
+                            isSubmitted ? `<span class="ex-badge eb-submitted">Submitted — awaiting grade</span><div style="font-size:11px;color:var(--muted);margin-top:.3rem">Your answer: ${sub.code || sub.replitLink || ''}</div>` :
                                 `<span class="ex-badge eb-pending">Not submitted</span>
-
-<textarea
-  class="code-input"
-  id="code-${ex.id}"
-  spellcheck="false"
-  rows="8"
-  oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"
->
-print("Hello, DevJourney!")
-</textarea>
-
-<button
-  class="btn-submit"
-  onclick="runPython(document.getElementById('code-${ex.id}').value, '${ex.id}')">
-  ▶ Run Code
-</button>
-
-<div
-  id="py-output-${ex.id}"
-  style="
-    margin-top:.5rem;
-    background:#0c0c10;
-    border:1px solid var(--border);
-    border-radius:var(--r);
-    padding:.6rem;
-    font-family:var(--mono);
-    font-size:12px;
-    min-height:60px;
-    color:var(--lime);
-    white-space:pre-wrap;
-    overflow:auto;
-  ">
-</div>
-
-
-            <input class="replit-inp" id="replit-${ex.id}" placeholder="Replit link (optional): https://replit.com/...">
-            <button class="btn-submit" onclick="submitExercise('${ex.id}')">Submit</button>`}
-        </div>`;
+<textarea class="code-input" id="code-${ex.id}" spellcheck="false" rows="8" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'">print("Hello, DevJourney!")</textarea>
+<button class="btn-submit" onclick="runPython(document.getElementById('code-${ex.id}').value,'${ex.id}')">▶ Run Code</button>
+<div id="py-output-${ex.id}" style="margin-top:.5rem;background:#0c0c10;border:1px solid var(--border);border-radius:var(--r);padding:.6rem;font-family:var(--mono);font-size:12px;min-height:60px;color:var(--lime);white-space:pre-wrap;overflow:auto;"></div>
+<input class="replit-inp" id="replit-${ex.id}" placeholder="Replit link (optional): https://replit.com/...">
+<button class="btn-submit" onclick="submitExercise('${ex.id}')">Submit</button>`}
+                </div>`;
                 }).join('')}`;
             });
             unsubscribers.push(unsub);
@@ -2656,109 +2982,55 @@ print("Hello, DevJourney!")
         async function submitExercise(exId) {
             const code = document.getElementById(`code-${exId}`).value.trim();
             const replitLink = document.getElementById(`replit-${exId}`).value.trim();
-
-            if (!code && !replitLink) {
-                showToast('Please add your code or a Replit link', 'error');
-                return;
-            }
-
+            if (!code && !replitLink) { showToast('Please add your code or a Replit link', 'error'); return; }
             const submissionId = `${currentUser.uid}_${exId}`;
             const docRef = db.collection('submissions').doc(submissionId);
-
             const existing = await docRef.get();
-            if (existing.exists) {
-                showToast('You have already submitted this exercise.', 'error');
-                return;
-            }
-
-            await docRef.set({
-                exerciseId: exId,
-                studentId: currentUser.uid,
-                studentName: currentUser.name,
-                code,
-                replitLink,
-                submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                grade: null,
-                feedback: null
-            });
-
+            if (existing.exists) { showToast('You have already submitted this exercise.', 'error'); return; }
+            await docRef.set({ exerciseId: exId, studentId: currentUser.uid, studentName: currentUser.name, code, replitLink, submittedAt: firebase.firestore.FieldValue.serverTimestamp(), grade: null, feedback: null });
             showToast('Submitted successfully!');
         }
+
         async function submitProject(projectId) {
             const code = document.getElementById('project-code').value.trim();
             const link = document.getElementById('project-link').value.trim();
-
-            if (!code && !link) {
-                showToast('Please submit code or a Replit link', 'error');
-                return;
-            }
-
+            if (!code && !link) { showToast('Please submit code or a Replit link', 'error'); return; }
             const submissionId = `${currentUser.uid}_${projectId}`;
-
-            await db.collection('project_submissions')
-                .doc(submissionId)
-                .set({
-                    projectId,
-                    projectTitle: PROJECT_INSTRUCTIONS[projectId].title,
-                    studentId: currentUser.uid,
-                    studentName: currentUser.name,
-                    code,
-                    replitLink: link,
-                    submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    status: 'submitted'
-                }, { merge: true }); // ✅ IMPORTANT
-
+            await db.collection('project_submissions').doc(submissionId).set({
+                projectId, projectTitle: PROJECT_INSTRUCTIONS[projectId].title,
+                studentId: currentUser.uid, studentName: currentUser.name,
+                code, replitLink: link,
+                submittedAt: firebase.firestore.FieldValue.serverTimestamp(), status: 'submitted'
+            }, { merge: true });
             showToast('Project submitted successfully ✅');
         }
 
-        // ── Q&A ──
         function renderQA(admin) {
             const main = document.getElementById('main-content');
             const unsub = db.collection('questions').orderBy('createdAt', 'desc').onSnapshot(snap => {
                 const questions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 const unanswered = questions.filter(q => !q.answer).length;
                 main.innerHTML = `
-      <div class="ph">
-        <div class="ph-eyebrow">Q & A</div>
-        <div class="ph-title">Questions${admin && unanswered > 0 ? ` <span style="font-size:13px;font-family:var(--mono);color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-border);padding:2px 10px;border-radius:20px;vertical-align:middle">${unanswered}</span>` : ''}</div>
-        <div class="ph-sub">${admin ? 'Answer student questions' : 'Ask anything about the course'}</div>
-      </div>
-      ${!admin ? `
-        <div class="card">
-          <div class="card-label">Ask a question</div>
-          <div class="ff"><textarea id="qa-question-input" placeholder="What's confusing you? No question is too basic…"></textarea></div>
-          <button class="btn-action" onclick="submitQuestion()">Ask question</button>
-        </div>`: ``}
-      <div class="card">
-        <div class="card-label">Questions</div>
-        ${questions.length === 0 ? `<div class="empty" style="padding:1.5rem 0"><div class="empty-icon">◯</div>No questions yet</div>` :
+            <div class="ph"><div class="ph-eyebrow">Q & A</div><div class="ph-title">Questions${admin && unanswered > 0 ? ` <span style="font-size:13px;font-family:var(--mono);color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-border);padding:2px 10px;border-radius:20px;vertical-align:middle">${unanswered}</span>` : ''}</div><div class="ph-sub">${admin ? 'Answer student questions' : 'Ask anything about the course'}</div></div>
+            ${!admin ? `<div class="card"><div class="card-label">Ask a question</div><div class="ff"><textarea id="qa-question-input" placeholder="What's confusing you? No question is too basic…"></textarea></div><button class="btn-action" onclick="submitQuestion()">Ask question</button></div>` : ''}
+            <div class="card"><div class="card-label">Questions</div>
+                ${questions.length === 0 ? `<div class="empty" style="padding:1.5rem 0"><div class="empty-icon">◯</div>No questions yet</div>` :
                         questions.map(q => `
-          <div class="qa-item">
-            <div class="qa-q">${q.question}${!q.answer ? `<span class="unans-tag">unanswered</span>` : ''}</div>
-            <div class="qa-meta">${q.studentName} · ${timeAgo(q.createdAt)}</div>
-            ${q.answer ? `
-              <div class="qa-ans">
-                <div class="qa-ans-label">Instructor's answer</div>
-                ${q.answer}
-              </div>`:
-                                admin ? `
-              <div style="display:flex;gap:.4rem;margin-top:.5rem">
-                <textarea id="ans-${q.id}" style="flex:1;background:var(--bg4);border:1px solid var(--border);border-radius:var(--r);padding:.45rem;color:var(--text);font-family:var(--sans);font-size:12px;outline:none;resize:none;height:56px" placeholder="Write your answer…"></textarea>
-                <button class="btn-grade" onclick="answerQuestion('${q.id}')">Answer</button>
-              </div>`:
+                    <div class="qa-item">
+                        <div class="qa-q">${q.question}${!q.answer ? `<span class="unans-tag">unanswered</span>` : ''}</div>
+                        <div class="qa-meta">${q.studentName} · ${timeAgo(q.createdAt)}</div>
+                        ${q.answer ? `<div class="qa-ans"><div class="qa-ans-label">Instructor's answer</div>${q.answer}</div>` :
+                                admin ? `<div style="display:flex;gap:.4rem;margin-top:.5rem"><textarea id="ans-${q.id}" style="flex:1;background:var(--bg4);border:1px solid var(--border);border-radius:var(--r);padding:.45rem;color:var(--text);font-family:var(--sans);font-size:12px;outline:none;resize:none;height:56px" placeholder="Write your answer…"></textarea><button class="btn-grade" onclick="answerQuestion('${q.id}')">Answer</button></div>` :
                                     `<div class="qa-no-ans">Waiting for answer…</div>`}
-          </div>`).join('')}
-      </div>`;
+                    </div>`).join('')}
+            </div>`;
             });
             unsubscribers.push(unsub);
         }
         async function submitQuestion() {
             const q = document.getElementById('qa-question-input').value.trim();
             if (!q) { showToast('Please type your question', 'error'); return; }
-            await db.collection('questions').add({
-                question: q, studentId: currentUser.uid, studentName: currentUser.name,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp(), answer: null
-            });
+            await db.collection('questions').add({ question: q, studentId: currentUser.uid, studentName: currentUser.name, createdAt: firebase.firestore.FieldValue.serverTimestamp(), answer: null });
             showToast('Question submitted!');
         }
         async function answerQuestion(qId) {
@@ -2768,7 +3040,6 @@ print("Hello, DevJourney!")
             showToast('Answer posted!');
         }
 
-        // ── ADMIN: OVERVIEW ──
         function renderAdminOverview() {
             const main = document.getElementById('main-content');
             const unsub = db.collection('users').where('role', '==', 'student').onSnapshot(async snap => {
@@ -2778,90 +3049,48 @@ print("Hello, DevJourney!")
                 const qSnap = await db.collection('questions').where('answer', '==', null).get();
                 const avgProgress = students.length > 0 ? Math.round(students.reduce((s, st) => s + (st.progress || 0), 0) / students.length) : 0;
                 main.innerHTML = `
-      <div class="ph">
-        <div class="ph-eyebrow">Admin</div>
-        <div class="ph-title">Overview</div>
-        <div class="ph-sub">Your Dev Journey training dashboard</div>
-      </div>
-      <div class="stat-grid">
-        <div class="stat-tile">
-          <div class="stat-val sv-lime">${students.length}</div>
-          <div class="stat-lbl">Students enrolled</div>
-        </div>
-        <div class="stat-tile">
-          <div class="stat-val sv-gold">${subSnap.size}</div>
-          <div class="stat-lbl">Pending reviews</div>
-        </div>
-        <div class="stat-tile">
-          <div class="stat-val sv-sky">${exSnap.size}</div>
-          <div class="stat-lbl">Exercises posted</div>
-        </div>
-        <div class="stat-tile">
-          <div class="stat-val sv-violet">${avgProgress}%</div>
-          <div class="stat-lbl">Avg. progress</div>
-        </div>
-      </div>
-      ${qSnap.size > 0 ? `
-        <div class="alert-card">
-          <div>
-            <div class="ac-text">${qSnap.size} unanswered question${qSnap.size !== 1 ? 's' : ''}</div>
-            <div class="ac-sub">Students are waiting for your response</div>
-          </div>
-          <button class="btn-action" onclick="navigateTo('qa')">Go to Q&A →</button>
-        </div>`: ``}
-      <div class="overview-grid">
-        <div class="card">
-          <div class="card-label">Student progress</div>
-          ${students.length === 0 ? '<div class="empty" style="padding:1rem 0">No students yet</div>' :
-                        students.map(s => `
-            <div style="margin-bottom:.875rem">
-              <div style="display:flex;justify-content:space-between;margin-bottom:5px">
-                <span style="font-size:13px;color:var(--text2)">${s.name}</span>
-                <span style="font-size:11px;font-family:var(--mono);color:var(--lime)">${s.progress || 0}%</span>
-              </div>
-              <div class="prog-track"><div class="prog-fill" style="width:${s.progress || 0}%"></div></div>
-            </div>`).join('')}
-        </div>
-        <div>
-          <div class="card">
-            <div class="card-label">Quick actions</div>
-            <div style="display:flex;flex-direction:column;gap:.5rem">
-              <button class="btn-action" style="width:100%;justify-content:flex-start" onclick="navigateTo('content')">+ Post announcement</button>
-              <button class="btn-action" style="width:100%;justify-content:flex-start" onclick="navigateTo('grading')">✎ Grade submissions</button>
-              <button class="btn-action" style="width:100%;justify-content:flex-start" onclick="navigateTo('students')">◎ View all students</button>
+            <div class="ph"><div class="ph-eyebrow">Admin</div><div class="ph-title">Overview</div><div class="ph-sub">Your Dev Journey training dashboard</div></div>
+            <div class="stat-grid">
+                <div class="stat-tile"><div class="stat-val sv-lime">${students.length}</div><div class="stat-lbl">Students enrolled</div></div>
+                <div class="stat-tile"><div class="stat-val sv-gold">${subSnap.size}</div><div class="stat-lbl">Pending reviews</div></div>
+                <div class="stat-tile"><div class="stat-val sv-sky">${exSnap.size}</div><div class="stat-lbl">Exercises posted</div></div>
+                <div class="stat-tile"><div class="stat-val sv-violet">${avgProgress}%</div><div class="stat-lbl">Avg. progress</div></div>
             </div>
-          </div>
-        </div>
-      </div>`;
+            ${qSnap.size > 0 ? `<div class="alert-card"><div><div class="ac-text">${qSnap.size} unanswered question${qSnap.size !== 1 ? 's' : ''}</div><div class="ac-sub">Students are waiting for your response</div></div><button class="btn-action" onclick="navigateTo('qa')">Go to Q&A →</button></div>` : ''}
+            <div class="overview-grid">
+                <div class="card"><div class="card-label">Student progress</div>
+                    ${students.length === 0 ? '<div class="empty" style="padding:1rem 0">No students yet</div>' :
+                        students.map(s => `<div style="margin-bottom:.875rem"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:13px;color:var(--text2)">${s.name}</span><span style="font-size:11px;font-family:var(--mono);color:var(--lime)">${s.progress || 0}%</span></div><div class="prog-track"><div class="prog-fill" style="width:${s.progress || 0}%"></div></div></div>`).join('')}
+                </div>
+                <div>
+                    <div class="card"><div class="card-label">Quick actions</div>
+                        <div style="display:flex;flex-direction:column;gap:.5rem">
+                            <button class="btn-action" style="width:100%" onclick="navigateTo('content')">+ Post announcement</button>
+                            <button class="btn-action" style="width:100%" onclick="navigateTo('grading')">✎ Grade submissions</button>
+                            <button class="btn-action" style="width:100%" onclick="navigateTo('students')">◎ View all students</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
             });
             unsubscribers.push(unsub);
         }
 
-        // ── ADMIN: STUDENTS ──
         function renderAdminStudents() {
             const main = document.getElementById('main-content');
             const unsub = db.collection('users').where('role', '==', 'student').onSnapshot(snap => {
                 const students = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 main.innerHTML = `
-      <div class="ph">
-        <div class="ph-eyebrow">Students</div>
-        <div class="ph-title">Enrolled Students</div>
-        <div class="ph-sub">${students.length} enrolled</div>
-      </div>
-      <div class="card">
-        ${students.length === 0 ? `<div class="empty"><div class="empty-icon">◎</div>No students yet</div>` :
+            <div class="ph"><div class="ph-eyebrow">Students</div><div class="ph-title">Enrolled Students</div><div class="ph-sub">${students.length} enrolled</div></div>
+            <div class="card">
+                ${students.length === 0 ? `<div class="empty"><div class="empty-icon">◎</div>No students yet</div>` :
                         students.map(s => `
-          <div class="student-row">
-            <div class="s-avatar">${initials(s.name)}</div>
-            <div class="s-info">
-              <div class="s-name">${s.name}${s.banned ? '<span class="banned-badge">BANNED</span>' : ''}</div>
-              <div class="s-email">${s.email}</div>
-              <div class="s-joined">Joined ${formatDate(s.joinedAt)} · ${s.progress || 0}% complete</div>
-            </div>
-            ${s.banned ? `<button class="btn-unban" onclick="banStudent('${s.id}',false)">Unban</button>` :
-                                `<button class="btn-ban" onclick="banStudent('${s.id}',true)">Ban</button>`}
-          </div>`).join('')}
-      </div>`;
+                    <div class="student-row">
+                        <div class="s-avatar">${initials(s.name)}</div>
+                        <div class="s-info"><div class="s-name">${s.name}${s.banned ? '<span class="banned-badge">BANNED</span>' : ''}</div><div class="s-email">${s.email}</div><div class="s-joined">Joined ${formatDate(s.joinedAt)} · ${s.progress || 0}% complete</div></div>
+                        ${s.banned ? `<button class="btn-unban" onclick="banStudent('${s.id}',false)">Unban</button>` : `<button class="btn-ban" onclick="banStudent('${s.id}',true)">Ban</button>`}
+                    </div>`).join('')}
+            </div>`;
             });
             unsubscribers.push(unsub);
         }
@@ -2871,22 +3100,17 @@ print("Hello, DevJourney!")
             showToast(ban ? 'Student banned' : 'Student unbanned');
         }
 
-        // ── ADMIN: CONTENT ──
         function renderAdminContent() {
             const main = document.getElementById('main-content');
             main.innerHTML = `
-    <div class="ph">
-      <div class="ph-eyebrow">Admin</div>
-      <div class="ph-title">Content</div>
-      <div class="ph-sub">Manage announcements, exercises, lessons & ebook</div>
-    </div>
-    <div class="tabs" style="margin-bottom:1rem">
-      <button class="tab active" onclick="showContentTab('announcements',this)">Announcements</button>
-      <button class="tab" onclick="showContentTab('tasks',this)">Exercises</button>
-      <button class="tab" onclick="showContentTab('lessons',this)">Lessons</button>
-      <button class="tab" onclick="showContentTab('ebook-ctrl',this)">Ebook</button>
-    </div>
-    <div id="content-tab"></div>`;
+        <div class="ph"><div class="ph-eyebrow">Admin</div><div class="ph-title">Content</div><div class="ph-sub">Manage announcements, exercises, lessons & ebook</div></div>
+        <div class="tabs" style="margin-bottom:1rem">
+            <button class="tab active" onclick="showContentTab('announcements',this)">Announcements</button>
+            <button class="tab" onclick="showContentTab('tasks',this)">Exercises</button>
+            <button class="tab" onclick="showContentTab('lessons',this)">Lessons</button>
+            <button class="tab" onclick="showContentTab('ebook-ctrl',this)">Ebook</button>
+        </div>
+        <div id="content-tab"></div>`;
             showContentTab('announcements', document.querySelector('.tab.active'));
         }
         function showContentTab(tab, el) {
@@ -2901,23 +3125,11 @@ print("Hello, DevJourney!")
             const unsub = db.collection('announcements').orderBy('createdAt', 'desc').onSnapshot(snap => {
                 const anns = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 document.getElementById('content-tab').innerHTML = `
-      <div class="card">
-        <div class="card-label">New announcement</div>
-        <div class="ff"><textarea id="ann-text" placeholder="Write your announcement, session link, or reminder…"></textarea></div>
-        <button class="btn-action" onclick="postAnnouncement()">Broadcast to all students</button>
-      </div>
-      <div class="card">
-        <div class="card-label">Posted</div>
-        ${anns.length === 0 ? `<div class="empty" style="padding:1rem 0">Nothing posted yet</div>` :
-                        anns.map(a => `
-          <div class="ann">
-            <div class="ann-top">
-              <span class="ann-time">${timeAgo(a.createdAt)}</span>
-              <button class="btn-icon" onclick="deleteAnnouncement('${a.id}')">✕</button>
-            </div>
-            <div class="ann-text">${a.text}</div>
-          </div>`).join('')}
-      </div>`;
+            <div class="card"><div class="card-label">New announcement</div><div class="ff"><textarea id="ann-text" placeholder="Write your announcement, session link, or reminder…"></textarea></div><button class="btn-action" onclick="postAnnouncement()">Broadcast to all students</button></div>
+            <div class="card"><div class="card-label">Posted</div>
+                ${anns.length === 0 ? `<div class="empty" style="padding:1rem 0">Nothing posted yet</div>` :
+                        anns.map(a => `<div class="ann"><div class="ann-top"><span class="ann-time">${timeAgo(a.createdAt)}</span><button class="btn-icon" onclick="deleteAnnouncement('${a.id}')">✕</button></div><div class="ann-text">${a.text}</div></div>`).join('')}
+            </div>`;
             });
             unsubscribers.push(unsub);
         }
@@ -2928,32 +3140,21 @@ print("Hello, DevJourney!")
             document.getElementById('ann-text').value = '';
             showToast('Announcement broadcast!');
         }
-        async function deleteAnnouncement(id) {
-            await db.collection('announcements').doc(id).delete(); showToast('Deleted');
-        }
+        async function deleteAnnouncement(id) { await db.collection('announcements').doc(id).delete(); showToast('Deleted'); }
         function renderTasksTab() {
             const unsub = db.collection('exercises').orderBy('createdAt', 'desc').onSnapshot(snap => {
                 const exercises = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 document.getElementById('content-tab').innerHTML = `
-      <div class="card">
-        <div class="card-label">New exercise</div>
-        <div class="ff"><label>Title</label><input type="text" id="ex-title" placeholder="e.g. Chapter 2 — Variables"></div>
-        <div class="ff"><label>Instructions</label><textarea id="ex-desc" placeholder="Describe what students need to do…"></textarea></div>
-        <div class="ff"><label>Due Date (optional)</label><input type="date" id="ex-due" style="color-scheme:dark"></div>
-        <button class="btn-action" onclick="postExercise()">Post exercise</button>
-      </div>
-      <div class="card">
-        <div class="card-label">Posted exercises</div>
-        ${exercises.length === 0 ? `<div class="empty" style="padding:1rem 0">No exercises yet</div>` :
-                        exercises.map(ex => `
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid var(--border)">
-            <div>
-              <div style="font-size:13px;font-weight:500;color:var(--text2)">${ex.title}</div>
-              <div style="font-size:11px;color:var(--muted);margin-top:2px">${ex.description.substring(0, 70)}…</div>
+            <div class="card"><div class="card-label">New exercise</div>
+                <div class="ff"><label>Title</label><input type="text" id="ex-title" placeholder="e.g. Chapter 2 — Variables"></div>
+                <div class="ff"><label>Instructions</label><textarea id="ex-desc" placeholder="Describe what students need to do…"></textarea></div>
+                <div class="ff"><label>Due Date (optional)</label><input type="date" id="ex-due" style="color-scheme:dark"></div>
+                <button class="btn-action" onclick="postExercise()">Post exercise</button>
             </div>
-            <button class="btn-icon" onclick="deleteExercise('${ex.id}')">✕</button>
-          </div>`).join('')}
-      </div>`;
+            <div class="card"><div class="card-label">Posted exercises</div>
+                ${exercises.length === 0 ? `<div class="empty" style="padding:1rem 0">No exercises yet</div>` :
+                        exercises.map(ex => `<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid var(--border)"><div><div style="font-size:13px;font-weight:500;color:var(--text2)">${ex.title}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${ex.description.substring(0, 70)}…</div></div><button class="btn-icon" onclick="deleteExercise('${ex.id}')">✕</button></div>`).join('')}
+            </div>`;
             });
             unsubscribers.push(unsub);
         }
@@ -2972,26 +3173,16 @@ print("Hello, DevJourney!")
             const unsub = db.collection('lessons').orderBy('createdAt', 'desc').onSnapshot(snap => {
                 const lessons = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 tab.innerHTML = `
-      <div class="card">
-        <div class="card-label">New lesson</div>
-        <div class="ff"><label>Lesson Title</label><input id="lesson-title" placeholder="e.g. Python Loops"></div>
-        <div class="ff"><label>Video Embed Link</label><input id="lesson-video" placeholder="https://www.youtube.com/embed/VIDEO_ID"></div>
-        <div class="ff"><label>Python Code Sample (optional)</label><textarea id="lesson-code" placeholder="for i in range(5):\n    print(i)"></textarea></div>
-        <button class="btn-action" onclick="postLesson()">Add lesson</button>
-      </div>
-      <div class="card">
-        <div class="card-label">Uploaded lessons</div>
-        ${lessons.length === 0 ? `<div class="empty" style="padding:1rem 0"><div class="empty-icon">▶</div>No lessons yet</div>` :
-                        lessons.map(l => `
-          <div class="ex-card">
-            <div class="ex-hd">
-              <div class="ex-title">${l.title}</div>
-              <button class="btn-icon" onclick="deleteLesson('${l.id}')">✕</button>
+            <div class="card"><div class="card-label">New lesson</div>
+                <div class="ff"><label>Lesson Title</label><input id="lesson-title" placeholder="e.g. Python Loops"></div>
+                <div class="ff"><label>Video Embed Link</label><input id="lesson-video" placeholder="https://www.youtube.com/embed/VIDEO_ID"></div>
+                <div class="ff"><label>Python Code Sample (optional)</label><textarea id="lesson-code" placeholder="for i in range(5):\n    print(i)"></textarea></div>
+                <button class="btn-action" onclick="postLesson()">Add lesson</button>
             </div>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:.5rem">${l.videoUrl}</div>
-            <button class="btn-submit" onclick="editLesson('${l.id}',\`${l.title}\`,\`${l.videoUrl}\`,\`${(l.codeSample || '').replace(/`/g, '\\`')}\`)">Edit</button>
-          </div>`).join('')}
-      </div>`;
+            <div class="card"><div class="card-label">Uploaded lessons</div>
+                ${lessons.length === 0 ? `<div class="empty" style="padding:1rem 0"><div class="empty-icon">▶</div>No lessons yet</div>` :
+                        lessons.map(l => `<div class="ex-card"><div class="ex-hd"><div class="ex-title">${l.title}</div><button class="btn-icon" onclick="deleteLesson('${l.id}')">✕</button></div><div style="font-size:11px;color:var(--muted);margin-bottom:.5rem">${l.videoUrl}</div><button class="btn-submit" onclick="editLesson('${l.id}',\`${l.title}\`,\`${l.videoUrl}\`,\`${(l.codeSample || '').replace(/`/g, '\\`')}\`)">Edit</button></div>`).join('')}
+            </div>`;
             });
             unsubscribers.push(unsub);
         }
@@ -3003,10 +3194,7 @@ print("Hello, DevJourney!")
             await db.collection('lessons').add({ title, videoUrl, codeSample, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
             showToast('Lesson added ✓');
         }
-        async function deleteLesson(id) {
-            if (!confirm('Delete this lesson?')) return;
-            await db.collection('lessons').doc(id).delete(); showToast('Deleted');
-        }
+        async function deleteLesson(id) { if (!confirm('Delete this lesson?')) return; await db.collection('lessons').doc(id).delete(); showToast('Deleted'); }
         function editLesson(id, title, videoUrl, codeSample) {
             document.getElementById('lesson-title').value = title;
             document.getElementById('lesson-video').value = videoUrl;
@@ -3014,25 +3202,18 @@ print("Hello, DevJourney!")
             const btn = document.querySelector('#content-tab .btn-action');
             btn.textContent = 'Update lesson';
             btn.onclick = async () => {
-                await db.collection('lessons').doc(id).update({
-                    title: document.getElementById('lesson-title').value.trim(),
-                    videoUrl: document.getElementById('lesson-video').value.trim(),
-                    codeSample: document.getElementById('lesson-code').value.trim()
-                });
-                showToast('Lesson updated ✓');
-                btn.textContent = 'Add lesson';
-                btn.onclick = postLesson;
+                await db.collection('lessons').doc(id).update({ title: document.getElementById('lesson-title').value.trim(), videoUrl: document.getElementById('lesson-video').value.trim(), codeSample: document.getElementById('lesson-code').value.trim() });
+                showToast('Lesson updated ✓'); btn.textContent = 'Add lesson'; btn.onclick = postLesson;
             };
         }
         function renderEbookControlTab() {
             document.getElementById('content-tab').innerHTML = `
-    <div class="card">
-      <div class="card-label">Ebook settings</div>
-      <div class="ff"><label>Book Title</label><input type="text" id="ebook-title-input" value="${EBOOK_TITLE}"></div>
-      <div class="ff"><label>Google Drive Preview Link</label><input type="text" id="ebook-url-input" value="${EBOOK_URL}"></div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:.75rem">In Google Drive: right-click → Share → Copy link, then change /view to /preview</div>
-      <button class="btn-action" onclick="updateEbook()">Save ebook settings</button>
-    </div>`;
+        <div class="card"><div class="card-label">Ebook settings</div>
+            <div class="ff"><label>Book Title</label><input type="text" id="ebook-title-input" value="${EBOOK_TITLE}"></div>
+            <div class="ff"><label>Google Drive Preview Link</label><input type="text" id="ebook-url-input" value="${EBOOK_URL}"></div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:.75rem">In Google Drive: right-click → Share → Copy link, then change /view to /preview</div>
+            <button class="btn-action" onclick="updateEbook()">Save ebook settings</button>
+        </div>`;
         }
         async function updateEbook() {
             const url = document.getElementById('ebook-url-input').value.trim();
@@ -3042,7 +3223,6 @@ print("Hello, DevJourney!")
             EBOOK_URL = url; EBOOK_TITLE = title; showToast('Ebook updated!');
         }
 
-        // ── ADMIN: GRADING ──
         function renderAdminGrading() {
             const main = document.getElementById('main-content');
             const unsub = db.collection('submissions').orderBy('submittedAt', 'desc').onSnapshot(snap => {
@@ -3050,16 +3230,12 @@ print("Hello, DevJourney!")
                 const pending = subs.filter(s => !s.grade);
                 const graded = subs.filter(s => s.grade);
                 main.innerHTML = `
-      <div class="ph">
-        <div class="ph-eyebrow">Admin</div>
-        <div class="ph-title">Grading</div>
-        <div class="ph-sub">${pending.length} pending · ${graded.length} graded</div>
-      </div>
-      <div class="tabs" style="margin-bottom:1rem">
-        <button class="tab active" onclick="showGradingTab('pending',this)">Needs Marking (${pending.length})</button>
-        <button class="tab" onclick="showGradingTab('graded',this)">Graded (${graded.length})</button>
-      </div>
-      <div id="grading-tab">${renderSubmissions(pending, true)}</div>`;
+            <div class="ph"><div class="ph-eyebrow">Admin</div><div class="ph-title">Grading</div><div class="ph-sub">${pending.length} pending · ${graded.length} graded</div></div>
+            <div class="tabs" style="margin-bottom:1rem">
+                <button class="tab active" onclick="showGradingTab('pending',this)">Needs Marking (${pending.length})</button>
+                <button class="tab" onclick="showGradingTab('graded',this)">Graded (${graded.length})</button>
+            </div>
+            <div id="grading-tab">${renderSubmissions(pending, true)}</div>`;
                 window._pendingSubs = pending; window._gradedSubs = graded;
             });
             unsubscribers.push(unsub);
@@ -3067,31 +3243,21 @@ print("Hello, DevJourney!")
         function showGradingTab(tab, el) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             el.classList.add('active');
-            document.getElementById('grading-tab').innerHTML = renderSubmissions(
-                tab === 'pending' ? window._pendingSubs : window._gradedSubs, tab === 'pending'
-            );
+            document.getElementById('grading-tab').innerHTML = renderSubmissions(tab === 'pending' ? window._pendingSubs : window._gradedSubs, tab === 'pending');
         }
         function renderSubmissions(subs, showInput) {
             if (subs.length === 0) return `<div class="empty"><div class="empty-icon">✓</div>Nothing here</div>`;
             return subs.map(s => `
-    <div class="sub-item">
-      <div class="sub-hd">
-        <div>
-          <div class="sub-student">${s.studentName}</div>
-          <div class="sub-when">Submitted ${timeAgo(s.submittedAt)}</div>
-        </div>
-        ${s.grade ? `<div style="font-size:20px;font-weight:600;font-family:var(--mono);color:var(--lime)">${s.grade}</div>` : ''}
-      </div>
-      ${s.code ? `<div class="sub-code">${s.code}</div>` : ''}
-      ${s.replitLink ? `<div style="font-size:11px;color:var(--sky);margin:.2rem 0">🔗 <a href="${s.replitLink}" target="_blank" style="color:var(--sky)">${s.replitLink}</a></div>` : ''}
-      ${s.feedback ? `<div style="font-size:11px;color:var(--muted);margin-top:.25rem;font-style:italic">${s.feedback}</div>` : ''}
-      ${showInput ? `
-        <div class="grade-row">
-          <input type="text" id="grade-${s.id}" placeholder="A / 85%">
-          <textarea id="feedback-${s.id}" placeholder="Write feedback…"></textarea>
-          <button class="btn-grade" onclick="gradeSubmission('${s.id}')">Grade</button>
-        </div>`: ''}
-    </div>`).join('');
+        <div class="sub-item">
+            <div class="sub-hd">
+                <div><div class="sub-student">${s.studentName}</div><div class="sub-when">Submitted ${timeAgo(s.submittedAt)}</div></div>
+                ${s.grade ? `<div style="font-size:20px;font-weight:600;font-family:var(--mono);color:var(--lime)">${s.grade}</div>` : ''}
+            </div>
+            ${s.code ? `<div class="sub-code">${s.code}</div>` : ''}
+            ${s.replitLink ? `<div style="font-size:11px;color:var(--sky);margin:.2rem 0">🔗 <a href="${s.replitLink}" target="_blank" style="color:var(--sky)">${s.replitLink}</a></div>` : ''}
+            ${s.feedback ? `<div style="font-size:11px;color:var(--muted);margin-top:.25rem;font-style:italic">${s.feedback}</div>` : ''}
+            ${showInput ? `<div class="grade-row"><input type="text" id="grade-${s.id}" placeholder="A / 85%"><textarea id="feedback-${s.id}" placeholder="Write feedback…"></textarea><button class="btn-grade" onclick="gradeSubmission('${s.id}')">Grade</button></div>` : ''}
+        </div>`).join('');
         }
         async function gradeSubmission(subId) {
             const grade = document.getElementById(`grade-${subId}`).value.trim();
