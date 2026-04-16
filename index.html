@@ -1886,6 +1886,7 @@ _buf.getvalue()
             { id: 'ebook', icon: '◫', label: 'Ebook' },
             { id: 'exercises', icon: '✎', label: 'Exercises' },
             { id: 'practice', icon: '⌨', label: 'Practice Lab' },
+            { id: 'projects', icon: '🧩', label: 'Beginner Projects' },
             { id: 'qa', icon: '◯', label: 'Q & A' }
         ];
         const ADMIN_NAV = [
@@ -1893,7 +1894,45 @@ _buf.getvalue()
             { id: 'students', icon: '◎', label: 'Students' },
             { id: 'content', icon: '◈', label: 'Content' },
             { id: 'grading', icon: '✎', label: 'Grading' },
+            { id: 'project-review', icon: '🧩', label: 'Project Review' },
             { id: 'qa', icon: '◯', label: 'Q & A' },
+        ];
+        const BEGINNER_PROJECTS = [
+            {
+                id: 'guessing',
+                title: 'Number Guessing Game',
+                description: 'Build a game where the user guesses a randomly generated number.',
+                skills: ['Variables', 'Loops', 'Conditionals'],
+                difficulty: 1
+            },
+            {
+                id: 'calculator',
+                title: 'Simple Calculator',
+                description: 'Create a calculator that performs basic math operations.',
+                skills: ['If statements', 'Functions', 'Input'],
+                difficulty: 2
+            },
+            {
+                id: 'todo',
+                title: 'To‑Do List (Console)',
+                description: 'Create a task manager where users can add and remove tasks.',
+                skills: ['Lists', 'Loops'],
+                difficulty: 2
+            },
+            {
+                id: 'grading',
+                title: 'Student Grading System',
+                description: 'Convert student scores into grades using logic.',
+                skills: ['Conditionals', 'Variables'],
+                difficulty: 2
+            },
+            {
+                id: 'rps',
+                title: 'Rock, Paper, Scissors',
+                description: 'Play Rock, Paper, Scissors against the computer.',
+                skills: ['Random', 'Conditionals', 'Loops'],
+                difficulty: 3
+            }
         ];
 
         function buildNav() {
@@ -1925,9 +1964,104 @@ _buf.getvalue()
                 content: renderAdminContent,
                 grading: renderAdminGrading,
                 practice: renderPracticeLab,
+                projects: renderBeginnerProjects,
+                'project-review': renderAdminProjectReview,
                 qa: () => renderQA(isAdmin)
             };
             if (map[page]) map[page]();
+        }
+        function renderAdminProjectReview() {
+            const main = document.getElementById('main-content');
+
+            const unsub = db
+                .collection('project_submissions')
+                .orderBy('submittedAt', 'desc')
+                .onSnapshot(snap => {
+
+                    const subs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+                    main.innerHTML = `
+                <div class="ph">
+                    <div class="ph-eyebrow">Admin</div>
+                    <div class="ph-title">Project Review</div>
+                    <div class="ph-sub">
+                        Review and approve student projects
+                    </div>
+                </div>
+
+                ${subs.length === 0 ? `
+                    <div class="empty">
+                        <div class="empty-icon">🧩</div>
+                        No project submissions yet
+                    </div>
+                ` : subs.map(s => `
+                    <div class="sub-item">
+                        <div class="sub-hd">
+                            <div>
+                                <div class="sub-student">${s.studentName}</div>
+                                <div class="sub-when">
+                                    ${s.projectTitle} · Submitted ${timeAgo(s.submittedAt)}
+                                </div>
+                            </div>
+
+                            <span style="
+                                font-size:11px;
+                                font-family:var(--mono);
+                                color:${s.status === 'approved' ? 'var(--lime)' : 'var(--gold)'};
+                            ">
+                                ${s.status.toUpperCase()}
+                            </span>
+                        </div>
+
+                        ${s.code ? `<div class="sub-code">${s.code}</div>` : ''}
+
+                        ${s.replitLink ? `
+                            <div style="font-size:11px;color:var(--sky);margin:.3rem 0">
+                                🔗 <a href="${s.replitLink}" target="_blank" style="color:var(--sky)">
+                                    ${s.replitLink}
+                                </a>
+                            </div>
+                        ` : ''}
+
+                        ${s.status === 'submitted' ? `
+                            <div style="display:flex;gap:.4rem;margin-top:.5rem">
+                                <button class="btn-grade"
+                                    onclick="approveProject('${s.id}')">
+                                    ✅ Approve
+                                </button>
+
+                                <button class="btn-ban"
+                                    onclick="requestProjectChanges('${s.id}')">
+                                    ❌ Needs Changes
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('')}
+            `;
+                });
+
+            unsubscribers.push(unsub);
+        }
+        async function approveProject(submissionId) {
+            await db.collection('project_submissions')
+                .doc(submissionId)
+                .update({
+                    status: 'approved',
+                    reviewedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+            showToast('Project approved ✅');
+        }
+
+        async function requestProjectChanges(submissionId) {
+            await db.collection('project_submissions')
+                .doc(submissionId)
+                .update({
+                    status: 'needs_changes'
+                });
+
+            showToast('Marked as needs changes');
         }
 
         // ── STUDENT: DASHBOARD ──
@@ -2059,6 +2193,233 @@ for i in range(1, 6):
                 document.getElementById('py-output-practice').textContent = '';
             };
         }
+        function renderBeginnerProjects() {
+            const main = document.getElementById('main-content');
+
+            const unsub = db
+                .collection('project_submissions')
+                .where('studentId', '==', currentUser.uid)
+                .onSnapshot(snap => {
+
+                    const submissions = {};
+                    snap.docs.forEach(d => {
+                        submissions[d.data().projectId] = d.data();
+                    });
+
+                    main.innerHTML = `
+                <div class="ph">
+                    <div class="ph-eyebrow">Projects</div>
+                    <div class="ph-title">Beginner Python Projects</div>
+                    <div class="ph-sub">
+                        Build projects and submit them for review.
+                    </div>
+                </div>
+
+                ${BEGINNER_PROJECTS.map(p => {
+                        const sub = submissions[p.id];
+                        const status = sub?.status;
+
+                        return `
+                        <div class="card">
+                            <div class="card-title">
+                                ${p.title}
+                                ${status === 'approved' ? ' ✅' : ''}
+                            </div>
+
+                            <p style="font-size:13px;color:var(--muted2);margin:.4rem 0">
+                                ${p.description}
+                            </p>
+
+                            <div style="margin:.5rem 0">
+                                ${p.skills.map(s => `
+                                    <span style="
+                                        font-size:10px;
+                                        font-family:var(--mono);
+                                        background:var(--bg3);
+                                        border:1px solid var(--border);
+                                        padding:2px 8px;
+                                        border-radius:20px;
+                                        margin-right:6px;
+                                    ">${s}</span>
+                                `).join('')}
+                            </div>
+
+                            <div style="margin:.4rem 0;font-size:12px">
+                                ${status === 'approved'
+                                ? `<span style="color:var(--lime)">✅ Approved</span>`
+                                : status === 'needs_changes'
+                                    ? `<span style="color:var(--rose)">❌ Needs changes</span>`
+                                    : status === 'submitted'
+                                        ? `<span style="color:var(--gold)">⏳ Submitted</span>`
+                                        : `<span style="color:var(--muted)">Not submitted</span>`
+                            }
+                            </div>
+
+                            <button class="btn-action"
+                                onclick="startProject('${p.id}')">
+                                ${status ? 'View Project' : 'Start Project →'}
+                            </button>
+                        </div>
+                    `;
+                    }).join('')}
+            `;
+                });
+
+            unsubscribers.push(unsub);
+        }
+        const PROJECT_INSTRUCTIONS = {
+            guessing: {
+                title: 'Number Guessing Game',
+                overview: 'Build a game where the computer chooses a random number and the user keeps guessing until they get it right.',
+                requirements: [
+                    'Generate a random number between 1 and 10',
+                    'Ask the user to guess the number',
+                    'Tell the user if their guess is too high or too low',
+                    'Repeat until the correct number is guessed',
+                    'Print a success message when guessed correctly'
+                ],
+                example: `
+Computer has chosen a number between 1 and 10
+Your guess: 5
+Too high!
+Your guess: 3
+Correct! You guessed it!
+`
+            },
+
+            calculator: {
+                title: 'Simple Calculator',
+                overview: 'Create a calculator that performs basic arithmetic operations based on user input.',
+                requirements: [
+                    'Ask the user for two numbers',
+                    'Ask the user to choose an operation (+, -, *, /)',
+                    'Perform the calculation',
+                    'Display the result',
+                    'Handle invalid operations gracefully'
+                ],
+                example: `
+Enter first number: 4
+Enter second number: 2
+Choose operation (+ - * /): *
+Result: 8
+`
+            },
+
+            todo: {
+                title: 'To‑Do List (Console)',
+                overview: 'Build a simple task manager using a list.',
+                requirements: [
+                    'Allow the user to add tasks',
+                    'Allow the user to view all tasks',
+                    'Allow the user to remove a task',
+                    'Keep running until the user chooses to exit'
+                ],
+                example: `
+1. Add task
+2. View tasks
+3. Remove task
+4. Exit
+Choose option: 1
+Task added!
+`
+            },
+
+            grading: {
+                title: 'Student Grading System',
+                overview: 'Convert numerical scores into letter grades.',
+                requirements: [
+                    'Ask for a student score',
+                    'Determine the grade (A, B, C, etc.)',
+                    'Display the grade clearly',
+                    'Allow multiple students to be graded'
+                ],
+                example: `
+Enter score: 82
+Grade: B
+`
+            },
+
+            rps: {
+                title: 'Rock, Paper, Scissors',
+                overview: 'Create a Rock, Paper, Scissors game where the user plays against the computer.',
+                requirements: [
+                    'Ask the user to choose rock, paper, or scissors',
+                    'Generate a random choice for the computer',
+                    'Determine the winner',
+                    'Display the result',
+                    'Allow the user to play multiple rounds'
+                ],
+                example: `
+You chose: rock
+Computer chose: scissors
+You win!
+`
+            }
+        };
+        function startProject(projectId) {
+            const main = document.getElementById('main-content');
+            const project = PROJECT_INSTRUCTIONS[projectId];
+
+
+            if (!project) {
+                showToast('Project not found', 'error');
+                return;
+            }
+
+            main.innerHTML = `
+        <div class="ph">
+            <div class="ph-eyebrow">Project</div>
+            <div class="ph-title">${project.title}</div>
+            <div class="ph-sub">${project.overview}</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Requirements</div>
+            <ul style="font-size:13px;color:var(--muted2);padding-left:18px">
+                ${project.requirements.map(r => `<li>${r}</li>`).join('')}
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Example Output</div>
+            <pre style="
+                background:var(--bg);
+                border:1px solid var(--border);
+                padding:.75rem;
+                border-radius:var(--r);
+                font-family:var(--mono);
+                font-size:12px;
+                color:var(--lime);
+                white-space:pre-wrap;
+            ">${project.example}</pre>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Submission</div>
+            <p style="font-size:13px;color:var(--muted2)">
+                When you are done, submit either your Python code or a Replit link.
+            </p>
+
+            <textarea
+                class="code-input"
+                id="project-code"
+                placeholder="Paste your final Python code here..."
+                rows="8"
+            ></textarea>
+
+            <input
+                class="replit-inp"
+                id="project-link"
+                placeholder="Optional: Replit link"
+            />
+
+            <button class="btn-action" onclick="submitProject('${projectId}')">
+                Submit Project →
+            </button>
+        </div>
+    `;
+        }
+
 
         // ── STUDENT: SYLLABUS ──
         function renderSyllabus() {
@@ -2263,6 +2624,30 @@ print("Hello, DevJourney!")
             });
 
             showToast('Submitted successfully!');
+        }
+        async function submitProject(projectId) {
+            const code = document.getElementById('project-code').value.trim();
+            const link = document.getElementById('project-link').value.trim();
+
+            if (!code && !link) {
+                showToast('Please submit code or a Replit link', 'error');
+                return;
+            }
+
+            const submissionId = `${currentUser.uid}_${projectId}`;
+
+            await db.collection('project_submissions').doc(submissionId).set({
+                projectId,
+                projectTitle: PROJECT_INSTRUCTIONS[projectId].title,
+                studentId: currentUser.uid,
+                studentName: currentUser.name,
+                code,
+                replitLink: link,
+                submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                status: 'submitted'
+            });
+
+            showToast('Project submitted successfully ✅');
         }
 
         // ── Q&A ──
