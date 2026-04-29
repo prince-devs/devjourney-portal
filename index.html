@@ -757,12 +757,29 @@
             border-radius: var(--rl) var(--rl) 0 0
         }
 
-        .stat-tile.c-lime::before { background: var(--lime) }
-        .stat-tile.c-sky::before { background: var(--sky) }
-        .stat-tile.c-gold::before { background: var(--gold) }
-        .stat-tile.c-violet::before { background: var(--violet) }
-        .stat-tile.c-rose::before { background: var(--rose) }
-        .stat-tile.c-accent::before { background: var(--accent) }
+        .stat-tile.c-lime::before {
+            background: var(--lime)
+        }
+
+        .stat-tile.c-sky::before {
+            background: var(--sky)
+        }
+
+        .stat-tile.c-gold::before {
+            background: var(--gold)
+        }
+
+        .stat-tile.c-violet::before {
+            background: var(--violet)
+        }
+
+        .stat-tile.c-rose::before {
+            background: var(--rose)
+        }
+
+        .stat-tile.c-accent::before {
+            background: var(--accent)
+        }
 
         .stat-val {
             font-size: 26px;
@@ -777,266 +794,1653 @@
             color: var(--muted2)
         }
 
-        .sv-lime { color: var(--lime) }
-        .sv-sky { color: var(--sky) }
-        .sv-gold { color: var(--gold) }
-        .sv-violet { color: var(--violet) }
-        .sv-rose { color: var(--rose) }
-        .sv-accent { color: var(--accent2) }
+        .sv-lime {
+            color: var(--lime)
+        }
+
+        .sv-sky {
+            color: var(--sky)
+        }
+
+        .sv-gold {
+            color: var(--gold)
+        }
+
+        .sv-violet {
+            color: var(--violet)
+        }
+
+        .sv-rose {
+            color: var(--rose)
+        }
+
+        .sv-accent {
+            color: var(--accent2)
+        }
 
         /* PROGRESS */
-        .prog-wrap { margin: .625rem 0 }
-        .prog-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px }
-        .prog-label { font-size: 12.5px; color: var(--muted2) }
-        .prog-pct { font-size: 11.5px; font-weight: 500; font-family: var(--mono); color: var(--lime) }
-        .prog-track { height: 3px; background: var(--bg4); border-radius: 3px; overflow: hidden }
-        .prog-fill { height: 100%; background: var(--lime); border-radius: 3px; transition: width .7s cubic-bezier(.16, 1, .3, 1) }
+        .prog-wrap {
+            margin: .625rem 0
+        }
+
+        .prog-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 7px
+        }
+
+        .prog-label {
+            font-size: 12.5px;
+            color: var(--muted2)
+        }
+
+        .prog-pct {
+            font-size: 11.5px;
+            font-weight: 500;
+            font-family: var(--mono);
+            color: var(--lime)
+        }
+
+        .prog-track {
+            height: 3px;
+            background: var(--bg4);
+            border-radius: 3px;
+            overflow: hidden
+        }
+
+        .prog-fill {
+            height: 100%;
+            background: var(--lime);
+            border-radius: 3px;
+            transition: width .7s cubic-bezier(.16, 1, .3, 1)
+        }
 
         /* CHAPTERS */
-        .ch-item { display: flex; align-items: center; gap: 11px; padding: .65rem 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: all .12s }
-        .ch-item:hover { padding-left: 3px }
-        .ch-item:last-child { border-bottom: none }
-        .ch-box { width: 18px; height: 18px; border: 1.5px solid var(--border2); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .2s }
-        .ch-box.done { background: var(--lime); border-color: var(--lime) }
-        .ch-box.done::after { content: '✓'; font-size: 10px; color: #09090f; font-weight: 700 }
-        .ch-name { font-size: 13px; flex: 1; transition: color .12s }
-        .ch-name.done { color: var(--muted); text-decoration: line-through }
-        .ch-num { font-size: 9.5px; font-family: var(--mono); color: var(--muted) }
+        .ch-item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: .65rem 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all .12s
+        }
+
+        .ch-item:hover {
+            padding-left: 3px
+        }
+
+        .ch-item:last-child {
+            border-bottom: none
+        }
+
+        .ch-box {
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid var(--border2);
+            border-radius: 4px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .2s
+        }
+
+        .ch-box.done {
+            background: var(--lime);
+            border-color: var(--lime)
+        }
+
+        .ch-box.done::after {
+            content: '✓';
+            font-size: 10px;
+            color: #09090f;
+            font-weight: 700
+        }
+
+        .ch-name {
+            font-size: 13px;
+            flex: 1;
+            transition: color .12s
+        }
+
+        .ch-name.done {
+            color: var(--muted);
+            text-decoration: line-through
+        }
+
+        .ch-num {
+            font-size: 9.5px;
+            font-family: var(--mono);
+            color: var(--muted)
+        }
 
         /* ANNOUNCEMENTS */
-        .ann { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); padding: .875rem 1rem; margin-bottom: .4rem; border-left: 2px solid var(--accent) }
-        .ann-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: .4rem }
-        .ann-tag { font-size: 8.5px; font-family: var(--mono); letter-spacing: .08em; padding: 2px 9px; border-radius: 20px; text-transform: uppercase; background: var(--accent-dim); color: var(--accent2); border: 1px solid var(--accent-border) }
-        .ann-time { font-size: 9.5px; color: var(--muted); font-family: var(--mono) }
-        .ann-text { font-size: 13px; color: var(--text); line-height: 1.65 }
+        .ann {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .875rem 1rem;
+            margin-bottom: .4rem;
+            border-left: 2px solid var(--accent)
+        }
+
+        .ann-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: .4rem
+        }
+
+        .ann-tag {
+            font-size: 8.5px;
+            font-family: var(--mono);
+            letter-spacing: .08em;
+            padding: 2px 9px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            background: var(--accent-dim);
+            color: var(--accent2);
+            border: 1px solid var(--accent-border)
+        }
+
+        .ann-time {
+            font-size: 9.5px;
+            color: var(--muted);
+            font-family: var(--mono)
+        }
+
+        .ann-text {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.65
+        }
 
         /* EXERCISES */
-        .ex-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); padding: .875rem 1rem; margin-bottom: .5rem }
-        .ex-hd { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: .4rem }
-        .ex-title { font-size: 13.5px; font-weight: 500; color: var(--text2); font-family: var(--display) }
-        .ex-due-pill { font-size: 8.5px; font-family: var(--mono); padding: 2px 9px; border-radius: 20px; background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); flex-shrink: 0 }
-        .ex-desc { font-size: 12.5px; color: var(--muted2); margin-bottom: .65rem; line-height: 1.65 }
-        .ex-badge { display: inline-block; font-size: 8.5px; font-family: var(--mono); padding: 2px 9px; border-radius: 20px; margin-bottom: .65rem; letter-spacing: .05em }
-        .eb-pending { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border) }
-        .eb-submitted { background: var(--sky-dim); color: var(--sky); border: 1px solid var(--sky-border) }
-        .eb-graded { background: var(--lime-dim); color: var(--lime); border: 1px solid var(--lime-border) }
+        .ex-card {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .875rem 1rem;
+            margin-bottom: .5rem
+        }
 
-        .code-input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: .75rem; color: var(--lime); font-family: var(--mono); font-size: 12px; resize: vertical; min-height: 75px; outline: none; margin-bottom: .4rem; transition: border-color .2s; line-height: 1.65 }
-        .code-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(107, 95, 255, 0.09) }
-        .replit-inp { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: .55rem .875rem; color: var(--sky); font-family: var(--mono); font-size: 11.5px; outline: none; margin-bottom: .4rem; transition: border-color .2s }
-        .replit-inp:focus { border-color: var(--sky) }
-        .grade-box { background: var(--lime-dim); border: 1px solid var(--lime-border); border-radius: var(--r); padding: .875rem; margin-top: .5rem }
-        .grade-score { font-size: 24px; font-weight: 400; font-family: var(--mono); color: var(--lime) }
-        .grade-fb { font-size: 12.5px; color: var(--muted2); margin-top: .2rem }
+        .ex-hd {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: .4rem
+        }
+
+        .ex-title {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--text2);
+            font-family: var(--display)
+        }
+
+        .ex-due-pill {
+            font-size: 8.5px;
+            font-family: var(--mono);
+            padding: 2px 9px;
+            border-radius: 20px;
+            background: var(--gold-dim);
+            color: var(--gold);
+            border: 1px solid var(--gold-border);
+            flex-shrink: 0
+        }
+
+        .ex-desc {
+            font-size: 12.5px;
+            color: var(--muted2);
+            margin-bottom: .65rem;
+            line-height: 1.65
+        }
+
+        .ex-badge {
+            display: inline-block;
+            font-size: 8.5px;
+            font-family: var(--mono);
+            padding: 2px 9px;
+            border-radius: 20px;
+            margin-bottom: .65rem;
+            letter-spacing: .05em
+        }
+
+        .eb-pending {
+            background: var(--gold-dim);
+            color: var(--gold);
+            border: 1px solid var(--gold-border)
+        }
+
+        .eb-submitted {
+            background: var(--sky-dim);
+            color: var(--sky);
+            border: 1px solid var(--sky-border)
+        }
+
+        .eb-graded {
+            background: var(--lime-dim);
+            color: var(--lime);
+            border: 1px solid var(--lime-border)
+        }
+
+        .code-input {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .75rem;
+            color: var(--lime);
+            font-family: var(--mono);
+            font-size: 12px;
+            resize: vertical;
+            min-height: 75px;
+            outline: none;
+            margin-bottom: .4rem;
+            transition: border-color .2s;
+            line-height: 1.65
+        }
+
+        .code-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(107, 95, 255, 0.09)
+        }
+
+        .replit-inp {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .55rem .875rem;
+            color: var(--sky);
+            font-family: var(--mono);
+            font-size: 11.5px;
+            outline: none;
+            margin-bottom: .4rem;
+            transition: border-color .2s
+        }
+
+        .replit-inp:focus {
+            border-color: var(--sky)
+        }
+
+        .grade-box {
+            background: var(--lime-dim);
+            border: 1px solid var(--lime-border);
+            border-radius: var(--r);
+            padding: .875rem;
+            margin-top: .5rem
+        }
+
+        .grade-score {
+            font-size: 24px;
+            font-weight: 400;
+            font-family: var(--mono);
+            color: var(--lime)
+        }
+
+        .grade-fb {
+            font-size: 12.5px;
+            color: var(--muted2);
+            margin-top: .2rem
+        }
 
         /* BUTTONS */
-        .btn-submit { background: var(--sky-dim); border: 1px solid var(--sky-border); color: var(--sky); border-radius: var(--r); padding: 7px 16px; font-size: 12px; cursor: pointer; font-family: var(--body); font-weight: 400; transition: all .12s }
-        .btn-submit:hover { background: var(--sky); color: var(--bg); border-color: var(--sky) }
-        .btn-action { background: var(--lime-dim); border: 1px solid var(--lime-border); color: var(--lime); border-radius: var(--r); padding: 9px 18px; font-size: 13px; cursor: pointer; font-family: var(--body); font-weight: 500; transition: all .12s }
-        .btn-action:hover { background: var(--lime); color: var(--bg); border-color: var(--lime) }
-        .btn-icon { background: none; border: none; color: var(--muted); cursor: pointer; padding: 4px 6px; font-size: 13px; transition: color .12s; border-radius: 5px }
-        .btn-icon:hover { color: var(--rose); background: var(--rose-dim) }
+        .btn-submit {
+            background: var(--sky-dim);
+            border: 1px solid var(--sky-border);
+            color: var(--sky);
+            border-radius: var(--r);
+            padding: 7px 16px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: var(--body);
+            font-weight: 400;
+            transition: all .12s
+        }
+
+        .btn-submit:hover {
+            background: var(--sky);
+            color: var(--bg);
+            border-color: var(--sky)
+        }
+
+        .btn-action {
+            background: var(--lime-dim);
+            border: 1px solid var(--lime-border);
+            color: var(--lime);
+            border-radius: var(--r);
+            padding: 9px 18px;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: var(--body);
+            font-weight: 500;
+            transition: all .12s
+        }
+
+        .btn-action:hover {
+            background: var(--lime);
+            color: var(--bg);
+            border-color: var(--lime)
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 4px 6px;
+            font-size: 13px;
+            transition: color .12s;
+            border-radius: 5px
+        }
+
+        .btn-icon:hover {
+            color: var(--rose);
+            background: var(--rose-dim)
+        }
 
         /* Q&A */
-        .qa-item { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); padding: .875rem 1rem; margin-bottom: .4rem }
-        .qa-q { font-size: 13.5px; font-weight: 500; color: var(--text2); margin-bottom: .25rem; font-family: var(--display) }
-        .qa-meta { font-size: 9.5px; color: var(--muted); margin-bottom: .4rem; font-family: var(--mono) }
-        .qa-no-ans { font-size: 12px; color: var(--muted); font-style: italic }
-        .qa-ans { background: var(--bg4); border-left: 2px solid var(--lime); padding: .65rem .875rem; border-radius: 0 var(--r) var(--r) 0; font-size: 12.5px; color: var(--text); margin-top: .4rem }
-        .qa-ans-label { font-size: 8.5px; font-family: var(--mono); letter-spacing: .1em; color: var(--lime); margin-bottom: .2rem; text-transform: uppercase }
-        .unans-tag { font-size: 8.5px; background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); padding: 1px 7px; border-radius: 20px; margin-left: 7px; font-family: var(--mono) }
+        .qa-item {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .875rem 1rem;
+            margin-bottom: .4rem
+        }
+
+        .qa-q {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--text2);
+            margin-bottom: .25rem;
+            font-family: var(--display)
+        }
+
+        .qa-meta {
+            font-size: 9.5px;
+            color: var(--muted);
+            margin-bottom: .4rem;
+            font-family: var(--mono)
+        }
+
+        .qa-no-ans {
+            font-size: 12px;
+            color: var(--muted);
+            font-style: italic
+        }
+
+        .qa-ans {
+            background: var(--bg4);
+            border-left: 2px solid var(--lime);
+            padding: .65rem .875rem;
+            border-radius: 0 var(--r) var(--r) 0;
+            font-size: 12.5px;
+            color: var(--text);
+            margin-top: .4rem
+        }
+
+        .qa-ans-label {
+            font-size: 8.5px;
+            font-family: var(--mono);
+            letter-spacing: .1em;
+            color: var(--lime);
+            margin-bottom: .2rem;
+            text-transform: uppercase
+        }
+
+        .unans-tag {
+            font-size: 8.5px;
+            background: var(--gold-dim);
+            color: var(--gold);
+            border: 1px solid var(--gold-border);
+            padding: 1px 7px;
+            border-radius: 20px;
+            margin-left: 7px;
+            font-family: var(--mono)
+        }
 
         /* EBOOK */
-        .notice-bar { background: var(--gold-dim); border: 1px solid var(--gold-border); border-radius: var(--r); padding: .55rem .875rem; font-size: 11.5px; color: var(--gold); margin-bottom: .75rem; display: flex; align-items: center; gap: 7px }
-        .pdf-viewer-wrap { position: relative; background: var(--bg); border: 1px solid var(--border); border-radius: var(--rl); overflow: hidden }
-        .pdf-no-select { user-select: none; -webkit-user-select: none }
-        .pdf-toolbar { display: flex; align-items: center; justify-content: space-between; padding: .5rem .875rem; background: var(--bg3); border-bottom: 1px solid var(--border) }
-        .pdf-nav { display: flex; align-items: center; gap: .4rem }
-        .pdf-nav button { background: var(--bg4); border: 1px solid var(--border2); color: var(--text2); border-radius: 7px; padding: 4px 13px; font-size: 11.5px; cursor: pointer; font-family: var(--body); transition: all .12s }
-        .pdf-nav button:hover { border-color: var(--accent); color: var(--accent2) }
-        .pdf-nav button:disabled { opacity: .3; cursor: not-allowed }
-        .pdf-page-info { font-size: 10.5px; font-family: var(--mono); color: var(--muted) }
-        .pdf-canvas-area { display: flex; justify-content: center; padding: .875rem; overflow-y: auto; max-height: calc(100vh - 280px) }
-        .pdf-canvas-area canvas { max-width: 100%; border-radius: 5px; box-shadow: var(--shadow-md) }
-        .pdf-overlay { position: absolute; inset: 0; z-index: 10; cursor: default }
-        .pdf-loading { display: flex; align-items: center; justify-content: center; height: 200px; color: var(--muted); font-size: 12.5px; gap: .5rem; flex-direction: column }
-        .pdf-upload-zone { border: 1.5px dashed var(--border2); border-radius: var(--rl); padding: 2.25rem 1.75rem; text-align: center; cursor: pointer; transition: all .2s; margin-bottom: .75rem }
-        .pdf-upload-zone:hover { border-color: var(--accent); background: var(--accent-dim) }
-        .pdf-upload-zone input[type=file] { display: none }
-        .pdf-upload-icon { font-size: 28px; margin-bottom: .5rem; opacity: .45 }
-        .pdf-upload-text { font-size: 13.5px; color: var(--muted2); font-weight: 400 }
-        .pdf-upload-hint { font-size: 11.5px; color: var(--muted); margin-top: .25rem }
-        .upload-progress { background: var(--bg4); border-radius: 3px; height: 3px; overflow: hidden; margin-top: .75rem; display: none }
-        .upload-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--lime)); border-radius: 3px; transition: width .3s }
+        .notice-bar {
+            background: var(--gold-dim);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--r);
+            padding: .55rem .875rem;
+            font-size: 11.5px;
+            color: var(--gold);
+            margin-bottom: .75rem;
+            display: flex;
+            align-items: center;
+            gap: 7px
+        }
+
+        .pdf-viewer-wrap {
+            position: relative;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--rl);
+            overflow: hidden
+        }
+
+        .pdf-no-select {
+            user-select: none;
+            -webkit-user-select: none
+        }
+
+        .pdf-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .5rem .875rem;
+            background: var(--bg3);
+            border-bottom: 1px solid var(--border)
+        }
+
+        .pdf-nav {
+            display: flex;
+            align-items: center;
+            gap: .4rem
+        }
+
+        .pdf-nav button {
+            background: var(--bg4);
+            border: 1px solid var(--border2);
+            color: var(--text2);
+            border-radius: 7px;
+            padding: 4px 13px;
+            font-size: 11.5px;
+            cursor: pointer;
+            font-family: var(--body);
+            transition: all .12s
+        }
+
+        .pdf-nav button:hover {
+            border-color: var(--accent);
+            color: var(--accent2)
+        }
+
+        .pdf-nav button:disabled {
+            opacity: .3;
+            cursor: not-allowed
+        }
+
+        .pdf-page-info {
+            font-size: 10.5px;
+            font-family: var(--mono);
+            color: var(--muted)
+        }
+
+        .pdf-canvas-area {
+            display: flex;
+            justify-content: center;
+            padding: .875rem;
+            overflow-y: auto;
+            max-height: calc(100vh - 280px)
+        }
+
+        .pdf-canvas-area canvas {
+            max-width: 100%;
+            border-radius: 5px;
+            box-shadow: var(--shadow-md)
+        }
+
+        .pdf-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+            cursor: default
+        }
+
+        .pdf-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            color: var(--muted);
+            font-size: 12.5px;
+            gap: .5rem;
+            flex-direction: column
+        }
+
+        .pdf-upload-zone {
+            border: 1.5px dashed var(--border2);
+            border-radius: var(--rl);
+            padding: 2.25rem 1.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s;
+            margin-bottom: .75rem
+        }
+
+        .pdf-upload-zone:hover {
+            border-color: var(--accent);
+            background: var(--accent-dim)
+        }
+
+        .pdf-upload-zone input[type=file] {
+            display: none
+        }
+
+        .pdf-upload-icon {
+            font-size: 28px;
+            margin-bottom: .5rem;
+            opacity: .45
+        }
+
+        .pdf-upload-text {
+            font-size: 13.5px;
+            color: var(--muted2);
+            font-weight: 400
+        }
+
+        .pdf-upload-hint {
+            font-size: 11.5px;
+            color: var(--muted);
+            margin-top: .25rem
+        }
+
+        .upload-progress {
+            background: var(--bg4);
+            border-radius: 3px;
+            height: 3px;
+            overflow: hidden;
+            margin-top: .75rem;
+            display: none
+        }
+
+        .upload-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--lime));
+            border-radius: 3px;
+            transition: width .3s
+        }
 
         /* ADMIN STUDENTS */
-        .student-row { display: flex; align-items: center; justify-content: space-between; padding: .75rem 0; border-bottom: 1px solid var(--border) }
-        .student-row:last-child { border-bottom: none }
-        .s-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: var(--muted2); font-family: var(--mono); flex-shrink: 0 }
-        .s-info { flex: 1; margin-left: .75rem; min-width: 0 }
-        .s-name { font-size: 13px; font-weight: 500; color: var(--text2); margin-bottom: .1rem; font-family: var(--display) }
-        .s-email { font-size: 11.5px; color: var(--muted) }
-        .s-joined { font-size: 10.5px; color: var(--muted); margin-top: .1rem; font-family: var(--mono) }
-        .btn-ban { background: var(--rose-dim); border: 1px solid var(--rose-border); color: var(--rose); border-radius: 7px; padding: 4px 13px; font-size: 11px; cursor: pointer; font-family: var(--body); transition: all .12s }
-        .btn-ban:hover { background: var(--rose); color: #fff; border-color: var(--rose) }
-        .btn-unban { background: var(--lime-dim); border: 1px solid var(--lime-border); color: var(--lime); border-radius: 7px; padding: 4px 13px; font-size: 11px; cursor: pointer; font-family: var(--body) }
-        .banned-badge { font-size: 8.5px; font-family: var(--mono); background: var(--rose-dim); color: var(--rose); border: 1px solid var(--rose-border); padding: 2px 6px; border-radius: 20px; margin-left: 6px; vertical-align: middle }
+        .student-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .75rem 0;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .student-row:last-child {
+            border-bottom: none
+        }
+
+        .s-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--muted2);
+            font-family: var(--mono);
+            flex-shrink: 0
+        }
+
+        .s-info {
+            flex: 1;
+            margin-left: .75rem;
+            min-width: 0
+        }
+
+        .s-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text2);
+            margin-bottom: .1rem;
+            font-family: var(--display)
+        }
+
+        .s-email {
+            font-size: 11.5px;
+            color: var(--muted)
+        }
+
+        .s-joined {
+            font-size: 10.5px;
+            color: var(--muted);
+            margin-top: .1rem;
+            font-family: var(--mono)
+        }
+
+        .btn-ban {
+            background: var(--rose-dim);
+            border: 1px solid var(--rose-border);
+            color: var(--rose);
+            border-radius: 7px;
+            padding: 4px 13px;
+            font-size: 11px;
+            cursor: pointer;
+            font-family: var(--body);
+            transition: all .12s
+        }
+
+        .btn-ban:hover {
+            background: var(--rose);
+            color: #fff;
+            border-color: var(--rose)
+        }
+
+        .btn-unban {
+            background: var(--lime-dim);
+            border: 1px solid var(--lime-border);
+            color: var(--lime);
+            border-radius: 7px;
+            padding: 4px 13px;
+            font-size: 11px;
+            cursor: pointer;
+            font-family: var(--body)
+        }
+
+        .banned-badge {
+            font-size: 8.5px;
+            font-family: var(--mono);
+            background: var(--rose-dim);
+            color: var(--rose);
+            border: 1px solid var(--rose-border);
+            padding: 2px 6px;
+            border-radius: 20px;
+            margin-left: 6px;
+            vertical-align: middle
+        }
 
         /* SUBMISSIONS */
-        .sub-item { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rl); padding: .875rem 1rem; margin-bottom: .5rem }
-        .sub-hd { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: .4rem }
-        .sub-student { font-size: 13.5px; font-weight: 500; color: var(--text2); font-family: var(--display) }
-        .sub-when { font-size: 9.5px; color: var(--muted); font-family: var(--mono) }
-        .sub-code { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: .65rem; font-family: var(--mono); font-size: 11.5px; color: var(--lime); white-space: pre-wrap; word-break: break-all; margin: .4rem 0 }
-        .grade-row { display: flex; gap: .4rem; margin-top: .5rem; align-items: flex-end }
-        .grade-row input { flex: 0 0 80px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: .45rem; color: var(--lime); font-family: var(--mono); font-size: 13.5px; outline: none; text-align: center; transition: border-color .2s }
-        .grade-row input:focus { border-color: var(--lime) }
-        .grade-row textarea { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: .45rem; color: var(--text); font-family: var(--body); font-size: 12.5px; outline: none; resize: none; height: 54px; transition: border-color .2s }
-        .grade-row textarea:focus { border-color: var(--accent) }
-        .btn-grade { background: var(--lime); border: none; color: var(--bg); border-radius: var(--r); padding: 8px 15px; font-size: 11.5px; font-weight: 600; cursor: pointer; font-family: var(--body); white-space: nowrap; transition: all .12s }
-        .btn-grade:hover { opacity: .9 }
+        .sub-item {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--rl);
+            padding: .875rem 1rem;
+            margin-bottom: .5rem
+        }
+
+        .sub-hd {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: .4rem
+        }
+
+        .sub-student {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--text2);
+            font-family: var(--display)
+        }
+
+        .sub-when {
+            font-size: 9.5px;
+            color: var(--muted);
+            font-family: var(--mono)
+        }
+
+        .sub-code {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .65rem;
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--lime);
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin: .4rem 0
+        }
+
+        .grade-row {
+            display: flex;
+            gap: .4rem;
+            margin-top: .5rem;
+            align-items: flex-end
+        }
+
+        .grade-row input {
+            flex: 0 0 80px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .45rem;
+            color: var(--lime);
+            font-family: var(--mono);
+            font-size: 13.5px;
+            outline: none;
+            text-align: center;
+            transition: border-color .2s
+        }
+
+        .grade-row input:focus {
+            border-color: var(--lime)
+        }
+
+        .grade-row textarea {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .45rem;
+            color: var(--text);
+            font-family: var(--body);
+            font-size: 12.5px;
+            outline: none;
+            resize: none;
+            height: 54px;
+            transition: border-color .2s
+        }
+
+        .grade-row textarea:focus {
+            border-color: var(--accent)
+        }
+
+        .btn-grade {
+            background: var(--lime);
+            border: none;
+            color: var(--bg);
+            border-radius: var(--r);
+            padding: 8px 15px;
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--body);
+            white-space: nowrap;
+            transition: all .12s
+        }
+
+        .btn-grade:hover {
+            opacity: .9
+        }
 
         /* FORM FIELDS */
-        .ff { margin-bottom: .75rem }
-        .ff label { display: block; font-size: 9.5px; font-family: var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted2); margin-bottom: .35rem }
-        .ff input, .ff textarea, .ff select { width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); padding: .55rem .875rem; color: var(--text2); font-family: var(--body); font-size: 13.5px; outline: none; transition: border-color .2s, box-shadow .2s }
-        .ff input:focus, .ff textarea:focus, .ff select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(107, 95, 255, 0.1) }
-        .ff textarea { resize: vertical; min-height: 75px }
+        .ff {
+            margin-bottom: .75rem
+        }
+
+        .ff label {
+            display: block;
+            font-size: 9.5px;
+            font-family: var(--mono);
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--muted2);
+            margin-bottom: .35rem
+        }
+
+        .ff input,
+        .ff textarea,
+        .ff select {
+            width: 100%;
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            border-radius: var(--r);
+            padding: .55rem .875rem;
+            color: var(--text2);
+            font-family: var(--body);
+            font-size: 13.5px;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s
+        }
+
+        .ff input:focus,
+        .ff textarea:focus,
+        .ff select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(107, 95, 255, 0.1)
+        }
+
+        .ff textarea {
+            resize: vertical;
+            min-height: 75px
+        }
 
         /* TABS */
-        .tabs { display: flex; gap: 0; margin-bottom: .875rem; overflow-x: auto; border-bottom: 1px solid var(--border) }
-        .tab { padding: 9px 16px; font-size: 12.5px; cursor: pointer; white-space: nowrap; border: none; border-bottom: 1.5px solid transparent; color: var(--muted2); font-family: var(--body); background: none; transition: all .12s; margin-bottom: -1px; font-weight: 400 }
-        .tab.active { color: var(--accent2); border-bottom-color: var(--accent); font-weight: 500 }
-        .tab:hover:not(.active) { color: var(--text2) }
+        .tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: .875rem;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .tab {
+            padding: 9px 16px;
+            font-size: 12.5px;
+            cursor: pointer;
+            white-space: nowrap;
+            border: none;
+            border-bottom: 1.5px solid transparent;
+            color: var(--muted2);
+            font-family: var(--body);
+            background: none;
+            transition: all .12s;
+            margin-bottom: -1px;
+            font-weight: 400
+        }
+
+        .tab.active {
+            color: var(--accent2);
+            border-bottom-color: var(--accent);
+            font-weight: 500
+        }
+
+        .tab:hover:not(.active) {
+            color: var(--text2)
+        }
 
         /* LESSONS */
-        .lesson-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rl); overflow: hidden; margin-bottom: .75rem }
-        .lesson-card-head { padding: .875rem 1.125rem; border-bottom: 1px solid var(--border); background: var(--bg3) }
-        .lesson-card-title { font-size: 14px; font-weight: 500; color: var(--white); font-family: var(--display) }
-        .lesson-video-wrap { background: var(--bg); aspect-ratio: 16/9 }
-        .lesson-video-wrap iframe { width: 100%; height: 100%; border: none; display: block }
-        .lesson-code-wrap { padding: .75rem 1.125rem }
-        .lesson-code-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: .5rem }
-        .lesson-code-label { font-size: 9.5px; font-family: var(--mono); color: var(--muted2); letter-spacing: .12em; text-transform: uppercase }
-        pre code { display: block; background: var(--bg); border: 1px solid var(--border); padding: .75rem; border-radius: var(--r); font-family: var(--mono); font-size: 12px; color: var(--lime); white-space: pre-wrap; word-break: break-all; line-height: 1.65 }
+        .lesson-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--rl);
+            overflow: hidden;
+            margin-bottom: .75rem
+        }
+
+        .lesson-card-head {
+            padding: .875rem 1.125rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg3)
+        }
+
+        .lesson-card-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--white);
+            font-family: var(--display)
+        }
+
+        .lesson-video-wrap {
+            background: var(--bg);
+            aspect-ratio: 16/9
+        }
+
+        .lesson-video-wrap iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block
+        }
+
+        .lesson-code-wrap {
+            padding: .75rem 1.125rem
+        }
+
+        .lesson-code-hd {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: .5rem
+        }
+
+        .lesson-code-label {
+            font-size: 9.5px;
+            font-family: var(--mono);
+            color: var(--muted2);
+            letter-spacing: .12em;
+            text-transform: uppercase
+        }
+
+        pre code {
+            display: block;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: .75rem;
+            border-radius: var(--r);
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--lime);
+            white-space: pre-wrap;
+            word-break: break-all;
+            line-height: 1.65
+        }
 
         /* ALERT */
-        .alert-card { background: var(--gold-dim); border: 1px solid var(--gold-border); border-radius: var(--rl); padding: .875rem 1.125rem; margin-bottom: .625rem; display: flex; align-items: center; justify-content: space-between; gap: .75rem }
-        .ac-text { font-size: 13.5px; color: var(--gold); font-weight: 500; font-family: var(--display) }
-        .ac-sub { font-size: 11.5px; color: rgba(245, 166, 35, .6); margin-top: .1rem }
+        .alert-card {
+            background: var(--gold-dim);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--rl);
+            padding: .875rem 1.125rem;
+            margin-bottom: .625rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .75rem
+        }
+
+        .ac-text {
+            font-size: 13.5px;
+            color: var(--gold);
+            font-weight: 500;
+            font-family: var(--display)
+        }
+
+        .ac-sub {
+            font-size: 11.5px;
+            color: rgba(245, 166, 35, .6);
+            margin-top: .1rem
+        }
 
         /* EMPTY / LOADING */
-        .empty { text-align: center; padding: 2.5rem 1rem; color: var(--muted); font-size: 13px }
-        .empty-icon { font-size: 28px; margin-bottom: .5rem; opacity: .3 }
-        .loading-screen { display: flex; align-items: center; justify-content: center; height: 160px; flex-direction: column; gap: .625rem; color: var(--muted); font-size: 12.5px }
-        .spin { width: 18px; height: 18px; border: 1.5px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: sp .65s linear infinite }
-        @keyframes sp { to { transform: rotate(360deg) } }
+        .empty {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        .empty-icon {
+            font-size: 28px;
+            margin-bottom: .5rem;
+            opacity: .3
+        }
+
+        .loading-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 160px;
+            flex-direction: column;
+            gap: .625rem;
+            color: var(--muted);
+            font-size: 12.5px
+        }
+
+        .spin {
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid var(--border2);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: sp .65s linear infinite
+        }
+
+        @keyframes sp {
+            to {
+                transform: rotate(360deg)
+            }
+        }
 
         /* TOAST */
-        .toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--r); padding: .55rem 1.125rem; font-size: 12.5px; z-index: 9999; opacity: 0; transition: all .3s; pointer-events: none; white-space: nowrap; font-family: var(--body); font-weight: 400; box-shadow: var(--shadow-md) }
-        .toast.show { opacity: 1 }
-        .toast.success { border-color: var(--lime-border); color: var(--lime) }
-        .toast.error { border-color: var(--rose-border); color: var(--rose) }
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: var(--r);
+            padding: .55rem 1.125rem;
+            font-size: 12.5px;
+            z-index: 9999;
+            opacity: 0;
+            transition: all .3s;
+            pointer-events: none;
+            white-space: nowrap;
+            font-family: var(--body);
+            font-weight: 400;
+            box-shadow: var(--shadow-md)
+        }
+
+        .toast.show {
+            opacity: 1
+        }
+
+        .toast.success {
+            border-color: var(--lime-border);
+            color: var(--lime)
+        }
+
+        .toast.error {
+            border-color: var(--rose-border);
+            color: var(--rose)
+        }
 
         /* MOBILE */
         @media(max-width:768px) {
-            .topbar { display: flex }
-            .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 300; transform: translateX(-100%) }
-            .sidebar.open { transform: translateX(0) }
-            .sidebar-overlay.show { display: block }
-            .main-scroll { padding: 1.25rem .875rem 2rem }
-            .stat-grid { grid-template-columns: repeat(2, 1fr) }
+            .topbar {
+                display: flex
+            }
+
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                z-index: 300;
+                transform: translateX(-100%)
+            }
+
+            .sidebar.open {
+                transform: translateX(0)
+            }
+
+            .sidebar-overlay.show {
+                display: block
+            }
+
+            .main-scroll {
+                padding: 1.25rem .875rem 2rem
+            }
+
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
         }
 
-        .overview-grid { display: grid; grid-template-columns: 1fr; gap: .75rem }
-        @media(min-width:900px) { .overview-grid { grid-template-columns: 1fr 1fr } }
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: .75rem
+        }
+
+        @media(min-width:900px) {
+            .overview-grid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
 
         /* ROADMAP */
-        .track-grid { display: grid; grid-template-columns: 1fr; gap: .875rem; margin-bottom: .75rem }
-        @media(min-width:700px) { .track-grid { grid-template-columns: repeat(3, 1fr) } }
-        .track-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rl); padding: 1.5rem 1.375rem; cursor: pointer; transition: all .2s; position: relative; overflow: hidden }
-        .track-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px }
-        .track-card.sky::before { background: var(--sky) }
-        .track-card.violet::before { background: var(--violet) }
-        .track-card.gold::before { background: var(--gold) }
-        .track-card:hover { transform: translateY(-2px); border-color: var(--border2); box-shadow: var(--shadow-md) }
-        .track-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: .875rem }
-        .track-icon.sky { background: var(--sky-dim); border: 1px solid var(--sky-border) }
-        .track-icon.violet { background: var(--violet-dim); border: 1px solid var(--violet-border) }
-        .track-icon.gold { background: var(--gold-dim); border: 1px solid var(--gold-border) }
-        .track-card-title { font-family: var(--display); font-size: 15px; font-weight: 400; color: var(--white); margin-bottom: .3rem }
-        .track-card-tagline { font-size: 12px; color: var(--muted2); margin-bottom: .875rem; line-height: 1.55 }
-        .track-stack { font-size: 9.5px; font-family: var(--mono); color: var(--muted); padding: .35rem .65rem; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; line-height: 1.7 }
-        .track-cta { display: inline-flex; align-items: center; gap: 5px; margin-top: .875rem; font-size: 12px; font-weight: 500; padding: 7px 14px; border-radius: var(--r); border: none; cursor: pointer; font-family: var(--body); transition: all .12s }
-        .track-cta.sky { background: var(--sky-dim); color: var(--sky); border: 1px solid var(--sky-border) }
-        .track-cta.sky:hover { background: var(--sky); color: var(--bg) }
-        .track-cta.violet { background: var(--violet-dim); color: var(--violet); border: 1px solid var(--violet-border) }
-        .track-cta.violet:hover { background: var(--violet); color: #fff }
-        .track-cta.gold { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border) }
-        .track-cta.gold:hover { background: var(--gold); color: var(--bg) }
-        .rm-back { display: inline-flex; align-items: center; gap: 6px; background: var(--bg3); border: 1px solid var(--border2); color: var(--muted2); border-radius: var(--r); padding: 6px 12px; font-size: 12.5px; cursor: pointer; font-family: var(--body); margin-bottom: 1.375rem; transition: all .12s }
-        .rm-back:hover { color: var(--text2); background: var(--bg4) }
-        .rm-overview { background: var(--bg3); border-radius: var(--rl); padding: 1.25rem; margin-bottom: 1rem; font-size: 13px; color: var(--text); line-height: 1.8; border-left: 2px solid var(--accent) }
-        .phase-block { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rl); margin-bottom: .75rem; overflow: hidden }
-        .phase-head { display: flex; align-items: center; gap: 11px; padding: .875rem 1.125rem; cursor: pointer; transition: background .12s; border-bottom: 1px solid var(--border) }
-        .phase-head:hover { background: var(--bg3) }
-        .phase-num { width: 27px; height: 27px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 10.5px; font-weight: 500; font-family: var(--mono); flex-shrink: 0 }
-        .phase-num.sky { background: var(--sky-dim); color: var(--sky); border: 1px solid var(--sky-border) }
-        .phase-num.violet { background: var(--violet-dim); color: var(--violet); border: 1px solid var(--violet-border) }
-        .phase-num.gold { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border) }
-        .phase-num.lime { background: var(--lime-dim); color: var(--lime); border: 1px solid var(--lime-border) }
-        .phase-num.rose { background: var(--rose-dim); color: var(--rose); border: 1px solid var(--rose-border) }
-        .phase-head-text { flex: 1 }
-        .phase-title { font-size: 14px; font-weight: 500; color: var(--white); font-family: var(--display) }
-        .phase-duration { font-size: 10.5px; color: var(--muted); font-family: var(--mono); margin-top: 2px }
-        .phase-chevron { font-size: 11px; color: var(--muted); transition: transform .2s }
-        .phase-chevron.open { transform: rotate(180deg) }
-        .phase-body { padding: 1.125rem; display: none }
-        .phase-body.open { display: block }
-        .rm-section-label { font-size: 8.5px; font-family: var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted2); margin-bottom: .4rem; margin-top: .75rem }
-        .rm-section-label:first-child { margin-top: 0 }
-        .rm-list { list-style: none; padding: 0 }
-        .rm-list li { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; color: var(--text); padding: .35rem 0; border-bottom: 1px solid var(--border) }
-        .rm-list li:last-child { border-bottom: none }
-        .rm-list li::before { content: '›'; color: var(--accent2); font-weight: 600; flex-shrink: 0; margin-top: 1px; font-size: 15px; line-height: 1.4 }
-        .rm-success { background: var(--lime-dim); border: 1px solid var(--lime-border); border-radius: var(--r); padding: .65rem .875rem; font-size: 12.5px; color: var(--lime); margin-top: .75rem; line-height: 1.75 }
-        .rm-success strong { display: block; font-size: 8.5px; font-family: var(--mono); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 3px; opacity: .7 }
-        .project-pill { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); padding: .75rem; margin-bottom: .4rem }
-        .project-pill-title { font-size: 13.5px; font-weight: 500; color: var(--text2); margin-bottom: .25rem; font-family: var(--display) }
-        .project-pill-proof { font-size: 12px; color: var(--muted2); line-height: 1.65 }
-        .resource-item { display: flex; align-items: flex-start; gap: 11px; padding: .6rem 0; border-bottom: 1px solid var(--border) }
-        .resource-item:last-child { border-bottom: none }
-        .resource-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 6px }
-        .resource-dot.sky { background: var(--sky) }
-        .resource-dot.violet { background: var(--violet) }
-        .resource-dot.gold { background: var(--gold) }
-        .resource-name { font-size: 13px; font-weight: 500; color: var(--sky); font-family: var(--display) }
-        .resource-name:hover { text-decoration: underline }
-        .resource-note { font-size: 11.5px; color: var(--muted); margin-top: 2px }
-        .action-step { display: flex; align-items: flex-start; gap: 11px; padding: .75rem; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: .4rem }
-        .action-num { width: 22px; height: 22px; border-radius: 50%; background: var(--accent-dim); border: 1px solid var(--accent-border); color: var(--accent2); font-size: 10.5px; font-weight: 500; font-family: var(--mono); display: flex; align-items: center; justify-content: center; flex-shrink: 0 }
-        .action-text { font-size: 13px; color: var(--text); line-height: 1.65 }
-        .timeline-box { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rl); padding: 1.125rem 1.375rem; font-size: 13px; color: var(--text); line-height: 1.85 }
-        .timeline-box strong { color: var(--white) }
+        .track-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: .875rem;
+            margin-bottom: .75rem
+        }
+
+        @media(min-width:700px) {
+            .track-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+        }
+
+        .track-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--rl);
+            padding: 1.5rem 1.375rem;
+            cursor: pointer;
+            transition: all .2s;
+            position: relative;
+            overflow: hidden
+        }
+
+        .track-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px
+        }
+
+        .track-card.sky::before {
+            background: var(--sky)
+        }
+
+        .track-card.violet::before {
+            background: var(--violet)
+        }
+
+        .track-card.gold::before {
+            background: var(--gold)
+        }
+
+        .track-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border2);
+            box-shadow: var(--shadow-md)
+        }
+
+        .track-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: .875rem
+        }
+
+        .track-icon.sky {
+            background: var(--sky-dim);
+            border: 1px solid var(--sky-border)
+        }
+
+        .track-icon.violet {
+            background: var(--violet-dim);
+            border: 1px solid var(--violet-border)
+        }
+
+        .track-icon.gold {
+            background: var(--gold-dim);
+            border: 1px solid var(--gold-border)
+        }
+
+        .track-card-title {
+            font-family: var(--display);
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--white);
+            margin-bottom: .3rem
+        }
+
+        .track-card-tagline {
+            font-size: 12px;
+            color: var(--muted2);
+            margin-bottom: .875rem;
+            line-height: 1.55
+        }
+
+        .track-stack {
+            font-size: 9.5px;
+            font-family: var(--mono);
+            color: var(--muted);
+            padding: .35rem .65rem;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            line-height: 1.7
+        }
+
+        .track-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: .875rem;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 7px 14px;
+            border-radius: var(--r);
+            border: none;
+            cursor: pointer;
+            font-family: var(--body);
+            transition: all .12s
+        }
+
+        .track-cta.sky {
+            background: var(--sky-dim);
+            color: var(--sky);
+            border: 1px solid var(--sky-border)
+        }
+
+        .track-cta.sky:hover {
+            background: var(--sky);
+            color: var(--bg)
+        }
+
+        .track-cta.violet {
+            background: var(--violet-dim);
+            color: var(--violet);
+            border: 1px solid var(--violet-border)
+        }
+
+        .track-cta.violet:hover {
+            background: var(--violet);
+            color: #fff
+        }
+
+        .track-cta.gold {
+            background: var(--gold-dim);
+            color: var(--gold);
+            border: 1px solid var(--gold-border)
+        }
+
+        .track-cta.gold:hover {
+            background: var(--gold);
+            color: var(--bg)
+        }
+
+        .rm-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            color: var(--muted2);
+            border-radius: var(--r);
+            padding: 6px 12px;
+            font-size: 12.5px;
+            cursor: pointer;
+            font-family: var(--body);
+            margin-bottom: 1.375rem;
+            transition: all .12s
+        }
+
+        .rm-back:hover {
+            color: var(--text2);
+            background: var(--bg4)
+        }
+
+        .rm-overview {
+            background: var(--bg3);
+            border-radius: var(--rl);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.8;
+            border-left: 2px solid var(--accent)
+        }
+
+        .phase-block {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--rl);
+            margin-bottom: .75rem;
+            overflow: hidden
+        }
+
+        .phase-head {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: .875rem 1.125rem;
+            cursor: pointer;
+            transition: background .12s;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .phase-head:hover {
+            background: var(--bg3)
+        }
+
+        .phase-num {
+            width: 27px;
+            height: 27px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10.5px;
+            font-weight: 500;
+            font-family: var(--mono);
+            flex-shrink: 0
+        }
+
+        .phase-num.sky {
+            background: var(--sky-dim);
+            color: var(--sky);
+            border: 1px solid var(--sky-border)
+        }
+
+        .phase-num.violet {
+            background: var(--violet-dim);
+            color: var(--violet);
+            border: 1px solid var(--violet-border)
+        }
+
+        .phase-num.gold {
+            background: var(--gold-dim);
+            color: var(--gold);
+            border: 1px solid var(--gold-border)
+        }
+
+        .phase-num.lime {
+            background: var(--lime-dim);
+            color: var(--lime);
+            border: 1px solid var(--lime-border)
+        }
+
+        .phase-num.rose {
+            background: var(--rose-dim);
+            color: var(--rose);
+            border: 1px solid var(--rose-border)
+        }
+
+        .phase-head-text {
+            flex: 1
+        }
+
+        .phase-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--white);
+            font-family: var(--display)
+        }
+
+        .phase-duration {
+            font-size: 10.5px;
+            color: var(--muted);
+            font-family: var(--mono);
+            margin-top: 2px
+        }
+
+        .phase-chevron {
+            font-size: 11px;
+            color: var(--muted);
+            transition: transform .2s
+        }
+
+        .phase-chevron.open {
+            transform: rotate(180deg)
+        }
+
+        .phase-body {
+            padding: 1.125rem;
+            display: none
+        }
+
+        .phase-body.open {
+            display: block
+        }
+
+        .rm-section-label {
+            font-size: 8.5px;
+            font-family: var(--mono);
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--muted2);
+            margin-bottom: .4rem;
+            margin-top: .75rem
+        }
+
+        .rm-section-label:first-child {
+            margin-top: 0
+        }
+
+        .rm-list {
+            list-style: none;
+            padding: 0
+        }
+
+        .rm-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            font-size: 13px;
+            color: var(--text);
+            padding: .35rem 0;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .rm-list li:last-child {
+            border-bottom: none
+        }
+
+        .rm-list li::before {
+            content: '›';
+            color: var(--accent2);
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-top: 1px;
+            font-size: 15px;
+            line-height: 1.4
+        }
+
+        .rm-success {
+            background: var(--lime-dim);
+            border: 1px solid var(--lime-border);
+            border-radius: var(--r);
+            padding: .65rem .875rem;
+            font-size: 12.5px;
+            color: var(--lime);
+            margin-top: .75rem;
+            line-height: 1.75
+        }
+
+        .rm-success strong {
+            display: block;
+            font-size: 8.5px;
+            font-family: var(--mono);
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+            opacity: .7
+        }
+
+        .project-pill {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .75rem;
+            margin-bottom: .4rem
+        }
+
+        .project-pill-title {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--text2);
+            margin-bottom: .25rem;
+            font-family: var(--display)
+        }
+
+        .project-pill-proof {
+            font-size: 12px;
+            color: var(--muted2);
+            line-height: 1.65
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            padding: .6rem 0;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .resource-item:last-child {
+            border-bottom: none
+        }
+
+        .resource-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 6px
+        }
+
+        .resource-dot.sky {
+            background: var(--sky)
+        }
+
+        .resource-dot.violet {
+            background: var(--violet)
+        }
+
+        .resource-dot.gold {
+            background: var(--gold)
+        }
+
+        .resource-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--sky);
+            font-family: var(--display)
+        }
+
+        .resource-name:hover {
+            text-decoration: underline
+        }
+
+        .resource-note {
+            font-size: 11.5px;
+            color: var(--muted);
+            margin-top: 2px
+        }
+
+        .action-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            padding: .75rem;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            margin-bottom: .4rem
+        }
+
+        .action-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent-dim);
+            border: 1px solid var(--accent-border);
+            color: var(--accent2);
+            font-size: 10.5px;
+            font-weight: 500;
+            font-family: var(--mono);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .action-text {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.65
+        }
+
+        .timeline-box {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--rl);
+            padding: 1.125rem 1.375rem;
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.85
+        }
+
+        .timeline-box strong {
+            color: var(--white)
+        }
 
         /* TEACHING */
-        .code-block { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: .65rem .875rem; font-family: var(--mono); font-size: 11.5px; color: var(--lime); white-space: pre-wrap; margin: .5rem 0; line-height: 1.75 }
-        .video-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); padding: .875rem; margin-bottom: .5rem }
-        .video-card-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: .5rem }
-        .video-card-title { font-size: 13.5px; font-weight: 500; color: var(--text2); font-family: var(--display) }
-        .video-duration { font-size: 9.5px; font-family: var(--mono); color: var(--sky); background: var(--sky-dim); border: 1px solid var(--sky-border); padding: 2px 9px; border-radius: 20px }
-        .video-card-desc { font-size: 12.5px; color: var(--muted2); line-height: 1.65 }
-        .teaching-tip { background: var(--bg4); border-left: 2px solid var(--gold); border-radius: 0 var(--r) var(--r) 0; padding: .65rem .875rem; font-size: 12.5px; color: var(--text); margin: .5rem 0 }
-        .teaching-tip strong { color: var(--gold); font-size: 8.5px; font-family: var(--mono); letter-spacing: .1em; text-transform: uppercase; display: block; margin-bottom: 3px }
-        .mistake-item { background: var(--rose-dim); border: 1px solid var(--rose-border); border-radius: var(--r); padding: .55rem .75rem; font-size: 12.5px; color: var(--rose); margin-bottom: .35rem }
-        .mistake-item strong { font-size: 8.5px; font-family: var(--mono); letter-spacing: .08em; text-transform: uppercase; display: block; margin-bottom: 2px; opacity: .8 }
+        .code-block {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .65rem .875rem;
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--lime);
+            white-space: pre-wrap;
+            margin: .5rem 0;
+            line-height: 1.75
+        }
+
+        .video-card {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: .875rem;
+            margin-bottom: .5rem
+        }
+
+        .video-card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: .5rem
+        }
+
+        .video-card-title {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--text2);
+            font-family: var(--display)
+        }
+
+        .video-duration {
+            font-size: 9.5px;
+            font-family: var(--mono);
+            color: var(--sky);
+            background: var(--sky-dim);
+            border: 1px solid var(--sky-border);
+            padding: 2px 9px;
+            border-radius: 20px
+        }
+
+        .video-card-desc {
+            font-size: 12.5px;
+            color: var(--muted2);
+            line-height: 1.65
+        }
+
+        .teaching-tip {
+            background: var(--bg4);
+            border-left: 2px solid var(--gold);
+            border-radius: 0 var(--r) var(--r) 0;
+            padding: .65rem .875rem;
+            font-size: 12.5px;
+            color: var(--text);
+            margin: .5rem 0
+        }
+
+        .teaching-tip strong {
+            color: var(--gold);
+            font-size: 8.5px;
+            font-family: var(--mono);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 3px
+        }
+
+        .mistake-item {
+            background: var(--rose-dim);
+            border: 1px solid var(--rose-border);
+            border-radius: var(--r);
+            padding: .55rem .75rem;
+            font-size: 12.5px;
+            color: var(--rose);
+            margin-bottom: .35rem
+        }
+
+        .mistake-item strong {
+            font-size: 8.5px;
+            font-family: var(--mono);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 2px;
+            opacity: .8
+        }
 
         /* MEETINGS */
-        .meeting-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rl); padding: 1.125rem; margin-bottom: .5rem; display: flex; align-items: center; justify-content: space-between; gap: .875rem }
-        .meeting-info { flex: 1 }
-        .meeting-title { font-family: var(--display); font-size: 14px; font-weight: 400; color: var(--white); margin-bottom: .25rem }
-        .meeting-time { font-size: 11.5px; font-family: var(--mono); color: var(--muted2) }
-        .meeting-link { font-size: 10.5px; color: var(--sky); word-break: break-all; margin-top: .2rem }
+        .meeting-card {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: var(--rl);
+            padding: 1.125rem;
+            margin-bottom: .5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .875rem
+        }
+
+        .meeting-info {
+            flex: 1
+        }
+
+        .meeting-title {
+            font-family: var(--display);
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--white);
+            margin-bottom: .25rem
+        }
+
+        .meeting-time {
+            font-size: 11.5px;
+            font-family: var(--mono);
+            color: var(--muted2)
+        }
+
+        .meeting-link {
+            font-size: 10.5px;
+            color: var(--sky);
+            word-break: break-all;
+            margin-top: .2rem
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
@@ -1074,11 +2478,21 @@
                     <div class="aside-body">A structured 8-chapter programme designed to take you from zero to writing
                         real Python code.</div>
                     <ul class="aside-features">
-                        <li><div class="aside-check"></div>Video lessons with code samples</li>
-                        <li><div class="aside-check"></div>Graded exercises &amp; feedback</li>
-                        <li><div class="aside-check"></div>Live Q&amp;A with your instructor</li>
-                        <li><div class="aside-check"></div>Secure ebook included</li>
-                        <li><div class="aside-check"></div>Track your progress chapter by chapter</li>
+                        <li>
+                            <div class="aside-check"></div>Video lessons with code samples
+                        </li>
+                        <li>
+                            <div class="aside-check"></div>Graded exercises &amp; feedback
+                        </li>
+                        <li>
+                            <div class="aside-check"></div>Live Q&amp;A with your instructor
+                        </li>
+                        <li>
+                            <div class="aside-check"></div>Secure ebook included
+                        </li>
+                        <li>
+                            <div class="aside-check"></div>Track your progress chapter by chapter
+                        </li>
                     </ul>
                 </div>
                 <div class="aside-badge">Powered by DevJourney · 2025</div>
@@ -1168,19 +2582,75 @@
             { id: 'lessons', icon: '▶', label: 'Lessons' },
             { id: 'ebook', icon: '◫', label: 'Ebook' },
             { id: 'exercises', icon: '✎', label: 'Exercises' },
+            { id: 'assignments', icon: '📋', label: 'Assignments' },  // NEW
             { id: 'practice', icon: '⌨', label: 'Practice Lab' },
             { id: 'projects', icon: '🧩', label: 'Beginner Projects' },
             { id: 'roadmap', icon: '◈', label: 'Learning Roadmap' },
             { id: 'meetings', icon: '📅', label: 'Live Sessions' },
             { id: 'qa', icon: '◯', label: 'Q & A' }
         ];
-        const ADMIN_NAV = [{ id: 'overview', icon: '⊞', label: 'Overview' }, { id: 'students', icon: '◎', label: 'Students' }, { id: 'content', icon: '◈', label: 'Content' }, { id: 'grading', icon: '✎', label: 'Grading' }, { id: 'project-review', icon: '🧩', label: 'Project Review' }, { id: 'meetings', icon: '📅', label: 'Live Sessions' }, { id: 'teaching-roadmap', icon: '📋', label: 'Teaching Roadmap' }, { id: 'video-roadmap', icon: '🎬', label: 'Video Planner' }, { id: 'qa', icon: '◯', label: 'Q & A' }];
+        const ADMIN_NAV = [{ id: 'overview', icon: '⊞', label: 'Overview' }, { id: 'students', icon: '◎', label: 'Students' }, { id: 'content', icon: '◈', label: 'Content' }, { id: 'assignments', icon: '📋', label: 'Assignments' }, { id: 'grading', icon: '✎', label: 'Grading' }, { id: 'project-review', icon: '🧩', label: 'Project Review' }, { id: 'meetings', icon: '📅', label: 'Live Sessions' }, { id: 'teaching-roadmap', icon: '📋', label: 'Teaching Roadmap' }, { id: 'video-roadmap', icon: '🎬', label: 'Video Planner' }, { id: 'qa', icon: '◯', label: 'Q & A' }];
         function buildNav() { const nav = document.getElementById('sidebar-nav'); const items = isAdmin ? ADMIN_NAV : STUDENT_NAV; nav.innerHTML = `<div class="nav-section-label">${isAdmin ? 'Instructor' : 'Learning'}</div>${items.map(i => `<button class="nav-item" data-page="${i.id}" onclick="navigateTo('${i.id}');closeSidebar()"><div class="nav-icon-wrap">${i.icon}</div>${i.label}</button>`).join('')}`; }
-        function navigateTo(page) { document.querySelectorAll('.nav-item').forEach(el => el.classList.toggle('active', el.dataset.page === page)); unsubscribers.forEach(u => u()); unsubscribers = []; const main = document.getElementById('main-content'); main.innerHTML = `<div class="loading-screen"><div class="spin"></div><span>Loading…</span></div>`; main.scrollTop = 0; const map = { dashboard: renderStudentDashboard, syllabus: renderSyllabus, lessons: renderLessons, ebook: renderEbook, exercises: renderExercises, overview: renderAdminOverview, students: renderAdminStudents, content: renderAdminContent, grading: renderAdminGrading, practice: renderPracticeLab, projects: renderBeginnerProjects, roadmap: renderRoadmap, meetings: isAdmin ? renderAdminMeetings : renderStudentMeetings, 'project-review': renderAdminProjectReview, 'teaching-roadmap': renderAdminTeachingRoadmap, 'video-roadmap': renderAdminVideoRoadmap, qa: () => renderQA(isAdmin) }; if (map[page]) map[page](); }
+        function navigateTo(page) { document.querySelectorAll('.nav-item').forEach(el => el.classList.toggle('active', el.dataset.page === page)); unsubscribers.forEach(u => u()); unsubscribers = []; const main = document.getElementById('main-content'); main.innerHTML = `<div class="loading-screen"><div class="spin"></div><span>Loading…</span></div>`; main.scrollTop = 0; const map = { dashboard: renderStudentDashboard, syllabus: renderSyllabus, lessons: renderLessons, ebook: renderEbook, exercises: renderExercises, assignments: isAdmin ? renderAdminAssignments : renderStudentAssignments, overview: renderAdminOverview, students: renderAdminStudents, content: renderAdminContent, grading: renderAdminGrading, practice: renderPracticeLab, projects: renderBeginnerProjects, roadmap: renderRoadmap, meetings: isAdmin ? renderAdminMeetings : renderStudentMeetings, 'project-review': renderAdminProjectReview, 'teaching-roadmap': renderAdminTeachingRoadmap, 'video-roadmap': renderAdminVideoRoadmap, qa: () => renderQA(isAdmin) }; if (map[page]) map[page](); }
 
         let pdfDoc = null, pdfCurrentPage = 1, pdfTotalPages = 0;
-        async function renderPDFViewer(pdfUrl, containerId) { const container = document.getElementById(containerId); if (!container) return; container.innerHTML = `<div class="pdf-loading"><div class="spin"></div><span>Loading ebook…</span></div>`; try { const loadingTask = pdfjsLib.getDocument(pdfUrl); pdfDoc = await loadingTask.promise; pdfTotalPages = pdfDoc.numPages; pdfCurrentPage = 1; container.innerHTML = `<div class="pdf-viewer-wrap pdf-no-select"><div class="pdf-toolbar"><div class="pdf-nav"><button id="pdf-prev" onclick="changePDFPage(-1)" disabled>← Prev</button><button id="pdf-next" onclick="changePDFPage(1)">Next →</button></div><div class="pdf-page-info" id="pdf-page-info">Page 1 of ${pdfTotalPages}</div></div><div class="pdf-canvas-area" id="pdf-canvas-area"><canvas id="pdf-canvas"></canvas></div><div class="pdf-overlay" oncontextmenu="return false" ondragstart="return false"></div></div>`; await renderPDFPage(pdfCurrentPage); } catch (err) { container.innerHTML = `<div class="empty"><div class="empty-icon">◫</div>Could not load PDF.<br><small style="color:var(--muted)">${err.message}</small></div>`; } }
-        async function renderPDFPage(pageNum) { if (!pdfDoc) return; const page = await pdfDoc.getPage(pageNum); const canvas = document.getElementById('pdf-canvas'); if (!canvas) return; const ctx = canvas.getContext('2d'); const viewport = page.getViewport({ scale: 1.4 }); canvas.height = viewport.height; canvas.width = viewport.width; await page.render({ canvasContext: ctx, viewport }).promise; document.getElementById('pdf-page-info').textContent = `Page ${pdfCurrentPage} of ${pdfTotalPages}`; document.getElementById('pdf-prev').disabled = pdfCurrentPage <= 1; document.getElementById('pdf-next').disabled = pdfCurrentPage >= pdfTotalPages; }
+        async function renderPDFViewer(pdfUrl, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                console.error('Container not found:', containerId);
+                return;
+            }
+
+            container.innerHTML = `<div class="pdf-loading"><div class="spin"></div><span>Loading ebook... This may take a moment.</span></div>`;
+
+            try {
+                // Check if URL is valid
+                if (!pdfUrl) {
+                    throw new Error('No PDF URL provided');
+                }
+
+                console.log('Attempting to load PDF from:', pdfUrl);
+
+                // Configure PDF.js for CORS
+                const loadingTask = pdfjsLib.getDocument({
+                    url: pdfUrl,
+                    withCredentials: false,
+                    useSystemFonts: true
+                });
+
+                pdfDoc = await loadingTask.promise;
+                pdfTotalPages = pdfDoc.numPages;
+                pdfCurrentPage = 1;
+
+                container.innerHTML = `<div class="pdf-viewer-wrap pdf-no-select">
+            <div class="pdf-toolbar">
+                <div class="pdf-nav">
+                    <button id="pdf-prev" onclick="changePDFPage(-1)" disabled>← Prev</button>
+                    <button id="pdf-next" onclick="changePDFPage(1)">Next →</button>
+                </div>
+                <div class="pdf-page-info" id="pdf-page-info">Page 1 of ${pdfTotalPages}</div>
+            </div>
+            <div class="pdf-canvas-area" id="pdf-canvas-area">
+                <canvas id="pdf-canvas"></canvas>
+            </div>
+            <div class="pdf-overlay" oncontextmenu="return false" ondragstart="return false"></div>
+        </div>`;
+
+                await renderPDFPage(pdfCurrentPage);
+            } catch (err) {
+                console.error('PDF loading error:', err);
+                let errorMessage = err.message;
+                if (errorMessage.includes('CORS') || errorMessage.includes('Network')) {
+                    errorMessage = 'Unable to load PDF due to security restrictions. Try using a Google Drive link instead.';
+                }
+                container.innerHTML = `<div class="empty">
+            <div class="empty-icon">◫</div>
+            Could not load PDF.<br>
+            <small style="color:var(--muted)">${errorMessage}</small><br><br>
+            <small style="color:var(--muted2)">Tip: Try uploading the PDF again or use a Google Drive link.</small>
+        </div>`;
+            }
+        } async function renderPDFPage(pageNum) { if (!pdfDoc) return; const page = await pdfDoc.getPage(pageNum); const canvas = document.getElementById('pdf-canvas'); if (!canvas) return; const ctx = canvas.getContext('2d'); const viewport = page.getViewport({ scale: 1.4 }); canvas.height = viewport.height; canvas.width = viewport.width; await page.render({ canvasContext: ctx, viewport }).promise; document.getElementById('pdf-page-info').textContent = `Page ${pdfCurrentPage} of ${pdfTotalPages}`; document.getElementById('pdf-prev').disabled = pdfCurrentPage <= 1; document.getElementById('pdf-next').disabled = pdfCurrentPage >= pdfTotalPages; }
         async function changePDFPage(dir) { const newPage = pdfCurrentPage + dir; if (newPage < 1 || newPage > pdfTotalPages) return; pdfCurrentPage = newPage; await renderPDFPage(pdfCurrentPage); document.getElementById('pdf-canvas-area')?.scrollTo(0, 0); }
 
         async function renderStudentDashboard() { const main = document.getElementById('main-content'); if (!currentUser) { main.innerHTML = `<div class="empty"><div class="empty-icon">⏳</div>Loading…</div>`; return; } const unsub = db.collection('announcements').orderBy('createdAt', 'desc').limit(4).onSnapshot(async snap => { const anns = snap.docs.map(d => ({ id: d.id, ...d.data() })); const userSnap = await db.collection('users').doc(currentUser.uid).get(); if (!userSnap.exists) return; const data = userSnap.data(); const progress = data.progress || 0; const completed = data.chaptersCompleted || []; const chapsDone = completed.length; main.innerHTML = `<div class="ph"><div class="ph-eyebrow">Dashboard</div><div class="ph-title">Hey, ${data.name.split(' ')[0]}</div><div class="ph-sub">Consistency beats talent — keep showing up.</div></div><div class="stat-grid"><div class="stat-tile c-lime"><div class="stat-val sv-lime">${progress}%</div><div class="stat-lbl">Course progress</div></div><div class="stat-tile c-sky"><div class="stat-val sv-sky">${chapsDone}<span style="font-size:14px;color:var(--muted)">/${CHAPTERS.length}</span></div><div class="stat-lbl">Chapters done</div></div></div><div class="card"><div class="card-label">Announcements</div>${anns.length === 0 ? `<div class="empty" style="padding:1.25rem 0">No announcements yet</div>` : anns.map(a => `<div class="ann"><div class="ann-top"><span class="ann-tag">Announcement</span><span class="ann-time">${timeAgo(a.createdAt)}</span></div><div class="ann-text">${a.text}</div></div>`).join('')}</div>`; }); unsubscribers.push(unsub); }
@@ -1192,8 +2662,42 @@
 
         function renderLessons() { const main = document.getElementById('main-content'); const unsub = db.collection('lessons').orderBy('createdAt', 'desc').onSnapshot(snap => { const lessons = snap.docs.map(d => ({ id: d.id, ...d.data() })); main.innerHTML = `<div class="ph"><div class="ph-eyebrow">Lessons</div><div class="ph-title">Python Lessons</div><div class="ph-sub">Watch → Read → Practice</div></div>${lessons.length === 0 ? `<div class="empty"><div class="empty-icon">▶</div>No lessons uploaded yet</div>` : lessons.map(l => `<div class="lesson-card"><div class="lesson-card-head"><div class="lesson-card-title">${l.title}</div></div><div class="lesson-video-wrap"><iframe src="${l.videoUrl}" allowfullscreen></iframe></div>${l.codeSample ? `<div class="lesson-code-wrap"><div class="lesson-code-hd"><span class="lesson-code-label">Python code</span><button class="btn-submit" onclick="copyLessonCode('${l.id}')">Copy</button></div><pre><code id="lesson-code-${l.id}">${l.codeSample}</code></pre></div>` : ''}</div>`).join('')}`; }); unsubscribers.push(unsub); }
 
-        function renderEbook() { const main = document.getElementById('main-content'); main.innerHTML = `<div class="ph"><div class="ph-eyebrow">Ebook</div><div class="ph-title">Reading Room</div><div class="ph-sub">${EBOOK_TITLE}</div></div><div class="notice-bar">⚠ For enrolled students only — do not share, screenshot, or distribute this content.</div><div id="ebook-render-area"></div>`; const unsub = db.collection('settings').doc('ebook').onSnapshot(doc => { const area = document.getElementById('ebook-render-area'); if (!area) return; if (doc.exists) { const data = doc.data(); EBOOK_TITLE = data.title || EBOOK_TITLE; if (data.pdfUrl) { EBOOK_PDF_URL = data.pdfUrl; renderPDFViewer(EBOOK_PDF_URL, 'ebook-render-area'); } else if (data.url) { area.innerHTML = `<iframe src="${data.url}" allowfullscreen style="width:100%;height:calc(100vh - 200px);border:none;border-radius:var(--rl);background:var(--bg2);border:1px solid var(--border)"></iframe>`; } else { area.innerHTML = `<div class="empty"><div class="empty-icon">📕</div>No ebook uploaded yet.</div>`; } } }); unsubscribers.push(unsub); }
+        function renderEbook() {
+            const main = document.getElementById('main-content');
+            main.innerHTML = `<div class="ph">
+        <div class="ph-eyebrow">Ebook</div>
+        <div class="ph-title">Reading Room</div>
+        <div class="ph-sub">${EBOOK_TITLE}</div>
+    </div>
+    <div class="notice-bar">⚠ For enrolled students only — do not share, screenshot, or distribute this content.</div>
+    <div id="ebook-render-area"></div>`;
 
+            const unsub = db.collection('settings').doc('ebook').onSnapshot(doc => {
+                const area = document.getElementById('ebook-render-area');
+                if (!area) return;
+
+                if (doc.exists) {
+                    const data = doc.data();
+                    EBOOK_TITLE = data.title || EBOOK_TITLE;
+
+                    if (data.pdfUrl) {
+                        EBOOK_PDF_URL = data.pdfUrl;
+                        console.log('Loading PDF from URL:', EBOOK_PDF_URL);
+                        // Small delay to ensure the DOM is ready
+                        setTimeout(() => {
+                            renderPDFViewer(EBOOK_PDF_URL, 'ebook-render-area');
+                        }, 100);
+                    } else if (data.url) {
+                        area.innerHTML = `<iframe src="${data.url}" allowfullscreen style="width:100%;height:calc(100vh - 200px);border:none;border-radius:var(--rl);background:var(--bg2);border:1px solid var(--border)"></iframe>`;
+                    } else {
+                        area.innerHTML = `<div class="empty"><div class="empty-icon">📕</div>No ebook uploaded yet.</div>`;
+                    }
+                } else {
+                    area.innerHTML = `<div class="empty"><div class="empty-icon">📕</div>No ebook uploaded yet.</div>`;
+                }
+            });
+            unsubscribers.push(unsub);
+        }
         function renderExercises() { const main = document.getElementById('main-content'); const unsub = db.collection('exercises').orderBy('createdAt', 'desc').onSnapshot(async snap => { const exercises = snap.docs.map(d => ({ id: d.id, ...d.data() })); const subSnap = await db.collection('submissions').where('studentId', '==', currentUser.uid).get(); const subs = {}; subSnap.docs.forEach(d => { subs[d.data().exerciseId] = { id: d.id, ...d.data() }; }); if (exercises.length === 0) { main.innerHTML = `<div class="ph"><div class="ph-title">Exercises</div></div><div class="empty"><div class="empty-icon">✎</div>No exercises posted yet</div>`; return; } main.innerHTML = `<div class="ph"><div class="ph-eyebrow">Tasks</div><div class="ph-title">Exercises</div><div class="ph-sub">${exercises.length} task${exercises.length !== 1 ? 's' : ''} posted</div></div>${exercises.map(ex => { const sub = subs[ex.id]; const isGraded = sub && sub.grade; const isSubmitted = sub && !sub.grade; return `<div class="ex-card"><div class="ex-hd"><div class="ex-title">${ex.title}</div>${ex.dueDate ? `<div class="ex-due-pill">${formatDate(ex.dueDate)}</div>` : ''}</div><div class="ex-desc">${ex.description}</div>${isGraded ? `<span class="ex-badge eb-graded">Graded</span><div class="grade-box"><div class="grade-score">${sub.grade}</div><div class="grade-fb">${sub.feedback || 'No feedback provided'}</div></div>` : isSubmitted ? `<span class="ex-badge eb-submitted">Submitted — awaiting grade</span><div style="font-size:11.5px;color:var(--muted);margin-top:.25rem">Your answer: ${sub.code || sub.replitLink || ''}</div>` : `<span class="ex-badge eb-pending">Not submitted</span><textarea class="code-input" id="code-${ex.id}" spellcheck="false" rows="8">print("Hello, DevJourney!")</textarea><button class="btn-submit" onclick="runPython(document.getElementById('code-${ex.id}').value,'${ex.id}')">▶ Run Code</button><div id="py-output-${ex.id}" style="margin-top:.4rem;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:.65rem;font-family:var(--mono);font-size:11.5px;min-height:55px;color:var(--lime);white-space:pre-wrap;overflow:auto;line-height:1.65;"></div><input class="replit-inp" id="replit-${ex.id}" placeholder="Replit link (optional): https://replit.com/..."><button class="btn-submit" onclick="submitExercise('${ex.id}')">Submit</button>`}</div>`; }).join('')}`; }); unsubscribers.push(unsub); }
         async function submitExercise(exId) { const code = document.getElementById(`code-${exId}`).value.trim(); const replitLink = document.getElementById(`replit-${exId}`).value.trim(); if (!code && !replitLink) { showToast('Please add your code or a Replit link', 'error'); return; } const submissionId = `${currentUser.uid}_${exId}`; const docRef = db.collection('submissions').doc(submissionId); const existing = await docRef.get(); if (existing.exists) { showToast('You have already submitted this exercise.', 'error'); return; } await docRef.set({ exerciseId: exId, studentId: currentUser.uid, studentName: currentUser.name, code, replitLink, submittedAt: firebase.firestore.FieldValue.serverTimestamp(), grade: null, feedback: null }); showToast('Submitted successfully!'); }
 
@@ -1226,8 +2730,110 @@
         async function deleteLesson(id) { if (!confirm('Delete this lesson?')) return; await db.collection('lessons').doc(id).delete(); showToast('Deleted'); }
         function editLesson(id, title, videoUrl, codeSample) { document.getElementById('lesson-title').value = title; document.getElementById('lesson-video').value = videoUrl; document.getElementById('lesson-code').value = codeSample; const btn = document.querySelector('#content-tab .btn-action'); btn.textContent = 'Update lesson'; btn.onclick = async () => { await db.collection('lessons').doc(id).update({ title: document.getElementById('lesson-title').value.trim(), videoUrl: document.getElementById('lesson-video').value.trim(), codeSample: document.getElementById('lesson-code').value.trim() }); showToast('Lesson updated ✓'); btn.textContent = 'Add lesson'; btn.onclick = postLesson; }; }
         function renderEbookControlTab() { document.getElementById('content-tab').innerHTML = `<div class="card"><div class="card-label">Upload PDF Ebook (Recommended)</div><div style="font-size:12.5px;color:var(--muted2);margin-bottom:.875rem;line-height:1.7">Upload your PDF directly. Students will read it inside the portal using a secure viewer — <strong style="color:var(--text2)">they cannot download, print, or copy</strong> the file.</div><div class="pdf-upload-zone" onclick="document.getElementById('pdf-file-input').click()"><input type="file" id="pdf-file-input" accept=".pdf" onchange="handlePDFUpload(event)"><div class="pdf-upload-icon">📄</div><div class="pdf-upload-text">Click to select your PDF ebook</div><div class="pdf-upload-hint">Maximum file size: 20MB · PDF files only</div></div><div class="upload-progress" id="upload-progress"><div class="upload-progress-fill" id="upload-progress-fill" style="width:0%"></div></div><div id="upload-status" style="font-size:11.5px;color:var(--muted);margin-top:.5rem"></div><div id="current-pdf-status" style="margin-top:.75rem"></div></div><div class="card"><div class="card-label">Or: Use Google Drive Embed Link</div><div class="ff"><label>Book Title</label><input type="text" id="ebook-title-input" value="${EBOOK_TITLE}"></div><div class="ff"><label>Google Drive Preview Link</label><input type="text" id="ebook-url-input" value="${EBOOK_URL}"></div><div style="font-size:11.5px;color:var(--muted);margin-bottom:.75rem">In Google Drive: Share → Copy link, then change /view to /preview at the end of the URL.</div><button class="btn-action" onclick="updateEbookLink()">Save Google Drive Link</button></div>`; const unsub = db.collection('settings').doc('ebook').onSnapshot(doc => { const el = document.getElementById('current-pdf-status'); if (!el) return; if (doc.exists && doc.data().pdfUrl) { el.innerHTML = `<div style="background:var(--lime-dim);border:1px solid var(--lime-border);border-radius:var(--r);padding:.65rem .875rem;font-size:12.5px;color:var(--lime)">✓ PDF currently uploaded — students can read it securely. <button onclick="removePDF()" style="background:none;border:none;color:var(--rose);cursor:pointer;font-size:11.5px;margin-left:.4rem;font-family:var(--body)">Remove</button></div>`; } else { el.innerHTML = `<div style="font-size:11.5px;color:var(--muted)">No PDF uploaded yet. Students will see the Google Drive embed.</div>`; } }); unsubscribers.push(unsub); }
-        async function handlePDFUpload(event) { const file = event.target.files[0]; if (!file) return; if (file.type !== 'application/pdf') { showToast('Please select a PDF file', 'error'); return; } if (file.size > 20 * 1024 * 1024) { showToast('File too large — maximum 20MB', 'error'); return; } const progressBar = document.getElementById('upload-progress'); const progressFill = document.getElementById('upload-progress-fill'); const statusEl = document.getElementById('upload-status'); progressBar.style.display = 'block'; statusEl.textContent = 'Uploading…'; try { const storageRef = storage.ref(`ebooks/book1_${Date.now()}.pdf`); const uploadTask = storageRef.put(file); uploadTask.on('state_changed', snapshot => { const pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100); progressFill.style.width = `${pct}%`; statusEl.textContent = `Uploading… ${pct}%`; }, err => { showToast('Upload failed: ' + err.message, 'error'); progressBar.style.display = 'none'; statusEl.textContent = ''; }, async () => { const downloadURL = await uploadTask.snapshot.ref.getDownloadURL(); EBOOK_PDF_URL = downloadURL; const existing = await db.collection('settings').doc('ebook').get(); const title = existing.exists ? existing.data().title : EBOOK_TITLE; await db.collection('settings').doc('ebook').set({ pdfUrl: downloadURL, title: title }, { merge: true }); progressFill.style.width = '100%'; statusEl.textContent = ''; document.getElementById('current-pdf-status').innerHTML = `<div style="background:var(--lime-dim);border:1px solid var(--lime-border);border-radius:var(--r);padding:.65rem .875rem;font-size:12.5px;color:var(--lime)">✓ PDF uploaded successfully! <button onclick="removePDF()" style="background:none;border:none;color:var(--rose);cursor:pointer;font-size:11.5px;margin-left:.4rem;font-family:var(--body)">Remove</button></div>`; showToast('PDF uploaded! Students can now read it securely ✓'); }); } catch (err) { showToast('Upload error: ' + err.message, 'error'); progressBar.style.display = 'none'; } }
-        async function removePDF() { if (!confirm('Remove the uploaded PDF?')) return; await db.collection('settings').doc('ebook').update({ pdfUrl: firebase.firestore.FieldValue.delete() }); EBOOK_PDF_URL = null; document.getElementById('current-pdf-status').innerHTML = `<div style="font-size:11.5px;color:var(--muted)">PDF removed. Students will now see the Google Drive embed.</div>`; showToast('PDF removed'); }
+        async function handlePDFUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.type !== 'application/pdf') {
+                showToast('Please select a PDF file', 'error');
+                return;
+            }
+
+            if (file.size > 20 * 1024 * 1024) {
+                showToast('File too large — maximum 20MB', 'error');
+                return;
+            }
+
+            const progressBar = document.getElementById('upload-progress');
+            const progressFill = document.getElementById('upload-progress-fill');
+            const statusEl = document.getElementById('upload-status');
+
+            if (!progressBar || !progressFill) {
+                showToast('Upload elements not found', 'error');
+                return;
+            }
+
+            progressBar.style.display = 'block';
+            statusEl.textContent = 'Uploading...';
+
+            try {
+                // Create a unique filename
+                const timestamp = Date.now();
+                const filename = `ebook_${timestamp}.pdf`;
+                const storageRef = storage.ref(`ebooks/${filename}`);
+
+                // Upload the file
+                const uploadTask = storageRef.put(file);
+
+                uploadTask.on('state_changed',
+                    (snapshot) => {
+                        // Upload progress
+                        const pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                        if (progressFill) {
+                            progressFill.style.width = `${pct}%`;
+                        }
+                        if (statusEl) {
+                            statusEl.textContent = `Uploading... ${pct}%`;
+                        }
+                    },
+                    (error) => {
+                        // Upload error
+                        console.error('Upload error:', error);
+                        showToast('Upload failed: ' + error.message, 'error');
+                        if (progressBar) progressBar.style.display = 'none';
+                        if (statusEl) statusEl.textContent = '';
+                    },
+                    async () => {
+                        // Upload completed successfully
+                        try {
+                            const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                            console.log('PDF uploaded, URL:', downloadURL);
+
+                            EBOOK_PDF_URL = downloadURL;
+
+                            // Save to Firestore
+                            await db.collection('settings').doc('ebook').set({
+                                pdfUrl: downloadURL,
+                                title: EBOOK_TITLE,
+                                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                            }, { merge: true });
+
+                            if (progressFill) progressFill.style.width = '100%';
+                            if (statusEl) statusEl.textContent = 'Upload complete!';
+
+                            // Update the UI
+                            const currentPdfStatus = document.getElementById('current-pdf-status');
+                            if (currentPdfStatus) {
+                                currentPdfStatus.innerHTML = `<div style="background:var(--lime-dim);border:1px solid var(--lime-border);border-radius:var(--r);padding:.65rem .875rem;font-size:12.5px;color:var(--lime)">
+                            ✓ PDF uploaded successfully! Students can now read it securely.
+                            <button onclick="removePDF()" style="background:none;border:none;color:var(--rose);cursor:pointer;font-size:11.5px;margin-left:.4rem;font-family:var(--body)">Remove</button>
+                        </div>`;
+                            }
+
+                            showToast('PDF uploaded! Students can now read it securely ✓', 'success');
+
+                            // Reset progress bar after 2 seconds
+                            setTimeout(() => {
+                                if (progressBar) progressBar.style.display = 'none';
+                                if (progressFill) progressFill.style.width = '0%';
+                                if (statusEl) statusEl.textContent = '';
+                            }, 2000);
+
+                        } catch (err) {
+                            console.error('Error saving to Firestore:', err);
+                            showToast('Error saving PDF info: ' + err.message, 'error');
+                            if (progressBar) progressBar.style.display = 'none';
+                            if (statusEl) statusEl.textContent = '';
+                        }
+                    }
+                );
+            } catch (err) {
+                console.error('Upload error:', err);
+                showToast('Upload error: ' + err.message, 'error');
+                if (progressBar) progressBar.style.display = 'none';
+                if (statusEl) statusEl.textContent = '';
+            }
+        } async function removePDF() { if (!confirm('Remove the uploaded PDF?')) return; await db.collection('settings').doc('ebook').update({ pdfUrl: firebase.firestore.FieldValue.delete() }); EBOOK_PDF_URL = null; document.getElementById('current-pdf-status').innerHTML = `<div style="font-size:11.5px;color:var(--muted)">PDF removed. Students will now see the Google Drive embed.</div>`; showToast('PDF removed'); }
         async function updateEbookLink() { const url = document.getElementById('ebook-url-input').value.trim(); const title = document.getElementById('ebook-title-input').value.trim(); if (!url) { showToast('Please enter a URL', 'error'); return; } await db.collection('settings').doc('ebook').set({ url, title }, { merge: true }); EBOOK_URL = url; EBOOK_TITLE = title; showToast('Ebook link updated!'); }
 
         function renderAdminGrading() { const main = document.getElementById('main-content'); const unsub = db.collection('submissions').orderBy('submittedAt', 'desc').onSnapshot(snap => { const subs = snap.docs.map(d => ({ id: d.id, ...d.data() })); const pending = subs.filter(s => !s.grade); const graded = subs.filter(s => s.grade); main.innerHTML = `<div class="ph"><div class="ph-eyebrow">Admin</div><div class="ph-title">Grading</div><div class="ph-sub">${pending.length} pending · ${graded.length} graded</div></div><div class="tabs" style="margin-bottom:1.125rem"><button class="tab active" onclick="showGradingTab('pending',this)">Needs Marking (${pending.length})</button><button class="tab" onclick="showGradingTab('graded',this)">Graded (${graded.length})</button></div><div id="grading-tab">${renderSubmissions(pending, true)}</div>`; window._pendingSubs = pending; window._gradedSubs = graded; }); unsubscribers.push(unsub); }
@@ -1257,6 +2863,429 @@
         const TRACKS = { backend: { id: 'backend', icon: '⚙', label: 'Backend Development', color: 'sky', tagline: 'Build real APIs and web servers with Python', stack: 'Python · Flask · PostgreSQL · REST APIs · Git · Docker', overview: 'Go from writing your first Python script to building and deploying real web APIs. At 2–3 hours per day, expect solid junior-ready skills in 4–5 months.', phases: [{ num: 1, title: 'Python Foundations', duration: '3–4 weeks', sectionA: 'Skills to build', listA: ['Variables, data types, and operators', 'Conditionals (if / elif / else)', 'Loops: for and while', 'Functions and variable scope', 'Lists, dictionaries, and sets', 'File reading and writing', 'Basic error handling with try/except'], success: 'You can write a script that reads a file, processes data, and prints a formatted result.' }, { num: 2, title: 'Core Backend Skills', duration: '5–6 weeks', sectionA: 'Technologies to learn', listA: ['Flask — routing, request/response, templates', 'REST API design: GET, POST, PUT, DELETE', 'Working with JSON data', 'PostgreSQL basics: tables, queries, joins', 'SQLAlchemy ORM', 'Authentication basics: JWT', 'Git and GitHub'], sectionB: 'Practical exercises', listB: ['Build a To-Do List API with full CRUD', 'Add user auth to a Flask app', 'Connect Flask API to PostgreSQL on Railway'] }, { num: 3, title: 'Projects & Portfolio', duration: '4–5 weeks', projects: [{ title: 'Personal Budget Tracker API', proof: 'Proves you can model financial data and build a complete REST API with auth.' }, { title: 'URL Shortener Service', proof: 'Proves you understand routing, persistent storage, and redirect logic.' }, { title: 'Blog API with Authentication', proof: 'Proves you can implement user auth, CRUD, and role-based access.' }] }, { num: 4, title: 'Job-Ready Skills', duration: '2–3 weeks', sectionA: 'Non-coding habits', listA: ['Write a clean README for every project', 'Deploy at least one project to Railway or Render', 'Read and write SQL confidently', 'Practice explaining your code out loud', 'Study the 15 most common Python interview questions', 'Set up a GitHub profile with pinned projects'] }], timeline: 'At 2–3 hours per day: 4–5 months from complete beginner to junior-ready.', resources: [{ name: 'CS50P — Introduction to Programming with Python (Harvard)', url: 'https://cs50.harvard.edu/python/', note: 'Free. The best structured Python beginner course.' }, { name: 'Flask Official Documentation', url: 'https://flask.palletsprojects.com/', note: 'Free. Read alongside building.' }, { name: 'PostgreSQL Tutorial', url: 'https://www.postgresqltutorial.com/', note: 'Free. Practical and directly applicable.' }, { name: 'The Odin Project', url: 'https://www.theodinproject.com/', note: 'Free. Excellent on Git and developer workflow.' }], actions: ['Install Python 3, VS Code, and Git today.', 'Complete the CS50P Problem Set 0 this week.', 'Build the Student Grading System from scratch, without copying.'] }, aiml: { id: 'aiml', icon: '◈', label: 'AI & Machine Learning', color: 'violet', tagline: 'Train models and build intelligent systems', stack: 'Python · NumPy · Pandas · Scikit-learn · TensorFlow · Jupyter', overview: 'Start with data manipulation, move through classical ML algorithms, and finish by training neural networks.', phases: [{ num: 1, title: 'Python & Data Foundations', duration: '4–5 weeks', sectionA: 'Skills to build', listA: ['Python: variables, loops, functions, lists', 'NumPy: arrays, shapes, broadcasting', 'Pandas: loading CSV, filtering, sorting, groupby', 'Basic statistics: mean, median, variance, correlation', 'Matplotlib and Seaborn: charts', 'Jupyter Notebooks'], success: 'You can load a CSV, clean it, compute statistics, and produce three visualisations.' }, { num: 2, title: 'Core Machine Learning', duration: '6–7 weeks', sectionA: 'Concepts and tools', listA: ['Supervised vs unsupervised learning', 'Linear and logistic regression', 'Decision trees and random forests', 'Train/test splits and cross-validation', 'Scikit-learn pipeline: fit, predict, evaluate', 'Model metrics: accuracy, precision, recall, F1'], sectionB: 'Practical exercises', listB: ['Predict house prices with linear regression', 'Classify emails as spam', 'Cluster customer data with K-Means'] }, { num: 3, title: 'Projects & Portfolio', duration: '4–5 weeks', projects: [{ title: 'Movie Recommendation System', proof: 'Proves you understand similarity metrics.' }, { title: 'Image Classifier (cats vs dogs)', proof: 'Proves you can train a CNN.' }, { title: 'Salary Prediction', proof: 'Proves you can build an end-to-end ML pipeline.' }] }, { num: 4, title: 'Job-Ready Skills', duration: '2–3 weeks', sectionA: 'Non-technical habits', listA: ['Write Jupyter Notebooks others can follow', 'Never report accuracy alone', 'Push all projects to GitHub', 'Complete at least one beginner Kaggle competition'] }], timeline: 'At 2–3 hours per day: 5–6 months to solid junior ML level.', resources: [{ name: 'CS50 AI (Harvard)', url: 'https://cs50.harvard.edu/ai/', note: 'Free. Best conceptual foundation.' }, { name: 'fast.ai — Practical Deep Learning for Coders', url: 'https://www.fast.ai/', note: 'Free. Project-first approach.' }, { name: 'Kaggle Learn', url: 'https://www.kaggle.com/learn', note: 'Free. Pandas, ML, deep learning in-browser.' }], actions: ['Set up Anaconda. Verify Jupyter, NumPy, Pandas, Matplotlib all work.', 'Download Titanic dataset from Kaggle and explore with Pandas for one hour.', 'Complete the free Pandas micro-course on Kaggle Learn.'] }, data: { id: 'data', icon: '◱', label: 'Data Analytics', color: 'gold', tagline: 'Turn raw data into clear decisions', stack: 'Python · Pandas · SQL · Matplotlib · Seaborn · Tableau / Power BI', overview: 'Learn to collect, clean, analyse, and visualise data so non-technical people can make better decisions.', phases: [{ num: 1, title: 'Python & Data Basics', duration: '3–4 weeks', sectionA: 'Skills to build', listA: ['Python: variables, lists, loops, and functions', 'Pandas: loading, filtering, sorting, grouping', 'Handling missing values and incorrect types', 'Basic statistics and identifying outliers', 'Matplotlib and Seaborn charts'], success: 'You can take a messy CSV, clean it, and produce three labelled charts.' }, { num: 2, title: 'Core Analytics Skills', duration: '5–6 weeks', sectionA: 'Technologies and concepts', listA: ['SQL: SELECT, WHERE, GROUP BY, ORDER BY, JOIN', 'Connecting Python to a database', 'Pivot tables in Pandas', 'Time-series basics', 'Dashboard creation in Tableau Public or Power BI'], sectionB: 'Practical exercises', listB: ['Analyse a retail sales dataset', 'Write 15 SQL queries of increasing complexity', 'Build a Tableau dashboard'] }, { num: 3, title: 'Projects & Portfolio', duration: '4–5 weeks', projects: [{ title: 'E-commerce Sales Analysis', proof: 'Proves you can clean transactional data and present business insights.' }, { title: 'World Population Trend Report', proof: 'Proves you can work with time-series data.' }, { title: 'Personal Finance Dashboard', proof: 'Proves you can build an interactive dashboard.' }] }, { num: 4, title: 'Job-Ready Skills', duration: '2–3 weeks', sectionA: 'Non-technical habits', listA: ['Structure every analysis as a story: context, finding, recommendation', 'Build a GitHub portfolio with written explanations', 'Study SQL interview questions: aggregations, window functions, CTEs'] }], timeline: 'At 2–3 hours per day: 4–5 months to junior data analyst level. SQL is the most in-demand skill.', resources: [{ name: 'Kaggle Learn — Pandas, SQL, Data Viz', url: 'https://www.kaggle.com/learn', note: 'Free. Best hands-on starting point.' }, { name: 'Mode Analytics SQL Tutorial', url: 'https://mode.com/sql-tutorial/', note: 'Free. Interactive SQL in the browser.' }, { name: 'Tableau Public', url: 'https://public.tableau.com/', note: 'Free tool with a huge community.' }], actions: ['Download the Superstore Sales dataset from Kaggle.', 'Complete the free Pandas micro-course on Kaggle Learn.', 'Install DB Browser for SQLite and run 5 SELECT queries.'] } };
         function renderRoadmap() { const main = document.getElementById('main-content'); main.innerHTML = `<div class="ph"><div class="ph-eyebrow">Learning Roadmap</div><div class="ph-title">Choose Your Track</div><div class="ph-sub">All tracks start from zero. Pick the path that matches your goal.</div></div><div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:.75rem 1.125rem;font-size:12.5px;color:var(--muted2);margin-bottom:1.375rem;line-height:1.75">Every roadmap is built for a <strong style="color:var(--text2)">complete beginner</strong> studying <strong style="color:var(--text2)">2–3 hours per day</strong>.</div><div class="track-grid">${Object.values(TRACKS).map(t => `<div class="track-card ${t.color}" onclick="renderTrackRoadmap('${t.id}')"><div class="track-icon ${t.color}">${t.icon}</div><div class="track-card-title">${t.label}</div><div class="track-card-tagline">${t.tagline}</div><div class="track-stack">${t.stack}</div><button class="track-cta ${t.color}">View Roadmap →</button></div>`).join('')}</div>`; }
         function renderTrackRoadmap(trackId) { const t = TRACKS[trackId]; if (!t) return; const main = document.getElementById('main-content'); main.scrollTop = 0; const phaseColors = ['sky', 'violet', 'gold', 'lime']; const phasesHTML = t.phases.map((p, i) => { const c = phaseColors[i] || 'lime'; let bodyHTML = ''; if (p.sectionA) { bodyHTML += `<div class="rm-section-label">${p.sectionA}</div><ul class="rm-list">${p.listA.map(x => `<li>${x}</li>`).join('')}</ul>`; } if (p.sectionB) { bodyHTML += `<div class="rm-section-label">${p.sectionB}</div><ul class="rm-list">${p.listB.map(x => `<li>${x}</li>`).join('')}</ul>`; } if (p.projects) { bodyHTML += `<div class="rm-section-label">Projects to build</div>${p.projects.map(pr => `<div class="project-pill"><div class="project-pill-title">${pr.title}</div><div class="project-pill-proof">${pr.proof}</div></div>`).join('')}`; } if (p.success) { bodyHTML += `<div class="rm-success"><strong>What success looks like</strong>${p.success}</div>`; } return `<div class="phase-block"><div class="phase-head" onclick="togglePhase(${i})"><div class="phase-num ${c}">0${p.num}</div><div class="phase-head-text"><div class="phase-title">${p.title}</div><div class="phase-duration">${p.duration}</div></div><div class="phase-chevron" id="chev-${i}">▼</div></div><div class="phase-body" id="phase-body-${i}">${bodyHTML}</div></div>`; }).join(''); const resourcesHTML = t.resources.map(r => `<div class="resource-item"><div class="resource-dot ${t.color}"></div><div><a href="${r.url}" target="_blank" class="resource-name">${r.name}</a><div class="resource-note">${r.note}</div></div></div>`).join(''); const actionsHTML = t.actions.map((a, i) => `<div class="action-step"><div class="action-num">${i + 1}</div><div class="action-text">${a}</div></div>`).join(''); main.innerHTML = `<button class="rm-back" onclick="renderRoadmap()">← All Tracks</button><div class="ph"><div class="ph-eyebrow">Learning Roadmap</div><div class="ph-title">${t.label}</div><div class="ph-sub">${t.tagline}</div></div><div class="rm-overview">${t.overview}</div><div class="card-label" style="margin-bottom:.625rem">Phases — click to expand</div>${phasesHTML}<div class="card" style="margin-top:.75rem"><div class="card-label">Estimated Timeline</div><div class="timeline-box">${t.timeline}</div></div><div class="card"><div class="card-label">Top Resources</div>${resourcesHTML}</div><div class="card"><div class="card-label">First 3 Actions — This Week</div>${actionsHTML}</div>`; openPhase(0); }
+        // ASSIGNMENT MANAGEMENT FUNCTIONS
+        let ASSIGNMENTS_PDF_URL = null;
+
+        async function renderAdminAssignments() {
+            const main = document.getElementById('main-content');
+            main.innerHTML = `
+        <div class="ph">
+            <div class="ph-eyebrow">Admin</div>
+            <div class="ph-title">Assignment Manager</div>
+            <div class="ph-sub">Upload assignment briefs or share submission links with students</div>
+        </div>
+        
+        <div class="tabs" style="margin-bottom:1.125rem">
+            <button class="tab active" onclick="showAssignmentTab('upload',this)">📤 Upload Assignment</button>
+            <button class="tab" onclick="showAssignmentTab('manage',this)">📋 Manage Assignments</button>
+        </div>
+        
+        <div id="assignment-tab"></div>
+    `;
+            showAssignmentTab('upload', document.querySelector('.tab.active'));
+        }
+
+        function showAssignmentTab(tab, el) {
+            document.querySelectorAll('#main-content .tab').forEach(t => t.classList.remove('active'));
+            if (el) el.classList.add('active');
+
+            if (tab === 'upload') {
+                renderAssignmentUploadTab();
+            } else if (tab === 'manage') {
+                renderAssignmentManageTab();
+            }
+        }
+
+        function renderAssignmentUploadTab() {
+            const tabDiv = document.getElementById('assignment-tab');
+            tabDiv.innerHTML = `
+        <div class="card">
+            <div class="card-label">Upload Assignment PDF</div>
+            <div style="font-size:12.5px;color:var(--muted2);margin-bottom:.875rem;line-height:1.7">
+                Upload your assignment brief as a PDF. Students will be able to view it securely.
+            </div>
+            <div class="pdf-upload-zone" onclick="document.getElementById('assignment-pdf-input').click()">
+                <input type="file" id="assignment-pdf-input" accept=".pdf" onchange="handleAssignmentPDFUpload(event)">
+                <div class="pdf-upload-icon">📄</div>
+                <div class="pdf-upload-text">Click to upload assignment PDF</div>
+                <div class="pdf-upload-hint">Maximum file size: 20MB · PDF files only</div>
+            </div>
+            <div class="upload-progress" id="assignment-upload-progress" style="display:none">
+                <div class="upload-progress-fill" id="assignment-upload-progress-fill" style="width:0%"></div>
+            </div>
+            <div id="assignment-upload-status" style="font-size:11.5px;color:var(--muted);margin-top:.5rem"></div>
+            <div id="current-assignment-pdf-status" style="margin-top:.75rem"></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-label">Or: Use Google Drive / External Link</div>
+            <div class="ff">
+                <label>Assignment Title</label>
+                <input type="text" id="assignment-title-input" placeholder="e.g., Week 3 Assignment: Functions">
+            </div>
+            <div class="ff">
+                <label>Description / Instructions</label>
+                <textarea id="assignment-desc-input" rows="3" placeholder="What students need to do..."></textarea>
+            </div>
+            <div class="ff">
+                <label>External Link (Google Docs, Replit, Classroom, etc.)</label>
+                <input type="text" id="assignment-link-input" placeholder="https://drive.google.com/... or https://classroom.google.com/...">
+            </div>
+            <div class="ff">
+                <label>Due Date (optional)</label>
+                <input type="datetime-local" id="assignment-due-input" style="color-scheme:dark">
+            </div>
+            <button class="btn-action" onclick="saveAssignmentLink()">Save Assignment</button>
+        </div>
+        
+        <div class="card">
+            <div class="card-label">Current Active Assignment</div>
+            <div id="current-assignment-info" style="font-size:13px;color:var(--muted)">Loading...</div>
+        </div>
+    `;
+
+            // Load current assignment info
+            loadCurrentAssignment();
+        }
+
+        async function loadCurrentAssignment() {
+            const unsub = db.collection('settings').doc('assignments').onSnapshot(doc => {
+                const infoDiv = document.getElementById('current-assignment-info');
+                const pdfStatusDiv = document.getElementById('current-assignment-pdf-status');
+
+                if (!infoDiv) return;
+
+                if (doc.exists) {
+                    const data = doc.data();
+                    let html = '';
+                    if (data.title) {
+                        html += `<div style="background:var(--bg3);border-left:2px solid var(--lime);padding:.75rem;border-radius:var(--r);margin-bottom:.5rem">
+                    <strong style="color:var(--text2)">📋 ${data.title}</strong><br>
+                    ${data.description ? `<span style="font-size:12px;color:var(--muted2)">${data.description}</span><br>` : ''}
+                    ${data.link ? `<span style="font-size:12px">🔗 <a href="${data.link}" target="_blank" style="color:var(--sky)">View Assignment</a></span><br>` : ''}
+                    ${data.dueDate ? `<span style="font-size:11px;color:var(--gold)">📅 Due: ${new Date(data.dueDate.seconds * 1000).toLocaleString()}</span>` : ''}
+                </div>`;
+                    } else {
+                        html = '<div style="color:var(--muted2)">No active assignment set.</div>';
+                    }
+
+                    if (data.pdfUrl) {
+                        html += `<div style="margin-top:.5rem"><button class="btn-submit" onclick="previewAssignmentPDF()">📖 Preview Assignment PDF</button></div>`;
+                    }
+
+                    infoDiv.innerHTML = html;
+
+                    // Update PDF status
+                    if (pdfStatusDiv && data.pdfUrl) {
+                        pdfStatusDiv.innerHTML = `<div style="background:var(--lime-dim);border:1px solid var(--lime-border);border-radius:var(--r);padding:.65rem .875rem;font-size:12.5px;color:var(--lime)">
+                    ✓ Assignment PDF uploaded — students can view it. 
+                    <button onclick="removeAssignmentPDF()" style="background:none;border:none;color:var(--rose);cursor:pointer;font-size:11.5px;margin-left:.4rem;font-family:var(--body)">Remove PDF</button>
+                </div>`;
+                    } else if (pdfStatusDiv) {
+                        pdfStatusDiv.innerHTML = `<div style="font-size:11.5px;color:var(--muted)">No assignment PDF uploaded yet.</div>`;
+                    }
+                } else {
+                    infoDiv.innerHTML = '<div style="color:var(--muted2)">No active assignment set. Create one above!</div>';
+                    if (pdfStatusDiv) pdfStatusDiv.innerHTML = '<div style="font-size:11.5px;color:var(--muted)">No assignment PDF uploaded yet.</div>';
+                }
+            });
+            unsubscribers.push(unsub);
+        }
+
+        async function handleAssignmentPDFUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.type !== 'application/pdf') {
+                showToast('Please select a PDF file', 'error');
+                return;
+            }
+            if (file.size > 20 * 1024 * 1024) {
+                showToast('File too large — maximum 20MB', 'error');
+                return;
+            }
+
+            const progressBar = document.getElementById('assignment-upload-progress');
+            const progressFill = document.getElementById('assignment-upload-progress-fill');
+            const statusEl = document.getElementById('assignment-upload-status');
+            progressBar.style.display = 'block';
+            statusEl.textContent = 'Uploading assignment PDF...';
+
+            try {
+                const storageRef = storage.ref(`assignments/assignment_${Date.now()}.pdf`);
+                const uploadTask = storageRef.put(file);
+
+                uploadTask.on('state_changed',
+                    snapshot => {
+                        const pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                        progressFill.style.width = `${pct}%`;
+                        statusEl.textContent = `Uploading... ${pct}%`;
+                    },
+                    err => {
+                        showToast('Upload failed: ' + err.message, 'error');
+                        progressBar.style.display = 'none';
+                        statusEl.textContent = '';
+                    },
+                    async () => {
+                        const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                        ASSIGNMENTS_PDF_URL = downloadURL;
+
+                        // Get existing assignment data
+                        const existing = await db.collection('settings').doc('assignments').get();
+                        const currentData = existing.exists ? existing.data() : {};
+
+                        await db.collection('settings').doc('assignments').set({
+                            pdfUrl: downloadURL,
+                            title: currentData.title || '',
+                            description: currentData.description || '',
+                            link: currentData.link || '',
+                            dueDate: currentData.dueDate || null,
+                            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        }, { merge: true });
+
+                        progressFill.style.width = '100%';
+                        statusEl.textContent = '';
+                        progressBar.style.display = 'none';
+                        showToast('Assignment PDF uploaded successfully! ✓');
+                        loadCurrentAssignment();
+                    }
+                );
+            } catch (err) {
+                showToast('Upload error: ' + err.message, 'error');
+                progressBar.style.display = 'none';
+            }
+        }
+
+        async function removeAssignmentPDF() {
+            if (!confirm('Remove the assignment PDF?')) return;
+            await db.collection('settings').doc('assignments').update({
+                pdfUrl: firebase.firestore.FieldValue.delete()
+            });
+            ASSIGNMENTS_PDF_URL = null;
+            showToast('Assignment PDF removed');
+            loadCurrentAssignment();
+        }
+
+        async function saveAssignmentLink() {
+            const title = document.getElementById('assignment-title-input')?.value.trim();
+            const description = document.getElementById('assignment-desc-input')?.value.trim();
+            const link = document.getElementById('assignment-link-input')?.value.trim();
+            const dueDateVal = document.getElementById('assignment-due-input')?.value;
+
+            if (!title) {
+                showToast('Please enter an assignment title', 'error');
+                return;
+            }
+
+            const data = {
+                title,
+                description: description || '',
+                link: link || '',
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            if (dueDateVal) {
+                data.dueDate = firebase.firestore.Timestamp.fromDate(new Date(dueDateVal));
+            }
+
+            await db.collection('settings').doc('assignments').set(data, { merge: true });
+            showToast('Assignment saved successfully!');
+
+            // Clear form
+            if (document.getElementById('assignment-title-input'))
+                document.getElementById('assignment-title-input').value = '';
+            if (document.getElementById('assignment-desc-input'))
+                document.getElementById('assignment-desc-input').value = '';
+            if (document.getElementById('assignment-link-input'))
+                document.getElementById('assignment-link-input').value = '';
+            if (document.getElementById('assignment-due-input'))
+                document.getElementById('assignment-due-input').value = '';
+        }
+
+        function renderAssignmentManageTab() {
+            const tabDiv = document.getElementById('assignment-tab');
+            const unsub = db.collection('settings').doc('assignments').onSnapshot(doc => {
+                if (!doc.exists) {
+                    tabDiv.innerHTML = `<div class="empty"><div class="empty-icon">📋</div>No assignments created yet</div>`;
+                    return;
+                }
+
+                const data = doc.data();
+                const hasPDF = data.pdfUrl ? true : false;
+
+                tabDiv.innerHTML = `
+            <div class="card">
+                <div class="card-label">Current Assignment</div>
+                <div style="background:var(--bg3);border-radius:var(--r);padding:1rem">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.75rem">
+                        <div>
+                            <div style="font-size:14px;font-weight:500;color:var(--text2);font-family:var(--display)">${data.title || 'Untitled'}</div>
+                            ${data.description ? `<div style="font-size:12.5px;color:var(--muted2);margin:.25rem 0">${data.description}</div>` : ''}
+                            ${data.link ? `<div style="font-size:11.5px;margin-top:.25rem">🔗 <a href="${data.link}" target="_blank" style="color:var(--sky)">External Link</a></div>` : ''}
+                            ${hasPDF ? `<div style="font-size:11.5px;margin-top:.25rem">📄 <span style="color:var(--lime)">PDF attached</span></div>` : ''}
+                            ${data.dueDate ? `<div style="font-size:11px;color:var(--gold);margin-top:.5rem">📅 Due: ${new Date(data.dueDate.seconds * 1000).toLocaleString()}</div>` : ''}
+                            <div style="font-size:9.5px;color:var(--muted);margin-top:.5rem;font-family:var(--mono)">Last updated: ${data.updatedAt ? timeAgo(data.updatedAt) : 'Just now'}</div>
+                        </div>
+                        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                            <button class="btn-submit" onclick="editAssignment()">✏️ Edit</button>
+                            <button class="btn-ban" onclick="deleteAssignment()">🗑️ Delete Assignment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+            });
+            unsubscribers.push(unsub);
+        }
+
+        async function editAssignment() {
+            const doc = await db.collection('settings').doc('assignments').get();
+            if (!doc.exists) return;
+
+            const data = doc.data();
+
+            // Switch to upload tab and populate form
+            showAssignmentTab('upload', document.querySelector('#main-content .tab'));
+
+            setTimeout(() => {
+                const titleInput = document.getElementById('assignment-title-input');
+                const descInput = document.getElementById('assignment-desc-input');
+                const linkInput = document.getElementById('assignment-link-input');
+
+                if (titleInput) titleInput.value = data.title || '';
+                if (descInput) descInput.value = data.description || '';
+                if (linkInput) linkInput.value = data.link || '';
+                if (data.dueDate) {
+                    const dueInput = document.getElementById('assignment-due-input');
+                    if (dueInput) dueInput.value = new Date(data.dueDate.seconds * 1000).toISOString().slice(0, 16);
+                }
+
+                showToast('Edit the assignment above and click Save', 'success');
+            }, 100);
+        }
+
+        async function deleteAssignment() {
+            if (!confirm('Delete the current assignment? This action cannot be undone.')) return;
+            await db.collection('settings').doc('assignments').delete();
+            showToast('Assignment deleted');
+            renderAssignmentManageTab();
+        }
+
+        function previewAssignmentPDF() {
+            const main = document.getElementById('main-content');
+            const unsub = db.collection('settings').doc('assignments').onSnapshot(doc => {
+                if (doc.exists && doc.data().pdfUrl) {
+                    main.innerHTML = `
+                <div class="ph">
+                    <div class="ph-eyebrow">Assignment</div>
+                    <div class="ph-title">${doc.data().title || 'Assignment Brief'}</div>
+                    <button class="rm-back" onclick="navigateTo('assignments')">← Back to Assignments</button>
+                </div>
+                <div id="assignment-pdf-viewer"></div>
+            `;
+                    renderPDFViewer(doc.data().pdfUrl, 'assignment-pdf-viewer');
+                } else {
+                    showToast('No PDF found for this assignment', 'error');
+                }
+            });
+            unsubscribers.push(unsub);
+        }
+
+        // STUDENT ASSIGNMENTS VIEW
+        function renderStudentAssignments() {
+            const main = document.getElementById('main-content');
+            const unsub = db.collection('settings').doc('assignments').onSnapshot(doc => {
+                if (!doc.exists) {
+                    main.innerHTML = `
+                <div class="ph">
+                    <div class="ph-eyebrow">Assignments</div>
+                    <div class="ph-title">Current Assignment</div>
+                </div>
+                <div class="empty">
+                    <div class="empty-icon">📋</div>
+                    <div>No assignment has been posted yet.</div>
+                    <div style="font-size:12px;margin-top:.5rem">Check back later for updates from your instructor.</div>
+                </div>
+            `;
+                    return;
+                }
+
+                const data = doc.data();
+                const hasPDF = data.pdfUrl ? true : false;
+                const isOverdue = data.dueDate && data.dueDate.toDate().getTime() < Date.now();
+
+                main.innerHTML = `
+            <div class="ph">
+                <div class="ph-eyebrow">Current Assignment</div>
+                <div class="ph-title">${data.title || 'Assignment'}</div>
+                <div class="ph-sub">Complete and submit according to the instructions below</div>
+            </div>
+            
+            ${isOverdue ? `<div class="alert-card" style="border-left-color:var(--rose)">
+                <div class="ac-text">⚠️ This assignment is past due</div>
+                <div class="ac-sub">Please contact your instructor if you need an extension.</div>
+            </div>` : ''}
+            
+            ${data.dueDate ? `<div style="background:${isOverdue ? 'var(--rose-dim)' : 'var(--gold-dim)'};border:1px solid ${isOverdue ? 'var(--rose-border)' : 'var(--gold-border)'};border-radius:var(--r);padding:.75rem 1rem;margin-bottom:.75rem">
+                <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+                    <span style="font-size:12px;font-family:var(--mono)">📅 Due:</span>
+                    <strong style="color:${isOverdue ? 'var(--rose)' : 'var(--gold)'}">${data.dueDate.toDate().toLocaleString()}</strong>
+                    ${isOverdue ? '<span style="font-size:11px;color:var(--rose)">(Overdue)</span>' : ''}
+                </div>
+            </div>` : ''}
+            
+            ${data.description ? `<div class="card">
+                <div class="card-label">Instructions</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.7;white-space:pre-wrap">${data.description}</div>
+            </div>` : ''}
+            
+            ${hasPDF ? `<div class="card">
+                <div class="card-label">Assignment Document</div>
+                <button class="btn-action" onclick="viewAssignmentPDF()" style="margin-top:.25rem">📖 Read Assignment Brief →</button>
+                <div style="font-size:11.5px;color:var(--muted2);margin-top:.5rem">The full assignment details are available in the PDF document above.</div>
+            </div>` : ''}
+            
+            ${data.link ? `<div class="card">
+                <div class="card-label">Submission Link / External Resource</div>
+                <a href="${data.link}" target="_blank" rel="noopener noreferrer" class="btn-action" style="display:inline-block;text-decoration:none">🔗 Open Assignment →</a>
+                <div style="font-size:11.5px;color:var(--muted2);margin-top:.5rem">Click the button above to access the assignment or submit your work.</div>
+            </div>` : ''}
+            
+            <div class="card">
+                <div class="card-label">Need Help?</div>
+                <div style="font-size:12.5px;color:var(--muted2);line-height:1.7">
+                    If you have questions about this assignment:
+                    <ul style="margin-top:.5rem;margin-left:1.25rem">
+                        <li>Post your question in the <button class="btn-submit" style="display:inline-block;padding:2px 8px" onclick="navigateTo('qa')">Q&A Section</button></li>
+                        <li>Attend the next <button class="btn-submit" style="display:inline-block;padding:2px 8px" onclick="navigateTo('meetings')">Live Session</button></li>
+                        <li>Email your instructor directly</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+            });
+            unsubscribers.push(unsub);
+        }
+
+        function viewAssignmentPDF() {
+            const main = document.getElementById('main-content');
+            const unsub = db.collection('settings').doc('assignments').onSnapshot(doc => {
+                if (doc.exists && doc.data().pdfUrl) {
+                    main.innerHTML = `
+                <div class="ph">
+                    <div class="ph-eyebrow">Assignment</div>
+                    <div class="ph-title">${doc.data().title || 'Assignment Brief'}</div>
+                    <button class="rm-back" onclick="renderStudentAssignments()">← Back to Assignment</button>
+                </div>
+                <div id="assignment-pdf-viewer"></div>
+            `;
+                    renderPDFViewer(doc.data().pdfUrl, 'assignment-pdf-viewer');
+                } else {
+                    showToast('No PDF available', 'error');
+                    renderStudentAssignments();
+                }
+            });
+            unsubscribers.push(unsub);
+        }
     </script>
 </body>
 
